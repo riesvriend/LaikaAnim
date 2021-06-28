@@ -1,0 +1,1865 @@
+fileFormatVersion: 2
+guid: 73c511df2c1d5234aa5af711eeda564a
+ModelImporter:
+  serializedVersion: 26
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: RootMotion
+  - first:
+      1: 100002
+    second: Tatra_Head_JawSHJnt
+  - first:
+      1: 100004
+    second: Tatra_Head_TopSHJnt
+  - first:
+      1: 100006
+    second: Tatra_HP_Msh
+  - first:
+      1: 100008
+    second: Tatra_l_Clavicle_01_01SHJnt
+  - first:
+      1: 100010
+    second: Tatra_l_Ear_01SHJnt
+  - first:
+      1: 100012
+    second: Tatra_l_Ear_02SHJnt
+  - first:
+      1: 100014
+    second: Tatra_l_Ear_03SHJnt
+  - first:
+      1: 100016
+    second: Tatra_l_Eye_01SHJnt
+  - first:
+      1: 100018
+    second: Tatra_l_FrontLeg_AnkleSHJnt
+  - first:
+      1: 100020
+    second: Tatra_l_FrontLeg_BallSHJnt
+  - first:
+      1: 100022
+    second: Tatra_l_FrontLeg_HipSHJnt
+  - first:
+      1: 100024
+    second: Tatra_l_FrontLeg_KneeSHJnt
+  - first:
+      1: 100026
+    second: Tatra_l_HindLeg_AnkleSHJnt
+  - first:
+      1: 100028
+    second: Tatra_l_HindLeg_BallSHJnt
+  - first:
+      1: 100030
+    second: Tatra_l_HindLeg_HipSHJnt
+  - first:
+      1: 100032
+    second: Tatra_l_HindLeg_Knee1SHJnt
+  - first:
+      1: 100034
+    second: Tatra_l_HindLeg_Knee2SHJnt
+  - first:
+      1: 100036
+    second: Tatra_LP_MSh
+  - first:
+      1: 100038
+    second: Tatra_Neck_01SHJnt
+  - first:
+      1: 100040
+    second: Tatra_Neck_02SHJnt
+  - first:
+      1: 100042
+    second: Tatra_Neck_TopSHJnt
+  - first:
+      1: 100044
+    second: Tatra_r_Clavicle_01_01SHJnt
+  - first:
+      1: 100046
+    second: Tatra_r_Ear_01SHJnt
+  - first:
+      1: 100048
+    second: Tatra_R_Ear_02SHJnt1
+  - first:
+      1: 100050
+    second: Tatra_R_Ear_03SHJnt
+  - first:
+      1: 100052
+    second: Tatra_r_Eye_01SHJnt
+  - first:
+      1: 100054
+    second: Tatra_r_FrontLeg_AnkleSHJnt
+  - first:
+      1: 100056
+    second: Tatra_r_FrontLeg_BallSHJnt
+  - first:
+      1: 100058
+    second: Tatra_r_FrontLeg_HipSHJnt
+  - first:
+      1: 100060
+    second: Tatra_r_FrontLeg_KneeSHJnt
+  - first:
+      1: 100062
+    second: Tatra_r_HindLeg_AnkleSHJnt
+  - first:
+      1: 100064
+    second: Tatra_r_HindLeg_BallSHJnt
+  - first:
+      1: 100066
+    second: Tatra_r_HindLeg_HipSHJnt
+  - first:
+      1: 100068
+    second: Tatra_r_HindLeg_Knee1SHJnt
+  - first:
+      1: 100070
+    second: Tatra_r_HindLeg_Knee2SHJnt
+  - first:
+      1: 100072
+    second: Tatra_ROOTSHJnt
+  - first:
+      1: 100074
+    second: Tatra_SHP_Msh
+  - first:
+      1: 100076
+    second: Tatra_Spine_01SHJnt
+  - first:
+      1: 100078
+    second: Tatra_Spine_02SHJnt
+  - first:
+      1: 100080
+    second: Tatra_Spine_03SHJnt
+  - first:
+      1: 100082
+    second: Tatra_Spine_TopSHJnt
+  - first:
+      1: 100084
+    second: Tatra_Tail_01_01SHJnt
+  - first:
+      1: 100086
+    second: Tatra_Tail_01_02SHJnt
+  - first:
+      1: 100088
+    second: Tatra_Tail_01_03SHJnt
+  - first:
+      1: 100090
+    second: Tatra_Tail_01_04SHJnt
+  - first:
+      1: 100092
+    second: //RootNode
+  - first:
+      1: 100094
+    second: tongue
+  - first:
+      1: 100096
+    second: tongue1
+  - first:
+      1: 100098
+    second: tongue2
+  - first:
+      1: 100100
+    second: tongue_end______
+  - first:
+      4: 400000
+    second: RootMotion
+  - first:
+      4: 400002
+    second: Tatra_Head_JawSHJnt
+  - first:
+      4: 400004
+    second: Tatra_Head_TopSHJnt
+  - first:
+      4: 400006
+    second: Tatra_HP_Msh
+  - first:
+      4: 400008
+    second: Tatra_l_Clavicle_01_01SHJnt
+  - first:
+      4: 400010
+    second: Tatra_l_Ear_01SHJnt
+  - first:
+      4: 400012
+    second: Tatra_l_Ear_02SHJnt
+  - first:
+      4: 400014
+    second: Tatra_l_Ear_03SHJnt
+  - first:
+      4: 400016
+    second: Tatra_l_Eye_01SHJnt
+  - first:
+      4: 400018
+    second: Tatra_l_FrontLeg_AnkleSHJnt
+  - first:
+      4: 400020
+    second: Tatra_l_FrontLeg_BallSHJnt
+  - first:
+      4: 400022
+    second: Tatra_l_FrontLeg_HipSHJnt
+  - first:
+      4: 400024
+    second: Tatra_l_FrontLeg_KneeSHJnt
+  - first:
+      4: 400026
+    second: Tatra_l_HindLeg_AnkleSHJnt
+  - first:
+      4: 400028
+    second: Tatra_l_HindLeg_BallSHJnt
+  - first:
+      4: 400030
+    second: Tatra_l_HindLeg_HipSHJnt
+  - first:
+      4: 400032
+    second: Tatra_l_HindLeg_Knee1SHJnt
+  - first:
+      4: 400034
+    second: Tatra_l_HindLeg_Knee2SHJnt
+  - first:
+      4: 400036
+    second: Tatra_LP_MSh
+  - first:
+      4: 400038
+    second: Tatra_Neck_01SHJnt
+  - first:
+      4: 400040
+    second: Tatra_Neck_02SHJnt
+  - first:
+      4: 400042
+    second: Tatra_Neck_TopSHJnt
+  - first:
+      4: 400044
+    second: Tatra_r_Clavicle_01_01SHJnt
+  - first:
+      4: 400046
+    second: Tatra_r_Ear_01SHJnt
+  - first:
+      4: 400048
+    second: Tatra_R_Ear_02SHJnt1
+  - first:
+      4: 400050
+    second: Tatra_R_Ear_03SHJnt
+  - first:
+      4: 400052
+    second: Tatra_r_Eye_01SHJnt
+  - first:
+      4: 400054
+    second: Tatra_r_FrontLeg_AnkleSHJnt
+  - first:
+      4: 400056
+    second: Tatra_r_FrontLeg_BallSHJnt
+  - first:
+      4: 400058
+    second: Tatra_r_FrontLeg_HipSHJnt
+  - first:
+      4: 400060
+    second: Tatra_r_FrontLeg_KneeSHJnt
+  - first:
+      4: 400062
+    second: Tatra_r_HindLeg_AnkleSHJnt
+  - first:
+      4: 400064
+    second: Tatra_r_HindLeg_BallSHJnt
+  - first:
+      4: 400066
+    second: Tatra_r_HindLeg_HipSHJnt
+  - first:
+      4: 400068
+    second: Tatra_r_HindLeg_Knee1SHJnt
+  - first:
+      4: 400070
+    second: Tatra_r_HindLeg_Knee2SHJnt
+  - first:
+      4: 400072
+    second: Tatra_ROOTSHJnt
+  - first:
+      4: 400074
+    second: Tatra_SHP_Msh
+  - first:
+      4: 400076
+    second: Tatra_Spine_01SHJnt
+  - first:
+      4: 400078
+    second: Tatra_Spine_02SHJnt
+  - first:
+      4: 400080
+    second: Tatra_Spine_03SHJnt
+  - first:
+      4: 400082
+    second: Tatra_Spine_TopSHJnt
+  - first:
+      4: 400084
+    second: Tatra_Tail_01_01SHJnt
+  - first:
+      4: 400086
+    second: Tatra_Tail_01_02SHJnt
+  - first:
+      4: 400088
+    second: Tatra_Tail_01_03SHJnt
+  - first:
+      4: 400090
+    second: Tatra_Tail_01_04SHJnt
+  - first:
+      4: 400092
+    second: //RootNode
+  - first:
+      4: 400094
+    second: tongue
+  - first:
+      4: 400096
+    second: tongue1
+  - first:
+      4: 400098
+    second: tongue2
+  - first:
+      4: 400100
+    second: tongue_end______
+  - first:
+      43: 4300000
+    second: Tatra_HP_Msh
+  - first:
+      43: 4300002
+    second: Tatra_LP_MSh
+  - first:
+      43: 4300004
+    second: Tatra_SHP_Msh
+  - first:
+      74: 7400000
+    second: // Bind Pose
+  - first:
+      74: 7400002
+    second: // loop Idle
+  - first:
+      74: 7400004
+    second: // loop Attack Jump
+  - first:
+      74: 7400006
+    second: // Attack Paw Right
+  - first:
+      74: 7400008
+    second: // loop Attack Two Paw
+  - first:
+      74: 7400010
+    second: // loop Crawling
+  - first:
+      74: 7400012
+    second: // loop Creeping
+  - first:
+      74: 7400014
+    second: // Death
+  - first:
+      74: 7400016
+    second: // Death 01
+  - first:
+      74: 7400018
+    second: // loop Digging
+  - first:
+      74: 7400020
+    second: // loop Eating
+  - first:
+      74: 7400022
+    second: // loop Fight Idle
+  - first:
+      74: 7400024
+    second: // loop Fight Idle 01
+  - first:
+      74: 7400026
+    second: // Go To Sleep
+  - first:
+      74: 7400028
+    second: // loop Sleeping
+  - first:
+      74: 7400030
+    second: // Wake Up
+  - first:
+      74: 7400032
+    second: // loop Howling
+  - first:
+      74: 7400034
+    second: // loop Seating Howling
+  - first:
+      74: 7400036
+    second: // loop Idle Seating
+  - first:
+      74: 7400038
+    second: // loop Jumping
+  - first:
+      74: 7400040
+    second: // Lie Down
+  - first:
+      74: 7400042
+    second: // loop Rest
+  - first:
+      74: 7400044
+    second: // Stand Up
+  - first:
+      74: 7400046
+    second: // Start Pissing
+  - first:
+      74: 7400048
+    second: // loop Pissing
+  - first:
+      74: 7400050
+    second: // End Pissing
+  - first:
+      74: 7400052
+    second: // Start Shitting
+  - first:
+      74: 7400054
+    second: // loop Shitting
+  - first:
+      74: 7400056
+    second: // End Shitting
+  - first:
+      74: 7400058
+    second: // loop Running
+  - first:
+      74: 7400060
+    second: // loop Strafe Left
+  - first:
+      74: 7400062
+    second: // loop Strafe Right
+  - first:
+      74: 7400064
+    second: // loop Trapping
+  - first:
+      74: 7400066
+    second: // Turn Left 90
+  - first:
+      74: 7400068
+    second: // Turn Right 90
+  - first:
+      74: 7400070
+    second: // Hit Left
+  - first:
+      74: 7400072
+    second: // Hit Right
+  - first:
+      74: 7400074
+    second: // Hit Front
+  - first:
+      74: 7400076
+    second: // Hit Back
+  - first:
+      74: 7400078
+    second: // loop Walk
+  - first:
+      74: 7400080
+    second: // loop Attack Jaw
+  - first:
+      74: 7400082
+    second: Bind Pose
+  - first:
+      74: 7400084
+    second: Idle
+  - first:
+      74: 7400086
+    second: Attack Jump
+  - first:
+      74: 7400088
+    second: Attack Paw Right
+  - first:
+      74: 7400090
+    second: Attack Two Paw
+  - first:
+      74: 7400092
+    second: Crawling
+  - first:
+      74: 7400094
+    second: Creeping
+  - first:
+      74: 7400096
+    second: Death
+  - first:
+      74: 7400098
+    second: Death 01
+  - first:
+      74: 7400100
+    second: Digging
+  - first:
+      74: 7400102
+    second: Eating
+  - first:
+      74: 7400104
+    second: Fight Idle
+  - first:
+      74: 7400106
+    second: Fight Idle 01
+  - first:
+      74: 7400108
+    second: Go To Sleep
+  - first:
+      74: 7400110
+    second: Sleeping
+  - first:
+      74: 7400112
+    second: Wake Up
+  - first:
+      74: 7400114
+    second: Howling
+  - first:
+      74: 7400116
+    second: Seating Howling
+  - first:
+      74: 7400118
+    second: Idle Seating
+  - first:
+      74: 7400120
+    second: Jumping
+  - first:
+      74: 7400122
+    second: Lie Down
+  - first:
+      74: 7400124
+    second: Rest
+  - first:
+      74: 7400126
+    second: Stand Up
+  - first:
+      74: 7400128
+    second: Start Pissing
+  - first:
+      74: 7400130
+    second: Pissing
+  - first:
+      74: 7400132
+    second: End Pissing
+  - first:
+      74: 7400134
+    second: Start Shitting
+  - first:
+      74: 7400136
+    second: Shitting
+  - first:
+      74: 7400138
+    second: End Shitting
+  - first:
+      74: 7400140
+    second: Running
+  - first:
+      74: 7400142
+    second: Strafe Left
+  - first:
+      74: 7400144
+    second: Strafe Right
+  - first:
+      74: 7400146
+    second: Trapping
+  - first:
+      74: 7400148
+    second: Turn Left 90
+  - first:
+      74: 7400150
+    second: Turn Right 90
+  - first:
+      74: 7400152
+    second: Hit Left
+  - first:
+      74: 7400154
+    second: Hit Right
+  - first:
+      74: 7400156
+    second: Hit Front
+  - first:
+      74: 7400158
+    second: Hit Back
+  - first:
+      74: 7400160
+    second: Walk
+  - first:
+      74: 7400162
+    second: Attack Jaw
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      111: 11100000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Tatra_HP_Msh
+  - first:
+      137: 13700002
+    second: Tatra_LP_MSh
+  - first:
+      137: 13700004
+    second: Tatra_SHP_Msh
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TatraSheepDog_Mat
+    second: {fileID: 2100000, guid: dc0ae9502d4ec544093209c8f04846e5, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 0
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Bind Pose
+      takeName: 
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 0
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Idle
+      takeName: 
+      internalID: 0
+      firstFrame: 2
+      lastFrame: 101
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Attack Jump
+      takeName: 
+      internalID: 0
+      firstFrame: 104
+      lastFrame: 125
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Attack Paw Right
+      takeName: 
+      internalID: 0
+      firstFrame: 128
+      lastFrame: 157
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Attack Two Paw
+      takeName: 
+      internalID: 0
+      firstFrame: 160
+      lastFrame: 192
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Crawling
+      takeName: 
+      internalID: 0
+      firstFrame: 195
+      lastFrame: 349
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Creeping
+      takeName: 
+      internalID: 0
+      firstFrame: 352
+      lastFrame: 400
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Death
+      takeName: 
+      internalID: 0
+      firstFrame: 402
+      lastFrame: 427
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Death 01
+      takeName: 
+      internalID: 0
+      firstFrame: 428
+      lastFrame: 457
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Digging
+      takeName: 
+      internalID: 0
+      firstFrame: 459
+      lastFrame: 512
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Eating
+      takeName: 
+      internalID: 0
+      firstFrame: 515
+      lastFrame: 616
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Fight Idle
+      takeName: 
+      internalID: 0
+      firstFrame: 619
+      lastFrame: 670
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Fight Idle 01
+      takeName: 
+      internalID: 0
+      firstFrame: 673
+      lastFrame: 784
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Go To Sleep
+      takeName: 
+      internalID: 0
+      firstFrame: 786
+      lastFrame: 810
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Sleeping
+      takeName: 
+      internalID: 0
+      firstFrame: 812
+      lastFrame: 872
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Wake Up
+      takeName: 
+      internalID: 0
+      firstFrame: 874
+      lastFrame: 898
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Howling
+      takeName: 
+      internalID: 0
+      firstFrame: 900
+      lastFrame: 1001
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Seating Howling
+      takeName: 
+      internalID: 0
+      firstFrame: 1004
+      lastFrame: 1104
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Idle Seating
+      takeName: 
+      internalID: 0
+      firstFrame: 1107
+      lastFrame: 1167
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Jumping
+      takeName: 
+      internalID: 0
+      firstFrame: 1170
+      lastFrame: 1194
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Lie Down
+      takeName: 
+      internalID: 0
+      firstFrame: 1196
+      lastFrame: 1228
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Rest
+      takeName: 
+      internalID: 0
+      firstFrame: 1229
+      lastFrame: 1289
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Stand Up
+      takeName: 
+      internalID: 0
+      firstFrame: 1291
+      lastFrame: 1321
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Start Pissing
+      takeName: 
+      internalID: 0
+      firstFrame: 1322
+      lastFrame: 1341
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Pissing
+      takeName: 
+      internalID: 0
+      firstFrame: 1343
+      lastFrame: 1402
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: End Pissing
+      takeName: 
+      internalID: 0
+      firstFrame: 1404
+      lastFrame: 1424
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Start Shitting
+      takeName: 
+      internalID: 0
+      firstFrame: 1425
+      lastFrame: 1449
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Shitting
+      takeName: 
+      internalID: 0
+      firstFrame: 1451
+      lastFrame: 1551
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: End Shitting
+      takeName: 
+      internalID: 0
+      firstFrame: 1553
+      lastFrame: 1615
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Running
+      takeName: 
+      internalID: 0
+      firstFrame: 1617
+      lastFrame: 1631
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Strafe Left
+      takeName: 
+      internalID: 0
+      firstFrame: 1634
+      lastFrame: 1682
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Strafe Right
+      takeName: 
+      internalID: 0
+      firstFrame: 1685
+      lastFrame: 1733
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Trapping
+      takeName: 
+      internalID: 0
+      firstFrame: 1736
+      lastFrame: 1792
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Turn Left 90
+      takeName: 
+      internalID: 0
+      firstFrame: 1795
+      lastFrame: 1835
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Turn Right 90
+      takeName: 
+      internalID: 0
+      firstFrame: 1838
+      lastFrame: 1878
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Hit Left
+      takeName: 
+      internalID: 0
+      firstFrame: 1881
+      lastFrame: 1897
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Hit Right
+      takeName: 
+      internalID: 0
+      firstFrame: 1899
+      lastFrame: 1914
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Hit Front
+      takeName: 
+      internalID: 0
+      firstFrame: 1916
+      lastFrame: 1931
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Hit Back
+      takeName: 
+      internalID: 0
+      firstFrame: 1933
+      lastFrame: 1948
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Walk
+      takeName: 
+      internalID: 0
+      firstFrame: 1951
+      lastFrame: 1983
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Attack Jaw
+      takeName: 
+      internalID: 0
+      firstFrame: 1986
+      lastFrame: 2007
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 4
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
