@@ -9,7 +9,7 @@
                     "name": "Up",
                     "type": "Value",
                     "id": "82a39427-51f1-46a3-b30a-9dd6a7fd9c10",
-                    "expectedControlType": "Key",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 },
@@ -18,6 +18,14 @@
                     "type": "Value",
                     "id": "37bb8c37-79c3-455f-8af5-82783b4757af",
                     "expectedControlType": "Key",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "VerticalAcceleleration",
+                    "type": "Value",
+                    "id": "1c8900d9-90cf-4362-b8e5-ab1bb05f38c8",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 }
@@ -42,6 +50,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "51f97f34-4518-4627-b5ec-eb04dbd5a1fa",
+                    "path": "<Accelerometer>/acceleration/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VerticalAcceleleration",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

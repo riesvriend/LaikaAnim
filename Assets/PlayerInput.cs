@@ -22,7 +22,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""name"": ""Up"",
                     ""type"": ""Value"",
                     ""id"": ""82a39427-51f1-46a3-b30a-9dd6a7fd9c10"",
-                    ""expectedControlType"": ""Key"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -31,6 +31,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""37bb8c37-79c3-455f-8af5-82783b4757af"",
                     ""expectedControlType"": ""Key"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""VerticalAcceleleration"",
+                    ""type"": ""Value"",
+                    ""id"": ""1c8900d9-90cf-4362-b8e5-ab1bb05f38c8"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -57,6 +65,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""Down"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""51f97f34-4518-4627-b5ec-eb04dbd5a1fa"",
+                    ""path"": ""<Accelerometer>/acceleration/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""VerticalAcceleleration"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -67,6 +86,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_DogControls = asset.FindActionMap("DogControls", throwIfNotFound: true);
         m_DogControls_Up = m_DogControls.FindAction("Up", throwIfNotFound: true);
         m_DogControls_Down = m_DogControls.FindAction("Down", throwIfNotFound: true);
+        m_DogControls_VerticalAcceleleration = m_DogControls.FindAction("VerticalAcceleleration", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -118,12 +138,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private IDogControlsActions m_DogControlsActionsCallbackInterface;
     private readonly InputAction m_DogControls_Up;
     private readonly InputAction m_DogControls_Down;
+    private readonly InputAction m_DogControls_VerticalAcceleleration;
     public struct DogControlsActions
     {
         private @PlayerInput m_Wrapper;
         public DogControlsActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Up => m_Wrapper.m_DogControls_Up;
         public InputAction @Down => m_Wrapper.m_DogControls_Down;
+        public InputAction @VerticalAcceleleration => m_Wrapper.m_DogControls_VerticalAcceleleration;
         public InputActionMap Get() { return m_Wrapper.m_DogControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -139,6 +161,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Down.started -= m_Wrapper.m_DogControlsActionsCallbackInterface.OnDown;
                 @Down.performed -= m_Wrapper.m_DogControlsActionsCallbackInterface.OnDown;
                 @Down.canceled -= m_Wrapper.m_DogControlsActionsCallbackInterface.OnDown;
+                @VerticalAcceleleration.started -= m_Wrapper.m_DogControlsActionsCallbackInterface.OnVerticalAcceleleration;
+                @VerticalAcceleleration.performed -= m_Wrapper.m_DogControlsActionsCallbackInterface.OnVerticalAcceleleration;
+                @VerticalAcceleleration.canceled -= m_Wrapper.m_DogControlsActionsCallbackInterface.OnVerticalAcceleleration;
             }
             m_Wrapper.m_DogControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -149,6 +174,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Down.started += instance.OnDown;
                 @Down.performed += instance.OnDown;
                 @Down.canceled += instance.OnDown;
+                @VerticalAcceleleration.started += instance.OnVerticalAcceleleration;
+                @VerticalAcceleleration.performed += instance.OnVerticalAcceleleration;
+                @VerticalAcceleleration.canceled += instance.OnVerticalAcceleleration;
             }
         }
     }
@@ -157,5 +185,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     {
         void OnUp(InputAction.CallbackContext context);
         void OnDown(InputAction.CallbackContext context);
+        void OnVerticalAcceleleration(InputAction.CallbackContext context);
     }
 }
