@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Cozy;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,8 +18,15 @@ public class LaikaMovement : MonoBehaviour
         input.DogControls.Down.performed += Down_performed;
         input.DogControls.VerticalAcceleleration.performed += VerticalAcceleleration_performed;
         input.DogControls.Enable();
-        if (HasAccelerometer())
-            InputSystem.EnableDevice(Accelerometer.current);
+        if (HasLinearAccelerationSensor())
+            InputSystem.EnableDevice(LinearAccelerationSensor.current);
+    }
+
+    private void OnDisable()
+    {
+        input.DogControls.Disable();
+        if (HasLinearAccelerationSensor())
+            InputSystem.DisableDevice(LinearAccelerationSensor.current);
     }
 
     private void OnDestroy()
@@ -46,27 +51,26 @@ public class LaikaMovement : MonoBehaviour
     }
     private void Up_performed(InputAction.CallbackContext ctx)
     {
-        //Debug.Log(ctx.ReadValueAsObject());
         isUpKeyPressed = ctx.ReadValue<float>() == 1;
     }
 
     private void VerticalAcceleleration_performed(InputAction.CallbackContext ctx)
     {
         var acceleration = ctx.ReadValue<float>();
-        isUpKeyPressed = acceleration > 0;
-        isDownKeyPressed = acceleration < 0 && !isUpKeyPressed;
+        Log($"Accelleration: {acceleration}. duration: {ctx.duration}");
+        isUpKeyPressed = acceleration > 2; // meter per second
+        isDownKeyPressed = acceleration < 2 && !isUpKeyPressed;
     }
 
-    private static bool HasAccelerometer()
+    private static void Log(string text)
     {
-        return InputSystem.devices.Any(d => d.valueType == typeof(Accelerometer));
+        Debug.Log(text); // Output to Unity console
+        System.Diagnostics.Debug.WriteLine(text); // Output to VS.NET
     }
 
-    private void OnDisable()
+    private static bool HasLinearAccelerationSensor()
     {
-        input.DogControls.Disable();
-        if (HasAccelerometer())
-            InputSystem.DisableDevice(Accelerometer.current);
+        return InputSystem.devices.Any(d => d.GetType().IsClassOrSubclass<LinearAccelerationSensor>());
     }
 
     // Update is called once per frame

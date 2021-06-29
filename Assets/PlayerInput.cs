@@ -68,8 +68,8 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""51f97f34-4518-4627-b5ec-eb04dbd5a1fa"",
-                    ""path"": ""<Accelerometer>/acceleration/y"",
+                    ""id"": ""f6bb8bf8-5fcf-485c-aae5-53d5c338258a"",
+                    ""path"": ""<LinearAccelerationSensor>/acceleration/y"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
