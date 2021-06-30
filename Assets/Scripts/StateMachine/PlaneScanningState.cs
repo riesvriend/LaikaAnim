@@ -14,7 +14,7 @@ public class PlaneScanningState : IState
     private ARPlaneManager arPlaneManager;
     private List<ARPlane> planes;
     private ARPlane floorPlane;
-    [SerializeField] float minimumGroundPlaneSizeInM2 = 3.0f;
+    [SerializeField] float minimumGroundPlaneSizeInM2 = 2.0f;
 
     public PlaneScanningState(GameObject planeScanningCanvas, GameObject animalToPlacePrefab)
     {
@@ -58,8 +58,13 @@ public class PlaneScanningState : IState
             {
                 placedAnimal = GameObject.Instantiate(animalToPlacePrefab);
                 placedAnimal.transform.position = floorPlane.center;
-                // todo: raycast from camera to center of plane, and take the ray's 2D vector on the floor plane
-                placedAnimal.transform.forward = floorPlane.transform.forward;
+
+                // Rotate the animal to face the camera
+                // https://www.youtube.com/watch?v=kGykP7VZCvg&list=LL&index=3
+                var camera = Object.FindObjectOfType<Camera>();
+                var projectedCameraForward = -Vector3.ProjectOnPlane(camera.transform.forward, floorPlane.transform.up);
+                var rotationToCamera = Quaternion.LookRotation(projectedCameraForward, Vector3.up);
+                placedAnimal.transform.rotation = Quaternion.RotateTowards(from: placedAnimal.transform.rotation, to: rotationToCamera, maxDegreesDelta: 360);
             }
         };
 
