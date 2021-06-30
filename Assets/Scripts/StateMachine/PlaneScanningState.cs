@@ -62,8 +62,8 @@ public class PlaneScanningState : IState
                 // Rotate the animal to face the camera
                 // https://www.youtube.com/watch?v=kGykP7VZCvg&list=LL&index=3
                 var camera = Object.FindObjectOfType<Camera>();
-                var projectedCameraForward = -Vector3.ProjectOnPlane(camera.transform.forward, floorPlane.transform.up);
-                var rotationToCamera = Quaternion.LookRotation(projectedCameraForward, Vector3.up);
+                var projectedCameraForward = Vector3.ProjectOnPlane(camera.transform.forward, floorPlane.transform.up);
+                var rotationToCamera = Quaternion.LookRotation(forward: -projectedCameraForward, upwards: Vector3.up);
                 placedAnimal.transform.rotation = Quaternion.RotateTowards(from: placedAnimal.transform.rotation, to: rotationToCamera, maxDegreesDelta: 360);
             }
         };
