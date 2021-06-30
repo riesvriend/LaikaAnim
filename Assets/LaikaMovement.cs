@@ -1,4 +1,4 @@
-using Cozy;
+using Synchrony;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -57,15 +57,9 @@ public class LaikaMovement : MonoBehaviour
     private void VerticalAcceleleration_performed(InputAction.CallbackContext ctx)
     {
         var acceleration = ctx.ReadValue<float>();
-        Log($"Accelleration: {acceleration}. duration: {ctx.duration}");
+        $"Accelleration: {acceleration}. duration: {ctx.duration}".Log();
         isUpKeyPressed = acceleration > 2; // meter per second
         isDownKeyPressed = acceleration < 2 && !isUpKeyPressed;
-    }
-
-    private static void Log(string text)
-    {
-        Debug.Log(text); // Output to Unity console
-        System.Diagnostics.Debug.WriteLine(text); // Output to VS.NET
     }
 
     private static bool HasLinearAccelerationSensor()
