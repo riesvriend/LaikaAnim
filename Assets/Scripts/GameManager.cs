@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject mainMenuCanvas;
     [SerializeField] private GameObject planeScanningCanvas;
+    [SerializeField] private GameObject carpetPlayCanvas;
     [SerializeField] private GameObject animalToPlacePrefab;
 
     private StateMachine stateMachine;
@@ -26,8 +27,16 @@ public class GameManager : MonoBehaviour
         stateMachine.ChangeAndExecute(new MainMenuState(mainMenuCanvas));
     }
 
-    public void StartPlaneScanning()
+    /// <summary>
+    /// On Floor Play Click
+    /// </summary>
+    public void OnFloorPlayClick()
     {
         stateMachine.ChangeAndExecute(new PlaneScanningState(planeScanningCanvas, animalToPlacePrefab));
+    }
+
+    public void OnCarpetPlayClick()
+    {
+        stateMachine.ChangeAndExecute(new CarpetPlayState(carpetPlayCanvas));
     }
 }
