@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Synchrony;
+using System;
 
 public class MainMenuState : IState
 {
@@ -11,20 +12,20 @@ public class MainMenuState : IState
     {
         this.mainMenuCanvas = mainMenuCanvas;
     }
+
     public void EnterState()
     {
         "<<< MainMenuState EnterState".Log();
         mainMenuCanvas.SetActive(true);
     }
 
+    public void ExitState()
+    {
+        mainMenuCanvas.SetActive(false);
+    }
+
     public void ExecuteState()
     {
         "<<< MainMenuState ExecuteState".Log();
-    }
-
-    public void ExitState()
-    {
-        "<<< MainMenuState ExitState".Log();
-        mainMenuCanvas.SetActive(false);
     }
 }

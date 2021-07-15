@@ -11,12 +11,24 @@ public class LaikaMovement : MonoBehaviour
     bool isUpKeyPressed;
     bool isDownKeyPressed;
 
-    private void OnEnable()
+    private void Awake()
     {
         input = new PlayerInput();
         input.DogControls.Up.performed += Up_performed;
         input.DogControls.Down.performed += Down_performed;
         input.DogControls.VerticalAcceleleration.performed += VerticalAcceleleration_performed;
+    }
+
+    private void OnDestroy()
+    {
+        input.DogControls.Up.performed -= Up_performed;
+        input.DogControls.Down.performed -= Down_performed;
+        input.DogControls.VerticalAcceleleration.performed -= VerticalAcceleleration_performed;
+        input = null;
+    }
+
+    private void OnEnable()
+    {
         input.DogControls.Enable();
         if (HasLinearAccelerationSensor())
             InputSystem.EnableDevice(LinearAccelerationSensor.current);
@@ -29,21 +41,12 @@ public class LaikaMovement : MonoBehaviour
             InputSystem.DisableDevice(LinearAccelerationSensor.current);
     }
 
-    private void OnDestroy()
-    {
-        input.DogControls.Up.performed -= Up_performed;
-        input.DogControls.Down.performed -= Down_performed;
-        input.DogControls.VerticalAcceleleration.performed -= VerticalAcceleleration_performed;
-        input = null;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         isRestingHash = Animator.StringToHash("isResting");
     }
-
 
     private void Down_performed(InputAction.CallbackContext ctx)
     {
