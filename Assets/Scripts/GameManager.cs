@@ -16,21 +16,27 @@ public class GameManager : MonoBehaviour
 
     private StateMachine stateMachine;
 
+    private App app;
+
     private void Awake()
     {
+        app = FindObjectOfType<App>();
+        if (app == null)
+            Debug.LogError("App not found");
+
         if (instance != null && instance != this)
             Destroy(gameObject);
-        else
-            instance = this;
+
+        instance = this;
     }
 
     private void Start()
     {
         stateMachine = new StateMachine();
 
-        InitGameState();
+        //InitGameState();
 
-        GoToHome();
+        //GoToHome();
     }
 
     /// <summary>
@@ -39,30 +45,30 @@ public class GameManager : MonoBehaviour
     private void InitGameState()
     {
         var arPlaneManager = FindObjectsOfType<ARPlaneManager>().Single();
-        arPlaneManager.requestedDetectionMode = PlaneDetectionMode.None;
+        if (arPlaneManager != null)
+            arPlaneManager.requestedDetectionMode = PlaneDetectionMode.None;
 
-        mainMenuCanvas.SetActive(false);
-        planeScanningCanvas.SetActive(false);
-        carpetPlayCanvas.SetActive(false);
+        //mainMenuCanvas.SetActive(false);
+        //planeScanningCanvas.SetActive(false);
+        //carpetPlayCanvas.SetActive(false);
     }
 
     private void GoToHome()
     {
-        stateMachine.ChangeAndExecute(new MainMenuState(mainMenuCanvas));
+        app.RequestScene(SceneEnum.SampleScene); 
+        //stateMachine.ChangeAndExecute(new MainMenuState(mainMenuCanvas));
     }
 
-    /// <summary>
-    /// On Floor Play Click
-    /// </summary>
     public void OnFloorPlayClick()
     {
-        stateMachine.ChangeAndExecute(new PlaneScanningState(planeScanningCanvas, animalToPlacePrefab));
+        app.RequestScene(SceneEnum.FloorPlayScene); // new PlaneScanningState(planeScanningCanvas, animalToPlacePrefab));
     }
 
     public void OnCarpetPlayClick()
     {
-        stateMachine.ChangeAndExecute(new CarpetPlayState(carpetPlayCanvas));
+        app.RequestScene(SceneEnum.FlyingCarpetScene); // ChangeAndExecute(new CarpetPlayState(carpetPlayCanvas));
     }
+
 
     public void OnBackHomeClick()
     {

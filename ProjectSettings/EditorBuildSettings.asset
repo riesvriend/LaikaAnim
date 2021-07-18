@@ -4,7 +4,19 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/_preloadScene.unity
+    guid: 0f6fc63de8efca54ea2dda165a892299
+  - enabled: 0
+    path: Assets/Scenes/MainMenuScene.unity
+    guid: c1caa60778062ae408ad7aa44d2a414c
+  - enabled: 1
+    path: Assets/Scenes/FlyingCarpetScene.unity
+    guid: bf319e42453b9b040b5dadfddacde415
+  - enabled: 1
+    path: Assets/Scenes/SampleScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}
