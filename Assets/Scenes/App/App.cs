@@ -25,7 +25,8 @@ public class App : MonoBehaviour
     private void Awake()
     {
         // https://stackoverflow.com/questions/35890932/unity-game-manager-script-works-only-one-time
-        // Keep the App loaded when switching scenes
+        // Keep the App loaded when switching scenes. We use this as a simple alternative
+        // over using UnloadSceneAsync and LoadSceneMode.Additive
         DontDestroyOnLoad(gameObject);
     }
 
@@ -44,35 +45,17 @@ public class App : MonoBehaviour
         {
             var sceneName = requestedScene.ToString();
             requestedScene = null;
-            //StartCoroutine(LoadSceneCoRoutine(requestedScene.Value));
-            SceneManager.LoadScene(sceneName);
+            StartCoroutine(LoadSceneCoRoutine(sceneName));
+            // TODO: Consider making a App-game object visible that shows a spinning loading indicator
+            // until LoadSceneCoRoutine is done
             currentSceneName = sceneName;
         }
     }
 
-    /* OLD coroutines not yet working */
-
-    public IEnumerator LoadSceneCoRoutine(SceneEnum scene)
-    {
-        return LoadSceneCoRoutine(scene.ToString());
-    }
-
     public IEnumerator LoadSceneCoRoutine(string sceneName)
     {
-        if (currentSceneName != null)
-            yield return UnloadSceneCoroutine(currentSceneName); // SceneManager.UnloadScene(currentSceneName);
-
-        // Additive as we keep the app _preload scene containing the
-        // shared gameobjects such as audio sources etc
-        yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        currentSceneName = sceneName;
-    }
-
-    // https://www.youtube.com/watch?v=3I5d2rUJ0pE (Un)Loading scenes
-    private IEnumerable UnloadSceneCoroutine(string sceneName)
-    {
-        yield return null;
-        var operation = SceneManager.UnloadSceneAsync(sceneName);
+        // https://www.youtube.com/watch?v=3I5d2rUJ0pE (Un)Loading scenes
+        var operation = SceneManager.LoadSceneAsync(sceneName); //, LoadSceneMode.Additive)
         while (!operation.isDone)
             yield return null;
     }

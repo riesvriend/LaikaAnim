@@ -9,6 +9,8 @@ using UnityEngine.XR.ARSubsystems;
 // TODO: Make sure our animal does not collide with real objects on the floor
 public class PlaneScanningState : IState
 {
+    [SerializeField] float minimumGroundPlaneSizeInM2 = 2.0f;
+
     private GameObject planeScanningCanvas;
     private GameObject animalToPlacePrefab;
     private GameObject placedAnimal;
@@ -16,7 +18,6 @@ public class PlaneScanningState : IState
     private ARPlaneManager arPlaneManager;
     private List<ARPlane> planes;
     private ARPlane floorPlane;
-    [SerializeField] float minimumGroundPlaneSizeInM2 = 2.0f;
 
     public PlaneScanningState(GameObject planeScanningCanvas, GameObject animalToPlacePrefab)
     {
@@ -55,9 +56,7 @@ public class PlaneScanningState : IState
 
         if (e.removed?.Count > 0)
             foreach (var p in e.removed)
-            {
                 planes.Remove(p);
-            }
 
         if (floorPlane == null)
         {
@@ -82,6 +81,4 @@ public class PlaneScanningState : IState
             }
         };
     }
-
- 
 }
