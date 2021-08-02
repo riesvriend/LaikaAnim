@@ -9,7 +9,7 @@ public enum SceneEnum
     MainMenuScene,
     FloorPlayScene,
     FlyingCarpetScene,
-    SampleScene,
+    //SampleScene,
 }
 
 /// <summary>
@@ -19,7 +19,7 @@ public enum SceneEnum
 /// </summary>
 public class App : MonoBehaviour
 {
-    private SceneEnum? requestedScene = SceneEnum.SampleScene;
+    private SceneEnum? requestedScene = SceneEnum.MainMenuScene;
     private string currentSceneName = null;
 
     private void Awake()

@@ -19,9 +19,12 @@ public class FlyingCarpetGameManager : MonoBehaviour
 
     private void GoToHome()
     {
-        app.RequestScene(SceneEnum.SampleScene); 
+        app.RequestScene(SceneEnum.MainMenuScene); 
     }
 
+    /// <summary>
+    /// Referenced from FlyingCarpetScene/UI/CarpetUI/Back
+    /// </summary>
     public void OnBackHomeClick()
     {
         GoToHome();

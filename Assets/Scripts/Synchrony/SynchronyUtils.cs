@@ -21,5 +21,10 @@ namespace Synchrony
             Debug.Log(text); // Output to Unity console
             System.Diagnostics.Debug.WriteLine(text); // Output to VS.NET
         }
+
+        public static bool IsPlayingInEditor()
+        {
+            return Application.isEditor && Application.isPlaying;
+        }
     }
 }

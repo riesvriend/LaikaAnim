@@ -31,7 +31,7 @@ public class FloorPlayGameManager : MonoBehaviour
 
     private void GoToHome()
     {
-        app.RequestScene(SceneEnum.SampleScene); 
+        app.RequestScene(SceneEnum.MainMenuScene); 
     }
 
     public void OnBackHomeClick()
