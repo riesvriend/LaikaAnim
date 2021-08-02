@@ -26,5 +26,15 @@ namespace Synchrony
         {
             return Application.isEditor && Application.isPlaying;
         }
+
+        public static bool IsAltOrOptionPressed()
+        {
+            return Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
+        }
+
+        public static bool IsMouseWheelTurned()
+        {
+            return Input.mouseScrollDelta.y != 0;
+        }
     }
 }
