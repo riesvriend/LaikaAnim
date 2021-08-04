@@ -41,9 +41,9 @@ public class ARCameraMover : MonoBehaviour
     /// Rotate the camera with the mouse plus ALT or OPTION key 
     /// Its not super intuitive, it needs a GUI rotation control similar to Unity Editor
     /// Similar to an aircraft, we want the camera to:
-    /// - Right wing up/down to rotate X around Y (left/right)
-    /// - Tail vertical left/right to rotate Y around (control left/right)
-    /// - Tail wing up/down to rotate Z around X (up/down)
+    /// - Rotate Y (look more left/right)
+    /// - Rotate Z (control left/right) -> Rollover left/right
+    /// - Rotate X (up/down) -> Look more up or down
     /// </summary>
     private void RotateCamera()
     {
@@ -51,7 +51,7 @@ public class ARCameraMover : MonoBehaviour
         if (!allowRotate)
             return;
 
-        var leftRight = Input.GetKey(KeyCode.LeftArrow) ? 1 : Input.GetKey(KeyCode.RightArrow) ? -1 : 0;
+        var leftRight = Input.GetKey(KeyCode.LeftArrow) ? -1 : Input.GetKey(KeyCode.RightArrow) ? 1 : 0;
         var xRotationDirection = 0;
         var yRotationDirection = 0;
         var zRotationDirection = 0;
@@ -63,9 +63,9 @@ public class ARCameraMover : MonoBehaviour
             yRotationDirection = leftRight;
 
             if (Input.GetKey(KeyCode.UpArrow))
-                xRotationDirection = 1;
-            else if (Input.GetKey(KeyCode.DownArrow))
                 xRotationDirection = -1;
+            else if (Input.GetKey(KeyCode.DownArrow))
+                xRotationDirection = 1;
         }
 
         arCamera.transform.Rotate(RotationAngle(xRotationDirection), RotationAngle(yRotationDirection), RotationAngle(zRotationDirection));
@@ -100,7 +100,7 @@ public class ARCameraMover : MonoBehaviour
         if (forwardDelta != 0)
         {
             var zOffset = mouseScrollMetersPerUpdate * forwardDelta;
-            $"mouseScrollMetersPerUpdate: {mouseScrollMetersPerUpdate} * forwardDelta: {forwardDelta} = zOffset: {zOffset}".Log();
+            //$"mouseScrollMetersPerUpdate: {mouseScrollMetersPerUpdate} * forwardDelta: {forwardDelta} = zOffset: {zOffset}".Log();
             arCamera.transform.position += new Vector3(x: 0, y: 0, z: zOffset);
         }
     }
