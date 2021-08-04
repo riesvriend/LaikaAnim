@@ -28,6 +28,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Acceleration",
+                    "type": "Value",
+                    "id": "1a396470-6e1e-4689-9162-f26396581ee3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -61,6 +69,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "VerticalAcceleleration",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "50dc821a-dd87-4286-98b1-57abf1adff01",
+                    "path": "<Accelerometer>/acceleration/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Acceleration",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

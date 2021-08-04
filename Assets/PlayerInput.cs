@@ -41,6 +41,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Acceleration"",
+                    ""type"": ""Value"",
+                    ""id"": ""1a396470-6e1e-4689-9162-f26396581ee3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -76,6 +84,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""VerticalAcceleleration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""50dc821a-dd87-4286-98b1-57abf1adff01"",
+                    ""path"": ""<Accelerometer>/acceleration/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Acceleration"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -87,6 +106,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_DogControls_Up = m_DogControls.FindAction("Up", throwIfNotFound: true);
         m_DogControls_Down = m_DogControls.FindAction("Down", throwIfNotFound: true);
         m_DogControls_VerticalAcceleleration = m_DogControls.FindAction("VerticalAcceleleration", throwIfNotFound: true);
+        m_DogControls_Acceleration = m_DogControls.FindAction("Acceleration", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -139,6 +159,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_DogControls_Up;
     private readonly InputAction m_DogControls_Down;
     private readonly InputAction m_DogControls_VerticalAcceleleration;
+    private readonly InputAction m_DogControls_Acceleration;
     public struct DogControlsActions
     {
         private @PlayerInput m_Wrapper;
@@ -146,6 +167,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @Up => m_Wrapper.m_DogControls_Up;
         public InputAction @Down => m_Wrapper.m_DogControls_Down;
         public InputAction @VerticalAcceleleration => m_Wrapper.m_DogControls_VerticalAcceleleration;
+        public InputAction @Acceleration => m_Wrapper.m_DogControls_Acceleration;
         public InputActionMap Get() { return m_Wrapper.m_DogControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -164,6 +186,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @VerticalAcceleleration.started -= m_Wrapper.m_DogControlsActionsCallbackInterface.OnVerticalAcceleleration;
                 @VerticalAcceleleration.performed -= m_Wrapper.m_DogControlsActionsCallbackInterface.OnVerticalAcceleleration;
                 @VerticalAcceleleration.canceled -= m_Wrapper.m_DogControlsActionsCallbackInterface.OnVerticalAcceleleration;
+                @Acceleration.started -= m_Wrapper.m_DogControlsActionsCallbackInterface.OnAcceleration;
+                @Acceleration.performed -= m_Wrapper.m_DogControlsActionsCallbackInterface.OnAcceleration;
+                @Acceleration.canceled -= m_Wrapper.m_DogControlsActionsCallbackInterface.OnAcceleration;
             }
             m_Wrapper.m_DogControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -177,6 +202,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @VerticalAcceleleration.started += instance.OnVerticalAcceleleration;
                 @VerticalAcceleleration.performed += instance.OnVerticalAcceleleration;
                 @VerticalAcceleleration.canceled += instance.OnVerticalAcceleleration;
+                @Acceleration.started += instance.OnAcceleration;
+                @Acceleration.performed += instance.OnAcceleration;
+                @Acceleration.canceled += instance.OnAcceleration;
             }
         }
     }
@@ -186,5 +214,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnUp(InputAction.CallbackContext context);
         void OnDown(InputAction.CallbackContext context);
         void OnVerticalAcceleleration(InputAction.CallbackContext context);
+        void OnAcceleration(InputAction.CallbackContext context);
     }
 }

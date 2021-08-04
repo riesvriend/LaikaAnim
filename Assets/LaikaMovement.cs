@@ -1,44 +1,61 @@
 using Synchrony;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class LaikaMovement : MonoBehaviour
 {
+    public class AccelerationSample
+    {
+        public float acceleration;
+        public DateTime dateTimeUtc;
+    }
+
     Animator animator;
     PlayerInput input;
     int isRestingHash;
     bool isUpKeyPressed;
     bool isDownKeyPressed;
 
+    List<AccelerationSample> accelerationSamples = new List<AccelerationSample>();
+
+
     private void Awake()
     {
         input = new PlayerInput();
         input.DogControls.Up.performed += Up_performed;
         input.DogControls.Down.performed += Down_performed;
+        // LinearAccelaration Sensor does not exist on iPad, so we use AcceleroMeter
         input.DogControls.VerticalAcceleleration.performed += VerticalAcceleleration_performed;
+        input.DogControls.Acceleration.performed += Acceleration_performed;
     }
 
     private void OnDestroy()
     {
-        input.DogControls.Up.performed -= Up_performed;
-        input.DogControls.Down.performed -= Down_performed;
-        input.DogControls.VerticalAcceleleration.performed -= VerticalAcceleleration_performed;
-        input = null;
+        if (input != null)
+        {
+            input.DogControls.Up.performed -= Up_performed;
+            input.DogControls.Down.performed -= Down_performed;
+            input.DogControls.VerticalAcceleleration.performed -= VerticalAcceleleration_performed;
+            input.DogControls.Acceleration.performed -= Acceleration_performed;
+            input = null;
+        }
     }
 
     private void OnEnable()
     {
-        input.DogControls.Enable();
-        if (HasLinearAccelerationSensor())
-            InputSystem.EnableDevice(LinearAccelerationSensor.current);
+        input?.DogControls.Enable();
+        if (HasAccelerometer())
+            InputSystem.EnableDevice(Accelerometer.current);
     }
 
     private void OnDisable()
     {
-        input.DogControls.Disable();
-        if (HasLinearAccelerationSensor())
-            InputSystem.DisableDevice(LinearAccelerationSensor.current);
+        input?.DogControls.Disable();
+        if (HasAccelerometer())
+            InputSystem.DisableDevice(Accelerometer.current);
     }
 
     // Start is called before the first frame update
@@ -57,12 +74,28 @@ public class LaikaMovement : MonoBehaviour
         isUpKeyPressed = ctx.ReadValue<float>() == 1;
     }
 
-    private void VerticalAcceleleration_performed(InputAction.CallbackContext ctx)
+    private void Acceleration_performed(InputAction.CallbackContext ctx)
     {
         var acceleration = ctx.ReadValue<float>();
         $"Accelleration: {acceleration}. duration: {ctx.duration}".Log();
+
+        // Calculate increase in acceleration over the last second. If > 2/ms2 then the user 
+        // pushed the device up or down
+    }
+
+    private void VerticalAcceleleration_performed(InputAction.CallbackContext ctx)
+    {
+        var acceleration = ctx.ReadValue<float>();
+        $"Linear Accelleration: {acceleration}. duration: {ctx.duration}".Log();
         isUpKeyPressed = acceleration > 2; // meter per second
         isDownKeyPressed = acceleration < 2 && !isUpKeyPressed;
+    }
+
+    private static bool HasAccelerometer()
+    {
+        var hasAccelerometer = UnityEngine.InputSystem.Accelerometer.current != null;
+        $"Accelerometer: {hasAccelerometer}".Log();
+        return hasAccelerometer;
     }
 
     private static bool HasLinearAccelerationSensor()
@@ -89,17 +122,17 @@ public class LaikaMovement : MonoBehaviour
         if (isUpKeyPressed)
         {
             isUpKeyPressed = false;
-            var isAnimationInRestState = animator.GetBool("isResting");
+            var isAnimationInRestState = animator.GetBool(isRestingHash);
             if (isAnimationInRestState)
-                animator.SetBool("isResting", false);
+                animator.SetBool(isRestingHash, false);
         }
 
         if (isDownKeyPressed)
         {
             isDownKeyPressed = false;
-            var isAnimationInRestState = animator.GetBool("isResting");
+            var isAnimationInRestState = animator.GetBool(isRestingHash);
             if (!isAnimationInRestState)
-                animator.SetBool("isResting", true);
+                animator.SetBool(isRestingHash, true);
         }
     }
 }
