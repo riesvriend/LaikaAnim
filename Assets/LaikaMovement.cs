@@ -7,20 +7,12 @@ using UnityEngine.InputSystem;
 
 public class LaikaMovement : MonoBehaviour
 {
-    public class AccelerationSample
-    {
-        public float acceleration;
-        public DateTime dateTimeUtc;
-    }
-
     Animator animator;
     PlayerInput input;
+    VerticalAccelerationSensor verticalAccelerationSensor;
     int isRestingHash;
     bool isUpKeyPressed;
     bool isDownKeyPressed;
-
-    List<AccelerationSample> accelerationSamples = new List<AccelerationSample>();
-
 
     private void Awake()
     {
@@ -30,6 +22,8 @@ public class LaikaMovement : MonoBehaviour
         // LinearAccelaration Sensor does not exist on iPad, so we use AcceleroMeter
         input.DogControls.VerticalAcceleleration.performed += VerticalAcceleleration_performed;
         input.DogControls.Acceleration.performed += Acceleration_performed;
+
+        verticalAccelerationSensor = new VerticalAccelerationSensor();
     }
 
     private void OnDestroy()
@@ -42,20 +36,22 @@ public class LaikaMovement : MonoBehaviour
             input.DogControls.Acceleration.performed -= Acceleration_performed;
             input = null;
         }
+
+        verticalAccelerationSensor?.OnDestroy();
+        verticalAccelerationSensor = null;
     }
 
     private void OnEnable()
     {
         input?.DogControls.Enable();
-        if (HasAccelerometer())
-            InputSystem.EnableDevice(Accelerometer.current);
+
+        verticalAccelerationSensor?.OnEnable();
     }
 
     private void OnDisable()
     {
         input?.DogControls.Disable();
-        if (HasAccelerometer())
-            InputSystem.DisableDevice(Accelerometer.current);
+        verticalAccelerationSensor?.OnDisable();
     }
 
     // Start is called before the first frame update
@@ -77,7 +73,7 @@ public class LaikaMovement : MonoBehaviour
     private void Acceleration_performed(InputAction.CallbackContext ctx)
     {
         var acceleration = ctx.ReadValue<float>();
-        $"Accelleration: {acceleration}. duration: {ctx.duration}".Log();
+        //$"Accelleration: {acceleration}. duration: {ctx.duration}".Log();
 
         // Calculate increase in acceleration over the last second. If > 2/ms2 then the user 
         // pushed the device up or down
@@ -91,12 +87,7 @@ public class LaikaMovement : MonoBehaviour
         isDownKeyPressed = acceleration < 2 && !isUpKeyPressed;
     }
 
-    private static bool HasAccelerometer()
-    {
-        var hasAccelerometer = UnityEngine.InputSystem.Accelerometer.current != null;
-        $"Accelerometer: {hasAccelerometer}".Log();
-        return hasAccelerometer;
-    }
+    
 
     private static bool HasLinearAccelerationSensor()
     {
@@ -114,6 +105,11 @@ public class LaikaMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        verticalAccelerationSensor.TakeSample();
+
+        isUpKeyPressed = verticalAccelerationSensor.IsPushedUp();
+        isDownKeyPressed = verticalAccelerationSensor.IsPushedDown();
+
         HandleMovement();
     }
 
