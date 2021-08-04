@@ -67,6 +67,8 @@ public class LaikaMovement : MonoBehaviour
 
     private static bool HasLinearAccelerationSensor()
     {
+        foreach (var d in InputSystem.devices)
+            $"Device: {d.GetType().FullName}".Log();
         return InputSystem.devices.Any(d => d.GetType().IsClassOrSubclass<LinearAccelerationSensor>());
     }
 
