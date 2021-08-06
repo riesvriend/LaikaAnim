@@ -16,14 +16,17 @@ public class LaikaMovement : MonoBehaviour
 
     private void Awake()
     {
-        input = new PlayerInput();
-        input.DogControls.Up.performed += Up_performed;
-        input.DogControls.Down.performed += Down_performed;
-        // LinearAccelaration Sensor does not exist on iPad, so we use AcceleroMeter
-        //input.DogControls.VerticalAcceleleration.performed += VerticalAcceleleration_performed;
-        //input.DogControls.Acceleration.performed += Acceleration_performed;
+        if (input == null)
+        {
+            input = new PlayerInput();
+            input.DogControls.Up.performed += Up_performed;
+            input.DogControls.Down.performed += Down_performed;
+            // LinearAccelaration Sensor does not exist on iPad, so we use AcceleroMeter
+            //input.DogControls.VerticalAcceleleration.performed += VerticalAcceleleration_performed;
+            //input.DogControls.Acceleration.performed += Acceleration_performed;
 
-        verticalAccelerationSensor = new VerticalAccelerationSensor();
+            verticalAccelerationSensor = new VerticalAccelerationSensor();
+        }
     }
 
     private void OnDestroy()
@@ -41,12 +44,29 @@ public class LaikaMovement : MonoBehaviour
         verticalAccelerationSensor = null;
     }
 
+    /// <summary>
+    /// When tablet is shut down or tabbed away to other app
+    /// https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationPause.html 
+    /// </summary>
+    /// <param name="pause"></param>
+    private void OnApplicationPause(bool pause)
+    {
+        if (!pause)
+        {
+            OnEnable();
+        }
+        else // pause
+        {
+            OnDisable();
+        }
+    }
+
     private void OnEnable()
     {
         input?.DogControls.Enable();
-
         verticalAccelerationSensor?.OnEnable();
     }
+
 
     private void OnDisable()
     {
