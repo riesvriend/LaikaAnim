@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Synchrony;
 
-public class StateMachine 
+public class FloorPlayStateMachine 
 {
     public IState currentState;
     public IState previousState;
-
-    public StateMachine()
-    {
-        "<<< StateMachine created".Log();
-    }
 
     public void ChangeState(IState state)
     {

@@ -10,7 +10,7 @@ public class FloorPlayGameManager : MonoBehaviour
     [SerializeField] private GameObject planeScanningCanvas;
     [SerializeField] private GameObject animalToPlacePrefab;
 
-    private StateMachine stateMachine;
+    private FloorPlayStateMachine stateMachine;
     private App app;
 
     private void Awake()
@@ -20,7 +20,7 @@ public class FloorPlayGameManager : MonoBehaviour
             // When playing a scene other than _preLoadScene in the editor
             UnityEngine.SceneManagement.SceneManager.LoadScene("_preloadScene");
 
-        stateMachine = new StateMachine();
+        stateMachine = new FloorPlayStateMachine();
 
     }
 

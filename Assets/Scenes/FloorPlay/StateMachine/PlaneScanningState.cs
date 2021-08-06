@@ -9,7 +9,7 @@ using UnityEngine.XR.ARSubsystems;
 // TODO: Make sure our animal does not collide with real objects on the floor
 public class PlaneScanningState : IState
 {
-    [SerializeField] float minimumGroundPlaneSizeInM2 = 2.0f;
+    const float minimumGroundPlaneSizeInM2 = 1.5f;
 
     private GameObject planeScanningCanvas;
     private GameObject animalToPlacePrefab;

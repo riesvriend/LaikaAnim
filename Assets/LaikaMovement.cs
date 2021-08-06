@@ -20,8 +20,8 @@ public class LaikaMovement : MonoBehaviour
         input.DogControls.Up.performed += Up_performed;
         input.DogControls.Down.performed += Down_performed;
         // LinearAccelaration Sensor does not exist on iPad, so we use AcceleroMeter
-        input.DogControls.VerticalAcceleleration.performed += VerticalAcceleleration_performed;
-        input.DogControls.Acceleration.performed += Acceleration_performed;
+        //input.DogControls.VerticalAcceleleration.performed += VerticalAcceleleration_performed;
+        //input.DogControls.Acceleration.performed += Acceleration_performed;
 
         verticalAccelerationSensor = new VerticalAccelerationSensor();
     }
@@ -32,8 +32,8 @@ public class LaikaMovement : MonoBehaviour
         {
             input.DogControls.Up.performed -= Up_performed;
             input.DogControls.Down.performed -= Down_performed;
-            input.DogControls.VerticalAcceleleration.performed -= VerticalAcceleleration_performed;
-            input.DogControls.Acceleration.performed -= Acceleration_performed;
+            //input.DogControls.VerticalAcceleleration.performed -= VerticalAcceleleration_performed;
+            //input.DogControls.Acceleration.performed -= Acceleration_performed;
             input = null;
         }
 
@@ -87,15 +87,13 @@ public class LaikaMovement : MonoBehaviour
         isDownKeyPressed = acceleration < 2 && !isUpKeyPressed;
     }
 
-    
-
     private static bool HasLinearAccelerationSensor()
     {
         var hasLinearSensor = UnityEngine.InputSystem.LinearAccelerationSensor.current != null;
-        $"HasLinearAccelerationSensor: {hasLinearSensor}".Log();
+        $"HasLinearAccelerationSensor: {hasLinearSensor}".Log(); // False on iPad
 
         var hasAccelerometer = UnityEngine.InputSystem.Accelerometer.current != null;
-        $"Accelerometer: {hasAccelerometer}".Log();
+        $"Has Accelerometer: {hasAccelerometer}".Log(); // True on iPad and Samsung Tab
 
         foreach (var d in InputSystem.devices)
             $"Device: {d.GetType().FullName}".Log();
