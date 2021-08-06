@@ -70,43 +70,16 @@ public class LaikaMovement : MonoBehaviour
         isUpKeyPressed = ctx.ReadValue<float>() == 1;
     }
 
-    private void Acceleration_performed(InputAction.CallbackContext ctx)
-    {
-        var acceleration = ctx.ReadValue<float>();
-        //$"Accelleration: {acceleration}. duration: {ctx.duration}".Log();
-
-        // Calculate increase in acceleration over the last second. If > 2/ms2 then the user 
-        // pushed the device up or down
-    }
-
-    private void VerticalAcceleleration_performed(InputAction.CallbackContext ctx)
-    {
-        var acceleration = ctx.ReadValue<float>();
-        $"Linear Accelleration: {acceleration}. duration: {ctx.duration}".Log();
-        isUpKeyPressed = acceleration > 2; // meter per second
-        isDownKeyPressed = acceleration < 2 && !isUpKeyPressed;
-    }
-
-    private static bool HasLinearAccelerationSensor()
-    {
-        var hasLinearSensor = UnityEngine.InputSystem.LinearAccelerationSensor.current != null;
-        $"HasLinearAccelerationSensor: {hasLinearSensor}".Log(); // False on iPad
-
-        var hasAccelerometer = UnityEngine.InputSystem.Accelerometer.current != null;
-        $"Has Accelerometer: {hasAccelerometer}".Log(); // True on iPad and Samsung Tab
-
-        foreach (var d in InputSystem.devices)
-            $"Device: {d.GetType().FullName}".Log();
-        return InputSystem.devices.Any(d => d.GetType().IsClassOrSubclass<LinearAccelerationSensor>());
-    }
 
     // Update is called once per frame
     void Update()
     {
         verticalAccelerationSensor.TakeSample();
 
-        isUpKeyPressed = verticalAccelerationSensor.IsPushedUp();
-        isDownKeyPressed = verticalAccelerationSensor.IsPushedDown();
+        if (!isUpKeyPressed)
+            isUpKeyPressed = verticalAccelerationSensor.IsPushedUp();
+        if (!isDownKeyPressed)
+            isDownKeyPressed = verticalAccelerationSensor.IsPushedDown();
 
         HandleMovement();
     }
@@ -129,5 +102,36 @@ public class LaikaMovement : MonoBehaviour
                 animator.SetBool(isRestingHash, true);
         }
     }
+
+    //private void Acceleration_performed(InputAction.CallbackContext ctx)
+    //{
+    //    var acceleration = ctx.ReadValue<float>();
+    //    //$"Accelleration: {acceleration}. duration: {ctx.duration}".Log();
+
+    //    // Calculate increase in acceleration over the last second. If > 2/ms2 then the user 
+    //    // pushed the device up or down
+    //}
+
+    //private void VerticalAcceleleration_performed(InputAction.CallbackContext ctx)
+    //{
+    //    var acceleration = ctx.ReadValue<float>();
+    //    $"Linear Accelleration: {acceleration}. duration: {ctx.duration}".Log();
+    //    isUpKeyPressed = acceleration > 2; // meter per second
+    //    isDownKeyPressed = acceleration < 2 && !isUpKeyPressed;
+    //}
+
+    //private static bool HasLinearAccelerationSensor()
+    //{
+    //    var hasLinearSensor = UnityEngine.InputSystem.LinearAccelerationSensor.current != null;
+    //    $"HasLinearAccelerationSensor: {hasLinearSensor}".Log(); // False on iPad
+
+    //    var hasAccelerometer = UnityEngine.InputSystem.Accelerometer.current != null;
+    //    $"Has Accelerometer: {hasAccelerometer}".Log(); // True on iPad and Samsung Tab
+
+    //    foreach (var d in InputSystem.devices)
+    //        $"Device: {d.GetType().FullName}".Log();
+    //    return InputSystem.devices.Any(d => d.GetType().IsClassOrSubclass<LinearAccelerationSensor>());
+    //}
+
 }
 
