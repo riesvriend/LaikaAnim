@@ -13,16 +13,19 @@ public class PlaneScanningState : IState
 
     private GameObject planeScanningCanvas;
     private GameObject animalToPlacePrefab;
+    private GameObject carpetToPlacePrefab;
     private GameObject placedAnimal;
+    private GameObject placedCarpet;
 
     private ARPlaneManager arPlaneManager;
     private List<ARPlane> planes;
     private ARPlane floorPlane;
 
-    public PlaneScanningState(GameObject planeScanningCanvas, GameObject animalToPlacePrefab)
+    public PlaneScanningState(GameObject planeScanningCanvas, GameObject animalToPlacePrefab, GameObject carpetToPlacePrefab)
     {
         this.planeScanningCanvas = planeScanningCanvas;
         this.animalToPlacePrefab = animalToPlacePrefab;
+        this.carpetToPlacePrefab = carpetToPlacePrefab;
     }
 
     public void EnterState()
@@ -66,8 +69,18 @@ public class PlaneScanningState : IState
 
             if (floorPlane != null && placedAnimal == null)
             {
+                /*
+                Floor plane position: (-0.4, -0.4, 2.3)
+                Floor plane extents: (0.8, 2.0)
+                Floor plane rotation: (0.0, -0.1, 0.0, 1.0)
+                Floor plane local scale: (1.0, 1.0, 1.0) 
+                */
+                $"Floor plane position: {floorPlane.transform.position}".Log();
+                $"Floor plane extents: {floorPlane.extents}".Log();
+                $"Floor plane rotation: {floorPlane.transform.rotation}".Log();
+                $"Floor plane local scale: {floorPlane.transform.localScale}".Log();
+
                 placedAnimal = GameObject.Instantiate(animalToPlacePrefab);
-                placedAnimal.transform.position = floorPlane.center;
 
                 // Rotate the animal to face the camera
                 // https://www.youtube.com/watch?v=kGykP7VZCvg&list=LL&index=3
@@ -76,6 +89,25 @@ public class PlaneScanningState : IState
                 var rotationToCamera = Quaternion.LookRotation(forward: -projectedCameraForward, upwards: Vector3.up);
                 placedAnimal.transform.rotation = Quaternion.RotateTowards(
                     from: placedAnimal.transform.rotation, to: rotationToCamera, maxDegreesDelta: 360);
+
+                placedCarpet = GameObject.Instantiate(carpetToPlacePrefab);
+
+                //var arOrigin = Object.FindObjectsOfType<ARSessionOrigin>().Single();
+                //arOrigin.MakeContentAppearAt(placedCarpet.transform, position: new Vector3(0, 0, 0));
+
+                // Fit the carpet on the plane
+                placedCarpet.transform.position = floorPlane.transform.position;
+                placedCarpet.transform.localScale = new Vector3(x: floorPlane.extents.x, y: placedCarpet.transform.localScale.y, z: floorPlane.extents.y);
+
+                // TODO: make carpet overlay the plane
+                //placedCarpet.transform.rotation = floorPlane.transform.rotation;
+
+                // Make carpet rotation face the camera
+                placedCarpet.transform.rotation = Quaternion.RotateTowards(
+                    from: placedAnimal.transform.rotation, to: rotationToCamera, maxDegreesDelta: 360);
+
+                placedAnimal.transform.position = floorPlane.center;
+
 
                 arPlaneManager.requestedDetectionMode = PlaneDetectionMode.None;
             }

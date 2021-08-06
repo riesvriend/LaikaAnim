@@ -9,6 +9,7 @@ public class FloorPlayGameManager : MonoBehaviour
 {
     [SerializeField] private GameObject planeScanningCanvas;
     [SerializeField] private GameObject animalToPlacePrefab;
+    [SerializeField] private GameObject carpetToPlacePrefab;
 
     private FloorPlayStateMachine stateMachine;
     private App app;
@@ -26,7 +27,7 @@ public class FloorPlayGameManager : MonoBehaviour
 
     private void Start()
     {
-        stateMachine.ChangeAndExecute(new PlaneScanningState(planeScanningCanvas, animalToPlacePrefab));
+        stateMachine.ChangeAndExecute(new PlaneScanningState(planeScanningCanvas, animalToPlacePrefab, carpetToPlacePrefab));
     }
 
     private void GoToHome()
