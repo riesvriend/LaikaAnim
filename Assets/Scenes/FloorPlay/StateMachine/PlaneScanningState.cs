@@ -32,6 +32,11 @@ public class PlaneScanningState : IState
     {
         "<<< PlaneScanningState EnterState".Log();
         planeScanningCanvas.SetActive(true);
+
+        // reset the environment scanner, which may still have planes from a previous
+        var session = Object.FindObjectsOfType<ARSession>().Single();
+        session.Reset();
+
         arPlaneManager = Object.FindObjectsOfType<ARPlaneManager>().Single();
         arPlaneManager.requestedDetectionMode = PlaneDetectionMode.Horizontal;
         arPlaneManager.planesChanged += ArPlaneManager_planesChanged;

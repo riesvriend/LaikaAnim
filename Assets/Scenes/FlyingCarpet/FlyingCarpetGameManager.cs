@@ -17,6 +17,13 @@ public class FlyingCarpetGameManager : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("_preloadScene");
     }
 
+    private void Start()
+    {
+        // reset the environment scanner, which may still have planes from a previous
+        var session = Object.FindObjectsOfType<ARSession>().Single();
+        session.Reset();
+    }
+
     private void GoToHome()
     {
         app.RequestScene(SceneEnum.MainMenuScene); 
