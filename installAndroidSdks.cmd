@@ -1,4 +1,4 @@
-set UNITY_VERSION=2020.3.15f2
+set UNITY_VERSION=2020.3.17f1
  
 c:
 set JAVA_HOME=c:\Unity\%UNITY_VERSION%\Editor\Data\PlaybackEngines\AndroidPlayer\OpenJDK\

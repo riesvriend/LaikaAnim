@@ -100,19 +100,17 @@ public class PlaneScanningState : IState
                 //var arOrigin = Object.FindObjectsOfType<ARSessionOrigin>().Single();
                 //arOrigin.MakeContentAppearAt(placedCarpet.transform, position: new Vector3(0, 0, 0));
 
-                // Fit the carpet on the plane
+                // Fit the carpet on the plane (ignoring the fact that we are rotating it to face the camera later on...)
                 placedCarpet.transform.position = floorPlane.transform.position;
                 placedCarpet.transform.localScale = new Vector3(x: floorPlane.extents.x, y: placedCarpet.transform.localScale.y, z: floorPlane.extents.y);
 
                 // TODO: make carpet overlay the plane
                 //placedCarpet.transform.rotation = floorPlane.transform.rotation;
-
                 // Make carpet rotation face the camera
                 placedCarpet.transform.rotation = Quaternion.RotateTowards(
                     from: placedAnimal.transform.rotation, to: rotationToCamera, maxDegreesDelta: 360);
 
-                placedAnimal.transform.position = floorPlane.center;
-
+                placedAnimal.transform.position = floorPlane.transform.position; // floorPlane.center;
 
                 arPlaneManager.requestedDetectionMode = PlaneDetectionMode.None;
             }
