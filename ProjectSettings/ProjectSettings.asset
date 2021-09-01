@@ -525,7 +525,9 @@ PlayerSettings:
   cameraUsageDescription: The camera is required. It is used to created a mixed-reality
     where you interact with virtual animals in your own real room.
   locationUsageDescription: 
-  microphoneUsageDescription: 
+  microphoneUsageDescription: The Microphone is required for giving voice commands
+    to the animal, such as Up and Down. Voice commands are designed to help learn
+    the user to speak.
   bluetoothUsageDescription: 
   switchNMETAOverride: 
   switchNetLibKey: 
