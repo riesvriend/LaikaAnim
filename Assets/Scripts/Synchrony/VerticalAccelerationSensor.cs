@@ -31,6 +31,8 @@ namespace Synchrony
                 InputSystem.EnableDevice(Accelerometer.current);
 
             accelerationSamples.Clear();
+
+            "VerticalAccelerationSensor enabled".Log();
         }
 
         public void OnDisable()
@@ -103,7 +105,7 @@ namespace Synchrony
         {
             var netAcceleration = CurrentNetAcceleration();
 
-            $"CurrentNetAcceleration: {netAcceleration}".Log();
+            //$"CurrentNetAcceleration: {netAcceleration}".Log();
 
             return netAcceleration > pushThresholdInMs2;
         }

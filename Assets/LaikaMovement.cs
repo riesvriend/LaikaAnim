@@ -5,11 +5,14 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Collider))] // For OnMouseDown
 public class LaikaMovement : MonoBehaviour
 {
     Animator animator;
     PlayerInput input;
     VerticalAccelerationSensor verticalAccelerationSensor;
+    VoiceController voiceController;
+     
     int isRestingHash;
     bool isUpKeyPressed;
     bool isDownKeyPressed;
@@ -26,6 +29,8 @@ public class LaikaMovement : MonoBehaviour
             //input.DogControls.Acceleration.performed += Acceleration_performed;
 
             verticalAccelerationSensor = new VerticalAccelerationSensor();
+
+            voiceController = FindObjectOfType<VoiceController>();
         }
     }
 
@@ -42,6 +47,8 @@ public class LaikaMovement : MonoBehaviour
 
         verticalAccelerationSensor?.OnDestroy();
         verticalAccelerationSensor = null;
+
+        voiceController = null;
     }
 
     /// <summary>
@@ -81,6 +88,14 @@ public class LaikaMovement : MonoBehaviour
         isRestingHash = Animator.StringToHash("isResting");
     }
 
+    private void OnMouseDown()
+    {
+        "OnMouseDown start speaking".Log();
+
+        voiceController.StartSpeaking("Hello there");
+    }
+
+
     private void Down_performed(InputAction.CallbackContext ctx)
     {
         isDownKeyPressed = ctx.ReadValue<float>() == 1; // 0 on key release, 1 on key press
@@ -111,7 +126,11 @@ public class LaikaMovement : MonoBehaviour
             isUpKeyPressed = false;
             var isAnimationInRestState = animator.GetBool(isRestingHash);
             if (isAnimationInRestState)
+            {
+                voiceController.StartSpeaking("Going up");
+
                 animator.SetBool(isRestingHash, false);
+            }
         }
 
         if (isDownKeyPressed)
