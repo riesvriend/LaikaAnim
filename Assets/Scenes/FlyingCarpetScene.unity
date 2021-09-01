@@ -1169,7 +1169,7 @@ GameObject:
   - component: {fileID: 1681539356}
   - component: {fileID: 1681539355}
   m_Layer: 0
-  m_Name: ZTextToSpeech
+  m_Name: SpeechToText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1184,11 +1184,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1681539354}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2336039d6191a00468c61364bca2f584, type: 3}
+  m_Script: {fileID: 11500000, guid: 98436c2ede2113c4ca89fedee9149640, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pitch: 1
-  rate: 1
+  isShowPopupAndroid: 1
 --- !u!4 &1681539356
 Transform:
   m_ObjectHideFlags: 0
@@ -1201,7 +1200,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1906139041 stripped
 Transform:
@@ -1250,7 +1249,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2047345992
 GameObject:
@@ -1294,7 +1293,7 @@ GameObject:
   - component: {fileID: 2139902640}
   - component: {fileID: 2139902639}
   m_Layer: 0
-  m_Name: ZSpeechToText
+  m_Name: TextToSpeech
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1309,10 +1308,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2139902638}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98436c2ede2113c4ca89fedee9149640, type: 3}
+  m_Script: {fileID: 11500000, guid: 2336039d6191a00468c61364bca2f584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isShowPopupAndroid: 1
+  pitch: 1
+  rate: 1
 --- !u!4 &2139902640
 Transform:
   m_ObjectHideFlags: 0
@@ -1325,7 +1325,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &212175866532230322
 Transform:
