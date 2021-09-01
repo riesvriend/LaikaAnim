@@ -90,11 +90,17 @@ public class LaikaMovement : MonoBehaviour
 
     private void OnMouseDown()
     {
-        "OnMouseDown start speaking".Log();
+        //"OnMouseDown start speaking".Log();
+        //voiceController.StartSpeaking("Hello there");
 
-        voiceController.StartSpeaking("Hello there");
+        "OnMouseDown start listening".Log();
+        voiceController.StartListening();
     }
 
+    private void OnMouseUp()
+    {
+        voiceController.StopListening();
+    }
 
     private void Down_performed(InputAction.CallbackContext ctx)
     {
