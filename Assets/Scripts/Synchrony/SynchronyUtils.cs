@@ -26,8 +26,16 @@ namespace Synchrony
             {
                 var tmProTextBox = textbox.GetComponent<TMPro.TextMeshProUGUI>();
                 if (tmProTextBox != null)
-                    tmProTextBox.text += text + Environment.NewLine;
+                {
+                    var newText = (text + Environment.NewLine + tmProTextBox.text);
+                    if (newText.Length > 2000)
+                        newText = newText.Substring(startIndex: 0, length: 2000);
 
+                    tmProTextBox.text = newText;
+                }
+
+                // Input field text area will scroll the text but has side issues such as showing the popup 
+                // keyboard and claiming focus
                 var tmProTextInput = textbox.GetComponent<TMPro.TMP_InputField>();
                 if (tmProTextInput != null)
                 {
@@ -39,6 +47,7 @@ namespace Synchrony
                     tmProTextInput.selectionAnchorPosition = pos;
                     tmProTextInput.selectionFocusPosition = pos;
                     tmProTextInput.Select();
+                    tmProTextInput.ForceLabelUpdate();
                 }
             }
         }

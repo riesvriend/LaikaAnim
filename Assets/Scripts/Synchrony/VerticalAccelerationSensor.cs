@@ -105,7 +105,8 @@ namespace Synchrony
         {
             var netAcceleration = CurrentNetAcceleration();
 
-            //$"CurrentNetAcceleration: {netAcceleration}".Log();
+            //if (netAcceleration != 0)
+            //    $"IsPushedUp Acceleration: {netAcceleration}".Log();
 
             return netAcceleration > pushThresholdInMs2;
         }

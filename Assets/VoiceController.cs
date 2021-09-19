@@ -48,12 +48,16 @@ public class VoiceController : MonoBehaviour
     public void StartSpeaking(string message)
     {
         $"StartSpeaking '{message}'".Log();
+#if UNITY_IPHONE
         TextToSpeech.instance.StartSpeak(message);
+#endif
     }
 
     public void StopSpeaking()
     {
-        TextToSpeech.instance.StopSpeak();
+#if UNITY_IPHONE
+    TextToSpeech.instance.StopSpeak();
+#endif
     }
 
     void OnSpeakStart()
@@ -69,19 +73,22 @@ public class VoiceController : MonoBehaviour
     #region SpeechToText
     public void StartListening()
     {
+#if UNITY_IPHONE
         SpeechToText.instance.StartRecording();
+#endif
     }
 
     public void StopListening()
     {
+#if UNITY_IPHONE
         SpeechToText.instance?.StopRecording();
+#endif
     }
-
 
     void OnFinalSpeechResult(string result)
     {
         $"OnFinalSpeechResult: ${result}".Log();
-        
+
         PartialSpeechResultEvent?.Invoke(result);
     }
 
@@ -96,7 +103,9 @@ public class VoiceController : MonoBehaviour
 
     void Setup(string language)
     {
+#if UNITY_IPHONE
         TextToSpeech.instance.Setting(language, _pitch: 1, _rate: 1);
         SpeechToText.instance.Setting(language);
+#endif
     }
 }
