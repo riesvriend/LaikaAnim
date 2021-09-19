@@ -11,10 +11,11 @@ public class MainMenuGameManager : MonoBehaviour
 
     private void Awake()
     {
-        app = FindObjectOfType<App>(); // Lives in the _preloadScene with don't destroy on load
-        if (app == null)
-            // When playing a scene other than _preLoadScene in the editor
-            UnityEngine.SceneManagement.SceneManager.LoadScene("_preloadScene");
+        app = App.GetApp(); 
+        // FindObjectOfType<App>(); // Lives in the _preloadScene with don't destroy on load
+        //if (app == null)
+        //    // When playing a scene other than _preLoadScene in the editor
+        //    UnityEngine.SceneManagement.SceneManager.LoadScene("_preloadScene");
     }
 
     public void OnFloorPlayClick()

@@ -12,15 +12,32 @@ public class LaikaMovement : MonoBehaviour
     PlayerInput input;
     VerticalAccelerationSensor verticalAccelerationSensor;
     VoiceController voiceController;
-     
+    App app;
+
+    bool isConstructed = false;
     int isRestingHash;
     bool isUpKeyPressed;
     bool isDownKeyPressed;
 
-    private void Awake()
+    // Event order https://docs.unity3d.com/Manual/ExecutionOrder.html
+    //
+    // OnEnable
+    // OnStart
+    // OnApplicationPause -> OnDisable (called when lost focus)
+    // OnEnable 
+    // OnDisable
+    // OnDestroy
+
+    // Called on first Enable, this makes sure we can find references to global game objects in the DontDestroyOnLoad hidden scene
+    // which may be still pending if we would use Unity's Awake message instead
+    private void Constructor()
     {
-        if (input == null)
+        if (!isConstructed)
         {
+            isConstructed = true;
+
+            $"LaikaMovement Constructor".Log();
+
             input = new PlayerInput();
             input.DogControls.Up.performed += Up_performed;
             input.DogControls.Down.performed += Down_performed;
@@ -30,24 +47,50 @@ public class LaikaMovement : MonoBehaviour
 
             verticalAccelerationSensor = new VerticalAccelerationSensor();
 
-            voiceController = FindObjectOfType<VoiceController>();
+            var app = App.GetApp();
+            voiceController = app.ChildComponent<VoiceController>();
+            voiceController.PartialSpeechResultEvent.AddListener(OnPartialSpeechResult);
+
+            animator = GetComponent<Animator>();
+            isRestingHash = Animator.StringToHash("isResting");
         }
     }
 
+    private void OnEnable()
+    {
+        $"LaikaMovement OnEnable".Log();
+        Constructor();
+
+        voiceController.StartListening();
+        input.DogControls.Enable();
+        verticalAccelerationSensor.OnEnable();
+    }
+
+
+    private void OnDisable()
+    {
+        $"LaikaMovement OnDisable".Log();
+        input.DogControls.Disable();
+        verticalAccelerationSensor.OnDisable();
+        voiceController.StopListening();
+    }
+
+
     private void OnDestroy()
     {
-        if (input != null)
-        {
-            input.DogControls.Up.performed -= Up_performed;
-            input.DogControls.Down.performed -= Down_performed;
-            //input.DogControls.VerticalAcceleleration.performed -= VerticalAcceleleration_performed;
-            //input.DogControls.Acceleration.performed -= Acceleration_performed;
-            input = null;
-        }
+        $"LaikaMovement OnDestroy".Log();
 
-        verticalAccelerationSensor?.OnDestroy();
+        input.DogControls.Up.performed -= Up_performed;
+        input.DogControls.Down.performed -= Down_performed;
+        //input.DogControls.VerticalAcceleleration.performed -= VerticalAcceleleration_performed;
+        //input.DogControls.Acceleration.performed -= Acceleration_performed;
+        input = null;
+
+        verticalAccelerationSensor.OnDestroy();
         verticalAccelerationSensor = null;
 
+        voiceController.StopListening();
+        voiceController.PartialSpeechResultEvent.RemoveAllListeners();
         voiceController = null;
     }
 
@@ -58,6 +101,8 @@ public class LaikaMovement : MonoBehaviour
     /// <param name="pause"></param>
     private void OnApplicationPause(bool pause)
     {
+        $"LaikaMovement OnApplicationPause pause: {pause}".Log();
+
         if (!pause)
         {
             OnEnable();
@@ -68,39 +113,6 @@ public class LaikaMovement : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        input?.DogControls.Enable();
-        verticalAccelerationSensor?.OnEnable();
-    }
-
-
-    private void OnDisable()
-    {
-        input?.DogControls.Disable();
-        verticalAccelerationSensor?.OnDisable();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-        isRestingHash = Animator.StringToHash("isResting");
-    }
-
-    private void OnMouseDown()
-    {
-        //"OnMouseDown start speaking".Log();
-        //voiceController.StartSpeaking("Hello there");
-
-        "OnMouseDown start listening".Log();
-        voiceController.StartListening();
-    }
-
-    private void OnMouseUp()
-    {
-        voiceController.StopListening();
-    }
 
     private void Down_performed(InputAction.CallbackContext ctx)
     {
@@ -115,6 +127,12 @@ public class LaikaMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (verticalAccelerationSensor == null)
+        {
+            "LaikaMovement verticalAccelerationSensor is null after leaving Play Mode".Log();
+            return;
+        }
+
         verticalAccelerationSensor.TakeSample();
 
         if (!isUpKeyPressed)
@@ -147,6 +165,18 @@ public class LaikaMovement : MonoBehaviour
                 animator.SetBool(isRestingHash, true);
         }
     }
+
+    private List<string> upCommands = new List<string> { "laika", "sta", "kom", "hier", "stand", "up", "come", "here" };
+    private List<string> downCommands = new List<string> { "af", "lig", "zit", "down", "sit", "lie" };
+    private void OnPartialSpeechResult(string result)
+    {
+        var wordsSpoken = result.ToLowerInvariant().Split(' ').ToList();
+        if (upCommands.Any(c => wordsSpoken.Contains(c)))
+            this.isUpKeyPressed = true;
+        else if (downCommands.Any(c => wordsSpoken.Contains(c)))
+            this.isDownKeyPressed = true;
+    }
+
 
     //private void Acceleration_performed(InputAction.CallbackContext ctx)
     //{

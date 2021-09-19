@@ -11,10 +11,11 @@ public class FlyingCarpetGameManager : MonoBehaviour
 
     private void Awake()
     {
-        app = FindObjectOfType<App>(); // Lives in the _preloadScene with don't destroy on load
-        if (app == null)
-            // When playing a scene other than _preLoadScene in the editor
-            UnityEngine.SceneManagement.SceneManager.LoadScene("_preloadScene");
+        app = App.GetApp();
+
+        //app = Synchrony.SynchronyUtils.PreLoadAppScene();
+        //if (app == null)
+        //    return;
     }
 
     private void Start()
@@ -24,16 +25,11 @@ public class FlyingCarpetGameManager : MonoBehaviour
         session.Reset();
     }
 
-    private void GoToHome()
-    {
-        app.RequestScene(SceneEnum.MainMenuScene); 
-    }
-
     /// <summary>
     /// Referenced from FlyingCarpetScene/UI/CarpetUI/Back
     /// </summary>
     public void OnBackHomeClick()
     {
-        GoToHome();
+        app.RequestScene(SceneEnum.MainMenuScene);
     }
 }

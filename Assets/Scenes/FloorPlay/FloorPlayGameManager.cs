@@ -16,13 +16,9 @@ public class FloorPlayGameManager : MonoBehaviour
 
     private void Awake()
     {
-        app = FindObjectOfType<App>(); // Lives in the _preloadScene with don't destroy on load
-        if (app == null)
-            // When playing a scene other than _preLoadScene in the editor
-            UnityEngine.SceneManagement.SceneManager.LoadScene("_preloadScene");
+        app = App.GetApp(); 
 
         stateMachine = new FloorPlayStateMachine();
-
     }
 
     private void Start()

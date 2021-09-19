@@ -2,7 +2,6 @@
 using System.IO;
 using UnityEditor;
 using UnityEditor.Callbacks;
-//#if UNITY_IOS
 using UnityEditor.iOS.Xcode;
 
 public class BuildPostProcessor
@@ -40,4 +39,3 @@ public class BuildPostProcessor
     }
 }
 
-//#endif

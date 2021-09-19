@@ -51,8 +51,8 @@ namespace TextSpeech
 #elif UNITY_IPHONE
         _TAG_SettingSpeak(language, pitch, rate / 2);
 #elif UNITY_ANDROID
-        AndroidJavaClass javaUnityClass = new AndroidJavaClass("com.starseed.speechtotext.Bridge");
-        javaUnityClass.CallStatic("SettingTextToSpeed", language, pitch, rate);
+        //AndroidJavaClass javaUnityClass = new AndroidJavaClass("com.starseed.speechtotext.Bridge");
+        //javaUnityClass.CallStatic("SettingTextToSpeed", language, pitch, rate);
 #endif
         }
         public void StartSpeak(string _message)
@@ -61,8 +61,8 @@ namespace TextSpeech
 #elif UNITY_IPHONE
         _TAG_StartSpeak(_message);
 #elif UNITY_ANDROID
-        AndroidJavaClass javaUnityClass = new AndroidJavaClass("com.starseed.speechtotext.Bridge");
-        javaUnityClass.CallStatic("OpenTextToSpeed", _message);
+        //AndroidJavaClass javaUnityClass = new AndroidJavaClass("com.starseed.speechtotext.Bridge");
+        //javaUnityClass.CallStatic("OpenTextToSpeed", _message);
 #endif
         }
         public void StopSpeak()
@@ -71,8 +71,8 @@ namespace TextSpeech
 #elif UNITY_IPHONE
         _TAG_StopSpeak();
 #elif UNITY_ANDROID
-        AndroidJavaClass javaUnityClass = new AndroidJavaClass("com.starseed.speechtotext.Bridge");
-        javaUnityClass.CallStatic("StopTextToSpeed");
+        //AndroidJavaClass javaUnityClass = new AndroidJavaClass("com.starseed.speechtotext.Bridge");
+        //javaUnityClass.CallStatic("StopTextToSpeed");
 #endif
         }
 

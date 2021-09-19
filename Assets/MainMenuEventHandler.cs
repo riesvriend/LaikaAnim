@@ -8,7 +8,7 @@ public class MainMenuEventHandler : MonoBehaviour
 
     private void Awake()
     {
-        app = FindObjectOfType<App>();
+        app = App.GetApp();
     }
 
     public void OnFloorPlayClick()

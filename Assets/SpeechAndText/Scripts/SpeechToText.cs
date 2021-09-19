@@ -25,9 +25,15 @@ namespace TextSpeech
         public static void Init()
         {
             if (_instance != null) return;
-            GameObject obj = new GameObject();
-            obj.name = "SpeechToText";
-            _instance = obj.AddComponent<SpeechToText>();
+            _instance = FindObjectOfType<SpeechToText>();
+            
+            // Prevent exception on scene unload
+            //Some objects were not cleaned up when closing the scene. (Did you spawn new GameObjects from OnDestroy?)
+            //The following scene GameObjects were found: SpeechToText
+
+            //GameObject obj = new GameObject();
+            //obj.name = "SpeechToText";
+            //_instance = obj.AddComponent<SpeechToText>();
         }
         void Awake()
         {

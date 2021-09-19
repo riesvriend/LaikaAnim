@@ -12,9 +12,9 @@ using System;
 // https://www.youtube.com/watch?v=XRXbVtr1fog
 public class VoiceController : MonoBehaviour
 {
-    const string LANG_CODE = "en-US";
+    const string LANG_CODE = "nl-NL"; // TODO
 
-    UnityEvent translatedSpeech = new UnityEvent();
+    public UnityEvent<string> PartialSpeechResultEvent = new UnityEvent<string>();
 
     private void Start()
     {
@@ -47,6 +47,7 @@ public class VoiceController : MonoBehaviour
     #region TextToSpeech
     public void StartSpeaking(string message)
     {
+        $"StartSpeaking '{message}'".Log();
         TextToSpeech.instance.StartSpeak(message);
     }
 
@@ -57,11 +58,11 @@ public class VoiceController : MonoBehaviour
 
     void OnSpeakStart()
     {
-        Debug.Log("OnSpeakStart");
+        "OnSpeakStart".Log();
     }
     void OnSpeakStop()
     {
-        Debug.Log("OnSpeakStop");
+        "OnSpeakStop".Log();
     }
     #endregion
 
@@ -70,20 +71,25 @@ public class VoiceController : MonoBehaviour
     {
         SpeechToText.instance.StartRecording();
     }
+
     public void StopListening()
     {
-        SpeechToText.instance.StopRecording();
+        SpeechToText.instance?.StopRecording();
     }
 
 
     void OnFinalSpeechResult(string result)
     {
-        Debug.Log($"OnFinalSpeechResult: ${result}");
+        $"OnFinalSpeechResult: ${result}".Log();
+        
+        PartialSpeechResultEvent?.Invoke(result);
     }
 
     void OnPartialSpeechResult(string result)
     {
-        Debug.Log($"OnPartialSpeechResult: ${result}");
+        $"OnPartialSpeechResult: ${result}".Log();
+
+        PartialSpeechResultEvent?.Invoke(result);
     }
 
     #endregion
