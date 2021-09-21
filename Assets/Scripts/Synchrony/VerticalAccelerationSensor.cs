@@ -55,7 +55,7 @@ namespace Synchrony
             if (prevSample != null && prevSample.AgeInSeconds() < 1 / samplesPerSecond)
                 return;
 
-            RemoveOutdatedSamples();
+            RemoveOutdatedSample();
 
             var nextSample = new AccelerationSample
             {
@@ -66,7 +66,7 @@ namespace Synchrony
             accelerationSamples.Add(nextSample);
         }
 
-        private void RemoveOutdatedSamples()
+        private void RemoveOutdatedSample()
         {
             var oldestSample = OldestSample();
             if (oldestSample != null && oldestSample.AgeInSeconds() > 1)

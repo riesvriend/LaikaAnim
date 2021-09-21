@@ -12,31 +12,39 @@ using System;
 // https://www.youtube.com/watch?v=XRXbVtr1fog
 public class VoiceController : MonoBehaviour
 {
-    const string LANG_CODE = "nl-NL"; // TODO
+    const string DEFAULT_LANGUAGE_CODE = "nl-NL"; // TODO
 
     public UnityEvent<string> PartialSpeechResultEvent = new UnityEvent<string>();
 
-    private void Start()
-    {
-        StartTextSpeech();
-    }
+    private SpeechRecognizer androidSpeechRecognizer = null;
 
-    public void StartTextSpeech()
+
+    private void Start()
     {
         "StartTextSpeech".Log();
 
-        Setup(LANG_CODE);
+        // Create a Android SpeechRecognizer as a child of this VoiceController
+        var speechRecognizerGameObject = new GameObject("SpeechRecognizer", components: new System.Type[] { typeof(SpeechRecognizer) });
+        speechRecognizerGameObject.transform.parent = gameObject.transform;
+        androidSpeechRecognizer = speechRecognizerGameObject.GetComponent<SpeechRecognizer>();
+
+#if UNITY_IPHONE
+        TextToSpeech.instance.Setting(DEFAULT_LANGUAGE_CODE, _pitch: 1, _rate: 1);
+        SpeechToText.instance.Setting(DEFAULT_LANGUAGE_CODE);
+#elif UNITY_ANDROID
+        androidSpeechRecognizer.language = DEFAULT_LANGUAGE_CODE;
+#endif
 
 #if UNITY_ANDROID
-        SpeechToText.instance.onPartialResultsCallback = OnPartialSpeechResult;
+        //SpeechToText.instance.onPartialResultsCallback = OnPartialSpeechResult;
 #endif
         SpeechToText.instance.onResultCallback = OnFinalSpeechResult;
         TextToSpeech.instance.onStartCallBack = OnSpeakStart;
         TextToSpeech.instance.onDoneCallback = OnSpeakStop;
-        CheckPermission();
+        CheckListeningPermission();
     }
 
-    void CheckPermission()
+    void CheckListeningPermission()
     {
 #if UNITY_ANDROID
         if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
@@ -75,6 +83,8 @@ public class VoiceController : MonoBehaviour
     {
 #if UNITY_IPHONE
         SpeechToText.instance.StartRecording();
+#elif UNITY_ANDROID
+        androidSpeechRecognizer.StartListening();
 #endif
     }
 
@@ -82,6 +92,8 @@ public class VoiceController : MonoBehaviour
     {
 #if UNITY_IPHONE
         SpeechToText.instance?.StopRecording();
+#elif UNITY_ANDROID
+        androidSpeechRecognizer.StopListening();
 #endif
     }
 
@@ -101,11 +113,4 @@ public class VoiceController : MonoBehaviour
 
     #endregion
 
-    void Setup(string language)
-    {
-#if UNITY_IPHONE
-        TextToSpeech.instance.Setting(language, _pitch: 1, _rate: 1);
-        SpeechToText.instance.Setting(language);
-#endif
-    }
 }

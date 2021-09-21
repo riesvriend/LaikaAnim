@@ -61,7 +61,6 @@ public class LaikaMovement : MonoBehaviour
         $"LaikaMovement OnEnable".Log();
         Constructor();
 
-        voiceController.StartListening();
         input.DogControls.Enable();
         verticalAccelerationSensor.OnEnable();
     }
@@ -152,6 +151,7 @@ public class LaikaMovement : MonoBehaviour
             if (isAnimationInRestState)
             {
                 voiceController.StartSpeaking("Going up");
+                voiceController.StartListening();
 
                 animator.SetBool(isRestingHash, false);
             }
@@ -160,6 +160,8 @@ public class LaikaMovement : MonoBehaviour
         if (isDownKeyPressed)
         {
             isDownKeyPressed = false;
+            //voiceController.StopListening();
+
             var isAnimationInRestState = animator.GetBool(isRestingHash);
             if (!isAnimationInRestState)
                 animator.SetBool(isRestingHash, true);
