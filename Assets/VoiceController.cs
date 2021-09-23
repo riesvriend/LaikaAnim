@@ -16,17 +16,20 @@ public class VoiceController : MonoBehaviour
 
     public UnityEvent<string> PartialSpeechResultEvent = new UnityEvent<string>();
 
+    #if UNITY_ANDROID
     private SpeechRecognizer androidSpeechRecognizer = null;
-
+    #endif
 
     private void Start()
     {
         "StartTextSpeech".Log();
 
+        #if UNITY_ANDROID
         // Create a Android SpeechRecognizer as a child of this VoiceController
         var speechRecognizerGameObject = new GameObject("SpeechRecognizer", components: new System.Type[] { typeof(SpeechRecognizer) });
         speechRecognizerGameObject.transform.parent = gameObject.transform;
         androidSpeechRecognizer = speechRecognizerGameObject.GetComponent<SpeechRecognizer>();
+        #endif
 
 #if UNITY_IPHONE
         TextToSpeech.instance.Setting(DEFAULT_LANGUAGE_CODE, _pitch: 1, _rate: 1);
@@ -52,7 +55,7 @@ public class VoiceController : MonoBehaviour
 #endif
     }
 
-    #region TextToSpeech
+#region TextToSpeech
     public void StartSpeaking(string message)
     {
         $"StartSpeaking '{message}'".Log();
@@ -76,9 +79,9 @@ public class VoiceController : MonoBehaviour
     {
         "OnSpeakStop".Log();
     }
-    #endregion
+#endregion
 
-    #region SpeechToText
+#region SpeechToText
     public void StartListening()
     {
 #if UNITY_IPHONE
@@ -111,6 +114,6 @@ public class VoiceController : MonoBehaviour
         PartialSpeechResultEvent?.Invoke(result);
     }
 
-    #endregion
+#endregion
 
 }

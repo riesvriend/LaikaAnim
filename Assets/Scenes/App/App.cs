@@ -43,8 +43,8 @@ public class App : MonoBehaviour
 
         var speechToText = new GameObject("SpeechToText", components: new System.Type[] { typeof(TextSpeech.SpeechToText) });
         speechToText.transform.parent = app.transform;
-        var speechToTextScript = speechToText.GetComponent<TextSpeech.SpeechToText>();
-        speechToTextScript.isShowPopupAndroid = false;
+        //var speechToTextScript = speechToText.GetComponent<TextSpeech.SpeechToText>();
+        //speechToTextScript.isShowPopupAndroid = false;
 
         var textToSpeech = new GameObject("TextToSpeech", components: new System.Type[] { typeof(TextSpeech.TextToSpeech) });
         textToSpeech.transform.parent = app.transform;
