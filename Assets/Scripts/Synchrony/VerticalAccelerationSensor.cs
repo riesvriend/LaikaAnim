@@ -56,6 +56,7 @@ namespace Synchrony
                 return;
 
             RemoveOutdatedSample();
+            ResetAccelerometer();
 
             var nextSample = new AccelerationSample
             {
@@ -64,6 +65,19 @@ namespace Synchrony
             };
 
             accelerationSamples.Add(nextSample);
+        }
+
+        /// <summary>
+        /// WORKAROUND: on android, the accellerometer returns a constant value after the keyboard has popped
+        /// up and popped down. So we reset the meter every now and then to get it going again
+        /// </summary>
+        private void ResetAccelerometer()
+        {
+            if (accelerationSamples.Count % 10 == 0)
+            {
+                InputSystem.DisableDevice(Accelerometer.current);
+                InputSystem.EnableDevice(Accelerometer.current);
+            }
         }
 
         private void RemoveOutdatedSample()
@@ -93,13 +107,23 @@ namespace Synchrony
         {
             if (!accelerationSamples.Any())
                 return 0f;
-            if (accelerationSamples.First().AgeInSeconds() < 1.0)
-                return 0f;
+            //if (accelerationSamples.First().AgeInSeconds() < 1.0)
+            //    return 0f;
 
             var avgAcceleration = accelerationSamples.Average(s => s.accelerationY);
             // Subtract the average which is typically -0.8 (idle Gravity)
             return accelerationSamples.Last().accelerationY - avgAcceleration;
         }
+
+        internal bool IsIdle()
+        {
+            var netAcceleration = CurrentNetAcceleration();
+            if (netAcceleration == 0f)
+                return true;
+
+            return Math.Abs(netAcceleration) < pushThresholdInMs2 / 2;
+        }
+
 
         internal bool IsPushedUp()
         {

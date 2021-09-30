@@ -134,10 +134,36 @@ public class LaikaMovement : MonoBehaviour
 
         verticalAccelerationSensor.TakeSample();
 
-        if (!isUpKeyPressed)
-            isUpKeyPressed = verticalAccelerationSensor.IsPushedUp();
-        if (!isDownKeyPressed)
-            isDownKeyPressed = verticalAccelerationSensor.IsPushedDown();
+        var isIdle = verticalAccelerationSensor.IsIdle();
+        if (isIdle)
+        {
+            if (idlingStartedUtc == null)
+            {
+                idlingStartedUtc = DateTime.UtcNow;
+                idlingDuration = null;
+            }
+            else
+            {
+                idlingDuration = DateTime.UtcNow.Subtract(idlingStartedUtc.Value);
+            }
+        }
+
+        // Move up or down once per X seconds max to prevent reading the decrease in acceleration after a push
+        // it also helps the up/down animation to finish before doing the next
+        if (idlingDuration?.TotalSeconds > 1)
+        {
+            if (!isUpKeyPressed && IsAnimationInRestState())
+                isUpKeyPressed = verticalAccelerationSensor.IsPushedUp();
+
+            if (!isDownKeyPressed && !IsAnimationInRestState())
+                isDownKeyPressed = verticalAccelerationSensor.IsPushedDown();
+
+            if (isUpKeyPressed || isDownKeyPressed)
+            {
+                idlingStartedUtc = null;
+                idlingDuration = null;
+            }
+        }
 
         HandleMovement();
     }
@@ -147,7 +173,7 @@ public class LaikaMovement : MonoBehaviour
         if (isUpKeyPressed)
         {
             isUpKeyPressed = false;
-            var isAnimationInRestState = animator.GetBool(isRestingHash);
+            bool isAnimationInRestState = IsAnimationInRestState();
             if (isAnimationInRestState)
             {
                 voiceController.StartSpeaking("Going up");
@@ -168,8 +194,16 @@ public class LaikaMovement : MonoBehaviour
         }
     }
 
+    private bool IsAnimationInRestState()
+    {
+        return animator.GetBool(isRestingHash);
+    }
+
     private List<string> upCommands = new List<string> { "laika", "sta", "kom", "hier", "stand", "up", "come", "here" };
     private List<string> downCommands = new List<string> { "af", "lig", "zit", "down", "sit", "lie" };
+    private DateTime? idlingStartedUtc;
+    private TimeSpan? idlingDuration;
+
     private void OnPartialSpeechResult(string result)
     {
         var wordsSpoken = result.ToLowerInvariant().Split(' ').ToList();

@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.Android;
 using Synchrony;
 using System;
+using TMPro;
 
 
 // https://www.youtube.com/watch?v=XRXbVtr1fog
@@ -29,6 +30,7 @@ public class VoiceController : MonoBehaviour
         var speechRecognizerGameObject = new GameObject("SpeechRecognizer", components: new System.Type[] { typeof(SpeechRecognizer) });
         speechRecognizerGameObject.transform.parent = gameObject.transform;
         androidSpeechRecognizer = speechRecognizerGameObject.GetComponent<SpeechRecognizer>();
+        
         #endif
 
 #if UNITY_IPHONE

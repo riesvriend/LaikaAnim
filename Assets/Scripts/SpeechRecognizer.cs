@@ -24,8 +24,8 @@ public class SpeechRecognizer : MonoBehaviour, ISpeechRecognizerPlugin
     {
         plugin = SpeechRecognizerPlugin.GetPlatformPluginVersion(this.gameObject.name);
         plugin.SetLanguageForNextRecognition(language);
-        plugin.SetContinuousListening(isContinuousListening: false);
-        plugin.SetMaxResultsForNextRecognition(10);
+        plugin.SetContinuousListening(isContinuousListening: true);
+        plugin.SetMaxResultsForNextRecognition(3);
         
         //startListeningBtn.onClick.AddListener(StartListening);
         //stopListeningBtn.onClick.AddListener(StopListening);
@@ -50,14 +50,14 @@ public class SpeechRecognizer : MonoBehaviour, ISpeechRecognizerPlugin
     //    plugin.SetLanguageForNextRecognition(newLanguage);
     //}
 
-    private void SetMaxResults(string inputValue)
-    {
-        if (string.IsNullOrEmpty(inputValue))
-            return;
+    //private void SetMaxResults(string inputValue)
+    //{
+    //    if (string.IsNullOrEmpty(inputValue))
+    //        return;
 
-        int maxResults = int.Parse(inputValue);
-        plugin.SetMaxResultsForNextRecognition(maxResults);
-    }
+    //    int maxResults = int.Parse(inputValue);
+    //    plugin.SetMaxResultsForNextRecognition(maxResults);
+    //}
 
     public void OnResult(string recognizedResult)
     {

@@ -30,7 +30,6 @@ public class SpeechRecognizerPlugin_Editor : SpeechRecognizerPlugin
     
     public override void StopListening()
     {
-        throw new System.NotImplementedException();
     }
 
     public override void SetContinuousListening(bool isContinuous)
