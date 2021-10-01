@@ -14,7 +14,7 @@ namespace TextSpeech
         {
             get
             {
-                if (_instance == null)
+                if ((object)_instance == null)
                 {
                     Init();
                 }
@@ -23,10 +23,15 @@ namespace TextSpeech
         }
         public static void Init()
         {
-            if (instance != null) return;
-            GameObject obj = new GameObject();
-            obj.name = "TextToSpeech";
-            _instance = obj.AddComponent<TextToSpeech>();
+            if (_instance != null) return;
+            _instance = FindObjectOfType<TextToSpeech>();
+            if (_instance == null)
+                throw new ApplicationException("TextToSpeech Init failed: Cannot FindObjectOfType<TextToSpeech>");
+
+            //if (instance != null) return;
+            //GameObject obj = new GameObject();
+            //obj.name = "TextToSpeech";
+            //_instance = obj.AddComponent<TextToSpeech>();
         }
         void Awake()
         {

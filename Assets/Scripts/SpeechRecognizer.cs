@@ -23,7 +23,7 @@ public class SpeechRecognizer : MonoBehaviour, ISpeechRecognizerPlugin
 
     public UnityEvent<string> TextSpoken = new UnityEvent<string>();
 
-    private void Start()
+    private void Awake()
     {
         plugin = SpeechRecognizerPlugin.GetPlatformPluginVersion(this.gameObject.name);
         plugin.SetLanguageForNextRecognition(language);
