@@ -131,14 +131,14 @@ public class VoiceController : MonoBehaviour
 
     void OnFinalSpeechResult(string result)
     {
-        $"OnFinalSpeechResult: ${result}".Log();
+        $"OnFinalSpeechResult: {result}".Log();
 
         SpeechResultEvent.Invoke(result);
     }
 
     void OnPartialSpeechResult(string result)
     {
-        $"OnPartialSpeechResult: ${result}".Log();
+        $"OnPartialSpeechResult: {result}".Log();
 
         SpeechResultEvent.Invoke(result);
     }

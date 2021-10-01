@@ -37,6 +37,12 @@ public class SpeechRecognizer : MonoBehaviour, ISpeechRecognizerPlugin
         //maxResultsInputField.onEndEdit.AddListener(SetMaxResults);
     }
 
+    private void OnDestroy()
+    {
+        TextSpoken.RemoveAllListeners();
+        StopListening();
+    }
+
     public void StartListening()
     {
         plugin.StartListening();

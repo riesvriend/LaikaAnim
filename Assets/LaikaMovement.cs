@@ -8,8 +8,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Collider))] // For OnMouseDown
 public class LaikaMovement : MonoBehaviour
 {
-    private readonly List<string> downCommands = new List<string>() { "omlaag", "laag", "af", "zit", "down", "lie", "sit" };
-    private readonly List<string> upCommands = new List<string>() { "omhoog", "sta", "staan", "kom", "op", "klaar", "up", "stand", "come", "here" };
+    private readonly List<string> downWords = new List<string>() { "omlaag", "laag", "af", "zit", "down", "lie", "sit" };
+    private readonly List<string> upWords = new List<string>() { "omhoog", "sta", "staan", "kom", "op", "klaar", "up", "stand", "come", "here" };
 
     Animator animator;
     PlayerInput input;
@@ -207,15 +207,40 @@ public class LaikaMovement : MonoBehaviour
         return animator.GetBool(isRestingHash);
     }
 
-    public void HandleVoiceCommand(string result)
+    private string previousVoiceCommand = "";
+
+    public void HandleVoiceCommand(string command)
     {
-        result = result.Replace('\n', ' ');
-        result = result.Replace('\r', ' ');
-        var wordsSpoken = result.ToLowerInvariant().Split(' ').ToList();
-        if (upCommands.Any(c => wordsSpoken.Contains(c)))
-            this.isUpKeyPressed = true;
-        else if (downCommands.Any(c => wordsSpoken.Contains(c)))
-            this.isDownKeyPressed = true;
+        if (string.IsNullOrWhiteSpace(command))
+            return;
+
+        // iOS generates one ever growing string with all new words appended to the end
+        // so we want to check for the newest words first (reverse order)
+        if (previousVoiceCommand.StartsWith(command) && previousVoiceCommand.Length < command.Length)
+            command = command.Substring(startIndex: previousVoiceCommand.Length);
+
+        previousVoiceCommand = command;
+
+        // Android gives the best matches seperated by newlines
+        // TODO: consider them as full words, not breaking up multi word commands
+        command = command.Replace('\n', ' ');
+        command = command.Replace('\r', ' ');
+
+        var wordsSpoken = command.ToLowerInvariant().Split(' ').Reverse().ToList();
+
+        foreach (var wordSpoken in wordsSpoken)
+        {
+            if (upWords.Any(c => c == wordSpoken))
+            {
+                this.isUpKeyPressed = true;
+                break;
+            }
+            else if (downWords.Any(c => c == wordSpoken))
+            {
+                this.isDownKeyPressed = true;
+                break;
+            }
+        }
     }
 
 
