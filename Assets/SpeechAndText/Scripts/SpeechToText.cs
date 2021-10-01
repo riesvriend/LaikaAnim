@@ -3,11 +3,41 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using UnityEngine.UI;
 using System;
+using Synchrony;
 
 namespace TextSpeech
 {
     public class SpeechToText : MonoBehaviour
     {
+        private enum RecordStopStartState { Recording, RequestStop, RequestStart };
+        public Action<string> onResultCallback;
+
+        private RecordStopStartState recordingStopStartState = RecordStopStartState.Recording;
+        DateTime stoppedUtc;
+
+        private void Update()
+        {
+            // Reset the recorder on request (iOS)
+            switch(recordingStopStartState)
+            {
+                case RecordStopStartState.RequestStop:
+                    StopRecording();
+                    recordingStopStartState = RecordStopStartState.RequestStart;
+                    break;
+
+                case RecordStopStartState.RequestStart:
+                    // Give iOS a moment to shutdown recording before restarting
+                    if (DateTime.UtcNow.Subtract(stoppedUtc).TotalMilliseconds > 500)
+                    {
+                        StartRecording();
+                        recordingStopStartState = RecordStopStartState.Recording;
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
 
         #region Init
         static SpeechToText _instance;
@@ -41,7 +71,6 @@ namespace TextSpeech
         }
         #endregion
 
-        public Action<string> onResultCallback;
 
         public void Setting(string _language)
         {
@@ -101,13 +130,24 @@ namespace TextSpeech
         }
         public void onErrorMessage(string _message)
         {
-            Debug.Log(_message);
+            $"onErrorMessage {_message}".Log();
         }
         /** Called when recognition results are ready. */
         public void onResults(string _results)
         {
             if (onResultCallback != null)
                 onResultCallback(_results);
+
+            /*
+            // Workaround: iOS stops listening after about 30 seconds
+            // so we do a hard reset after each result
+            // todo: find a better workaround, eg, resetting each 1 second after speech idle
+            if (_results != "nil" && !string.IsNullOrWhiteSpace(_results))
+            {
+                recordingStopStartState = RecordStopStartState.RequestStop;
+                stoppedUtc = DateTime.UtcNow;
+            }
+            */
         }
 
         #region Android STT custom

@@ -214,19 +214,29 @@ public class LaikaMovement : MonoBehaviour
         if (string.IsNullOrWhiteSpace(command))
             return;
 
-        // iOS generates one ever growing string with all new words appended to the end
-        // so we want to check for the newest words first (reverse order)
-        if (previousVoiceCommand.StartsWith(command) && previousVoiceCommand.Length < command.Length)
+        var originalCommand = command;
+
+        // On each call iOS passes one ever growing string with words appended to the end
+        // so we want to check for the new words only
+        var isTextRepeated =
+            command.StartsWith(previousVoiceCommand);
+
+        if (isTextRepeated && previousVoiceCommand.Length == command.Length)
+            return;
+
+        if (isTextRepeated)
             command = command.Substring(startIndex: previousVoiceCommand.Length);
 
-        previousVoiceCommand = command;
+        previousVoiceCommand = originalCommand;
 
         // Android gives the best matches seperated by newlines
         // TODO: consider them as full words, not breaking up multi word commands
         command = command.Replace('\n', ' ');
         command = command.Replace('\r', ' ');
 
-        var wordsSpoken = command.ToLowerInvariant().Split(' ').Reverse().ToList();
+        $"Parsing: {command}".Log();
+
+        var wordsSpoken = command.ToLowerInvariant().Split(' ').ToList();
 
         foreach (var wordSpoken in wordsSpoken)
         {
