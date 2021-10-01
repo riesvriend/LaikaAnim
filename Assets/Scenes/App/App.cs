@@ -38,17 +38,6 @@ public class App : MonoBehaviour
 
         app = appGameObject.GetComponent<App>();
 
-        var voiceController = new GameObject("VoiceController", components: new System.Type[] { typeof(VoiceController) });
-        voiceController.transform.parent = app.transform;
-
-        var speechToText = new GameObject("SpeechToText", components: new System.Type[] { typeof(TextSpeech.SpeechToText) });
-        speechToText.transform.parent = app.transform;
-        //var speechToTextScript = speechToText.GetComponent<TextSpeech.SpeechToText>();
-        //speechToTextScript.isShowPopupAndroid = false;
-
-        var textToSpeech = new GameObject("TextToSpeech", components: new System.Type[] { typeof(TextSpeech.TextToSpeech) });
-        textToSpeech.transform.parent = app.transform;
-
         return app;
     }
 

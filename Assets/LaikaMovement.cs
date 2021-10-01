@@ -15,7 +15,6 @@ public class LaikaMovement : MonoBehaviour
     PlayerInput input;
     VerticalAccelerationSensor verticalAccelerationSensor;
     VoiceController voiceController;
-    App app;
 
     bool isConstructed = false;
 
@@ -57,8 +56,10 @@ public class LaikaMovement : MonoBehaviour
             animator = GetComponent<Animator>();
             isRestingHash = Animator.StringToHash("isResting");
 
-            var app = App.GetApp();
-            voiceController = app.ChildComponent<VoiceController>();
+            var voiceControllerGameObject = new GameObject("VoiceController", components: new System.Type[] { typeof(VoiceController) });
+            voiceControllerGameObject.transform.parent = gameObject.transform;
+
+            voiceController = FindObjectOfType<VoiceController>();
             voiceController.SpeechResultEvent.AddListener(HandleVoiceCommand);
         }
     }
