@@ -92,9 +92,9 @@
             if (result) {
                 NSString *transcriptText = result.bestTranscription.formattedString;
                 NSLog(@"STARTRECORDING RESULT: %@", transcriptText);
-                //if (result.isFinal) {
+                if (transcriptText != nil) { //result.isFinal) {
                     UnitySendMessage("SpeechToText", "onResults", [transcriptText UTF8String]);
-                //}
+                }
             }
             else {
                 [audioEngine stop];

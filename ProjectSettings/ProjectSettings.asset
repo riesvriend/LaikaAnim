@@ -139,7 +139,6 @@ PlayerSettings:
   - {fileID: 11400000, guid: c5b93e039291fda43bc8858c3febe809, type: 2}
   - {fileID: 0}
   - {fileID: 4800000, guid: c9f956787b1d945e7b36e0516201fc76, type: 3}
-  - {fileID: -3054087247481492520, guid: 58f40b12bbc864f3c96c6505a9a1e1e3, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -162,7 +161,7 @@ PlayerSettings:
     iPhone: studio.synchrony.Livelier
   buildNumber:
     Standalone: 0
-    iPhone: 2
+    iPhone: 3
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
   AndroidBundleVersionCode: 1
@@ -228,7 +227,7 @@ PlayerSettings:
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 0
   iosCopyPluginsCodeInsteadOfSymlink: 0
-  appleDeveloperTeamID: Marinus Vriend
+  appleDeveloperTeamID: 
   iOSManualSigningProvisioningProfileID: 
   tvOSManualSigningProvisioningProfileID: 
   iOSManualSigningProvisioningProfileType: 0
@@ -524,7 +523,7 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: The camera is required. It is used to created a mixed-reality
+  cameraUsageDescription: The camera is required. It is used to create a mixed-reality
     where you interact with virtual animals in your own real room.
   locationUsageDescription: 
   microphoneUsageDescription: The Microphone is required for giving voice commands
