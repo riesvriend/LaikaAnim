@@ -14,25 +14,16 @@ public class CarpetUIScript : MonoBehaviour
         textCommandInputField?.onSubmit.AddListener(onTextCommandSubmit);
     }
 
+    private void OnDisable()
+    {
+        textCommandInputField?.onSubmit.RemoveListener(onTextCommandSubmit);
+    }
+
     private void onTextCommandSubmit(string text)
     {
         $"onTextCommandSubmit: {text}".Log();
-    }
 
-    private void OnDisable()
-    {
-        
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var laikaMovementHandler = FindObjectOfType<LaikaMovement>();
+        laikaMovementHandler?.HandleVoiceCommand(text);
     }
 }

@@ -7,6 +7,8 @@ public class SpeechRecognizerPlugin_Android : SpeechRecognizerPlugin
     private string javaClassPackageName = "com.example.eric.unityspeechrecognizerplugin.SpeechRecognizerFragment";
     private AndroidJavaClass javaClass = null;
     private AndroidJavaObject instance = null;
+    // The java object gives a null ref if you stop listening twice...
+    private bool isListening = false;
 
     protected override void SetUp()
     {
@@ -18,18 +20,26 @@ public class SpeechRecognizerPlugin_Android : SpeechRecognizerPlugin
 
     public override void StartListening()
     {
-        instance.Call("StartListening", this.isContinuousListening, this.language, this.maxResults);
+        StartListening(this.isContinuousListening, this.language, this.maxResults);
     }
 
     public override void StartListening(bool isContinuous = false, string newLanguage = "en-US", int newMaxResults = 10)
     {
-        instance.Call("StartListening", isContinuous, language, maxResults);
+        if (!isListening)
+        {
+            instance.Call("StartListening", isContinuous, language, maxResults);
+            isListening = true;
+        }
     }
 
     public override void StopListening()
     {
-        instance.Call("StopListening");
-    }        
+        if (isListening)
+        {
+            instance.Call("StopListening");
+            isListening = false;
+        }
+    }
 
     public override void SetContinuousListening(bool isContinuous)
     {
@@ -47,5 +57,5 @@ public class SpeechRecognizerPlugin_Android : SpeechRecognizerPlugin
     {
         this.maxResults = newMaxResults;
         instance.Call("SetMaxResults", newMaxResults);
-    }    
+    }
 }

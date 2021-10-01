@@ -2,6 +2,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using static SpeechRecognizerPlugin;
 
@@ -19,6 +20,8 @@ public class SpeechRecognizer : MonoBehaviour, ISpeechRecognizerPlugin
 
     [SerializeField] public string language = "en-US";
     private SpeechRecognizerPlugin plugin = null;
+
+    public UnityEvent<string> TextSpoken = new UnityEvent<string>();
 
     private void Start()
     {
@@ -68,6 +71,8 @@ public class SpeechRecognizer : MonoBehaviour, ISpeechRecognizerPlugin
         for (int i = 0; i < result.Length; i++)
             text += result[i] + Environment.NewLine;
         text.Log();
+
+        TextSpoken.Invoke(text);
     }
 
     public void OnError(string recognizedError)

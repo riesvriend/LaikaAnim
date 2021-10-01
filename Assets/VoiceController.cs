@@ -7,15 +7,13 @@ using UnityEngine.Events;
 using UnityEngine.Android;
 using Synchrony;
 using System;
-using TMPro;
-
 
 // https://www.youtube.com/watch?v=XRXbVtr1fog
 public class VoiceController : MonoBehaviour
 {
     const string DEFAULT_LANGUAGE_CODE = "nl-NL"; // TODO
 
-    public UnityEvent<string> PartialSpeechResultEvent = new UnityEvent<string>();
+    public UnityEvent<string> SpeechResultEvent = new UnityEvent<string>();
 
     #if UNITY_ANDROID
     private SpeechRecognizer androidSpeechRecognizer = null;
@@ -30,20 +28,16 @@ public class VoiceController : MonoBehaviour
         var speechRecognizerGameObject = new GameObject("SpeechRecognizer", components: new System.Type[] { typeof(SpeechRecognizer) });
         speechRecognizerGameObject.transform.parent = gameObject.transform;
         androidSpeechRecognizer = speechRecognizerGameObject.GetComponent<SpeechRecognizer>();
-        
-        #endif
+        androidSpeechRecognizer.TextSpoken.AddListener(OnFinalSpeechResult);
+        androidSpeechRecognizer.language = DEFAULT_LANGUAGE_CODE;
+#endif
 
 #if UNITY_IPHONE
         TextToSpeech.instance.Setting(DEFAULT_LANGUAGE_CODE, _pitch: 1, _rate: 1);
         SpeechToText.instance.Setting(DEFAULT_LANGUAGE_CODE);
-#elif UNITY_ANDROID
-        androidSpeechRecognizer.language = DEFAULT_LANGUAGE_CODE;
-#endif
-
-#if UNITY_ANDROID
-        //SpeechToText.instance.onPartialResultsCallback = OnPartialSpeechResult;
-#endif
+        SpeechToText.instance.onPartialResultsCallback = OnPartialSpeechResult;
         SpeechToText.instance.onResultCallback = OnFinalSpeechResult;
+#endif
         TextToSpeech.instance.onStartCallBack = OnSpeakStart;
         TextToSpeech.instance.onDoneCallback = OnSpeakStop;
         CheckListeningPermission();
@@ -106,14 +100,14 @@ public class VoiceController : MonoBehaviour
     {
         $"OnFinalSpeechResult: ${result}".Log();
 
-        PartialSpeechResultEvent?.Invoke(result);
+        SpeechResultEvent.Invoke(result);
     }
 
     void OnPartialSpeechResult(string result)
     {
         $"OnPartialSpeechResult: ${result}".Log();
 
-        PartialSpeechResultEvent?.Invoke(result);
+        SpeechResultEvent.Invoke(result);
     }
 
 #endregion

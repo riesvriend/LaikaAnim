@@ -8,6 +8,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Collider))] // For OnMouseDown
 public class LaikaMovement : MonoBehaviour
 {
+    private readonly List<string> downCommands = new List<string>() { "omlaag", "laag", "af", "zit", "down", "lie", "sit" };
+    private readonly List<string> upCommands = new List<string>() { "omhoog", "sta", "staan", "kom", "op", "klaar", "up", "stand", "come", "here" };
+
     Animator animator;
     PlayerInput input;
     VerticalAccelerationSensor verticalAccelerationSensor;
@@ -15,9 +18,13 @@ public class LaikaMovement : MonoBehaviour
     App app;
 
     bool isConstructed = false;
+
     int isRestingHash;
     bool isUpKeyPressed;
     bool isDownKeyPressed;
+
+    private DateTime? idlingStartedUtc;
+    private TimeSpan? idlingDuration;
 
     // Event order https://docs.unity3d.com/Manual/ExecutionOrder.html
     //
@@ -47,12 +54,12 @@ public class LaikaMovement : MonoBehaviour
 
             verticalAccelerationSensor = new VerticalAccelerationSensor();
 
-            var app = App.GetApp();
-            voiceController = app.ChildComponent<VoiceController>();
-            voiceController.PartialSpeechResultEvent.AddListener(OnPartialSpeechResult);
-
             animator = GetComponent<Animator>();
             isRestingHash = Animator.StringToHash("isResting");
+
+            var app = App.GetApp();
+            voiceController = app.ChildComponent<VoiceController>();
+            voiceController.SpeechResultEvent.AddListener(HandleVoiceCommand);
         }
     }
 
@@ -63,6 +70,7 @@ public class LaikaMovement : MonoBehaviour
 
         input.DogControls.Enable();
         verticalAccelerationSensor.OnEnable();
+        voiceController.StartListening();
     }
 
 
@@ -89,7 +97,7 @@ public class LaikaMovement : MonoBehaviour
         verticalAccelerationSensor = null;
 
         voiceController.StopListening();
-        voiceController.PartialSpeechResultEvent.RemoveAllListeners();
+        voiceController.SpeechResultEvent.RemoveAllListeners();
         voiceController = null;
     }
 
@@ -111,7 +119,6 @@ public class LaikaMovement : MonoBehaviour
             OnDisable();
         }
     }
-
 
     private void Down_performed(InputAction.CallbackContext ctx)
     {
@@ -176,8 +183,8 @@ public class LaikaMovement : MonoBehaviour
             bool isAnimationInRestState = IsAnimationInRestState();
             if (isAnimationInRestState)
             {
-                voiceController.StartSpeaking("Going up");
-                voiceController.StartListening();
+                //voiceController.StartSpeaking("Going up");
+                //voiceController.StartListening();
 
                 animator.SetBool(isRestingHash, false);
             }
@@ -199,13 +206,10 @@ public class LaikaMovement : MonoBehaviour
         return animator.GetBool(isRestingHash);
     }
 
-    private List<string> upCommands = new List<string> { "laika", "sta", "kom", "hier", "stand", "up", "come", "here" };
-    private List<string> downCommands = new List<string> { "af", "lig", "zit", "down", "sit", "lie" };
-    private DateTime? idlingStartedUtc;
-    private TimeSpan? idlingDuration;
-
-    private void OnPartialSpeechResult(string result)
+    public void HandleVoiceCommand(string result)
     {
+        result = result.Replace('\n', ' ');
+        result = result.Replace('\r', ' ');
         var wordsSpoken = result.ToLowerInvariant().Split(' ').ToList();
         if (upCommands.Any(c => wordsSpoken.Contains(c)))
             this.isUpKeyPressed = true;

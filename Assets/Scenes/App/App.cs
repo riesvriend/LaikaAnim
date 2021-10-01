@@ -84,6 +84,9 @@ public class App : MonoBehaviour
 
     public IEnumerator LoadSceneCoRoutine(string sceneName)
     {
+        // Workaround for random crashes in AOT android
+        yield return null;
+
         // https://www.youtube.com/watch?v=3I5d2rUJ0pE (Un)Loading scenes
         var operation = SceneManager.LoadSceneAsync(sceneName); //, LoadSceneMode.Additive)
         while (!operation.isDone)
