@@ -35,7 +35,7 @@ public class VoiceController : MonoBehaviour
 #if UNITY_IPHONE
         TextToSpeech.instance.Setting(DEFAULT_LANGUAGE_CODE, _pitch: 1, _rate: 1);
         SpeechToText.instance.Setting(DEFAULT_LANGUAGE_CODE);
-        SpeechToText.instance.onPartialResultsCallback = OnPartialSpeechResult;
+        //SpeechToText.instance.onResultCallback = OnPartialSpeechResult;
         SpeechToText.instance.onResultCallback = OnFinalSpeechResult;
 #endif
         TextToSpeech.instance.onStartCallBack = OnSpeakStart;
