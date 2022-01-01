@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Oculus/Platform/Samples/VrBoardGame/Main.unity
+    guid: 1bcd80a3e5eb15543bd65c671c26434f
+  - enabled: 1
     path: Assets/Scenes/MainMenuScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
@@ -15,6 +18,8 @@ EditorBuildSettings:
     path: Assets/Scenes/FloorPlayScene.unity
     guid: c3b0f18482461bc4e9c1f338e1628010
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 131a84ef54b9e1044be0182e1658b059,
+      type: 2}
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: f044f0e1d0da5fd469f814d9fa56f2ee,
@@ -30,4 +35,6 @@ EditorBuildSettings:
     com.unity.xr.magicleap.magic_leap_settings: {fileID: 11400000, guid: 1eb95d77acb39444e8cf44313496a874,
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 58f40b12bbc864f3c96c6505a9a1e1e3,
+      type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: cee61111aafc37a4183e1e322e93cc6e,
       type: 2}
