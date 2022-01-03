@@ -6,14 +6,14 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Oculus/Platform/Samples/VrBoardGame/Main.unity
-    guid: 1bcd80a3e5eb15543bd65c671c26434f
-  - enabled: 1
     path: Assets/Scenes/MainMenuScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/FlyingCarpetScene.unity
     guid: bf652d4cb82f5b04b9c0294dc6679f68
+  - enabled: 1
+    path: Assets/Oculus/Platform/Samples/VrBoardGame/Main.unity
+    guid: 1bcd80a3e5eb15543bd65c671c26434f
   - enabled: 1
     path: Assets/Scenes/FloorPlayScene.unity
     guid: c3b0f18482461bc4e9c1f338e1628010
