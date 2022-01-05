@@ -1,0 +1,46 @@
+ManifestFileVersion: 0
+CRC: 1549437573
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ef939ec8223fc2a10dcd759873f07b0f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b93bd442b8167f85f0de1ddd2c5f516d
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Materials/MAT_grid_01_light.mat
+- Assets/Oculus/SampleFramework/Core/Locomotion/Materials/ColumnGlow.mat
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Materials/MAT_cinderblock_01.mat
+- Assets/Oculus/SampleFramework/Core/Locomotion/Materials/lambert1.mat
+- Assets/Oculus/VR/Materials/CubeMaterial.mat
+- Assets/Oculus/SampleFramework/Usage/SharedAssets/Skyboxes/Sky_02/Skybox02.mat
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Materials/MAT_floor_wood_02.mat
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Materials/TriPlanarWorld.mat
+- Assets/Oculus/SampleFramework/Core/Locomotion/Materials/TeleportLaser.mat
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Materials/MAT_metal_01.mat
+- Assets/Dog - Tatra Sheepdog/Model/Materials/TatraSheepDog_Mat.mat
+- Assets/Dog - Tatra Sheepdog/Model/Materials/TatraSheepDog_Mat 1.mat
+- Assets/Azerilo/Free Rug Pack/Material/Material3.mat
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Materials/MAT_grid_01_dark.mat
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Materials/MAT_brick_01.mat
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Materials/MAT_floor_tile_01.mat
+- Assets/ExampleAssets/Materials/PlaneMat.mat
+- Assets/ExampleAssets/Materials/SampleGround.mat
+- Assets/Oculus/SampleFramework/Usage/SharedAssets/Materials/GroundMat.mat
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Materials/MAT_floor_wood_01.mat
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Materials/MAT_concrete_01.mat
+- Assets/Oculus/SampleFramework/Core/CustomHands/Materials/Hands_solid.mat
+Dependencies:
+- C:/Unity/LaikaAnim/OVRAssetBundles/OVRMasterBundle/asset_png0
+- C:/Unity/LaikaAnim/OVRAssetBundles/OVRMasterBundle/asset_png1
+- C:/Unity/LaikaAnim/OVRAssetBundles/OVRMasterBundle/asset_shader0
+- C:/Unity/LaikaAnim/OVRAssetBundles/OVRMasterBundle/asset_tga0

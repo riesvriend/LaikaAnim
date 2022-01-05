@@ -1,0 +1,98 @@
+ManifestFileVersion: 0
+CRC: 2881885884
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 5fe9943e62bf9b71166a485271406c7f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: a4f7556f839b352f6edd913b52b9cd59
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 20
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 81
+  Script: {instanceID: 0}
+- Class: 104
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 46b8fed8b150a8c4688eae89457bd466, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e8e18544645909d4ca3288d03cc2bb95, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d9244e220b0fee34c98de6ed84ee6cdd, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 94decd43dfca0db43a3936edb109ca2e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3e54f4e408fb12842b72b24ac5dcbcf6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 96a29a99957531246921ced0fac365ab, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4c243c46c5f7948488696c53b4fa9786, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e4f7411db9bf50545a8b0b3c5b3c1ff8, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 124
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 157
+  Script: {instanceID: 0}
+- Class: 196
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+- Class: 258
+  Script: {instanceID: 0}
+- Class: 850595691
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Oculus/Platform/Samples/VrBoardGame/Main.unity
+Dependencies:
+- C:/Unity/LaikaAnim/OVRAssetBundles/OVRMasterBundle/asset_prefab1

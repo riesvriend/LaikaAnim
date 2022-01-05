@@ -1,0 +1,52 @@
+ManifestFileVersion: 0
+CRC: 624709518
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 685f45251aa0b028c2114a787c6c44f5
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c8047f69cfc9538be1f32bde2abc493a
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 20
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 81
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7e933e81d3c20c74ea6fdc708a67e3a5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: df9f338034892c44ebb62d97894772f1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5178bc8574ce2bf4388e787a2e2af326, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4c243c46c5f7948488696c53b4fa9786, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Oculus/Platform/Samples/VrBoardGame/Prefabs/PieceB.prefab
+- Assets/Oculus/Platform/Samples/VrBoardGame/Prefabs/PieceA.prefab
+- Assets/Oculus/VR/Prefabs/OVRCameraRig.prefab
+- Assets/Oculus/Platform/Samples/VrBoardGame/Prefabs/PowerBall.prefab
+Dependencies: []

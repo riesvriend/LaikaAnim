@@ -1,0 +1,24 @@
+ManifestFileVersion: 0
+CRC: 3283701085
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9ccaf5ed21cf2120ec04a0bc0de9df0f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: fdf6c57a251b9f6ec27bdd2fe01b033c
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Dog - Tatra Sheepdog/Model/Laika For RM_Models Animator Controller.controller
+- Assets/Oculus/SampleFramework/Core/CustomHands/Models/LeftHandAnimator.controller
+- Assets/Dog - Tatra Sheepdog/Model/For RM_Models Animator Controller.controller
+- Assets/Oculus/SampleFramework/Core/CustomHands/Models/RightHandAnimator.controller
+Dependencies:
+- C:/Unity/LaikaAnim/OVRAssetBundles/OVRMasterBundle/asset_fbx0
+- C:/Unity/LaikaAnim/OVRAssetBundles/OVRMasterBundle/asset_fbx2

@@ -1,0 +1,61 @@
+ManifestFileVersion: 0
+CRC: 2232995638
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d4003e5a2dced46165ad6a98b9ab9d35
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b0e6cddfd14b0b5600cd107cbf28b6fa
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1_9.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1_3.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeCeiling_10.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeCeiling_15.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeFloor_04.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1_10.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeCeiling_05.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WalkWedge_01.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/BlockSunken_01.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1_7.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1_8.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1_1.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WallsAndDoors1.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1x1.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1x4.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/GroundSection02.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeFloor_09.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/BridgePlatform01.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeFloor_03.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeFloor_08.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WorldGeo.fbx
+- Assets/Oculus/SampleFramework/Core/Locomotion/Models/DestinationIndicatorSimple.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Tunnel_01.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeFloor_05.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeFloor_01.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeFloor_02.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1_4.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/GroundSection01.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1_2.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/ThinBars.fbx
+Dependencies:
+- C:/Unity/LaikaAnim/OVRAssetBundles/OVRMasterBundle/asset_mat0

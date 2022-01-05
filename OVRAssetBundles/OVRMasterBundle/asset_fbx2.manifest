@@ -1,0 +1,32 @@
+ManifestFileVersion: 0
+CRC: 1488508893
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: bad136eaad4528a6f6a58bab71a2c3fb
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9ed8a764a50edc9cbf0f6adacadddd81
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Dog - Tatra Sheepdog/Model/tatrasheepdog_sv_rm_mx.fbx
+Dependencies:
+- C:/Unity/LaikaAnim/OVRAssetBundles/OVRMasterBundle/asset_mat0
