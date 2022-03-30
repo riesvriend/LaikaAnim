@@ -16,8 +16,6 @@ public class LaikaMovement : MonoBehaviour
     VerticalAccelerationSensor verticalAccelerationSensor;
     VoiceController voiceController;
 
-    bool isConstructed = false;
-
     int isRestingHash;
     bool isUpKeyPressed;
     bool isDownKeyPressed;
@@ -38,10 +36,8 @@ public class LaikaMovement : MonoBehaviour
     // which may be still pending if we would use Unity's Awake message instead
     private void Constructor()
     {
-        if (!isConstructed)
+        if (input == null)
         {
-            isConstructed = true;
-
             $"LaikaMovement Constructor".Log();
 
             input = new PlayerInput();
@@ -78,9 +74,9 @@ public class LaikaMovement : MonoBehaviour
     private void OnDisable()
     {
         $"LaikaMovement OnDisable".Log();
-        input.DogControls.Disable();
-        verticalAccelerationSensor.OnDisable();
-        voiceController.StopListening();
+        input?.DogControls.Disable();
+        verticalAccelerationSensor?.OnDisable();
+        voiceController?.StopListening();
     }
 
 
