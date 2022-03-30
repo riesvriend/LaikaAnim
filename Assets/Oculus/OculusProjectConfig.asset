@@ -17,6 +17,8 @@ MonoBehaviour:
   handTrackingSupport: 0
   handTrackingFrequency: 0
   spatialAnchorsSupport: 0
+  renderModelSupport: 0
+  trackedKeyboardSupport: 0
   disableBackups: 1
   enableNSCConfig: 1
   securityXmlPath: 
