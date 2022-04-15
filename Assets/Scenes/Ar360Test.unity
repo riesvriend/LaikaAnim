@@ -207,7 +207,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 962f20610127d8d4ab1d243fa253578e,
         type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 962f20610127d8d4ab1d243fa253578e,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 962f20610127d8d4ab1d243fa253578e,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: de9be8c0fd71a1d4b88273c673901184, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 962f20610127d8d4ab1d243fa253578e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: de9be8c0fd71a1d4b88273c673901184, type: 2}
     - target: {fileID: 919132149155446097, guid: 962f20610127d8d4ab1d243fa253578e,
@@ -366,12 +381,12 @@ PrefabInstance:
     - target: {fileID: 4719824695026604743, guid: c9428f9662e428448a10f003fdde45a5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.05
+      value: -2.27
       objectReference: {fileID: 0}
     - target: {fileID: 4719824695026604743, guid: c9428f9662e428448a10f003fdde45a5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4
+      value: 0.76
       objectReference: {fileID: 0}
     - target: {fileID: 4719824695026604743, guid: c9428f9662e428448a10f003fdde45a5,
         type: 3}
@@ -606,7 +621,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1354141925}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -801,7 +816,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1882262193}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0745, y: -2.04, z: -0.1378}
+  m_LocalPosition: {x: -0.0745, y: -2.27, z: -0.1378}
   m_LocalScale: {x: 18.401777, y: 0.006570948, z: 15.683864}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -842,7 +857,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: e5eb0a5f8c98beb4794fc0e4f81ef3ee, type: 2}
-  - {fileID: 2100000, guid: 1a96f2c436c09b745985d5faf060545d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
