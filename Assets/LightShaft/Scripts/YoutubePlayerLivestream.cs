@@ -7,11 +7,16 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
 using YoutubeLight;
+//AVPRO
+//using RenderHeads.Media.AVProVideo;
 
 public class YoutubePlayerLivestream : MonoBehaviour {
 
     public string _livestreamUrl;
 
+    //AVPRO
+    //public MediaPlayer mplayer;
+    
 	void Start () {
         GetLivestreamUrl(_livestreamUrl);
     }
@@ -34,10 +39,11 @@ public class YoutubePlayerLivestream : MonoBehaviour {
         //If you are using some of that players you can uncomment the player part.
 
         //AVPRO Part
-        //MediaPlayer mplayer = GetComponent<MediaPlayer>();
-        //mplayer.m_VideoLocation = MediaPlayer.FileLocation.AbsolutePathOrURL;
-        //mplayer.m_VideoPath = url;
-        //mplayer.OpenVideoFromFile(mplayer.m_VideoLocation, mplayer.m_VideoPath, mplayer.m_AutoStart);
+        // if(mplayer == null)
+        //     mplayer = GetComponent<MediaPlayer>();
+        //
+        // MediaPath mpath = new MediaPath(url, MediaPathType.AbsolutePathOrURL);
+        // mplayer.OpenMedia(mpath, true);
 
         //Easy Movie Texture (Good for mobile only[sometimes stuck in editor])
         //MediaPlayerCtrl easyPlayer = GetComponent<MediaPlayerCtrl>();
@@ -162,10 +168,12 @@ public class YoutubePlayerLivestream : MonoBehaviour {
         {
             //WriteLog("kelvin", player_response);
             string liveUrl = json["streamingData"]["hlsManifestUrl"].ToString();
+            Debug.Log(liveUrl);
             callback.Invoke(liveUrl);
         }
         else
         {
+            Debug.Log("NO");
             Debug.Log("This is not a livestream url");
         }
 

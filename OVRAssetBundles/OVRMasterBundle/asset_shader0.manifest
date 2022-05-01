@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 968851455
+CRC: 4072208055
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 42087ca9c5fc105d3c342fdbe1ae32b0
+    Hash: 0b71d4925ae3d52ca3842ee0f3946470
   TypeTreeHash:
     serializedVersion: 2
     Hash: 1848cfd019ebe6ef89967c6f90f2a3d4
@@ -13,8 +13,10 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/TransparentShadow.shader
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Shaders/TriPlanarWorld.shader
 - Assets/Oculus/SampleFramework/Core/Locomotion/Materials/ColumnGlow.shader
 - Assets/ExampleAssets/Shaders/FeatheredPlaneShader.shader
 - Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader
+- Assets/360VideoSphereShader.shader
 Dependencies: []

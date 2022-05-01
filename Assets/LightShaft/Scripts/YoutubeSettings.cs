@@ -44,7 +44,8 @@ namespace LightShaft.Scripts
         {
             SideBySide,
             OverUnder,
-            EAC
+            EAC,
+            EAC3D
         }
         #endregion
 
@@ -203,9 +204,9 @@ namespace LightShaft.Scripts
         private static string jsUrl;
 
         /*PRIVATE INFO DO NOT CHANGE THESE URLS OR VALUES, ONLY IF YOU WANT HOST YOUR OWN SERVER| TURORIALS IN THE PROJECT FILES*/
-        private const string serverURI = "https://lightshaftstream.herokuapp.com/api/info?url=";
+        private const string serverURI = "https://utube-unity.herokuapp.com/api/info?url=";
         private const string formatURI = "&format=best&flatten=true";
-        private const string VIDEOURIFORWEBGLPLAYER = "https://youtubewebgl.herokuapp.com/download.php?mime=video/mp4&title=generatedvideo&token=";
+        private const string VIDEOURIFORWEBGLPLAYER = "https://utube-webgl.herokuapp.com/download.php?mime=video/mp4&title=generatedvideo&token=";
         /*END OF PRIVATE INFO*/
 
         #endregion
@@ -228,6 +229,9 @@ namespace LightShaft.Scripts
                 }else if (layout3d == Layout3D.EAC)
                 {
                     RenderSettings.skybox = (Material)Resources.Load("Materials/PanoramicSkyboxEAC") as Material;
+                }else if (layout3d == Layout3D.EAC3D)
+                {
+                    RenderSettings.skybox = (Material)Resources.Load("Materials/PanoramicSkybox3DEAC") as Material;
                 }
             }
         }
@@ -269,7 +273,7 @@ namespace LightShaft.Scripts
 
         IEnumerator YoutubeGeneratorSysCall(string _videoUrl, string _formatCode)
         {
-            UnityWebRequest request = UnityWebRequest.Get("https://lightshaftstream.herokuapp.com/api/utubePlay?url="+_videoUrl+"&format=best&flatten=true&formatId="+_formatCode);
+            UnityWebRequest request = UnityWebRequest.Get("https://utube-unity.herokuapp.com/api/utubePlay?url="+_videoUrl+"&format=best&flatten=true&formatId="+_formatCode);
             yield return request.SendWebRequest();
             gettingYoutubeURL = false;
             if (request.isHttpError)
@@ -414,6 +418,7 @@ namespace LightShaft.Scripts
                 //if is 360
                 if (is360)
                 {
+                    
                     if (videoQuality == YoutubeVideoQuality.STANDARD) videoQuality = YoutubeVideoQuality.HD; //Does not play Standard for 360 degree videos.
                 }
             
@@ -459,6 +464,10 @@ namespace LightShaft.Scripts
 #if UNITY_WEBGL
         videoQuality = YoutubeVideoQuality.STANDARD;
 #endif
+            #if UNITY_STANDALONE_WIN
+            //Force play webm on windows builds to prevent a issue on early windows 11 codecs.
+            videoFormat = VideoFormatType.WEBM;
+            #endif
 
             if (!loadYoutubeUrlsOnly)
             {
@@ -540,6 +549,7 @@ namespace LightShaft.Scripts
 
         void FixedUpdate()
         {
+            
             if (!loadYoutubeUrlsOnly)
             {
                  //buffering detect 
@@ -1009,6 +1019,12 @@ namespace LightShaft.Scripts
             }
             else
             {
+                if (is360)
+                {
+                    if (videoQuality == YoutubeVideoQuality.UHD1440 || videoQuality == YoutubeVideoQuality.UHD2160)
+                        videoFormat = VideoFormatType.WEBM;
+                }
+                
                 bool needDecryption = false;
                 string _temporaryAudio = "", _temporaryVideo = "", _tempHtmlPlayerVersion = "";
                 videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
@@ -1064,6 +1080,7 @@ namespace LightShaft.Scripts
                 foreach (VideoInfo info in videoInfos)
                 {
                     VideoType t = (videoFormat == VideoFormatType.MP4) ? VideoType.Mp4 : VideoType.WebM;
+
                     if (info.VideoType == t && info.Resolution == (quality))
                     {
                         /*formats for 360 videos
@@ -1074,11 +1091,10 @@ namespace LightShaft.Scripts
                         2160 = 266(mp4) 313(webm)*/
                         if (is360)
                         {
-                            if (!string.IsNullOrEmpty(projectionType))
+                            if (!string.IsNullOrEmpty(projectionType) && (videoPlayer.renderMode != VideoRenderMode.RenderTexture))
                             {
                                 if (projectionType == "MESH")
                                 {
-                                    Debug.Log("Enable!");
                                     //enable equirectangular shader.
                                     foreach (var renderMaterial in videoPlayer.targetMaterialRenderer.materials)
                                     {
@@ -1144,13 +1160,13 @@ namespace LightShaft.Scripts
                                     }
                                     else
                                     {
-                                        if (info.FormatCode == 271)
+                                        if (info.FormatCode == 271 || info.FormatCode == 308)
                                         {
                                             found360 = true;
                                         }
                                     }
                                     break;
-                                case 2160:
+                                case 2160: 
                                     if (t == VideoType.Mp4)
                                     {
                                         if (info.FormatCode == 266)
@@ -1160,7 +1176,8 @@ namespace LightShaft.Scripts
                                     }
                                     else
                                     {
-                                        if (info.FormatCode == 313)
+                                        Debug.Log("kk");
+                                        if (info.FormatCode == 313 || info.FormatCode == 315)
                                         {
                                             found360 = true;
                                         }
@@ -1170,8 +1187,6 @@ namespace LightShaft.Scripts
 
                             if (found360)
                             {
-                               
-                                
                                 
                                 if (info.RequiresDecryption)
                                 {

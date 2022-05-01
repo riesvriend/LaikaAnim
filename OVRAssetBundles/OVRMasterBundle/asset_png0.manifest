@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2333126478
+CRC: 720865516
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1f55a782511b4673e99d5d6a8ee8b080
+    Hash: 42c1910596fc52c55f8c15ed435089ed
   TypeTreeHash:
     serializedVersion: 2
     Hash: c21d61fe394c58399df3c6fb5c7c99b3
@@ -18,31 +18,31 @@ Assets:
 - Assets/Oculus/SampleFramework/Core/DebugUI/Textures/dialog.png
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/grid_01_light.png
 - Assets/Oculus/SampleFramework/Core/DebugUI/Textures/slider_slider.png
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/metal_01_dif.png
+- Assets/Sprites/UIElements/DoodleDrawing.png
 - Assets/Oculus/SampleFramework/Usage/SharedAssets/Skyboxes/Sky_02/Skybox02_Down-Y.png
 - Assets/Oculus/SampleFramework/Core/DebugUI/Textures/button.png
 - Assets/Oculus/SampleFramework/Usage/SharedAssets/Skyboxes/Sky_02/Skybox02_Back-Z.png
 - Assets/Oculus/SampleFramework/Usage/SharedAssets/Skyboxes/Sky_02/Skybox02_Right-X.png
 - Assets/Oculus/SampleFramework/Usage/SharedAssets/Skyboxes/Sky_02/Skybox02_Front+Z.png
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_wood_01_dif.png
 - Assets/Oculus/SampleFramework/Core/DebugUI/Textures/slider_bar.png
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/wall_cinder_01_msm.png
 - Assets/Oculus/SampleFramework/Core/DebugUI/Textures/translucent_01.png
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_wood_01_nml.png
 - Assets/Oculus/SampleFramework/Core/DebugUI/Textures/radio_off.png
 - Assets/Oculus/SampleFramework/Usage/SharedAssets/Skyboxes/Sky_02/Skybox02_Up+Y.png
+- Assets/Dog - Tatra Sheepdog/Textures/polish_tatra_sheepdog_normals_2k.png
 - Assets/Oculus/SampleFramework/Usage/SharedAssets/Skyboxes/Sky_02/Skybox02_Left+X.png
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_wood_02_msm.png
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_tile_01_dif.png
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/concrete_01_dif.png
+- Assets/Dog - Tatra Sheepdog/Textures/polish_tatra_sheepdog_albedoWite_2k.png
+- Assets/Azerilo/Free Rug Pack/Material/rugTexture3.png
 - Assets/Oculus/SampleFramework/Core/DebugUI/Textures/radio_on.png
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/grid_01_dark.png
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/wall_cinder_01_nml.png
+- Assets/Dog - Tatra Sheepdog/Textures/polish_tatra_sheepdog_albedoBlack_2k.png
 - Assets/Oculus/SampleFramework/Core/DebugUI/Textures/header.png
 - Assets/Oculus/SampleFramework/Core/DebugUI/Textures/separator.png
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_wood_01_msm.png
+- Packages/com.unity.xr.arfoundation/Editor/Icons/d_ARVR@4x.png
+- Assets/ExampleAssets/Textures/PlanePatternDot.png
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_tile_01_nml.png
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_wood_01_msm.png
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/wall_brick_01_dif.png
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_wood_02_nml.png
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/wall_brick_01_msm.png
+- Assets/Dog - Tatra Sheepdog/Textures/polish_tatra_sheepdog_ao_2k.png
+- Assets/Sprites/UIElements/back.png
 Dependencies: []

@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1488508893
+CRC: 3563644231
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: bad136eaad4528a6f6a58bab71a2c3fb
+    Hash: 1069591365ef53a9aceedc775008a894
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9ed8a764a50edc9cbf0f6adacadddd81
+    Hash: cc2f1175e7234051106bd63d3c6b2f3e
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -15,18 +15,15 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 21
   Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
 - Class: 43
-  Script: {instanceID: 0}
-- Class: 74
-  Script: {instanceID: 0}
-- Class: 90
-  Script: {instanceID: 0}
-- Class: 95
-  Script: {instanceID: 0}
-- Class: 137
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/Dog - Tatra Sheepdog/Model/tatrasheepdog_sv_rm_mx.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1_1.fbx
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeFloor_05.fbx
 Dependencies:
 - C:/Unity/LaikaAnim/OVRAssetBundles/OVRMasterBundle/asset_mat0

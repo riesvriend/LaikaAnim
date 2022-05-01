@@ -777,7 +777,8 @@ PlayerSettings:
     Android: 1
   il2cppCompilerConfiguration:
     Android: 0
-  managedStrippingLevel: {}
+  managedStrippingLevel:
+    Android: 4
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
   allowUnsafeCode: 0

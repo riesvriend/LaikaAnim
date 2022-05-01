@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2488025017
+CRC: 4278487005
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8cc7eeb69150e9c7399637a7f0f7f4c4
+    Hash: a903a5c840ceda583276795038ef0767
   TypeTreeHash:
     serializedVersion: 2
-    Hash: d4555041ca2b74e5c1354767c6037540
+    Hash: 94864f241aef9c3ca34a56f80e9ba72d
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -195,8 +195,8 @@ Assets:
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Prefabs/WalkWedgePf.prefab
 - Assets/Oculus/SampleFramework/Core/Locomotion/TeleportDestination.prefab
 - Assets/Oculus/SampleFramework/Core/Locomotion/TeleportLaser.prefab
-- Assets/Oculus/SampleFramework/Core/CustomHands/CustomHandRight.prefab
 - Assets/Prefabs/CarpetCube.prefab
+- Assets/Oculus/SampleFramework/Core/CustomHands/CustomHandRight.prefab
 - Assets/Oculus/SampleFramework/Core/DebugUI/Prefabs/DebugRadio.prefab
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Prefabs/ThinBarsPf.prefab
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Prefabs/BridgePlatformPf.prefab
@@ -213,8 +213,8 @@ Assets:
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Prefabs/ColumnGroupPf.prefab
 - Assets/Oculus/SampleFramework/Core/Locomotion/TeleportPoint.prefab
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Prefabs/WallsAndDoorsPf.prefab
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Prefabs/FloorWedgesPf.prefab
 - Assets/ExampleAssets/Prefabs/ARPlane.prefab
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Prefabs/FloorWedgesPf.prefab
 - Assets/Oculus/SampleFramework/Core/DebugUI/Prefabs/DebugToggle.prefab
 - Assets/Dog - Tatra Sheepdog/Prefabs/tatrasheepdog_sv_rm_mat1_HP.prefab
 Dependencies:

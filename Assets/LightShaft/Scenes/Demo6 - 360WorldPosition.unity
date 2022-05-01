@@ -391,6 +391,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Youtube360Player
       objectReference: {fileID: 0}
+    - target: {fileID: 4087793574245304, guid: afcb2c04ccaaed1478594f9f88e45133, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 344.9097
+      objectReference: {fileID: 0}
+    - target: {fileID: 4087793574245304, guid: afcb2c04ccaaed1478594f9f88e45133, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 344.9097
+      objectReference: {fileID: 0}
+    - target: {fileID: 4087793574245304, guid: afcb2c04ccaaed1478594f9f88e45133, type: 3}
+      propertyPath: m_LocalScale.z
+      value: -344.9097
+      objectReference: {fileID: 0}
     - target: {fileID: 4492261859785258, guid: afcb2c04ccaaed1478594f9f88e45133, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -448,7 +460,7 @@ PrefabInstance:
     - target: {fileID: 114924026913519534, guid: afcb2c04ccaaed1478594f9f88e45133,
         type: 3}
       propertyPath: youtubeUrl
-      value: https://www.youtube.com/watch?v=uL2NRPxSSNs
+      value: https://youtu.be/5JvJCvdqvYs
       objectReference: {fileID: 0}
     - target: {fileID: 114924026913519534, guid: afcb2c04ccaaed1478594f9f88e45133,
         type: 3}

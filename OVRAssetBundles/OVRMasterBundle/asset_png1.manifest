@@ -1,17 +1,15 @@
 ManifestFileVersion: 0
-CRC: 1433375264
+CRC: 1633740637
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4b2f1b8ca30601a63b909563d49b7d0e
+    Hash: 2d8b19ef9ef6f17f6519aa6754533c82
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c21d61fe394c58399df3c6fb5c7c99b3
+    Hash: b0363f7088f9761414f730641bf9a24b
 HashAppended: 0
 ClassTypes:
 - Class: 28
-  Script: {instanceID: 0}
-- Class: 213
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
@@ -19,18 +17,18 @@ Assets:
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/wall_brick_01_nml.png
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Materials/MeterGrid.png
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/concrete_01_msm.png
-- Assets/Sprites/UIElements/DoodleDrawing.png
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/metal_01_dif.png
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/concrete_01_nml.png
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_wood_02_dif.png
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_wood_01_dif.png
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_wood_01_nml.png
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_tile_01_amb.png
-- Assets/Dog - Tatra Sheepdog/Textures/polish_tatra_sheepdog_normals_2k.png
-- Assets/Dog - Tatra Sheepdog/Textures/polish_tatra_sheepdog_albedoWite_2k.png
-- Assets/Azerilo/Free Rug Pack/Material/rugTexture3.png
-- Assets/Dog - Tatra Sheepdog/Textures/polish_tatra_sheepdog_albedoBlack_2k.png
-- Packages/com.unity.xr.arfoundation/Editor/Icons/d_ARVR@4x.png
-- Assets/ExampleAssets/Textures/PlanePatternDot.png
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_wood_02_msm.png
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/concrete_01_dif.png
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/grid_01_dark.png
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/wall_cinder_01_nml.png
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/wall_cinder_01_dif.png
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/floor_wood_02_nml.png
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/metal_01_nml.png
-- Assets/Dog - Tatra Sheepdog/Textures/polish_tatra_sheepdog_ao_2k.png
-- Assets/Sprites/UIElements/back.png
+- Assets/Oculus/SampleFramework/Usage/Locomotion/Textures/wall_brick_01_msm.png
 Dependencies: []

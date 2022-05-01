@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2352382624
+CRC: 731747987
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 593294c4fbfd90bd6d97368da0b52ff1
+    Hash: 74d7cda957145831ec332b4b2734045c
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 4016fcf964336ae9c272f5418f3b9769
+    Hash: c5d893144fc535de6e7af87177d2af28
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -20,6 +20,8 @@ ClassTypes:
 - Class: 33
   Script: {instanceID: 0}
 - Class: 43
+  Script: {instanceID: 0}
+- Class: 48
   Script: {instanceID: 0}
 - Class: 74
   Script: {instanceID: 0}
@@ -36,18 +38,19 @@ Assets:
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/l_hand_hold_generic_anim.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/r_hand_fist_anim.fbx
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeFloor_10.fbx
+- Assets/ClaySphere5.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/r_hand_cap_touch_anim.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/l_hand_relax_mid_fist_anim.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/r_hand_relax_mid_fist_anim.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/r_hand_cap_touch_index_mask_anim.fbx
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeCeiling_20.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/r_hand_thumbs_up_anim.fbx
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1_6.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/l_hand_thumbs_up_anim.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/r_hand_hold_ping_pong_ball_anim.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/l_hand_cap_touch_thumb_mask_anim.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/r_hand_relax_3qtr_fist_anim.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Models/r_hand_skeletal_lowres.fbx
+- Assets/Dog - Tatra Sheepdog/Model/tatrasheepdog_sv_rm_mx.fbx
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Models/Cube_1_5.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/l_hand_relax_3qtr_fist_anim.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/l_hand_cap_touch_index_mask_anim.fbx
@@ -58,7 +61,6 @@ Assets:
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/r_hand_point_anim.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/l_hand_fist_anim.fbx
 - Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeFloor_07.fbx
-- Assets/Oculus/SampleFramework/Usage/Locomotion/Models/WedgeFloor_06.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Animations/l_hand_cap_touch_anim.fbx
 - Assets/Oculus/SampleFramework/Core/CustomHands/Models/l_hand_skeletal_lowres.fbx
 Dependencies:

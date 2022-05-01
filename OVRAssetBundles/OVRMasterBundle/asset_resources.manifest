@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 701529402
+CRC: 1086844667
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8e8c08f6e30859725ffb601837eebe07
+    Hash: 6535dcffe2ab5a9fcb6d5155ac5f2a6f
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 21bf277600d0500dfad1268bac4ac231
+    Hash: d29f705b0bd3ae37ae8e140de7e5a92d
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -31,6 +31,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 70c2f484f132c044097f03d65cac3b24, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 9bf86810d8e77e74f92ff76978a6463b, type: 3}
 - Class: 114
@@ -147,9 +149,11 @@ Assets:
 - Assets/Resources/OVRPlatformToolSettings.asset
 - Assets/LightShaft/Resources/Materials/PanoramicSkyboxEAC.mat
 - Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_normal_1024.tif
-- Assets/Oculus/Voice/Lib/Wit.ai/Resources/wit-ai-title.png
+- Assets/Oculus/Voice/Resources/voicesdk_texts_en-us.json
+- Assets/Oculus/Interaction/Runtime/Resources/Shaders/DepthOverwrite.shader
 - Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset
 - Assets/Oculus/Avatar/Resources/Materials/AvatarPBRV2Simple.shader
+- Assets/Oculus/Voice/Lib/Wit.ai/Resources/wit-ai-title.png
 - Assets/Oculus/Avatar/Resources/Materials/Version1.5/Avatar_PC_SingleComponent.shader
 - Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_normal_256.png
 - Assets/Oculus/Avatar/Resources/Materials/Version1.5/Avatar_Mobile_CombinedMesh.shader
@@ -159,6 +163,7 @@ Assets:
 - Assets/Resources/OVRBuildConfig.asset
 - Assets/Oculus/VR/Resources/Underlay Impostor.shader
 - Assets/LightShaft/CustomYoutubePlayer/VideoPlayer Helper/Resources/Icon.psd
+- Assets/Oculus/Interaction/Runtime/Resources/Shaders/Imposter_AlphaBlended.shader
 - Assets/Resources/OculusRuntimeSettings.asset
 - Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat
 - Assets/LightShaft/Resources/Prefabs/YoutubePlayer.prefab
@@ -168,9 +173,14 @@ Assets:
 - Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_diffuse_roughness_2048.png
 - Assets/Oculus/VR/Resources/Underlay Transparent Occluder.shader
 - Assets/TextMesh Pro/Resources/LineBreaking Following Characters.txt
+- Assets/Oculus/Interaction/Runtime/Resources/Shaders/Imposter_Opaque.shader
 - Assets/LightShaft/Resources/Materials/PanoramicSkybox.mat
+- Assets/Oculus/Interaction/Runtime/Resources/Shaders/Imposter_AlphaCutout.shader
+- Assets/Oculus/Interaction/Runtime/Resources/Shaders/Imposter_AlphaToMask.shader
 - Assets/LightShaft/Resources/Materials/GradientBar.png
 - Assets/Oculus/VR/Resources/OVRMRUnlitTransparent.shader
+- Assets/Oculus/Interaction/Runtime/Resources/Shaders/UIOverlay.shader
+- Assets/Oculus/Voice/Lib/Wit.ai/Resources/witai_texts_en-us.json
 - Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_diffuse_roughness_1024.png
 - Assets/Oculus/Avatar/Resources/Materials/Expressive/Avatar_PC_SingleComponentExpressive.shader
 - Assets/Oculus/VR/Resources/OVRMRUnlit.shader
@@ -180,11 +190,15 @@ Assets:
 - Assets/Oculus/VR/Resources/OVRMRCameraFrame.shader
 - Assets/Oculus/Avatar/Resources/Materials/AvatarSurfaceShaderPBS.shader
 - Assets/Oculus/Avatar/Resources/Materials/Version1.5/Avatar_Mobile_SingleComponent.shader
+- Assets/Oculus/Interaction/Runtime/Resources/Shaders/UnderlayTransparentOccluderImposter.shader
+- Assets/Resources/OvrAvatarSettings.asset
 - Assets/Oculus/Avatar/Resources/Materials/Expressive/Avatar_Mobile_CombinedMeshExpressive.shader
 - Assets/Resources/ONSPSettings.asset
 - Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_normal_2048.png
 - Assets/LightShaft/Resources/Materials/PanoramicSkybox3DOverUnder.mat
 - Assets/Oculus/Avatar/Resources/Materials/AvatarSurfaceShaderPBSV2.shader
+- Assets/Oculus/Interaction/Runtime/Resources/Shaders/Imposter_Underlay.shader
+- Assets/Oculus/Interaction/Runtime/Resources/Shaders/Imposter_Underlay_AA.shader
 - Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
 - Assets/Oculus/Avatar/Resources/FallbackTextures/fallback_diffuse_roughness_256.png
 - Assets/Oculus/Voice/Lib/Wit.ai/Resources/continue-with-fb.png

@@ -304,6 +304,11 @@ PrefabInstance:
       propertyPath: ignoreTimeout
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2228946007855656701, guid: f2253547a45e1e348b003191599f21e4,
+        type: 3}
+      propertyPath: videoFormat
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2267349683475455749, guid: f2253547a45e1e348b003191599f21e4,
         type: 3}
       propertyPath: m_LocalPosition.x
