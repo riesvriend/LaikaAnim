@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/HandTestScene.unity
+    guid: 6f999ac8eb646db489fc49113685cbcf
+  - enabled: 1
     path: Assets/Scenes/OVR360Test.unity
     guid: 80f5453a6077c644b921d281d2692053
   - enabled: 1
