@@ -1,0 +1,390 @@
+fileFormatVersion: 2
+guid: 5db54e3fda1cb1048a1e168e4e41e8b0
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: CG
+    100002: D Belly
+    100004: D BellyNub
+    100006: //RootNode
+    100008: Elephant_Body
+    100010: Elephant_Poly Art
+    100012: Elephant_Poly ArtKin
+    100014: Elephant_Tusks
+    100016: Eyes_Geo
+    100018: Footsteps
+    100020: Head
+    100022: HeadNub
+    100024: indian_elephant_male_model6
+    100026: Jaw
+    100028: JawNub
+    100030: L Belly
+    100032: L BellyNub
+    100034: L Calf
+    100036: L Cheek
+    100038: L CheekNub
+    100040: L Clavicle
+    100042: L Ear
+    100044: L Ear1
+    100046: L Ear1Nub
+    100048: L Ear2
+    100050: L Ear2Nub
+    100052: L Ear3
+    100054: L Ear3Nub
+    100056: L Eye
+    100058: L EyeLid Down
+    100060: L EyeLid DownNub
+    100062: L EyeLid Up
+    100064: L EyeLid UpNub
+    100066: L EyeNub
+    100068: L Finger0
+    100070: L Finger01
+    100072: L Finger0Nub
+    100074: L Finger1
+    100076: L Finger11
+    100078: L Finger1Nub
+    100080: L Finger2
+    100082: L Finger21
+    100084: L Finger2Nub
+    100086: L Finger3
+    100088: L Finger31
+    100090: L Finger3Nub
+    100092: L Finger4
+    100094: L Finger41
+    100096: L Finger4Nub
+    100098: L Foot
+    100100: L Forearm
+    100102: L Hand
+    100104: L Thigh
+    100106: L Toe0
+    100108: L Toe0Nub
+    100110: L Tusk
+    100112: L TuskNub
+    100114: L UpperArm
+    100116: Lip
+    100118: Neck
+    100120: Nose1
+    100122: Nose1Nub
+    100124: Nose2
+    100126: Nose2Nub
+    100128: Pelvis
+    100130: Plane001
+    100132: Ponytail1Nub
+    100134: Ponytail2Nub
+    100136: R Belly
+    100138: R BellyNub
+    100140: R Calf
+    100142: R Cheek
+    100144: R CheekNub
+    100146: R Clavicle
+    100148: R Ear
+    100150: R Ear1
+    100152: R Ear1Nub
+    100154: R Ear2
+    100156: R Ear2Nub
+    100158: R Ear3
+    100160: R Ear3Nub
+    100162: R Eye
+    100164: R EyeLid Down
+    100166: R EyeLid DownNub
+    100168: R EyeLid UP
+    100170: R EyeLid UPNub
+    100172: R EyeNub
+    100174: R Finger0
+    100176: R Finger01
+    100178: R Finger0Nub
+    100180: R Finger1
+    100182: R Finger11
+    100184: R Finger1Nub
+    100186: R Finger2
+    100188: R Finger21
+    100190: R Finger2Nub
+    100192: R Finger3
+    100194: R Finger31
+    100196: R Finger3Nub
+    100198: R Finger4
+    100200: R Finger41
+    100202: R Finger4Nub
+    100204: R Foot
+    100206: R Forearm
+    100208: R Hand
+    100210: R Thigh
+    100212: R Toe0
+    100214: R Toe0Nub
+    100216: R Tusk
+    100218: R TuskNub
+    100220: R UpperArm
+    100222: Spine
+    100224: Spine1
+    100226: Spine2
+    100228: Tail
+    100230: Tail1
+    100232: Tail2
+    100234: Tail3
+    100236: Tail4
+    100238: Tail_Haircards_Geo
+    100240: TailNub
+    100242: Tongue
+    100244: Tongue02
+    100246: TongueNub
+    100248: Trunk
+    100250: Trunk02
+    100252: Trunk03
+    100254: Trunk04
+    100256: Trunk05
+    100258: Trunk06
+    100260: Trunk07
+    100262: Trunk08
+    100264: TrunkNub
+    100266: Root
+    400000: CG
+    400002: D Belly
+    400004: D BellyNub
+    400006: //RootNode
+    400008: Elephant_Body
+    400010: Elephant_Poly Art
+    400012: Elephant_Poly ArtKin
+    400014: Elephant_Tusks
+    400016: Eyes_Geo
+    400018: Footsteps
+    400020: Head
+    400022: HeadNub
+    400024: indian_elephant_male_model6
+    400026: Jaw
+    400028: JawNub
+    400030: L Belly
+    400032: L BellyNub
+    400034: L Calf
+    400036: L Cheek
+    400038: L CheekNub
+    400040: L Clavicle
+    400042: L Ear
+    400044: L Ear1
+    400046: L Ear1Nub
+    400048: L Ear2
+    400050: L Ear2Nub
+    400052: L Ear3
+    400054: L Ear3Nub
+    400056: L Eye
+    400058: L EyeLid Down
+    400060: L EyeLid DownNub
+    400062: L EyeLid Up
+    400064: L EyeLid UpNub
+    400066: L EyeNub
+    400068: L Finger0
+    400070: L Finger01
+    400072: L Finger0Nub
+    400074: L Finger1
+    400076: L Finger11
+    400078: L Finger1Nub
+    400080: L Finger2
+    400082: L Finger21
+    400084: L Finger2Nub
+    400086: L Finger3
+    400088: L Finger31
+    400090: L Finger3Nub
+    400092: L Finger4
+    400094: L Finger41
+    400096: L Finger4Nub
+    400098: L Foot
+    400100: L Forearm
+    400102: L Hand
+    400104: L Thigh
+    400106: L Toe0
+    400108: L Toe0Nub
+    400110: L Tusk
+    400112: L TuskNub
+    400114: L UpperArm
+    400116: Lip
+    400118: Neck
+    400120: Nose1
+    400122: Nose1Nub
+    400124: Nose2
+    400126: Nose2Nub
+    400128: Pelvis
+    400130: Plane001
+    400132: Ponytail1Nub
+    400134: Ponytail2Nub
+    400136: R Belly
+    400138: R BellyNub
+    400140: R Calf
+    400142: R Cheek
+    400144: R CheekNub
+    400146: R Clavicle
+    400148: R Ear
+    400150: R Ear1
+    400152: R Ear1Nub
+    400154: R Ear2
+    400156: R Ear2Nub
+    400158: R Ear3
+    400160: R Ear3Nub
+    400162: R Eye
+    400164: R EyeLid Down
+    400166: R EyeLid DownNub
+    400168: R EyeLid UP
+    400170: R EyeLid UPNub
+    400172: R EyeNub
+    400174: R Finger0
+    400176: R Finger01
+    400178: R Finger0Nub
+    400180: R Finger1
+    400182: R Finger11
+    400184: R Finger1Nub
+    400186: R Finger2
+    400188: R Finger21
+    400190: R Finger2Nub
+    400192: R Finger3
+    400194: R Finger31
+    400196: R Finger3Nub
+    400198: R Finger4
+    400200: R Finger41
+    400202: R Finger4Nub
+    400204: R Foot
+    400206: R Forearm
+    400208: R Hand
+    400210: R Thigh
+    400212: R Toe0
+    400214: R Toe0Nub
+    400216: R Tusk
+    400218: R TuskNub
+    400220: R UpperArm
+    400222: Spine
+    400224: Spine1
+    400226: Spine2
+    400228: Tail
+    400230: Tail1
+    400232: Tail2
+    400234: Tail3
+    400236: Tail4
+    400238: Tail_Haircards_Geo
+    400240: TailNub
+    400242: Tongue
+    400244: Tongue02
+    400246: TongueNub
+    400248: Trunk
+    400250: Trunk02
+    400252: Trunk03
+    400254: Trunk04
+    400256: Trunk05
+    400258: Trunk06
+    400260: Trunk07
+    400262: Trunk08
+    400264: TrunkNub
+    400266: Root
+    7400000: Ele_WalkBack_Left
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.1
+    animationPositionError: 0.1
+    animationScaleError: 0.1
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Ele_WalkBack_Left
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 64
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 0
+    keepQuads: 0
+    weldVertices: 0
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 2
+    tangentImportMode: 2
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 2
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 1
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: CG
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 68d061e7f591c204897232eb2a3763c0,
+    type: 3}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

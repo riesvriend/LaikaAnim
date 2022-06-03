@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ElephantPA 4
+  m_Shader: {fileID: 4800000, guid: 365d78d112d33ff4bb96ef713a3af84b, type: 3}
+  m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP _SPECGLOSSMAP
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: ccead2d20db38e1489ca1bdf66e6f630, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Gradient:
+        m_Texture: {fileID: 2800000, guid: 0f424a347039ef447a763d3d4b4782b0, type: 3}
+        m_Scale: {x: 1, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: c344cfc3fa15a1e46b05c257efaa27f5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 2800000, guid: 713427c23737e8a4789e48069fa48d76, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 2800000, guid: e935d18f4fea4db4daf53dbf8e1e89e8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 2800000, guid: 6c86001df31a16545a8d0a16d0678027, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _GlossMapScale: 0.192
+    - _Glossiness: 0
+    - _GlossyReflections: 1
+    - _GradientIntensity: 0.814
+    - _GradientOffset: -0.29
+    - _GradientPower: 0.5
+    - _GradientScale: 1.43
+    - _Metallic: 0.702
+    - _Mode: 0
+    - _OcclusionStrength: 0.608
+    - _Parallax: 0.08
+    - _Smoothness: 0
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    - __dirty: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color1: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 0.1882353}
+    - _Color10: {r: 0.14150941, g: 0.14150941, b: 0.14150941, a: 1}
+    - _Color11: {r: 0, g: 0, b: 0, a: 0}
+    - _Color11Emmision: {r: 0, g: 0, b: 0, a: 0}
+    - _Color12: {r: 0, g: 0, b: 0, a: 0}
+    - _Color12Emmision: {r: 0, g: 0, b: 0, a: 0}
+    - _Color2: {r: 0.6698113, g: 0.6698113, b: 0.6698113, a: 0.1882353}
+    - _Color3: {r: 0.7075472, g: 0.7075472, b: 0.7075472, a: 0.1882353}
+    - _Color4: {r: 1, g: 1, b: 1, a: 0}
+    - _Color5: {r: 0.5188679, g: 0.374466, b: 0.39687228, a: 0.353}
+    - _Color6: {r: 0.745283, g: 0.745283, b: 0.745283, a: 0.5019608}
+    - _Color7: {r: 0.03137254, g: 0.30980393, b: 0.21057995, a: 0.5176471}
+    - _Color8: {r: 0.0754717, g: 0.0754717, b: 0.0754717, a: 0.37254903}
+    - _Color9: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 0.397}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GradientColor: {r: 0.103773594, g: 0.06944621, b: 0.023985408, a: 0}
+    - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}

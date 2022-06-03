@@ -374,8 +374,13 @@ public class OVRLint : EditorWindow
 		}
 
 #if USING_XR_SDK_OPENXR
-		AddFix(eRecordType.StaticCommon, -9999, "Unity OpenXR Plugin Detected", "Unity OpenXR Plugin should NOT be used in production when developing Oculus apps. Please uninstall the package, and install the Oculus XR Plugin from the Package Manager.\nWhen using the Oculus XR Plugin, you can enable OpenXR backend for Oculus Plugin through the 'Oculus -> Tools -> OpenXR' menu.", null, null, false);
+		AddFix(eRecordType.StaticCommon, -9999, "Unity OpenXR Plugin Detected", "Unity OpenXR Plugin should NOT be used in production when developing Oculus apps. Please uninstall the package, and install the Oculus XR Plugin from the Package Manager.\nWhen using the Oculus XR Plugin, you can enable OpenXR backend for Oculus Plugin through the 'Oculus -> Tools -> OVR Utilities Plugin' menu.", null, null, false);
 #endif
+
+		if (!OVRPluginUpdater.IsOVRPluginOpenXRActivated() || OVRPluginUpdater.IsOVRPluginUnityProvidedActivated())
+		{
+			AddFix(eRecordType.StaticCommon, -9999, "Set OVRPlugin to Oculus Utilities-provided (OpenXR backend)", "Oculus recommends using OpenXR plugin provided with its Oculus Utilities package.\nYou can enable OpenXR backend for Oculus through the 'Oculus -> Tools -> OVR Utilities Plugin' menu.", null, null, false);
+		}
 
 		if (QualitySettings.anisotropicFiltering != AnisotropicFiltering.Enable && QualitySettings.anisotropicFiltering != AnisotropicFiltering.ForceEnable)
 		{
@@ -639,6 +644,17 @@ public class OVRLint : EditorWindow
 					OVROverlay.instances[i].enabled = false;
 				}
 			}, null, false, "Fix");
+		}
+		for (int i = 0; i < overlays.Length; i++)
+		{
+			if (overlays[i].useLegacyCubemapRotation)
+			{
+				AddFix(eRecordType.StaticCommon, "Fix Cubemap Orientation", "Legacy cubemap rotation will be deprecated in the future. Please fix the cubemap texture instead.", delegate (UnityEngine.Object obj, bool last, int selected)
+				{
+					OVROverlay thisOverlay = (OVROverlay)obj;
+					thisOverlay.useLegacyCubemapRotation = false;
+				}, overlays[i], false, "Remove Legacy Rotation");
+			}
 		}
 
 		var splashScreen = PlayerSettings.virtualRealitySplashScreen;

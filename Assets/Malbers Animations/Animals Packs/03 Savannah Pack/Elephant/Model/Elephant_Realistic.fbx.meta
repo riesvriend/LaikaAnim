@@ -1,0 +1,290 @@
+fileFormatVersion: 2
+guid: e3ffb34dee7296d44b0f37b488a7f504
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: CG
+    100002: D Belly
+    100004: Elephant_Body
+    100006: //RootNode
+    100008: Elephant_Tusks
+    100010: Eyeballs_Geo
+    100012: Eyes_Geo
+    100014: Head
+    100016: Jaw
+    100018: L Belly
+    100020: L Calf
+    100022: L Cheek
+    100024: L Clavicle
+    100026: L Ear1
+    100028: L Ear2
+    100030: L Ear3
+    100032: L Eye
+    100034: L EyeLid Down
+    100036: L EyeLid Up
+    100038: L Finger2
+    100040: L Finger21
+    100042: L Foot
+    100044: L Forearm
+    100046: L Hand
+    100048: L Thigh
+    100050: L Toe0
+    100052: L Tusk
+    100054: L UpperArm
+    100056: Lip
+    100058: Neck
+    100060: Nose1
+    100062: Nose2
+    100064: Pelvis
+    100066: Ponytail1
+    100068: Ponytail2
+    100070: R Belly
+    100072: R Calf
+    100074: R Cheek
+    100076: R Clavicle
+    100078: R Ear1
+    100080: R Ear2
+    100082: R Ear3
+    100084: R Eye
+    100086: R EyeLid Down
+    100088: R EyeLid UP
+    100090: R Finger2
+    100092: R Finger21
+    100094: R Foot
+    100096: R Forearm
+    100098: R Hand
+    100100: R Thigh
+    100102: R Toe0
+    100104: R Tusk
+    100106: R UpperArm
+    100108: Spine
+    100110: Spine1
+    100112: Spine2
+    100114: Tail
+    100116: Tail1
+    100118: Tail2
+    100120: Tail3
+    100122: Tail4
+    100124: Tail_Haircards_Geo
+    100126: Tongue
+    100128: Tongue02
+    100130: Trunk
+    100132: Trunk02
+    100134: Trunk03
+    100136: Trunk04
+    100138: Trunk05
+    100140: Trunk06
+    100142: Trunk07
+    100144: Trunk08
+    100146: Elephant_EyeLash
+    100148: Elephant_Eyes
+    100150: Elephant_Hair_Tail
+    100152: L Ear
+    100154: R Ear
+    100156: Elephant_Tusks_Re
+    100158: Tusk_L
+    100160: Tusk_L001
+    100162: Tusks Root
+    100164: Tusk_R
+    400000: CG
+    400002: D Belly
+    400004: Elephant_Body
+    400006: //RootNode
+    400008: Elephant_Tusks
+    400010: Eyeballs_Geo
+    400012: Eyes_Geo
+    400014: Head
+    400016: Jaw
+    400018: L Belly
+    400020: L Calf
+    400022: L Cheek
+    400024: L Clavicle
+    400026: L Ear1
+    400028: L Ear2
+    400030: L Ear3
+    400032: L Eye
+    400034: L EyeLid Down
+    400036: L EyeLid Up
+    400038: L Finger2
+    400040: L Finger21
+    400042: L Foot
+    400044: L Forearm
+    400046: L Hand
+    400048: L Thigh
+    400050: L Toe0
+    400052: L Tusk
+    400054: L UpperArm
+    400056: Lip
+    400058: Neck
+    400060: Nose1
+    400062: Nose2
+    400064: Pelvis
+    400066: Ponytail1
+    400068: Ponytail2
+    400070: R Belly
+    400072: R Calf
+    400074: R Cheek
+    400076: R Clavicle
+    400078: R Ear1
+    400080: R Ear2
+    400082: R Ear3
+    400084: R Eye
+    400086: R EyeLid Down
+    400088: R EyeLid UP
+    400090: R Finger2
+    400092: R Finger21
+    400094: R Foot
+    400096: R Forearm
+    400098: R Hand
+    400100: R Thigh
+    400102: R Toe0
+    400104: R Tusk
+    400106: R UpperArm
+    400108: Spine
+    400110: Spine1
+    400112: Spine2
+    400114: Tail
+    400116: Tail1
+    400118: Tail2
+    400120: Tail3
+    400122: Tail4
+    400124: Tail_Haircards_Geo
+    400126: Tongue
+    400128: Tongue02
+    400130: Trunk
+    400132: Trunk02
+    400134: Trunk03
+    400136: Trunk04
+    400138: Trunk05
+    400140: Trunk06
+    400142: Trunk07
+    400144: Trunk08
+    400146: Elephant_EyeLash
+    400148: Elephant_Eyes
+    400150: Elephant_Hair_Tail
+    400152: L Ear
+    400154: R Ear
+    400156: Elephant_Tusks_Re
+    400158: Tusk_L
+    400160: Tusk_L001
+    400162: Tusks Root
+    400164: Tusk_R
+    2100000: Tusksasda
+    2100002: 03 - Default
+    2100004: Tusks
+    2100006: 19 - Default
+    2100008: Tail Hair
+    2300000: Eyeballs_Geo
+    2300002: Eyes_Geo
+    2300004: Elephant_Tusks_Re
+    3300000: Eyeballs_Geo
+    3300002: Eyes_Geo
+    3300004: Elephant_Tusks_Re
+    4300000: Elephant_Tusks
+    4300002: Eyeballs_Geo
+    4300004: Eyes_Geo
+    4300006: Elephant_Body
+    4300008: Tail_Haircards_Geo
+    4300010: Elephant_Hair_Tail
+    4300012: Elephant_Eyes
+    4300014: Elephant_EyeLash
+    4300016: Elephant_Tusks_Re
+    4300018: Tusk_L
+    4300020: Tusk_L001
+    4300022: Tusk_R
+    9500000: //RootNode
+    13700000: Elephant_Body
+    13700002: Elephant_Tusks
+    13700004: Tail_Haircards_Geo
+    13700006: Elephant_EyeLash
+    13700008: Elephant_Eyes
+    13700010: Elephant_Hair_Tail
+    13700012: Tusk_L
+    13700014: Tusk_L001
+    13700016: Tusk_R
+  externalObjects: {}
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: CG
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

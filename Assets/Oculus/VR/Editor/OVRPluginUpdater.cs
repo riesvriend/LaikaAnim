@@ -607,15 +607,9 @@ public class OVRPluginUpdater
 		}
 	}
 
-	[MenuItem("Oculus/Tools/Disable OVR Utilities Plugin")]
-	private static void AttemptPluginDisable()
-	{
-		if (OVRPluginUpdaterStub.IsInsidePackageDistribution())
-		{
-			UnityEngine.Debug.LogError("Unable to change plugin when using package distribution");
-			return;
-		}
 
+	private static PluginPackage GetEnabledUtilsPluginPkg()
+	{
 		List<PluginPackage> allUtilsPluginPkgs = GetAllUtilitiesPluginPackages();
 
 		PluginPackage enabledUtilsPluginPkg = null;
@@ -630,6 +624,31 @@ public class OVRPluginUpdater
 				}
 			}
 		}
+
+		return enabledUtilsPluginPkg;
+	}
+
+	const string k_disablePluginMenuStr = "Oculus/Tools/OVR Utilities Plugin/Set OVRPlugin to Package Manager-provided (Disable OVR Utilities Plugin version)";
+	[MenuItem(k_disablePluginMenuStr, true, 102)]
+	private static bool IsDisableOVRPluginMenuEnabled()
+	{
+		//This section controls whether we draw a checkmark next to this menu item (it's currently active...)
+		Menu.SetChecked(k_disablePluginMenuStr, GetEnabledUtilsPluginPkg() == null);
+
+		//And this section controls whether the menu item is enabled (you're allowed to toggle it)
+		return true;
+	}
+
+	[MenuItem(k_disablePluginMenuStr, false, 102)]
+	private static void AttemptPluginDisable()
+	{
+		if (OVRPluginUpdaterStub.IsInsidePackageDistribution())
+		{
+			UnityEngine.Debug.LogError("Unable to change plugin when using package distribution");
+			return;
+		}
+
+		PluginPackage enabledUtilsPluginPkg = GetEnabledUtilsPluginPkg();
 
 		if (enabledUtilsPluginPkg == null)
 		{
@@ -667,7 +686,7 @@ public class OVRPluginUpdater
 		}
 	}
 
-	[MenuItem("Oculus/Tools/Update OVR Utilities Plugin")]
+	[MenuItem("Oculus/Tools/OVR Utilities Plugin/Manual Update OVRPlugin (to OVR Utilities version)", false, 0)]
 	private static void RunPluginUpdate()
 	{
 		if (OVRPluginUpdaterStub.IsInsidePackageDistribution())
@@ -686,9 +705,14 @@ public class OVRPluginUpdater
 		ActivateOVRPluginOpenXR();
 	}
 
-	[MenuItem("Oculus/Tools/OpenXR/Switch to OVRPlugin with OpenXR backend", true)]
+	const string k_setToOpenXRPluginMenuStr = "Oculus/Tools/OVR Utilities Plugin/Set OVRPlugin to OpenXR";
+	[MenuItem(k_setToOpenXRPluginMenuStr, true, 100)]
 	private static bool IsActivateOVRPluginOpenXRMenuEnabled()
 	{
+		//This section controls whether we draw a checkmark next to this menu item (it's currently active...)
+		Menu.SetChecked(k_setToOpenXRPluginMenuStr, IsOVRPluginOpenXRActivated());
+
+		//And this section controls whether the menu item is enabled (you're allowed to toggle it)
 #if !USING_XR_SDK && !REQUIRES_XR_SDK
 		return false;
 #else
@@ -696,7 +720,7 @@ public class OVRPluginUpdater
 #endif
 	}
 
-	[MenuItem("Oculus/Tools/OpenXR/Switch to OVRPlugin with OpenXR backend")]
+	[MenuItem(k_setToOpenXRPluginMenuStr, false, 100)]
 	private static void ActivateOVRPluginOpenXR()
 	{
 		if (!unityVersionSupportsAndroidUniversal)
@@ -869,7 +893,18 @@ public class OVRPluginUpdater
 #endif // !USING_XR_SDK
 	}
 
-	[MenuItem("Oculus/Tools/OpenXR/Switch to Legacy OVRPlugin (with LibOVR and VRAPI backends)")]
+	const string k_setToLegacyPluginMenuStr = "Oculus/Tools/OVR Utilities Plugin/Set OVRPlugin to Legacy LibOVR+VRAPI";
+	[MenuItem(k_setToLegacyPluginMenuStr, true, 101)]
+	private static bool IsRestoreStandardOVRPluginMenuEnabled()
+	{
+		//This section controls whether we draw a checkmark next to this menu item (it's currently active...)
+		Menu.SetChecked(k_setToLegacyPluginMenuStr, IsOVRPluginLegacyAPIActivated());
+
+		//And this section controls whether the menu item is enabled (you're allowed to toggle it)
+		return true;
+	}
+
+	[MenuItem(k_setToLegacyPluginMenuStr, false, 101)]
 	private static void RestoreStandardOVRPlugin()
 	{
 		if (!unityVersionSupportsAndroidUniversal) // sanity check
@@ -1025,18 +1060,7 @@ public class OVRPluginUpdater
 			return false;
 		}
 
-		List<PluginPackage> allUtilsPluginPkgs = GetAllUtilitiesPluginPackages();
-
-		PluginPackage enabledUtilsPluginPkg = null;
-
-		foreach (PluginPackage pluginPkg in allUtilsPluginPkgs)
-		{
-			if (pluginPkg.IsEnabled())
-			{
-				enabledUtilsPluginPkg = pluginPkg;
-				break;
-			}
-		}
+		PluginPackage enabledUtilsPluginPkg = GetEnabledUtilsPluginPkg();
 
 		if (enabledUtilsPluginPkg == null)
 		{
@@ -1044,6 +1068,24 @@ public class OVRPluginUpdater
 		}
 
 		return enabledUtilsPluginPkg.IsAndroidOpenXREnabled();
+	}
+
+	public static bool IsOVRPluginLegacyAPIActivated()
+	{
+		PluginPackage enabledUtilsPluginPkg = GetEnabledUtilsPluginPkg();
+
+		if (enabledUtilsPluginPkg == null)
+		{
+			return false;
+		}
+
+		return enabledUtilsPluginPkg.IsAndroidUniversalEnabled();
+	}
+
+	public static bool IsOVRPluginUnityProvidedActivated()
+	{
+		PluginPackage enabledUtilsPluginPkg = GetEnabledUtilsPluginPkg();
+		return enabledUtilsPluginPkg != null && enabledUtilsPluginPkg.IsBundledPluginPackage();
 	}
 
 	// Separate entry point needed since "-executeMethod" does not support parameters or default parameter values

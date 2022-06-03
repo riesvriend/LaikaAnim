@@ -145,6 +145,7 @@ namespace Oculus.Interaction
             {
                 return;
             }
+            interactor.InteractableChangesUpdate();
             WhenInteractorsCountUpdated();
             InteractorRemoved(interactor);
             UpdateInteractableState();
@@ -164,6 +165,7 @@ namespace Oculus.Interaction
             {
                 return;
             }
+            interactor.InteractableChangesUpdate();
             WhenSelectingInteractorsCountUpdated();
             SelectingInteractorRemoved(interactor);
             UpdateInteractableState();
@@ -172,6 +174,7 @@ namespace Oculus.Interaction
         private void UpdateInteractableState()
         {
             if (State == InteractableState.Disabled) return;
+
             if (SelectingInteractorsCount > 0)
             {
                 State = InteractableState.Select;
@@ -221,14 +224,20 @@ namespace Oculus.Interaction
 
         public void Enable()
         {
-            if (State != InteractableState.Disabled) return;
+            if (State != InteractableState.Disabled)
+            {
+                return;
+            }
             _registry.Register((TInteractable)this);
             State = InteractableState.Normal;
         }
 
         public void Disable()
         {
-            if (State == InteractableState.Disabled) return;
+            if (State == InteractableState.Disabled)
+            {
+                return;
+            }
 
             List<TInteractor> selectingInteractorsCopy = new List<TInteractor>(_selectingInteractors);
             foreach (TInteractor selectingInteractor in selectingInteractorsCopy)
