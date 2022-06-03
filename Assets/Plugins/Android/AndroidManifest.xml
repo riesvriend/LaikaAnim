@@ -15,23 +15,27 @@ We have this override because we need <queries> to enable speech to text
     https://github.com/j1mmyto9/Speech-And-Text-Unity-iOS-Android/issues/58
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" xmlns:tools="http://schemas.android.com/tools">
-    <application android:label="@string/app_name" android:icon="@mipmap/app_icon" android:allowBackup="false">
-        <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:configChanges="locale|fontScale|keyboard|keyboardHidden|mcc|mnc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|touchscreen|uiMode" android:launchMode="singleTask" android:name="com.unity3d.player.UnityPlayerActivity" android:excludeFromRecents="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <meta-data android:name="unityplayer.SkipPermissionsDialog" android:value="false" />
-        <meta-data android:name="com.samsung.android.vr.application.mode" android:value="vr_only" />
-    </application>
-    <queries>
-        <intent>
-            <!--Needed for speech recognition to work in Android 11 -->
-            <action android:name="android.speech.RecognitionService" />
-        </intent>
-    </queries>
-    <uses-feature android:name="android.hardware.vr.headtracking" android:version="1" android:required="true" />
-    <!--Needed to allow compiling voor Oculus at SDK 23 error, "use a compatible library with a minSdk of at most 23" -->
-    <uses-sdk tools:overrideLibrary="com.example.eric.unityspeechrecognizerplugin" />
+  <application android:label="@string/app_name" android:icon="@mipmap/app_icon" android:allowBackup="false">
+    <activity android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:configChanges="locale|fontScale|keyboard|keyboardHidden|mcc|mnc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|touchscreen|uiMode" android:launchMode="singleTask" android:name="com.unity3d.player.UnityPlayerActivity" android:excludeFromRecents="true">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <meta-data android:name="unityplayer.SkipPermissionsDialog" android:value="false" />
+    <meta-data android:name="com.samsung.android.vr.application.mode" android:value="vr_only" />
+    <meta-data android:name="com.oculus.handtracking.frequency" android:value="HIGH" />
+    <meta-data android:name="com.oculus.handtracking.version" android:value="V2.0" />
+  </application>
+  <queries>
+    <intent>
+      <!--Needed for speech recognition to work in Android 11 -->
+      <action android:name="android.speech.RecognitionService" />
+    </intent>
+  </queries>
+  <uses-feature android:name="android.hardware.vr.headtracking" android:version="1" android:required="true" />
+  <!--Needed to allow compiling voor Oculus at SDK 23 error, "use a compatible library with a minSdk of at most 23" -->
+  <uses-sdk tools:overrideLibrary="com.example.eric.unityspeechrecognizerplugin" />
+  <uses-feature android:name="oculus.software.handtracking" android:required="false" />
+  <uses-permission android:name="com.oculus.permission.HAND_TRACKING" />
 </manifest>
