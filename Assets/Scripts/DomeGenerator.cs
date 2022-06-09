@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
@@ -12,7 +13,13 @@ public class DomeGenerator : MonoBehaviour
     public MeshFilter InputSphere;
 
     [Tooltip("Range between -0.5 and 0. Marks the cut-off Y-coordinate in the bottom half of the sphere")]
-    public float MaxY = 0.0f;
+    public float MaxY = -0.03f;
+
+    [Tooltip("Increase to bring items close to the center of the floor more to the center. CorrectionPower of cancels the correction, as it results in a factor 1")]
+    public float CorrectionPower = 0f;
+
+    private float? _prevMaxY, _prevCorrectionPower;
+
 
     void Start()
     {
@@ -27,6 +34,17 @@ public class DomeGenerator : MonoBehaviour
         if (inputRender != null)
             inputRender.enabled = false;
 
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (_prevMaxY == MaxY && _prevCorrectionPower == CorrectionPower)
+            return;
+
+        _prevMaxY = MaxY;
+        _prevCorrectionPower = CorrectionPower;
+
         // We expect a sphere child object that we can clone and mould into a dome
         var sphereFilter = InputSphere;
         // The mesh is an instantiated clone of the Sphere asset
@@ -40,12 +58,36 @@ public class DomeGenerator : MonoBehaviour
         // make it a dome
         // Accessing the vertices clones the full array, see https://docs.unity3d.com/ScriptReference/Mesh.html
         var domeVertices = dome.vertices;
+        var correctionLog = new StringBuilder();
         for (var vertexIndex = 0; vertexIndex < domeVertices.Length; vertexIndex += 1)
         {
             // push all vertices to be at or above the horizontal plane at Y=0, transforming the input
             // sphere into a dome
             var vertex = domeVertices[vertexIndex];
-            vertex.y = Mathf.Max(MaxY, vertex.y);
+            if (vertex.y <= MaxY)
+            {
+                // Below floor level, so move the vertex up to floor level
+                vertex.y = MaxY;
+
+                // scale the vertices that are close the center of the floor even more to the center
+                // to compensate for the fact that the camera is now closer
+                // we use a cosine wave that corrects with max value of 1 at radius 0
+                // and no correction (0) at the edge of the sphere where r=0.5
+                // r = sqrt(x^2 + z^2). 
+                var radius = Mathf.Sqrt(vertex.x * vertex.x + vertex.z * vertex.z);
+                float sphereRadius = 0.5f;
+                // coordinates are from 0 to 0.5, we need them to be from 0 to PI/2 
+                // so that the sine flows from 1 to 0 over the radius of the sphere.
+                float coordinateScaleFactor = (Mathf.PI / 2f) / sphereRadius;
+                var correctionFactor = Mathf.Sin(radius * coordinateScaleFactor);
+                // Widen the sine wave to have extra effect at the center
+                correctionFactor = Mathf.Pow(correctionFactor, CorrectionPower);
+                correctionLog.AppendLine($"x:{vertex.x} z:{vertex.z} r:{radius} correctionFactor: {correctionFactor}");
+                vertex.x *= correctionFactor;
+                vertex.z *= correctionFactor;
+                correctionLog.AppendLine($"x:{vertex.x} z:{vertex.z}");
+            }
+            Debug.Log(correctionLog);
             domeVertices[vertexIndex] = vertex;
         }
         // Re-assign the cloned array to the mesh
@@ -69,7 +111,7 @@ public class DomeGenerator : MonoBehaviour
         // we have to move it up the Y axis so that the floor of the dome is at 0.
         // This way gameobjects inside the dome are on the floor when placed at Y = 0
         var domeY = transform.localScale.y * -MaxY;
-        transform.localPosition = new Vector3(transform.localPosition.x, domeY, transform.localPosition.z);    
+        transform.localPosition = new Vector3(transform.localPosition.x, domeY, transform.localPosition.z);
 
         if (FloorShadow != null)
         {
@@ -78,11 +120,6 @@ public class DomeGenerator : MonoBehaviour
             floorPosition = new Vector3(floorPosition.x, MaxY, floorPosition.z);
             FloorShadow.transform.localPosition = floorPosition;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 }
