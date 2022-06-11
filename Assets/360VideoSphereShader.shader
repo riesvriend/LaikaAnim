@@ -55,7 +55,7 @@ Shader "VRiend/360VideoSphereShader"
                 float2 uv = float2(1. - i.uv.x, i.uv.y);
                 fixed4 col = tex2D(_MainTex, uv);
                 // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
+                //UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;
             }
             ENDCG

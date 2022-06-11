@@ -18,6 +18,9 @@ public class DomeGenerator : MonoBehaviour
     [Tooltip("Increase to bring items close to the center of the floor more to the center. CorrectionPower of cancels the correction, as it results in a factor 1")]
     public float CorrectionPower = 0f;
 
+    public bool IsEarth = false;
+
+
     private float? _prevMaxY, _prevCorrectionPower;
 
 
@@ -36,7 +39,6 @@ public class DomeGenerator : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_prevMaxY == MaxY && _prevCorrectionPower == CorrectionPower)
@@ -44,6 +46,7 @@ public class DomeGenerator : MonoBehaviour
 
         _prevMaxY = MaxY;
         _prevCorrectionPower = CorrectionPower;
+
 
         // We expect a sphere child object that we can clone and mould into a dome
         var sphereFilter = InputSphere;
@@ -54,42 +57,78 @@ public class DomeGenerator : MonoBehaviour
 
         // Clone the sphere mesh https://answers.unity.com/questions/398785/how-do-i-clone-a-sharedmesh.html
         var dome = Instantiate(inputSphere);
+        /*
 
         // make it a dome
         // Accessing the vertices clones the full array, see https://docs.unity3d.com/ScriptReference/Mesh.html
         var domeVertices = dome.vertices;
+
+        // First ensure no triangles are partially on floor level
+        var domeTriangles = dome.triangles; // returns a clone
+        for (var triangleIndex = 0; triangleIndex < domeTriangles.Length; triangleIndex += 3)
+        {
+            Vector3 v0, v1, v2;
+            v0 = domeVertices[domeTriangles[triangleIndex]];
+            v1 = domeVertices[domeTriangles[triangleIndex + 1]];
+            v2 = domeVertices[domeTriangles[triangleIndex + 2]];
+            var isAnyVertexBelowFloorLevel = v0.y < MaxY || v1.y < MaxY || v2.y < MaxY;
+            if (isAnyVertexBelowFloorLevel)
+            {
+                v0.y = MaxY;
+                v1.y = MaxY;
+                v2.y = MaxY;
+            }
+        }
+
+
         var correctionLog = new StringBuilder();
         for (var vertexIndex = 0; vertexIndex < domeVertices.Length; vertexIndex += 1)
         {
             // push all vertices to be at or above the horizontal plane at Y=0, transforming the input
             // sphere into a dome
             var vertex = domeVertices[vertexIndex];
+
+            // test to prevent flickering at triangles that are truncated at floor level
+            var threshold = 0.04f;  // vertices are about 0.1f apart on the unit sphere
+            if (vertex.y > MaxY && vertex.y < MaxY + threshold)
+            {
+                Debug.Log($"Truncated to floor. y: {vertex.y}");
+                vertex.y = MaxY;
+            }
+
             if (vertex.y <= MaxY)
             {
                 // Below floor level, so move the vertex up to floor level
                 vertex.y = MaxY;
 
-                // scale the vertices that are close the center of the floor even more to the center
-                // to compensate for the fact that the camera is now closer
-                // we use a cosine wave that corrects with max value of 1 at radius 0
-                // and no correction (0) at the edge of the sphere where r=0.5
-                // r = sqrt(x^2 + z^2). 
-                var radius = Mathf.Sqrt(vertex.x * vertex.x + vertex.z * vertex.z);
-                float sphereRadius = 0.5f;
-                // coordinates are from 0 to 0.5, we need them to be from 0 to PI/2 
-                // so that the sine flows from 1 to 0 over the radius of the sphere.
-                float coordinateScaleFactor = (Mathf.PI / 2f) / sphereRadius;
-                var correctionFactor = Mathf.Sin(radius * coordinateScaleFactor);
-                // Widen the sine wave to have extra effect at the center
-                correctionFactor = Mathf.Pow(correctionFactor, CorrectionPower);
-                correctionLog.AppendLine($"x:{vertex.x} z:{vertex.z} r:{radius} correctionFactor: {correctionFactor}");
-                vertex.x *= correctionFactor;
-                vertex.z *= correctionFactor;
-                correctionLog.AppendLine($"x:{vertex.x} z:{vertex.z}");
+                if (CorrectionPower > 0)
+                {
+                    // scale the vertices that are close the center of the floor even more to the center
+                    // to compensate for the fact that the camera is now closer
+                    // we use a cosine wave that corrects with max value of 1 at radius 0
+                    // and no correction (0) at the edge of the sphere where r=0.5
+                    // r = sqrt(x^2 + z^2). 
+                    var radius = Mathf.Sqrt(vertex.x * vertex.x + vertex.z * vertex.z);
+                    float sphereRadius = 0.5f;
+                    // coordinates are from 0 to 0.5, we need them to be from 0 to PI/2 
+                    // so that the sine flows from 1 to 0 over the radius of the sphere.
+                    float coordinateScaleFactor = (Mathf.PI / 2f) / sphereRadius;
+                    var correctionFactor = Mathf.Sin(radius * coordinateScaleFactor);
+                    // Widen the sine wave to have extra effect at the center
+                    correctionFactor = Mathf.Pow(correctionFactor, CorrectionPower);
+                    correctionLog.AppendLine($"x:{vertex.x} z:{vertex.z} r:{radius} correctionFactor: {correctionFactor}");
+                    vertex.x *= correctionFactor;
+                    vertex.z *= correctionFactor;
+                    correctionLog.AppendLine($"x:{vertex.x} z:{vertex.z}");
+                }
             }
-            Debug.Log(correctionLog);
+            if (correctionLog.ToString() != "")
+                Debug.Log(correctionLog);
             domeVertices[vertexIndex] = vertex;
         }
+
+
+
         // Re-assign the cloned array to the mesh
         dome.vertices = domeVertices;
 
@@ -102,24 +141,32 @@ public class DomeGenerator : MonoBehaviour
         // for better perf, invert all normals of the sphere here in the Start logic (so that the outside of the dome becomes the inside)
         // we can/should then remove the normals inversion logic from the shader in the 360PlayerMaterial, which renders on each frame
 
+        */
 
         var meshFilter = GetComponent<MeshFilter>();
         //meshFilter.sharedMesh = dome;
         meshFilter.mesh = dome;
 
+
         // The Dome's Y position is the middle of the source-sphere and is 0 by default
         // we have to move it up the Y axis so that the floor of the dome is at 0.
         // This way gameobjects inside the dome are on the floor when placed at Y = 0
         var domeY = transform.localScale.y * -MaxY;
-        transform.localPosition = new Vector3(transform.localPosition.x, domeY, transform.localPosition.z);
+        var yOffset = 0f;
+        if (IsEarth)
+            yOffset = 0.01f; // Make ground level dome a peetsie higher than the air level dome so the ground is show playing slow to prevent static/abberations
+        transform.localPosition = new Vector3(transform.localPosition.x, domeY + yOffset, transform.localPosition.z);
 
         if (FloorShadow != null)
         {
             // Move the floor that receives shadows to the bottom of the dome
             var floorPosition = FloorShadow.transform.localPosition;
-            floorPosition = new Vector3(floorPosition.x, MaxY, floorPosition.z);
+            floorPosition = new Vector3(floorPosition.x, MaxY + yOffset, floorPosition.z);
             FloorShadow.transform.localPosition = floorPosition;
         }
 
     }
+
 }
+
+
