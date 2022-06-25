@@ -19,6 +19,22 @@ public class PettingHandPoseHandler : MonoBehaviour
 
     public MWayPoint playerWaypoint;
 
+#if UNITY_EDITOR
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            HandleCome();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            HandleGoAway();
+        }
+    }
+#endif
+
+
     /// <summary>
     /// The animal should come to the user when the palm faces the user and the fingers
     /// are flexed, and the user faces the animal.

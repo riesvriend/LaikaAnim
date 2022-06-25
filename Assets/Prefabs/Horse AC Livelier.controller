@@ -322,6 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df04eaf81ae924d43860aad85a13e146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  when: 0
   OnEnter: 0
 --- !u!1101 &-6979466652006828019
 AnimatorStateTransition:
@@ -431,6 +432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df04eaf81ae924d43860aad85a13e146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  when: 0
   OnEnter: 2
 --- !u!1101 &-6235109186104531010
 AnimatorStateTransition:
@@ -686,12 +688,12 @@ AnimatorStateMachine:
   - {fileID: -5998278257904521088}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 1078442952344333518}
-    second:
-    - {fileID: 7774437607599883434}
   - first: {fileID: -1423600258132758039}
     second:
     - {fileID: 8763932457305574895}
+  - first: {fileID: 1078442952344333518}
+    second:
+    - {fileID: 7774437607599883434}
   - first: {fileID: 90548163043076979}
     second:
     - {fileID: 64490974943577225}
@@ -1047,6 +1049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df04eaf81ae924d43860aad85a13e146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  when: 0
   OnEnter: 2
 --- !u!114 &-2369297429174461655
 MonoBehaviour:
@@ -1060,6 +1063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df04eaf81ae924d43860aad85a13e146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  when: 0
   OnEnter: 2
 --- !u!114 &-2206522881161924656
 MonoBehaviour:
@@ -1073,6 +1077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df04eaf81ae924d43860aad85a13e146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  when: 0
   OnEnter: 2
 --- !u!114 &-2165400562364020598
 MonoBehaviour:
@@ -1125,6 +1130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df04eaf81ae924d43860aad85a13e146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  when: 0
   OnEnter: 3
 --- !u!114 &-1514588875876853650
 MonoBehaviour:
@@ -1138,6 +1144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df04eaf81ae924d43860aad85a13e146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  when: 0
   OnEnter: 2
 --- !u!1107 &-1423600258132758039
 AnimatorStateMachine:
@@ -1230,6 +1237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df04eaf81ae924d43860aad85a13e146, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  when: 0
   OnEnter: 2
 --- !u!1109 &-868394219537479880
 AnimatorTransition:
@@ -7592,7 +7600,7 @@ AnimatorStateMachine:
   - {fileID: 114189647615105278}
   - {fileID: 114461205093804750}
   m_AnyStatePosition: {x: 360, y: -100, z: 0}
-  m_EntryPosition: {x: 130, y: 140, z: 0}
+  m_EntryPosition: {x: 120, y: 140, z: 0}
   m_ExitPosition: {x: 612, y: 144, z: 0}
   m_ParentStateMachinePosition: {x: 350, y: -60, z: 0}
   m_DefaultState: {fileID: 1102158724749849460}
@@ -7887,7 +7895,7 @@ AnimatorTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: Random
-    m_EventTreshold: 14
+    m_EventTreshold: -1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102495979730265888}
   m_Solo: 0
@@ -8008,7 +8016,7 @@ AnimatorTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: Random
-    m_EventTreshold: 13
+    m_EventTreshold: -1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102681805694445994}
   m_Solo: 0
@@ -8149,7 +8157,7 @@ AnimatorTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: Random
-    m_EventTreshold: 16
+    m_EventTreshold: -1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102177209095900532}
   m_Solo: 0
@@ -8403,7 +8411,7 @@ AnimatorTransition:
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: Random
-    m_EventTreshold: 15
+    m_EventTreshold: -1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102492540155846828}
   m_Solo: 0

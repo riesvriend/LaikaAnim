@@ -10,7 +10,7 @@ public class FlyControl : MonoBehaviour
 #if UNITY_EDITOR
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.ScrollLock))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             isEnabled = !isEnabled;
         }
@@ -40,6 +40,7 @@ public class FlyControl : MonoBehaviour
         Look(new Vector3(dx, dy, 0.0f) * 1.25f);
     }
 #endif
+
     void Strafe(float dist)
     {
         transform.Translate(Vector3.left * dist);

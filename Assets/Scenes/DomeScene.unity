@@ -3253,6 +3253,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 553331758}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &553791831 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7062346132881637099, guid: aec39908c6f0b8e4e882d49039c80a24,
+    type: 3}
+  m_PrefabInstance: {fileID: 959573409}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &553791845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553791831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26376a1fa36917241a83422ffaf7ca93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &561893460
 GameObject:
   m_ObjectHideFlags: 0
@@ -3475,7 +3493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointType: 0
   stoppingDistance: 1
-  slowingDistance: 0
+  slowingDistance: 2
   m_arriveLookAt: 1
   m_height: 0.5
   m_WaitTime:
@@ -5950,7 +5968,7 @@ PrefabInstance:
     - target: {fileID: 62753494633955114, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.6914755
+      value: 0.69147563
       objectReference: {fileID: 0}
     - target: {fileID: 62753494633955114, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
@@ -5975,7 +5993,7 @@ PrefabInstance:
     - target: {fileID: 62753495680592641, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.00000020861626
+      value: -0.00000008940697
       objectReference: {fileID: 0}
     - target: {fileID: 62753495680592641, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
@@ -5985,12 +6003,12 @@ PrefabInstance:
     - target: {fileID: 62753495680592641, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.1917347
+      value: 1.1917348
       objectReference: {fileID: 0}
     - target: {fileID: 335759714243343820, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0010012686
+      value: -0.0010011494
       objectReference: {fileID: 0}
     - target: {fileID: 335759714243343820, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
@@ -6055,7 +6073,7 @@ PrefabInstance:
     - target: {fileID: 6432900936484675014, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].x
-      value: -0.13003021
+      value: -0.13003027
       objectReference: {fileID: 0}
     - target: {fileID: 6432900936484675014, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
@@ -6075,7 +6093,7 @@ PrefabInstance:
     - target: {fileID: 7064109692811175107, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.85
+      value: 4.35
       objectReference: {fileID: 0}
     - target: {fileID: 7064109692811175107, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
@@ -6085,7 +6103,7 @@ PrefabInstance:
     - target: {fileID: 7064109692811175107, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.95
+      value: 4.66
       objectReference: {fileID: 0}
     - target: {fileID: 7064109692811175107, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
@@ -6347,12 +6365,12 @@ PrefabInstance:
     - target: {fileID: 7175180477090272577, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7175180477090272577, guid: aec39908c6f0b8e4e882d49039c80a24,
         type: 3}
       propertyPath: Editor_Tabs2
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aec39908c6f0b8e4e882d49039c80a24, type: 3}
@@ -7127,12 +7145,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointType: 0
   stoppingDistance: 1
-  slowingDistance: 0
+  slowingDistance: 2
   m_arriveLookAt: 0
   m_height: 0.5
   m_WaitTime:
     minValue: 0
-    maxValue: 0
+    maxValue: 0.5
   DebugColor: {r: 1, g: 0, b: 0, a: 1}
   nextWayPoints:
   - {fileID: 570400496}
@@ -12451,6 +12469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  isEnabled: 1
 --- !u!1 &1983947240
 GameObject:
   m_ObjectHideFlags: 0
