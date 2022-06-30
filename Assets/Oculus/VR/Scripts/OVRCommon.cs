@@ -258,8 +258,9 @@ public static class OVRExtensions
 
 	public static Transform FindChildRecursive(this Transform parent, string name)
 	{
-		foreach (Transform child in parent)
+		for (int i = 0; i < parent.childCount; i++)
 		{
+			var child = parent.GetChild(i);
 			if (child.name.Contains(name))
 				return child;
 

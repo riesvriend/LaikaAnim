@@ -736,7 +736,7 @@ public class OVRPluginUpdater
 		}
 
 #if !USING_XR_SDK && !REQUIRES_XR_SDK
-		UnityEngine.Debug.LogError("Oculus Utilities Plugin with OpenXR only supports XR Plug-in Managmenent with Oculus XR Plugin");
+		UnityEngine.Debug.LogError("Oculus Utilities Plugin with OpenXR only supports XR Plug-in Management with Oculus XR Plugin");
 		return;
 #else
 
@@ -782,7 +782,7 @@ public class OVRPluginUpdater
 					"OVRPlugin with OpenXR backend is experimental before v31. You may expect to encounter stability issues and/or missing functionalities, " +
 					"including but not limited to, fixed foveated rendering / composition layer / display refresh rates / etc." +
 					"\n\n" +
-					"Also, OVRPlugin with OpenXR backend only supports XR Plug-in Managmenent with Oculus XR Plugin on Quest",
+					"Also, OVRPlugin with OpenXR backend only supports XR Plug-in Management with Oculus XR Plugin on Quest",
 					"Continue", "Cancel");
 
 				if (!accepted)

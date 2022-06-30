@@ -58,6 +58,7 @@ namespace Facebook.WitAi
         private IWitByteDataReadyHandler[] _dataReadyHandlers;
         private IWitByteDataSentHandler[] _dataSentHandlers;
         private Coroutine _micInitCoroutine;
+        private IDynamicEntitiesProvider[] _dynamicEntityProviders;
 
         #endregion
 
@@ -165,6 +166,8 @@ namespace Facebook.WitAi
             _micInput.OnStartRecording += OnMicStartListening;
             _micInput.OnStopRecording += OnMicStoppedListening;
 
+            _dynamicEntityProviders = GetComponents<IDynamicEntitiesProvider>();
+
             InitializeConfig();
         }
         // If always recording, begin now
@@ -250,7 +253,7 @@ namespace Facebook.WitAi
 
             if (ShouldSendMicData)
             {
-                _recordingRequest = RuntimeConfiguration.witConfiguration.SpeechRequest(requestOptions);
+                _recordingRequest = RuntimeConfiguration.witConfiguration.SpeechRequest(requestOptions, _dynamicEntityProviders);
                 _recordingRequest.audioEncoding = _micInput.AudioEncoding;
                 _recordingRequest.onPartialTranscription = OnPartialTranscription;
                 _recordingRequest.onFullTranscription = OnFullTranscription;
@@ -424,7 +427,7 @@ namespace Facebook.WitAi
 
                     // Flush the marker buffer to catch up
                     int read;
-                    while ((read = _lastSampleMarker.Read(_writeBuffer, 0, _writeBuffer.Length, true)) > 0)
+                    while (null != _lastSampleMarker && (read = _lastSampleMarker.Read(_writeBuffer, 0, _writeBuffer.Length, true)) > 0)
                     {
                         _recordingRequest.Write(_writeBuffer, 0, read);
                         events.OnByteDataSent?.Invoke(_writeBuffer, 0, read);
@@ -518,6 +521,7 @@ namespace Facebook.WitAi
         /// </summary>
         public override void DeactivateAndAbortRequest()
         {
+            events.OnAborting.Invoke();
             DeactivateRequest(_micInput.IsRecording ? events.OnStoppedListeningDueToDeactivation : null, true);
         }
         // Stop listening if time expires
@@ -619,7 +623,7 @@ namespace Facebook.WitAi
         private void SendTranscription(string transcription, WitRequestOptions requestOptions)
         {
             // Create request & add response delegate
-            WitRequest request = RuntimeConfiguration.witConfiguration.MessageRequest(transcription, requestOptions);
+            WitRequest request = RuntimeConfiguration.witConfiguration.MessageRequest(transcription, requestOptions, _dynamicEntityProviders);
             request.onResponse += HandleResult;
 
             // Call on create delegate

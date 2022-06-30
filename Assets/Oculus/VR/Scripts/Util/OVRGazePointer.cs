@@ -249,9 +249,10 @@ public class OVRGazePointer : OVRCursor {
     // Disable/Enable child elements when we show/hide the cursor. For performance reasons.
     void Hide()
     {
-        foreach (Transform child in transform)
+        var cachedTransform = transform;
+        for (int i = 0; i < cachedTransform.childCount; i++)
         {
-            child.gameObject.SetActive(false);
+	        cachedTransform.GetChild(i).gameObject.SetActive(false);
         }
         if (GetComponent<Renderer>())
             GetComponent<Renderer>().enabled = false;
@@ -260,9 +261,10 @@ public class OVRGazePointer : OVRCursor {
 
     void Show()
     {
-        foreach (Transform child in transform)
+        var cachedTransform = transform;
+        for (int i = 0; i < cachedTransform.childCount; i++)
         {
-            child.gameObject.SetActive(true);
+	        cachedTransform.GetChild(i).gameObject.SetActive(true);
         }
         if (GetComponent<Renderer>())
             GetComponent<Renderer>().enabled = true;

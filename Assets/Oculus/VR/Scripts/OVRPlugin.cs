@@ -44,7 +44,7 @@ public static partial class OVRPlugin
 #if OVRPLUGIN_UNSUPPORTED_PLATFORM
 	public static readonly System.Version wrapperVersion = _versionZero;
 #else
-	public static readonly System.Version wrapperVersion = OVRP_1_72_0.version;
+	public static readonly System.Version wrapperVersion = OVRP_1_73_0.version;
 #endif
 
 #if !OVRPLUGIN_UNSUPPORTED_PLATFORM
@@ -431,6 +431,7 @@ public static partial class OVRPlugin
 		EnumSize = 0x7FFFFFFF
 	}
 
+	public static int MAX_CPU_CORES = 8;
 	public enum PerfMetrics
 	{
 		App_CpuTime_Float = 0,
@@ -449,6 +450,18 @@ public static partial class OVRPlugin
 		Device_GpuClockFrequencyInMHz_Float = 11, // Deprecated 1.68.0
 		Device_CpuClockLevel_Int = 12, // Deprecated 1.68.0
 		Device_GpuClockLevel_Int = 13, // Deprecated 1.68.0
+
+		Compositor_SpaceWarp_Mode_Int = 14,
+
+		Device_CpuCore0UtilPercentage_Float = 32,
+		Device_CpuCore1UtilPercentage_Float = Device_CpuCore0UtilPercentage_Float + 1,
+		Device_CpuCore2UtilPercentage_Float = Device_CpuCore0UtilPercentage_Float + 2,
+		Device_CpuCore3UtilPercentage_Float = Device_CpuCore0UtilPercentage_Float + 3,
+		Device_CpuCore4UtilPercentage_Float = Device_CpuCore0UtilPercentage_Float + 4,
+		Device_CpuCore5UtilPercentage_Float = Device_CpuCore0UtilPercentage_Float + 5,
+		Device_CpuCore6UtilPercentage_Float = Device_CpuCore0UtilPercentage_Float + 6,
+		Device_CpuCore7UtilPercentage_Float = Device_CpuCore0UtilPercentage_Float + 7,
+		// Enum value 32~63 are reserved for CPU Cores' utilization (assuming at most 32 cores).
 
 		Count,
 		EnumSize = 0x7FFFFFFF
@@ -491,6 +504,10 @@ public static partial class OVRPlugin
 		HeadLocked = unchecked((int)0x00000002),
 		NoDepth = unchecked((int)0x00000004),
 		ExpensiveSuperSample = unchecked((int)0x00000008),
+		EfficientSuperSample = unchecked((int)0x00000010),
+		EfficientSharpen = unchecked((int)0x00000020),
+		BicubicFiltering = unchecked((int)0x00000040),
+		ExpensiveSharpen = unchecked((int)0x00000080),
 
 		// Using the 5-8 bits for shapes, total 16 potential shapes can be supported 0x000000[0]0 ->  0x000000[F]0
 		ShapeFlag_Quad = unchecked((int)OverlayShape.Quad << OverlayShapeFlagShift),
@@ -2345,7 +2362,7 @@ public static partial class OVRPlugin
 
 	public static bool EnqueueSubmitLayer(bool onTop, bool headLocked, bool noDepthBufferTesting, IntPtr leftTexture, IntPtr rightTexture, int layerId, int frameIndex, Posef pose, Vector3f scale, int layerIndex = 0, OverlayShape shape = OverlayShape.Quad,
 										bool overrideTextureRectMatrix = false, TextureRectMatrixf textureRectMatrix = default(TextureRectMatrixf), bool overridePerLayerColorScaleAndOffset = false, Vector4 colorScale = default(Vector4), Vector4 colorOffset = default(Vector4),
-										bool expensiveSuperSample = false, bool hidden = false)
+										bool expensiveSuperSample = false, bool bicubic = false, bool efficientSuperSample = false, bool efficientSharpen = false, bool expensiveSharpen = false, bool hidden = false)
 	{
 #if OVRPLUGIN_UNSUPPORTED_PLATFORM
 		return false;
@@ -2366,6 +2383,14 @@ public static partial class OVRPlugin
 				flags |= (uint)OverlayFlag.ExpensiveSuperSample;
 			if (hidden)
 				flags |= (uint)OverlayFlag.Hidden;
+			if (efficientSuperSample)
+				flags |= (uint)OverlayFlag.EfficientSuperSample;
+			if (expensiveSharpen)
+				flags |= (uint)OverlayFlag.ExpensiveSharpen;
+			if (efficientSharpen)
+				flags |= (uint)OverlayFlag.EfficientSharpen;
+			if (bicubic)
+				flags |= (uint)OverlayFlag.BicubicFiltering;
 
 			if (shape == OverlayShape.Cylinder || shape == OverlayShape.Cubemap)
 			{
@@ -6319,6 +6344,7 @@ public static partial class OVRPlugin
 	}
 
 
+
 	public static bool TryLocateSpace(UInt64 space, TrackingOrigin baseOrigin, out Posef pose)
 	{
 		pose = Posef.identity;
@@ -8203,5 +8229,10 @@ public static partial class OVRPlugin
 
 	}
 
+  private static class OVRP_1_73_0
+	{
+		public static readonly System.Version version = new System.Version(1, 73, 0);
+
+	}
 	/* INSERT NEW OVRP CLASS ABOVE THIS LINE */
 }
