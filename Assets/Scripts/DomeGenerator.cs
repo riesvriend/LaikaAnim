@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using static OVRManager;
 
 [RequireComponent(typeof(MeshFilter))]
 public class DomeGenerator : MonoBehaviour
@@ -24,6 +25,11 @@ public class DomeGenerator : MonoBehaviour
 
     void Start()
     {
+        // Just a test to see if perf gets any better using .\adb logcat -s VrApi 
+        // does not make a difference
+        //OVRManager.fixedFoveatedRenderingLevel = FixedFoveatedRenderingLevel.High; // it's the maximum foveation level
+        //OVRManager.useDynamicFixedFoveatedRendering = true;
+
         if (InputSphere == null)
         {
             //Debug.LogWarning("DomeGenerator requires a InputSphere child component holding the input mesh");
@@ -35,6 +41,7 @@ public class DomeGenerator : MonoBehaviour
         var inputRender = InputSphere.GetComponent<MeshRenderer>();
         if (inputRender != null)
             inputRender.enabled = false;
+
 
     }
 

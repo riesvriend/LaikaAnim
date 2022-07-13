@@ -37,7 +37,7 @@ Shader "Malbers/Color4x4"
 		_MRE14("MRE 14", Color) = (0,1,0,0)
 		_MRE15("MRE 15", Color) = (0,1,0,0)
 		_MRE16("MRE 16", Color) = (0,1,0,0)
-		[Header(Emmision)]_EmissionPower("Emission Power", Float) = 1
+		[Header(Emmision)]_EmissionPower1("Emission Power", Float) = 1
 		[SingleLineTexture][Header(Gradient)]_Gradient("Gradient", 2D) = "white" {}
 		_GradientIntensity("Gradient Intensity", Range( 0 , 1)) = 1
 		_GradientColor("Gradient Color", Color) = (0,0,0,0)
@@ -83,7 +83,7 @@ Shader "Malbers/Color4x4"
 		uniform float4 _Color15;
 		uniform float4 _Color16;
 		uniform float4 _Tint;
-		uniform float _EmissionPower;
+		uniform float _EmissionPower1;
 		uniform float4 _MRE1;
 		uniform float4 _MRE2;
 		uniform float4 _MRE3;
@@ -104,140 +104,141 @@ Shader "Malbers/Color4x4"
 		void surf( Input i , inout SurfaceOutputStandard o )
 		{
 			float2 uv_TexCoord256 = i.uv_texcoord * float2( 1,4 );
+			float4 clampResult328 = clamp( ( ( tex2D( _Gradient, uv_TexCoord256 ) + _GradientColor ) + ( 1.0 - _GradientIntensity ) ) , float4( 0,0,0,0 ) , float4( 1,1,1,0 ) );
 			float4 temp_cast_0 = (_GradientPower).xxxx;
-			float temp_output_3_0_g801 = 1.0;
-			float temp_output_7_0_g801 = 4.0;
-			float temp_output_9_0_g801 = 4.0;
-			float temp_output_8_0_g801 = 4.0;
-			float temp_output_3_0_g796 = 2.0;
-			float temp_output_7_0_g796 = 4.0;
-			float temp_output_9_0_g796 = 4.0;
-			float temp_output_8_0_g796 = 4.0;
-			float temp_output_3_0_g798 = 3.0;
-			float temp_output_7_0_g798 = 4.0;
-			float temp_output_9_0_g798 = 4.0;
-			float temp_output_8_0_g798 = 4.0;
-			float temp_output_3_0_g797 = 4.0;
-			float temp_output_7_0_g797 = 4.0;
-			float temp_output_9_0_g797 = 4.0;
-			float temp_output_8_0_g797 = 4.0;
-			float temp_output_3_0_g791 = 1.0;
-			float temp_output_7_0_g791 = 4.0;
-			float temp_output_9_0_g791 = 3.0;
-			float temp_output_8_0_g791 = 4.0;
-			float temp_output_3_0_g794 = 2.0;
-			float temp_output_7_0_g794 = 4.0;
-			float temp_output_9_0_g794 = 3.0;
-			float temp_output_8_0_g794 = 4.0;
-			float temp_output_3_0_g790 = 3.0;
-			float temp_output_7_0_g790 = 4.0;
-			float temp_output_9_0_g790 = 3.0;
-			float temp_output_8_0_g790 = 4.0;
-			float temp_output_3_0_g784 = 4.0;
-			float temp_output_7_0_g784 = 4.0;
-			float temp_output_9_0_g784 = 3.0;
-			float temp_output_8_0_g784 = 4.0;
-			float temp_output_3_0_g795 = 1.0;
-			float temp_output_7_0_g795 = 4.0;
-			float temp_output_9_0_g795 = 2.0;
-			float temp_output_8_0_g795 = 4.0;
-			float temp_output_3_0_g800 = 2.0;
-			float temp_output_7_0_g800 = 4.0;
-			float temp_output_9_0_g800 = 2.0;
-			float temp_output_8_0_g800 = 4.0;
-			float temp_output_3_0_g799 = 3.0;
-			float temp_output_7_0_g799 = 4.0;
-			float temp_output_9_0_g799 = 2.0;
-			float temp_output_8_0_g799 = 4.0;
-			float temp_output_3_0_g793 = 4.0;
-			float temp_output_7_0_g793 = 4.0;
-			float temp_output_9_0_g793 = 2.0;
-			float temp_output_8_0_g793 = 4.0;
-			float temp_output_3_0_g786 = 1.0;
-			float temp_output_7_0_g786 = 4.0;
-			float temp_output_9_0_g786 = 1.0;
-			float temp_output_8_0_g786 = 4.0;
-			float temp_output_3_0_g792 = 2.0;
-			float temp_output_7_0_g792 = 4.0;
-			float temp_output_9_0_g792 = 1.0;
-			float temp_output_8_0_g792 = 4.0;
-			float temp_output_3_0_g789 = 3.0;
-			float temp_output_7_0_g789 = 4.0;
-			float temp_output_9_0_g789 = 1.0;
-			float temp_output_8_0_g789 = 4.0;
-			float temp_output_3_0_g787 = 4.0;
-			float temp_output_7_0_g787 = 4.0;
-			float temp_output_9_0_g787 = 1.0;
-			float temp_output_8_0_g787 = 4.0;
-			float4 temp_output_329_0 = ( ( ( _Color1 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g801 - 1.0 ) / temp_output_7_0_g801 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g801 / temp_output_7_0_g801 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g801 - 1.0 ) / temp_output_8_0_g801 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g801 / temp_output_8_0_g801 ) ) * 1.0 ) ) ) ) + ( _Color2 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g796 - 1.0 ) / temp_output_7_0_g796 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g796 / temp_output_7_0_g796 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g796 - 1.0 ) / temp_output_8_0_g796 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g796 / temp_output_8_0_g796 ) ) * 1.0 ) ) ) ) + ( _Color3 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g798 - 1.0 ) / temp_output_7_0_g798 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g798 / temp_output_7_0_g798 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g798 - 1.0 ) / temp_output_8_0_g798 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g798 / temp_output_8_0_g798 ) ) * 1.0 ) ) ) ) + ( _Color4 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g797 - 1.0 ) / temp_output_7_0_g797 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g797 / temp_output_7_0_g797 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g797 - 1.0 ) / temp_output_8_0_g797 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g797 / temp_output_8_0_g797 ) ) * 1.0 ) ) ) ) ) + ( ( _Color5 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g791 - 1.0 ) / temp_output_7_0_g791 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g791 / temp_output_7_0_g791 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g791 - 1.0 ) / temp_output_8_0_g791 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g791 / temp_output_8_0_g791 ) ) * 1.0 ) ) ) ) + ( _Color6 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g794 - 1.0 ) / temp_output_7_0_g794 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g794 / temp_output_7_0_g794 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g794 - 1.0 ) / temp_output_8_0_g794 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g794 / temp_output_8_0_g794 ) ) * 1.0 ) ) ) ) + ( _Color7 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g790 - 1.0 ) / temp_output_7_0_g790 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g790 / temp_output_7_0_g790 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g790 - 1.0 ) / temp_output_8_0_g790 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g790 / temp_output_8_0_g790 ) ) * 1.0 ) ) ) ) + ( _Color8 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g784 - 1.0 ) / temp_output_7_0_g784 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g784 / temp_output_7_0_g784 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g784 - 1.0 ) / temp_output_8_0_g784 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g784 / temp_output_8_0_g784 ) ) * 1.0 ) ) ) ) ) + ( ( _Color9 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g795 - 1.0 ) / temp_output_7_0_g795 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g795 / temp_output_7_0_g795 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g795 - 1.0 ) / temp_output_8_0_g795 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g795 / temp_output_8_0_g795 ) ) * 1.0 ) ) ) ) + ( _Color10 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g800 - 1.0 ) / temp_output_7_0_g800 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g800 / temp_output_7_0_g800 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g800 - 1.0 ) / temp_output_8_0_g800 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g800 / temp_output_8_0_g800 ) ) * 1.0 ) ) ) ) + ( _Color11 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g799 - 1.0 ) / temp_output_7_0_g799 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g799 / temp_output_7_0_g799 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g799 - 1.0 ) / temp_output_8_0_g799 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g799 / temp_output_8_0_g799 ) ) * 1.0 ) ) ) ) + ( _Color12 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g793 - 1.0 ) / temp_output_7_0_g793 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g793 / temp_output_7_0_g793 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g793 - 1.0 ) / temp_output_8_0_g793 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g793 / temp_output_8_0_g793 ) ) * 1.0 ) ) ) ) ) + ( ( _Color13 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g786 - 1.0 ) / temp_output_7_0_g786 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g786 / temp_output_7_0_g786 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g786 - 1.0 ) / temp_output_8_0_g786 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g786 / temp_output_8_0_g786 ) ) * 1.0 ) ) ) ) + ( _Color14 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g792 - 1.0 ) / temp_output_7_0_g792 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g792 / temp_output_7_0_g792 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g792 - 1.0 ) / temp_output_8_0_g792 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g792 / temp_output_8_0_g792 ) ) * 1.0 ) ) ) ) + ( _Color15 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g789 - 1.0 ) / temp_output_7_0_g789 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g789 / temp_output_7_0_g789 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g789 - 1.0 ) / temp_output_8_0_g789 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g789 / temp_output_8_0_g789 ) ) * 1.0 ) ) ) ) + ( _Color16 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g787 - 1.0 ) / temp_output_7_0_g787 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g787 / temp_output_7_0_g787 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g787 - 1.0 ) / temp_output_8_0_g787 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g787 / temp_output_8_0_g787 ) ) * 1.0 ) ) ) ) ) );
-			float4 clampResult348 = clamp( ( pow( (( ( tex2D( _Gradient, uv_TexCoord256 ) + _GradientColor ) + ( 1.0 - _GradientIntensity ) )*_GradientScale + _GradientOffset) , temp_cast_0 ) + ( 1.0 - (temp_output_329_0).a ) ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
+			float temp_output_3_0_g742 = 1.0;
+			float temp_output_7_0_g742 = 4.0;
+			float temp_output_9_0_g742 = 4.0;
+			float temp_output_8_0_g742 = 4.0;
+			float temp_output_3_0_g740 = 2.0;
+			float temp_output_7_0_g740 = 4.0;
+			float temp_output_9_0_g740 = 4.0;
+			float temp_output_8_0_g740 = 4.0;
+			float temp_output_3_0_g743 = 3.0;
+			float temp_output_7_0_g743 = 4.0;
+			float temp_output_9_0_g743 = 4.0;
+			float temp_output_8_0_g743 = 4.0;
+			float temp_output_3_0_g741 = 4.0;
+			float temp_output_7_0_g741 = 4.0;
+			float temp_output_9_0_g741 = 4.0;
+			float temp_output_8_0_g741 = 4.0;
+			float temp_output_3_0_g737 = 1.0;
+			float temp_output_7_0_g737 = 4.0;
+			float temp_output_9_0_g737 = 3.0;
+			float temp_output_8_0_g737 = 4.0;
+			float temp_output_3_0_g738 = 2.0;
+			float temp_output_7_0_g738 = 4.0;
+			float temp_output_9_0_g738 = 3.0;
+			float temp_output_8_0_g738 = 4.0;
+			float temp_output_3_0_g745 = 3.0;
+			float temp_output_7_0_g745 = 4.0;
+			float temp_output_9_0_g745 = 3.0;
+			float temp_output_8_0_g745 = 4.0;
+			float temp_output_3_0_g735 = 4.0;
+			float temp_output_7_0_g735 = 4.0;
+			float temp_output_9_0_g735 = 3.0;
+			float temp_output_8_0_g735 = 4.0;
+			float temp_output_3_0_g733 = 1.0;
+			float temp_output_7_0_g733 = 4.0;
+			float temp_output_9_0_g733 = 2.0;
+			float temp_output_8_0_g733 = 4.0;
+			float temp_output_3_0_g725 = 2.0;
+			float temp_output_7_0_g725 = 4.0;
+			float temp_output_9_0_g725 = 2.0;
+			float temp_output_8_0_g725 = 4.0;
+			float temp_output_3_0_g746 = 3.0;
+			float temp_output_7_0_g746 = 4.0;
+			float temp_output_9_0_g746 = 2.0;
+			float temp_output_8_0_g746 = 4.0;
+			float temp_output_3_0_g739 = 4.0;
+			float temp_output_7_0_g739 = 4.0;
+			float temp_output_9_0_g739 = 2.0;
+			float temp_output_8_0_g739 = 4.0;
+			float temp_output_3_0_g732 = 1.0;
+			float temp_output_7_0_g732 = 4.0;
+			float temp_output_9_0_g732 = 1.0;
+			float temp_output_8_0_g732 = 4.0;
+			float temp_output_3_0_g736 = 2.0;
+			float temp_output_7_0_g736 = 4.0;
+			float temp_output_9_0_g736 = 1.0;
+			float temp_output_8_0_g736 = 4.0;
+			float temp_output_3_0_g744 = 3.0;
+			float temp_output_7_0_g744 = 4.0;
+			float temp_output_9_0_g744 = 1.0;
+			float temp_output_8_0_g744 = 4.0;
+			float temp_output_3_0_g734 = 4.0;
+			float temp_output_7_0_g734 = 4.0;
+			float temp_output_9_0_g734 = 1.0;
+			float temp_output_8_0_g734 = 4.0;
+			float4 temp_output_329_0 = ( ( ( _Color1 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g742 - 1.0 ) / temp_output_7_0_g742 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g742 / temp_output_7_0_g742 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g742 - 1.0 ) / temp_output_8_0_g742 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g742 / temp_output_8_0_g742 ) ) * 1.0 ) ) ) ) + ( _Color2 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g740 - 1.0 ) / temp_output_7_0_g740 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g740 / temp_output_7_0_g740 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g740 - 1.0 ) / temp_output_8_0_g740 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g740 / temp_output_8_0_g740 ) ) * 1.0 ) ) ) ) + ( _Color3 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g743 - 1.0 ) / temp_output_7_0_g743 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g743 / temp_output_7_0_g743 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g743 - 1.0 ) / temp_output_8_0_g743 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g743 / temp_output_8_0_g743 ) ) * 1.0 ) ) ) ) + ( _Color4 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g741 - 1.0 ) / temp_output_7_0_g741 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g741 / temp_output_7_0_g741 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g741 - 1.0 ) / temp_output_8_0_g741 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g741 / temp_output_8_0_g741 ) ) * 1.0 ) ) ) ) ) + ( ( _Color5 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g737 - 1.0 ) / temp_output_7_0_g737 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g737 / temp_output_7_0_g737 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g737 - 1.0 ) / temp_output_8_0_g737 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g737 / temp_output_8_0_g737 ) ) * 1.0 ) ) ) ) + ( _Color6 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g738 - 1.0 ) / temp_output_7_0_g738 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g738 / temp_output_7_0_g738 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g738 - 1.0 ) / temp_output_8_0_g738 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g738 / temp_output_8_0_g738 ) ) * 1.0 ) ) ) ) + ( _Color7 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g745 - 1.0 ) / temp_output_7_0_g745 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g745 / temp_output_7_0_g745 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g745 - 1.0 ) / temp_output_8_0_g745 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g745 / temp_output_8_0_g745 ) ) * 1.0 ) ) ) ) + ( _Color8 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g735 - 1.0 ) / temp_output_7_0_g735 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g735 / temp_output_7_0_g735 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g735 - 1.0 ) / temp_output_8_0_g735 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g735 / temp_output_8_0_g735 ) ) * 1.0 ) ) ) ) ) + ( ( _Color9 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g733 - 1.0 ) / temp_output_7_0_g733 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g733 / temp_output_7_0_g733 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g733 - 1.0 ) / temp_output_8_0_g733 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g733 / temp_output_8_0_g733 ) ) * 1.0 ) ) ) ) + ( _Color10 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g725 - 1.0 ) / temp_output_7_0_g725 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g725 / temp_output_7_0_g725 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g725 - 1.0 ) / temp_output_8_0_g725 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g725 / temp_output_8_0_g725 ) ) * 1.0 ) ) ) ) + ( _Color11 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g746 - 1.0 ) / temp_output_7_0_g746 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g746 / temp_output_7_0_g746 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g746 - 1.0 ) / temp_output_8_0_g746 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g746 / temp_output_8_0_g746 ) ) * 1.0 ) ) ) ) + ( _Color12 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g739 - 1.0 ) / temp_output_7_0_g739 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g739 / temp_output_7_0_g739 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g739 - 1.0 ) / temp_output_8_0_g739 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g739 / temp_output_8_0_g739 ) ) * 1.0 ) ) ) ) ) + ( ( _Color13 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g732 - 1.0 ) / temp_output_7_0_g732 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g732 / temp_output_7_0_g732 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g732 - 1.0 ) / temp_output_8_0_g732 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g732 / temp_output_8_0_g732 ) ) * 1.0 ) ) ) ) + ( _Color14 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g736 - 1.0 ) / temp_output_7_0_g736 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g736 / temp_output_7_0_g736 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g736 - 1.0 ) / temp_output_8_0_g736 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g736 / temp_output_8_0_g736 ) ) * 1.0 ) ) ) ) + ( _Color15 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g744 - 1.0 ) / temp_output_7_0_g744 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g744 / temp_output_7_0_g744 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g744 - 1.0 ) / temp_output_8_0_g744 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g744 / temp_output_8_0_g744 ) ) * 1.0 ) ) ) ) + ( _Color16 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g734 - 1.0 ) / temp_output_7_0_g734 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g734 / temp_output_7_0_g734 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g734 - 1.0 ) / temp_output_8_0_g734 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g734 / temp_output_8_0_g734 ) ) * 1.0 ) ) ) ) ) );
+			float4 clampResult348 = clamp( ( pow( (clampResult328*_GradientScale + _GradientOffset) , temp_cast_0 ) + ( 1.0 - (temp_output_329_0).a ) ) , float4( 0,0,0,0 ) , float4( 1,1,1,1 ) );
 			o.Albedo = ( clampResult348 * temp_output_329_0 * _Tint ).rgb;
-			float temp_output_3_0_g812 = 1.0;
-			float temp_output_7_0_g812 = 4.0;
-			float temp_output_9_0_g812 = 4.0;
-			float temp_output_8_0_g812 = 4.0;
-			float temp_output_3_0_g807 = 2.0;
-			float temp_output_7_0_g807 = 4.0;
-			float temp_output_9_0_g807 = 4.0;
-			float temp_output_8_0_g807 = 4.0;
-			float temp_output_3_0_g811 = 3.0;
-			float temp_output_7_0_g811 = 4.0;
-			float temp_output_9_0_g811 = 4.0;
-			float temp_output_8_0_g811 = 4.0;
-			float temp_output_3_0_g815 = 4.0;
-			float temp_output_7_0_g815 = 4.0;
-			float temp_output_9_0_g815 = 4.0;
-			float temp_output_8_0_g815 = 4.0;
-			float temp_output_3_0_g809 = 1.0;
-			float temp_output_7_0_g809 = 4.0;
-			float temp_output_9_0_g809 = 3.0;
-			float temp_output_8_0_g809 = 4.0;
-			float temp_output_3_0_g810 = 2.0;
-			float temp_output_7_0_g810 = 4.0;
-			float temp_output_9_0_g810 = 3.0;
-			float temp_output_8_0_g810 = 4.0;
-			float temp_output_3_0_g808 = 3.0;
-			float temp_output_7_0_g808 = 4.0;
-			float temp_output_9_0_g808 = 3.0;
-			float temp_output_8_0_g808 = 4.0;
-			float temp_output_3_0_g813 = 4.0;
-			float temp_output_7_0_g813 = 4.0;
-			float temp_output_9_0_g813 = 3.0;
-			float temp_output_8_0_g813 = 4.0;
-			float temp_output_3_0_g822 = 1.0;
-			float temp_output_7_0_g822 = 4.0;
-			float temp_output_9_0_g822 = 2.0;
-			float temp_output_8_0_g822 = 4.0;
-			float temp_output_3_0_g818 = 2.0;
-			float temp_output_7_0_g818 = 4.0;
-			float temp_output_9_0_g818 = 2.0;
-			float temp_output_8_0_g818 = 4.0;
-			float temp_output_3_0_g817 = 3.0;
-			float temp_output_7_0_g817 = 4.0;
-			float temp_output_9_0_g817 = 2.0;
-			float temp_output_8_0_g817 = 4.0;
-			float temp_output_3_0_g820 = 4.0;
-			float temp_output_7_0_g820 = 4.0;
-			float temp_output_9_0_g820 = 2.0;
-			float temp_output_8_0_g820 = 4.0;
-			float temp_output_3_0_g821 = 1.0;
-			float temp_output_7_0_g821 = 4.0;
-			float temp_output_9_0_g821 = 1.0;
-			float temp_output_8_0_g821 = 4.0;
-			float temp_output_3_0_g819 = 2.0;
-			float temp_output_7_0_g819 = 4.0;
-			float temp_output_9_0_g819 = 1.0;
-			float temp_output_8_0_g819 = 4.0;
-			float temp_output_3_0_g814 = 3.0;
-			float temp_output_7_0_g814 = 4.0;
-			float temp_output_9_0_g814 = 1.0;
-			float temp_output_8_0_g814 = 4.0;
-			float temp_output_3_0_g816 = 4.0;
-			float temp_output_7_0_g816 = 4.0;
-			float temp_output_9_0_g816 = 1.0;
-			float temp_output_8_0_g816 = 4.0;
-			float4 temp_output_344_0 = ( ( ( _MRE1 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g812 - 1.0 ) / temp_output_7_0_g812 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g812 / temp_output_7_0_g812 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g812 - 1.0 ) / temp_output_8_0_g812 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g812 / temp_output_8_0_g812 ) ) * 1.0 ) ) ) ) + ( _MRE2 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g807 - 1.0 ) / temp_output_7_0_g807 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g807 / temp_output_7_0_g807 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g807 - 1.0 ) / temp_output_8_0_g807 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g807 / temp_output_8_0_g807 ) ) * 1.0 ) ) ) ) + ( _MRE3 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g811 - 1.0 ) / temp_output_7_0_g811 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g811 / temp_output_7_0_g811 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g811 - 1.0 ) / temp_output_8_0_g811 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g811 / temp_output_8_0_g811 ) ) * 1.0 ) ) ) ) + ( _MRE4 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g815 - 1.0 ) / temp_output_7_0_g815 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g815 / temp_output_7_0_g815 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g815 - 1.0 ) / temp_output_8_0_g815 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g815 / temp_output_8_0_g815 ) ) * 1.0 ) ) ) ) ) + ( ( _MRE5 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g809 - 1.0 ) / temp_output_7_0_g809 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g809 / temp_output_7_0_g809 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g809 - 1.0 ) / temp_output_8_0_g809 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g809 / temp_output_8_0_g809 ) ) * 1.0 ) ) ) ) + ( _MRE6 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g810 - 1.0 ) / temp_output_7_0_g810 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g810 / temp_output_7_0_g810 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g810 - 1.0 ) / temp_output_8_0_g810 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g810 / temp_output_8_0_g810 ) ) * 1.0 ) ) ) ) + ( _MRE7 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g808 - 1.0 ) / temp_output_7_0_g808 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g808 / temp_output_7_0_g808 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g808 - 1.0 ) / temp_output_8_0_g808 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g808 / temp_output_8_0_g808 ) ) * 1.0 ) ) ) ) + ( _MRE8 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g813 - 1.0 ) / temp_output_7_0_g813 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g813 / temp_output_7_0_g813 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g813 - 1.0 ) / temp_output_8_0_g813 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g813 / temp_output_8_0_g813 ) ) * 1.0 ) ) ) ) ) + ( ( _MRE9 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g822 - 1.0 ) / temp_output_7_0_g822 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g822 / temp_output_7_0_g822 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g822 - 1.0 ) / temp_output_8_0_g822 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g822 / temp_output_8_0_g822 ) ) * 1.0 ) ) ) ) + ( _MRE10 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g818 - 1.0 ) / temp_output_7_0_g818 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g818 / temp_output_7_0_g818 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g818 - 1.0 ) / temp_output_8_0_g818 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g818 / temp_output_8_0_g818 ) ) * 1.0 ) ) ) ) + ( _MRE11 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g817 - 1.0 ) / temp_output_7_0_g817 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g817 / temp_output_7_0_g817 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g817 - 1.0 ) / temp_output_8_0_g817 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g817 / temp_output_8_0_g817 ) ) * 1.0 ) ) ) ) + ( _MRE12 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g820 - 1.0 ) / temp_output_7_0_g820 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g820 / temp_output_7_0_g820 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g820 - 1.0 ) / temp_output_8_0_g820 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g820 / temp_output_8_0_g820 ) ) * 1.0 ) ) ) ) ) + ( ( _MRE13 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g821 - 1.0 ) / temp_output_7_0_g821 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g821 / temp_output_7_0_g821 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g821 - 1.0 ) / temp_output_8_0_g821 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g821 / temp_output_8_0_g821 ) ) * 1.0 ) ) ) ) + ( _MRE14 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g819 - 1.0 ) / temp_output_7_0_g819 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g819 / temp_output_7_0_g819 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g819 - 1.0 ) / temp_output_8_0_g819 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g819 / temp_output_8_0_g819 ) ) * 1.0 ) ) ) ) + ( _MRE15 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g814 - 1.0 ) / temp_output_7_0_g814 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g814 / temp_output_7_0_g814 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g814 - 1.0 ) / temp_output_8_0_g814 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g814 / temp_output_8_0_g814 ) ) * 1.0 ) ) ) ) + ( _MRE16 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g816 - 1.0 ) / temp_output_7_0_g816 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g816 / temp_output_7_0_g816 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g816 - 1.0 ) / temp_output_8_0_g816 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g816 / temp_output_8_0_g816 ) ) * 1.0 ) ) ) ) ) );
-			o.Emission = ( temp_output_329_0 * ( _EmissionPower * (temp_output_344_0).b ) ).rgb;
+			float temp_output_3_0_g751 = 1.0;
+			float temp_output_7_0_g751 = 4.0;
+			float temp_output_9_0_g751 = 4.0;
+			float temp_output_8_0_g751 = 4.0;
+			float temp_output_3_0_g760 = 2.0;
+			float temp_output_7_0_g760 = 4.0;
+			float temp_output_9_0_g760 = 4.0;
+			float temp_output_8_0_g760 = 4.0;
+			float temp_output_3_0_g755 = 3.0;
+			float temp_output_7_0_g755 = 4.0;
+			float temp_output_9_0_g755 = 4.0;
+			float temp_output_8_0_g755 = 4.0;
+			float temp_output_3_0_g752 = 4.0;
+			float temp_output_7_0_g752 = 4.0;
+			float temp_output_9_0_g752 = 4.0;
+			float temp_output_8_0_g752 = 4.0;
+			float temp_output_3_0_g748 = 1.0;
+			float temp_output_7_0_g748 = 4.0;
+			float temp_output_9_0_g748 = 3.0;
+			float temp_output_8_0_g748 = 4.0;
+			float temp_output_3_0_g747 = 2.0;
+			float temp_output_7_0_g747 = 4.0;
+			float temp_output_9_0_g747 = 3.0;
+			float temp_output_8_0_g747 = 4.0;
+			float temp_output_3_0_g761 = 3.0;
+			float temp_output_7_0_g761 = 4.0;
+			float temp_output_9_0_g761 = 3.0;
+			float temp_output_8_0_g761 = 4.0;
+			float temp_output_3_0_g756 = 4.0;
+			float temp_output_7_0_g756 = 4.0;
+			float temp_output_9_0_g756 = 3.0;
+			float temp_output_8_0_g756 = 4.0;
+			float temp_output_3_0_g762 = 1.0;
+			float temp_output_7_0_g762 = 4.0;
+			float temp_output_9_0_g762 = 2.0;
+			float temp_output_8_0_g762 = 4.0;
+			float temp_output_3_0_g753 = 2.0;
+			float temp_output_7_0_g753 = 4.0;
+			float temp_output_9_0_g753 = 2.0;
+			float temp_output_8_0_g753 = 4.0;
+			float temp_output_3_0_g758 = 3.0;
+			float temp_output_7_0_g758 = 4.0;
+			float temp_output_9_0_g758 = 2.0;
+			float temp_output_8_0_g758 = 4.0;
+			float temp_output_3_0_g757 = 4.0;
+			float temp_output_7_0_g757 = 4.0;
+			float temp_output_9_0_g757 = 2.0;
+			float temp_output_8_0_g757 = 4.0;
+			float temp_output_3_0_g749 = 1.0;
+			float temp_output_7_0_g749 = 4.0;
+			float temp_output_9_0_g749 = 1.0;
+			float temp_output_8_0_g749 = 4.0;
+			float temp_output_3_0_g750 = 2.0;
+			float temp_output_7_0_g750 = 4.0;
+			float temp_output_9_0_g750 = 1.0;
+			float temp_output_8_0_g750 = 4.0;
+			float temp_output_3_0_g754 = 3.0;
+			float temp_output_7_0_g754 = 4.0;
+			float temp_output_9_0_g754 = 1.0;
+			float temp_output_8_0_g754 = 4.0;
+			float temp_output_3_0_g759 = 4.0;
+			float temp_output_7_0_g759 = 4.0;
+			float temp_output_9_0_g759 = 1.0;
+			float temp_output_8_0_g759 = 4.0;
+			float4 temp_output_344_0 = ( ( ( _MRE1 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g751 - 1.0 ) / temp_output_7_0_g751 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g751 / temp_output_7_0_g751 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g751 - 1.0 ) / temp_output_8_0_g751 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g751 / temp_output_8_0_g751 ) ) * 1.0 ) ) ) ) + ( _MRE2 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g760 - 1.0 ) / temp_output_7_0_g760 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g760 / temp_output_7_0_g760 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g760 - 1.0 ) / temp_output_8_0_g760 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g760 / temp_output_8_0_g760 ) ) * 1.0 ) ) ) ) + ( _MRE3 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g755 - 1.0 ) / temp_output_7_0_g755 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g755 / temp_output_7_0_g755 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g755 - 1.0 ) / temp_output_8_0_g755 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g755 / temp_output_8_0_g755 ) ) * 1.0 ) ) ) ) + ( _MRE4 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g752 - 1.0 ) / temp_output_7_0_g752 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g752 / temp_output_7_0_g752 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g752 - 1.0 ) / temp_output_8_0_g752 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g752 / temp_output_8_0_g752 ) ) * 1.0 ) ) ) ) ) + ( ( _MRE5 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g748 - 1.0 ) / temp_output_7_0_g748 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g748 / temp_output_7_0_g748 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g748 - 1.0 ) / temp_output_8_0_g748 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g748 / temp_output_8_0_g748 ) ) * 1.0 ) ) ) ) + ( _MRE6 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g747 - 1.0 ) / temp_output_7_0_g747 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g747 / temp_output_7_0_g747 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g747 - 1.0 ) / temp_output_8_0_g747 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g747 / temp_output_8_0_g747 ) ) * 1.0 ) ) ) ) + ( _MRE7 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g761 - 1.0 ) / temp_output_7_0_g761 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g761 / temp_output_7_0_g761 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g761 - 1.0 ) / temp_output_8_0_g761 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g761 / temp_output_8_0_g761 ) ) * 1.0 ) ) ) ) + ( _MRE8 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g756 - 1.0 ) / temp_output_7_0_g756 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g756 / temp_output_7_0_g756 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g756 - 1.0 ) / temp_output_8_0_g756 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g756 / temp_output_8_0_g756 ) ) * 1.0 ) ) ) ) ) + ( ( _MRE9 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g762 - 1.0 ) / temp_output_7_0_g762 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g762 / temp_output_7_0_g762 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g762 - 1.0 ) / temp_output_8_0_g762 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g762 / temp_output_8_0_g762 ) ) * 1.0 ) ) ) ) + ( _MRE10 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g753 - 1.0 ) / temp_output_7_0_g753 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g753 / temp_output_7_0_g753 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g753 - 1.0 ) / temp_output_8_0_g753 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g753 / temp_output_8_0_g753 ) ) * 1.0 ) ) ) ) + ( _MRE11 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g758 - 1.0 ) / temp_output_7_0_g758 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g758 / temp_output_7_0_g758 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g758 - 1.0 ) / temp_output_8_0_g758 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g758 / temp_output_8_0_g758 ) ) * 1.0 ) ) ) ) + ( _MRE12 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g757 - 1.0 ) / temp_output_7_0_g757 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g757 / temp_output_7_0_g757 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g757 - 1.0 ) / temp_output_8_0_g757 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g757 / temp_output_8_0_g757 ) ) * 1.0 ) ) ) ) ) + ( ( _MRE13 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g749 - 1.0 ) / temp_output_7_0_g749 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g749 / temp_output_7_0_g749 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g749 - 1.0 ) / temp_output_8_0_g749 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g749 / temp_output_8_0_g749 ) ) * 1.0 ) ) ) ) + ( _MRE14 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g750 - 1.0 ) / temp_output_7_0_g750 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g750 / temp_output_7_0_g750 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g750 - 1.0 ) / temp_output_8_0_g750 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g750 / temp_output_8_0_g750 ) ) * 1.0 ) ) ) ) + ( _MRE15 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g754 - 1.0 ) / temp_output_7_0_g754 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g754 / temp_output_7_0_g754 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g754 - 1.0 ) / temp_output_8_0_g754 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g754 / temp_output_8_0_g754 ) ) * 1.0 ) ) ) ) + ( _MRE16 * ( ( ( 1.0 - step( i.uv_texcoord.x , ( ( temp_output_3_0_g759 - 1.0 ) / temp_output_7_0_g759 ) ) ) * ( step( i.uv_texcoord.x , ( temp_output_3_0_g759 / temp_output_7_0_g759 ) ) * 1.0 ) ) * ( ( 1.0 - step( i.uv_texcoord.y , ( ( temp_output_9_0_g759 - 1.0 ) / temp_output_8_0_g759 ) ) ) * ( step( i.uv_texcoord.y , ( temp_output_9_0_g759 / temp_output_8_0_g759 ) ) * 1.0 ) ) ) ) ) );
+			o.Emission = ( temp_output_329_0 * ( _EmissionPower1 * (temp_output_344_0).b ) ).rgb;
 			o.Metallic = (temp_output_344_0).r;
 			o.Smoothness = ( 1.0 - (temp_output_344_0).g );
 			o.Alpha = 1;
@@ -250,141 +251,136 @@ Shader "Malbers/Color4x4"
 }
 /*ASEBEGIN
 Version=18935
--96;161;1600;777;-434.0838;546.4365;1.653484;True;False
-Node;AmplifyShaderEditor.CommentaryNode;366;535.9316,-229.9137;Inherit;False;2485.59;618.0679;Gradiendt;16;256;270;259;264;292;289;295;326;325;338;341;340;342;343;347;348;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;361;-759.6837,1065.365;Inherit;False;570.2268;892.4404;Row 4;8;273;283;287;266;293;282;258;260;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;360;-1403.199,1034.025;Inherit;False;564.674;897.8647;Row 3;8;277;276;281;279;269;263;268;274;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;359;-1403.314,83.42817;Inherit;False;578.765;900.6964;Row 1;8;288;286;285;290;271;261;275;265;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;358;-754.3921,79.81281;Inherit;False;570.5063;932.3542;Row 2;8;284;291;280;278;262;267;272;257;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.ColorNode;266;-707.4464,1526.003;Float;False;Property;_Color15;Color 15;15;0;Create;True;0;0;0;False;0;False;1,0,0,0.391;0.2841758,0.4203553,0.5849056,1;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;263;-1349.037,1505.674;Float;False;Property;_Color11;Color 11;11;0;Create;True;0;0;0;False;0;False;0.6691177,0.6691177,0.6691177,0.647;0.427451,0.6941177,1,0.291;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;269;-1353.199,1714.419;Float;False;Property;_Color12;Color 12;12;0;Create;True;0;0;0;False;0;False;0.5073529,0.1574544,0,0.128;0.1425774,0.1937784,0.3396226,0.128;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;271;-1360.466,759.4822;Float;False;Property;_Color4;Color 4;4;0;Create;True;0;0;0;False;0;False;0.1544118,0.5451319,1,0.253;0.5943396,0.4843941,0.2495104,0.8941177;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;260;-711.3392,1318.291;Float;False;Property;_Color14;Color 14;14;0;Create;True;0;0;0;False;0;False;0,0.8025862,0.875,0.047;0.3411764,0.4078431,0.4823529,0.047;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;258;-697.8932,1107.106;Float;False;Property;_Color13;Color 13;13;0;Create;True;0;0;0;False;1;Space(10);False;1,0.5586207,0,0.272;0.6037736,0.4733819,0.2591669,0.272;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;257;-722.6031,131.1891;Float;False;Property;_Color5;Color 5;5;0;Create;True;0;0;0;False;1;Space(10);False;0.9533468,1,0.1544118,0.553;0.7924528,0.6783531,0.3551085,0.684;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;273;-700.0488,1737.502;Float;False;Property;_Color16;Color 16;16;0;Create;True;0;0;0;False;0;False;0.4080882,0.75,0.4811866,0.134;0.4196078,0.1679361,0.1372549,0.1294118;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;275;-1349.185,341.859;Float;False;Property;_Color2;Color 2;2;0;Create;True;0;0;0;False;0;False;1,0.1544118,0.8017241,0.253;0.1735509,0.1759028,0.2205881,1;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;265;-1345.374,133.4282;Float;False;Property;_Color1;Color 1;1;0;Create;True;0;0;0;False;1;Header(Albedo (A Gradient));False;1,0.1544118,0.1544118,0.291;0.1174795,0.1211977,0.1509433,0.378;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;267;-736.2856,561.0974;Float;False;Property;_Color7;Color 7;7;0;Create;True;0;0;0;False;0;False;0.1544118,0.6151115,1,0.178;0.5,0.3857653,0.1627358,0.6745098;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;262;-723.931,778.1015;Float;False;Property;_Color8;Color 8;8;0;Create;True;0;0;0;False;0;False;0.4849697,0.5008695,0.5073529,0.078;0.8301887,0.5880298,0.2388749,0.7450981;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;274;-1344.989,1084.025;Float;False;Property;_Color9;Color 9;9;0;Create;True;0;0;0;False;1;Space(10);False;0.3164301,0,0.7058823,0.134;0.2459991,0.4415089,0.6691177,0.134;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;268;-1347.424,1291.078;Float;False;Property;_Color10;Color 10;10;0;Create;True;0;0;0;False;0;False;0.362069,0.4411765,0,0.759;0.3020112,0.31177,0.4191176,0.291;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;261;-1354.927,549.5719;Float;False;Property;_Color3;Color 3;3;0;Create;True;0;0;0;False;0;False;0.2535501,0.1544118,1,0.541;0.4694286,0.6760256,0.7264151,0.4666667;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;272;-727.791,345.1252;Float;False;Property;_Color6;Color 6;6;0;Create;True;0;0;0;False;0;False;0.2720588,0.1294625,0,0.097;0.9333334,0.7058823,0.2196078,0.682353;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TextureCoordinatesNode;256;585.9316,-153.5259;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,4;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;279;-1109.104,1084.737;Inherit;True;ColorShartSlot;-1;;795;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;1;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;285;-1109.17,343.947;Inherit;True;ColorShartSlot;-1;;796;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;2;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;288;-1118.527,760.4057;Inherit;True;ColorShartSlot;-1;;797;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;4;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;286;-1114.912,551.6597;Inherit;True;ColorShartSlot;-1;;798;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;3;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.CommentaryNode;364;-1367.103,2769.069;Inherit;False;467.2708;742.0146;Comment;8;332;298;327;301;310;320;331;306;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;363;-893.7528,2026.784;Inherit;False;466.332;731.8296;Comment;8;318;312;311;334;304;319;322;309;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;362;-1382.415,2014.24;Inherit;False;460.2247;730.0024;Comment;8;321;314;323;308;333;305;324;313;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.FunctionNode;281;-1111.539,1291.79;Inherit;True;ColorShartSlot;-1;;800;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;2;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;290;-1105.359,135.516;Inherit;True;ColorShartSlot;-1;;801;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;1;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;280;-479.5176,345.8368;Inherit;True;ColorShartSlot;-1;;794;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;2;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;276;-1113.152,1506.385;Inherit;True;ColorShartSlot;-1;;799;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;3;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;277;-1115.39,1715.131;Inherit;True;ColorShartSlot;-1;;793;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;4;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;283;-472.4226,1740.968;Inherit;True;ColorShartSlot;-1;;787;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;4;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;259;830.0755,-179.9137;Inherit;True;Property;_Gradient;Gradient;34;1;[SingleLineTexture];Create;True;0;0;0;False;1;Header(Gradient);False;-1;0f424a347039ef447a763d3d4b4782b0;0f424a347039ef447a763d3d4b4782b0;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.CommentaryNode;365;-888.8892,2792.783;Inherit;False;475.3564;744.249;Comment;8;330;300;316;294;297;317;315;307;;1,1,1,1;0;0
-Node;AmplifyShaderEditor.FunctionNode;278;-474.3295,131.9009;Inherit;True;ColorShartSlot;-1;;791;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;1;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;291;-488.0124,561.8089;Inherit;True;ColorShartSlot;-1;;790;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;3;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;287;-470.1839,1530.844;Inherit;True;ColorShartSlot;-1;;789;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;3;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;293;-473.0185,1107.818;Inherit;True;ColorShartSlot;-1;;786;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;1;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;284;-491.627,781.5659;Inherit;True;ColorShartSlot;-1;;784;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;4;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;264;844.9053,47.40545;Float;False;Property;_GradientColor;Gradient Color;36;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;282;-474.0769,1320.972;Inherit;True;ColorShartSlot;-1;;792;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;2;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;270;816.5891,230.7126;Float;False;Property;_GradientIntensity;Gradient Intensity;35;0;Create;True;0;0;0;False;0;False;1;1;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;311;-869.2375,2410.001;Float;False;Property;_MRE7;MRE 7;23;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;298;-1349.235,3336.623;Float;False;Property;_MRE12;MRE 12;28;0;Create;True;0;0;0;False;0;False;0,1,0,0;0.6941177,0.4627448,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleAddOpNode;302;-54.34647,165.9581;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;305;-1363.989,2223.768;Float;False;Property;_MRE2;MRE 2;18;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleAddOpNode;303;-48.29223,531.2434;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;308;-1363.03,2395.617;Float;False;Property;_MRE3;MRE 3;19;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;312;-875.2134,2580.248;Float;False;Property;_MRE8;MRE 8;24;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleAddOpNode;299;-82.66957,1179.32;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;296;-91.42815,1577.66;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;313;-1365.449,2057.625;Float;False;Property;_MRE1;MRE 1;17;0;Create;True;0;0;0;False;1;Header(Metallic(R) Rough(G) Emmission(B));False;0,1,0,0;0.7647059,0.8941177,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;309;-874.2711,2070.23;Float;False;Property;_MRE5;MRE 5;21;0;Create;True;0;0;0;False;1;Space(10);False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;314;-1360.115,2564.694;Float;False;Property;_MRE4;MRE 4;20;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleAddOpNode;289;1152.971,-154.4466;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ColorNode;307;-865.3842,2837.277;Float;False;Property;_MRE13;MRE 13;29;0;Create;True;0;0;0;False;1;Space(10);False;0,1,0,0;0.4745098,0.4666665,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;304;-873.5535,2240.293;Float;False;Property;_MRE6;MRE 6;22;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;294;-869.8051,3185.809;Float;False;Property;_MRE15;MRE 15;31;0;Create;True;0;0;0;False;0;False;0,1,0,0;0.6745098,0.737255,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;301;-1354.192,3164.495;Float;False;Property;_MRE11;MRE 11;27;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,1,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;306;-1356.103,2816.068;Float;False;Property;_MRE9;MRE 9;25;0;Create;True;0;0;0;False;1;Space(10);False;0,1,0,0;0.490196,0.1921568,0.4549019,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;297;-863.7613,3009.661;Float;False;Property;_MRE14;MRE 14;30;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;300;-864.2806,3358.549;Float;False;Property;_MRE16;MRE 16;32;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.OneMinusNode;292;1127.454,149.8354;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;310;-1352.963,2989.84;Float;False;Property;_MRE10;MRE 10;26;0;Create;True;0;0;0;False;0;False;0,1,0,0;0.7098039,0,0.3254901,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;320;-1150.589,2985.199;Inherit;False;ColorShartSlot;-1;;818;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;2;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;317;-653.8816,3010.149;Inherit;False;ColorShartSlot;-1;;819;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;2;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;329;1974.697,794.1887;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;326;1351.87,149.2626;Float;False;Property;_GradientOffset;Gradient Offset;38;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;331;-1149.852,2816.534;Inherit;False;ColorShartSlot;-1;;822;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;1;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;325;1345.052,56.51933;Float;False;Property;_GradientScale;Gradient Scale;37;0;Create;True;0;0;0;False;0;False;1;0.89;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;327;-1143.916,3167.113;Inherit;False;ColorShartSlot;-1;;817;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;3;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;315;-653.6279,2841.871;Inherit;False;ColorShartSlot;-1;;821;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;1;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;330;-648.4551,3359.667;Inherit;False;ColorShartSlot;-1;;816;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;4;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;332;-1138.915,3333.611;Inherit;False;ColorShartSlot;-1;;820;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;4;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;316;-649.3379,3180.557;Inherit;False;ColorShartSlot;-1;;814;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;3;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;318;-670.3987,2573.107;Inherit;False;ColorShartSlot;-1;;813;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;4;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;324;-1153.393,2059.979;Inherit;False;ColorShartSlot;-1;;812;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;1;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;323;-1159.554,2399.387;Inherit;False;ColorShartSlot;-1;;811;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;3;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;319;-667.2534,2239.941;Inherit;False;ColorShartSlot;-1;;810;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;2;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;322;-668.5063,2071.817;Inherit;False;ColorShartSlot;-1;;809;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;1;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;334;-666.5795,2410.909;Inherit;False;ColorShartSlot;-1;;808;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;3;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;333;-1162.682,2228.395;Inherit;False;ColorShartSlot;-1;;807;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;2;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;295;1338.27,-165.6665;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;321;-1159.586,2570.461;Inherit;False;ColorShartSlot;-1;;815;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;4;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
-Node;AmplifyShaderEditor.ComponentMaskNode;340;2017.051,104.5139;Inherit;False;False;False;False;True;1;0;COLOR;0,0,0,0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ScaleAndOffsetNode;341;1803.245,-133.4551;Inherit;True;3;0;COLOR;0,0,0,0;False;1;FLOAT;1;False;2;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;338;1356.361,245.6984;Float;False;Property;_GradientPower;Gradient Power;39;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;337;-336.3689,2047.395;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;335;-341.6371,3294.449;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;336;-313.9554,2830.794;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;339;-362.0783,2545.693;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.PowerNode;342;2110.79,-134.1479;Inherit;True;False;2;0;COLOR;0,0,0,0;False;1;FLOAT;1;False;1;COLOR;0
-Node;AmplifyShaderEditor.OneMinusNode;343;2239.635,102.8223;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;344;1530.555,1323.444;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;345;1605.128,1601.318;Inherit;False;Property;_EmissionPower;Emission Power;33;0;Create;True;0;0;0;False;1;Header(Emmision);False;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ComponentMaskNode;346;1589.24,1688.918;Inherit;False;False;False;True;False;1;0;COLOR;0,0,0,0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;347;2403.432,-135.4491;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ClampOpNode;348;2669.966,-138.4495;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;1,1,1,1;False;1;COLOR;0
-Node;AmplifyShaderEditor.ComponentMaskNode;349;2205.509,1022.676;Inherit;True;False;True;False;False;1;0;COLOR;0,0,0,0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;357;2246.987,613.945;Float;False;Property;_Tint;Tint;0;0;Create;True;0;0;0;False;0;False;1,1,1,1;1,1,1,1;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;350;1814.294,1610.711;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.OneMinusNode;355;2250.938,1415.226;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;353;2507.258,795.3847;Inherit;True;3;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.ComponentMaskNode;354;1974.363,1019.803;Inherit;True;True;False;False;False;1;0;COLOR;0,0,0,0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleMultiplyOpNode;351;2447.02,1017.897;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+810;48;992;748;-1970.407;-263.6672;1.662267;True;False
+Node;AmplifyShaderEditor.TextureCoordinatesNode;256;288.1596,87.91077;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,4;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;257;-514.8902,1147.708;Float;False;Property;_Color5;Color 5;5;0;Create;True;0;0;0;False;1;Space(10);False;0.9533468,1,0.1544118,0.553;0.5660378,0.377519,0.3711285,0.5450981;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;262;-510.7125,1884.087;Float;False;Property;_Color8;Color 8;8;0;Create;True;0;0;0;False;0;False;0.4849697,0.5008695,0.5073529,0.078;0.5995304,0.4082413,0.6226414,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;258;-561.6131,3142.689;Float;False;Property;_Color13;Color 13;13;0;Create;True;0;0;0;False;1;Space(10);False;1,0.5586207,0,0.272;0.2358491,0.1996159,0.1546369,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;263;-545.7383,2633.965;Float;False;Property;_Color11;Color 11;11;0;Create;True;0;0;0;False;0;False;0.6691177,0.6691177,0.6691177,0.647;0.3113208,0.244575,0.2246796,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;260;-569.5535,3402.046;Float;False;Property;_Color14;Color 14;14;0;Create;True;0;0;0;False;0;False;0,0.8025862,0.875,0.047;1,1,1,1;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;264;547.1333,288.8422;Float;False;Property;_GradientColor;Gradient Color;36;0;Create;True;0;0;0;False;0;False;0,0,0,0;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;269;-547.1475,2877.121;Float;False;Property;_Color12;Color 12;12;0;Create;True;0;0;0;False;0;False;0.5073529,0.1574544,0,0.128;0.4150943,0.2456527,0.1703453,0.509804;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;273;-591.2968,3879.068;Float;False;Property;_Color16;Color 16;16;0;Create;True;0;0;0;False;0;False;0.4080882,0.75,0.4811866,0.134;1,0.4910869,0,1;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;266;-556.0259,3635.911;Float;False;Property;_Color15;Color 15;15;0;Create;True;0;0;0;False;0;False;1,0,0,0.391;0.4150943,0.1037735,0.2168941,0.6509804;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;270;518.8171,472.1493;Float;False;Property;_GradientIntensity;Gradient Intensity;35;0;Create;True;0;0;0;False;0;False;1;0.755;0;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;259;532.3035,61.52296;Inherit;True;Property;_Gradient;Gradient;34;1;[SingleLineTexture];Create;True;0;0;0;False;1;Header(Gradient);False;-1;0f424a347039ef447a763d3d4b4782b0;0f424a347039ef447a763d3d4b4782b0;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;261;-521.1363,626.6081;Float;False;Property;_Color3;Color 3;3;0;Create;True;0;0;0;False;0;False;0.2535501,0.1544118,1,0.541;0.2452827,0.2325557,0.2325557,0.541;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;268;-559.2659,2400.1;Float;False;Property;_Color10;Color 10;10;0;Create;True;0;0;0;False;0;False;0.362069,0.4411765,0,0.759;0.5,0.3972791,0.2712264,0.627451;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;275;-534.6641,392.7433;Float;False;Property;_Color2;Color 2;2;0;Create;True;0;0;0;False;0;False;1,0.1544118,0.8017241,0.253;0.8490566,0.5562637,0.3884834,0.2392157;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;265;-526.7234,133.3854;Float;False;Property;_Color1;Color 1;1;0;Create;True;0;0;0;False;1;Header(Albedo (A Gradient));False;1,0.1544118,0.1544118,0.291;0.4245283,0.1982467,0.2005823,0.291;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;271;-522.5457,870.9286;Float;False;Property;_Color4;Color 4;4;0;Create;True;0;0;0;False;0;False;0.1544118,0.5451319,1,0.253;0.4056604,0.08091336,0.04401031,0.8117647;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;272;-522.8309,1407.066;Float;False;Property;_Color6;Color 6;6;0;Create;True;0;0;0;False;0;False;0.2720588,0.1294625,0,0.097;0.490566,0.3123887,0.3240542,0.7254902;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;267;-509.303,1640.931;Float;False;Property;_Color7;Color 7;7;0;Create;True;0;0;0;False;0;False;0.1544118,0.6151115,1,0.178;0.3867925,0.3432073,0.3083393,0.1960784;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;274;-551.3253,2140.742;Float;False;Property;_Color9;Color 9;9;0;Create;True;0;0;0;False;1;Space(10);False;0.3164301,0,0.7058823,0.134;0.4339623,0.2533396,0.2108401,0.1960784;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.FunctionNode;280;-207.1133,1411.907;Inherit;True;ColorShartSlot;-1;;738;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;2;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;277;-229.5064,2881.962;Inherit;True;ColorShartSlot;-1;;739;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;4;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;281;-243.5486,2404.941;Inherit;True;ColorShartSlot;-1;;725;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;2;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;293;-245.8953,3147.53;Inherit;True;ColorShartSlot;-1;;732;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;1;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;279;-235.6077,2145.583;Inherit;True;ColorShartSlot;-1;;733;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;1;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;284;-193.0711,1888.928;Inherit;True;ColorShartSlot;-1;;735;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;4;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;282;-253.836,3404.727;Inherit;True;ColorShartSlot;-1;;736;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;2;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;278;-199.1724,1152.549;Inherit;True;ColorShartSlot;-1;;737;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;1;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;283;-239.794,3883.909;Inherit;True;ColorShartSlot;-1;;734;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;4;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;291;-193.5855,1645.772;Inherit;True;ColorShartSlot;-1;;745;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;3;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;290;-211.0059,138.2261;Inherit;True;ColorShartSlot;-1;;742;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;1;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.OneMinusNode;292;829.6819,391.2721;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;286;-205.4187,631.4487;Inherit;True;ColorShartSlot;-1;;743;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;3;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;287;-240.3081,3640.752;Inherit;True;ColorShartSlot;-1;;744;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;3;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;289;855.199,86.99012;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;276;-230.0205,2638.806;Inherit;True;ColorShartSlot;-1;;746;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;3;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;288;-204.9043,874.6049;Inherit;True;ColorShartSlot;-1;;741;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;4;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;285;-218.9466,397.584;Inherit;True;ColorShartSlot;-1;;740;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;0.7843138,0.3137255,0,0;False;3;FLOAT;2;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;303;362.0073,1453.096;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;302;361.3183,1187.068;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;299;359.8215,1720.239;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;296;356.4282,1984.446;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;305;601.9778,2839.576;Float;False;Property;_MRE2;MRE 2;18;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;298;552.2485,5158.444;Float;False;Property;_MRE12;MRE 12;28;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;301;554.292,4942.316;Float;False;Property;_MRE11;MRE 11;27;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;300;557.5464,6229.815;Float;False;Property;_MRE16;MRE 16;32;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;297;559.8184,5802.033;Float;False;Property;_MRE14;MRE 14;30;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;311;556.5591,3968.35;Float;False;Property;_MRE7;MRE 7;23;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;307;554.6787,5568.261;Float;False;Property;_MRE13;MRE 13;29;0;Create;True;0;0;0;False;1;Space(10);False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;313;593.4414,2625.924;Float;False;Property;_MRE1;MRE 1;17;0;Create;True;0;0;0;False;1;Header(Metallic(R) Rough(G) Emmission(B));False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SimpleAddOpNode;295;1040.498,75.77015;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;304;561.4189,3756.696;Float;False;Property;_MRE6;MRE 6;22;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;294;561.9038,6013.687;Float;False;Property;_MRE15;MRE 15;31;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;308;597.8821,3050.848;Float;False;Property;_MRE3;MRE 3;19;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;309;560.7014,3530.267;Float;False;Property;_MRE5;MRE 5;21;0;Create;True;0;0;0;False;1;Space(10);False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;310;554.5208,4730.661;Float;False;Property;_MRE10;MRE 10;26;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;314;600.7974,3259.348;Float;False;Property;_MRE4;MRE 4;20;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;306;549.3809,4496.889;Float;False;Property;_MRE9;MRE 9;25;0;Create;True;0;0;0;False;1;Space(10);False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;312;554.5156,4184.477;Float;False;Property;_MRE8;MRE 8;24;0;Create;True;0;0;0;False;0;False;0,1,0,0;0,1,0,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.FunctionNode;316;867.7078,6001.553;Inherit;True;ColorShartSlot;-1;;754;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;3;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;319;860.446,3741.301;Inherit;True;ColorShartSlot;-1;;747;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;2;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;322;862.8147,3533.231;Inherit;True;ColorShartSlot;-1;;748;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;1;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;315;851.7717,5565.973;Inherit;True;ColorShartSlot;-1;;749;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;1;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;318;855.679,4178.713;Inherit;True;ColorShartSlot;-1;;756;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;4;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;324;877.594,2625.656;Inherit;True;ColorShartSlot;-1;;751;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;1;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;321;873.4221,3262.493;Inherit;True;ColorShartSlot;-1;;752;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;4;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;320;860.7371,4715.267;Inherit;True;ColorShartSlot;-1;;753;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;2;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;323;873.4548,3051.996;Inherit;True;ColorShartSlot;-1;;755;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;3;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;317;866.0349,5786.639;Inherit;True;ColorShartSlot;-1;;750;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;2;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;325;1321.758,324.4118;Float;False;Property;_GradientScale;Gradient Scale;37;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;328;1325.247,67.20997;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;1,1,1,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;327;862.4109,4930.181;Inherit;True;ColorShartSlot;-1;;758;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;3;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;330;858.7087,6224.051;Inherit;True;ColorShartSlot;-1;;759;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;4;False;9;FLOAT;1;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;331;846.4747,4494.602;Inherit;True;ColorShartSlot;-1;;762;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;1;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;326;1328.576,417.155;Float;False;Property;_GradientOffset;Gradient Offset;38;0;Create;True;0;0;0;False;0;False;0;0.23;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;334;862.1199,3956.216;Inherit;True;ColorShartSlot;-1;;761;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;3;False;9;FLOAT;3;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;329;689.7629,1490.179;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;332;853.4119,5152.679;Inherit;True;ColorShartSlot;-1;;757;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;4;False;9;FLOAT;2;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.FunctionNode;333;875.3811,2841.581;Inherit;True;ColorShartSlot;-1;;760;231fe18505db4a84b9c478d379c9247d;0;5;38;COLOR;1,1,1,1;False;3;FLOAT;2;False;9;FLOAT;4;False;7;FLOAT;4;False;8;FLOAT;4;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;335;1245.005,5733.872;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;337;1242.845,2960.129;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;339;1226.362,3693.714;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;338;1333.067,513.5909;Float;False;Property;_GradientPower;Gradient Power;39;0;Create;True;0;0;0;False;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ScaleAndOffsetNode;341;1603.028,106.3281;Inherit;True;3;0;COLOR;0,0,0,0;False;1;FLOAT;1;False;2;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ComponentMaskNode;340;1733.138,385.1413;Inherit;False;False;False;False;True;1;0;COLOR;0,0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;336;1239.708,4662.5;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.PowerNode;342;1910.574,105.6353;Inherit;True;False;2;0;COLOR;0,0,0,0;False;1;FLOAT;1;False;1;COLOR;0
+Node;AmplifyShaderEditor.OneMinusNode;343;1955.269,393.4111;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;344;1633.28,3281.224;Inherit;True;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.RangedFloatNode;345;2197.731,1690.528;Inherit;False;Property;_EmissionPower1;Emission Power;33;0;Create;True;0;0;0;False;1;Header(Emmision);False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ComponentMaskNode;346;2187.081,1825.551;Inherit;True;False;False;True;False;1;0;COLOR;0,0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;347;2203.216,104.3341;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ComponentMaskNode;349;2249.315,1389.258;Inherit;True;False;True;False;False;1;0;COLOR;0,0,0,0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;350;2501.627,1677.187;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.ClampOpNode;348;2469.75,101.3337;Inherit;True;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;1,1,1,1;False;1;COLOR;0
+Node;AmplifyShaderEditor.ColorNode;357;2852.409,876.689;Float;False;Property;_Tint;Tint;0;0;Create;True;0;0;0;False;0;False;1,1,1,1;1,1,1,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.OneMinusNode;355;2617.921,1385.25;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;351;2787.695,1612.243;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
+Node;AmplifyShaderEditor.SimpleMultiplyOpNode;353;3107.01,689.065;Inherit;True;3;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;1;COLOR;0
+Node;AmplifyShaderEditor.ComponentMaskNode;354;2243.338,1191.311;Inherit;True;True;False;False;False;1;0;COLOR;0,0,0,0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;3722.291,1294.892;Float;False;True;-1;7;ASEMaterialInspector;0;0;Standard;Malbers/Color4x4;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Off;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Opaque;0.1;True;True;0;False;Opaque;;Geometry;ForwardOnly;18;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;True;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;False;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
-WireConnection;279;38;274;0
-WireConnection;285;38;275;0
-WireConnection;288;38;271;0
-WireConnection;286;38;261;0
-WireConnection;281;38;268;0
-WireConnection;290;38;265;0
-WireConnection;280;38;272;0
-WireConnection;276;38;263;0
-WireConnection;277;38;269;0
-WireConnection;283;38;273;0
 WireConnection;259;1;256;0
-WireConnection;278;38;257;0
-WireConnection;291;38;267;0
-WireConnection;287;38;266;0
+WireConnection;280;38;272;0
+WireConnection;277;38;269;0
+WireConnection;281;38;268;0
 WireConnection;293;38;258;0
+WireConnection;279;38;274;0
 WireConnection;284;38;262;0
 WireConnection;282;38;260;0
-WireConnection;302;0;290;0
-WireConnection;302;1;285;0
-WireConnection;302;2;286;0
-WireConnection;302;3;288;0
+WireConnection;278;38;257;0
+WireConnection;283;38;273;0
+WireConnection;291;38;267;0
+WireConnection;290;38;265;0
+WireConnection;292;0;270;0
+WireConnection;286;38;261;0
+WireConnection;287;38;266;0
+WireConnection;289;0;259;0
+WireConnection;289;1;264;0
+WireConnection;276;38;263;0
+WireConnection;288;38;271;0
+WireConnection;285;38;275;0
 WireConnection;303;0;278;0
 WireConnection;303;1;280;0
 WireConnection;303;2;291;0
 WireConnection;303;3;284;0
+WireConnection;302;0;290;0
+WireConnection;302;1;285;0
+WireConnection;302;2;286;0
+WireConnection;302;3;288;0
 WireConnection;299;0;279;0
 WireConnection;299;1;281;0
 WireConnection;299;2;276;0
@@ -393,51 +389,49 @@ WireConnection;296;0;293;0
 WireConnection;296;1;282;0
 WireConnection;296;2;287;0
 WireConnection;296;3;283;0
-WireConnection;289;0;259;0
-WireConnection;289;1;264;0
-WireConnection;292;0;270;0
+WireConnection;295;0;289;0
+WireConnection;295;1;292;0
+WireConnection;316;38;294;0
+WireConnection;319;38;304;0
+WireConnection;322;38;309;0
+WireConnection;315;38;307;0
+WireConnection;318;38;312;0
+WireConnection;324;38;313;0
+WireConnection;321;38;314;0
 WireConnection;320;38;310;0
+WireConnection;323;38;308;0
 WireConnection;317;38;297;0
+WireConnection;328;0;295;0
+WireConnection;327;38;301;0
+WireConnection;330;38;300;0
+WireConnection;331;38;306;0
+WireConnection;334;38;311;0
 WireConnection;329;0;302;0
 WireConnection;329;1;303;0
 WireConnection;329;2;299;0
 WireConnection;329;3;296;0
-WireConnection;331;38;306;0
-WireConnection;327;38;301;0
-WireConnection;315;38;307;0
-WireConnection;330;38;300;0
 WireConnection;332;38;298;0
-WireConnection;316;38;294;0
-WireConnection;318;38;312;0
-WireConnection;324;38;313;0
-WireConnection;323;38;308;0
-WireConnection;319;38;304;0
-WireConnection;322;38;309;0
-WireConnection;334;38;311;0
 WireConnection;333;38;305;0
-WireConnection;295;0;289;0
-WireConnection;295;1;292;0
-WireConnection;321;38;314;0
-WireConnection;340;0;329;0
-WireConnection;341;0;295;0
-WireConnection;341;1;325;0
-WireConnection;341;2;326;0
-WireConnection;337;0;324;0
-WireConnection;337;1;333;0
-WireConnection;337;2;323;0
-WireConnection;337;3;321;0
 WireConnection;335;0;315;0
 WireConnection;335;1;317;0
 WireConnection;335;2;316;0
 WireConnection;335;3;330;0
-WireConnection;336;0;331;0
-WireConnection;336;1;320;0
-WireConnection;336;2;327;0
-WireConnection;336;3;332;0
+WireConnection;337;0;324;0
+WireConnection;337;1;333;0
+WireConnection;337;2;323;0
+WireConnection;337;3;321;0
 WireConnection;339;0;322;0
 WireConnection;339;1;319;0
 WireConnection;339;2;334;0
 WireConnection;339;3;318;0
+WireConnection;341;0;328;0
+WireConnection;341;1;325;0
+WireConnection;341;2;326;0
+WireConnection;340;0;329;0
+WireConnection;336;0;331;0
+WireConnection;336;1;320;0
+WireConnection;336;2;327;0
+WireConnection;336;3;332;0
 WireConnection;342;0;341;0
 WireConnection;342;1;338;0
 WireConnection;343;0;340;0
@@ -448,20 +442,20 @@ WireConnection;344;3;335;0
 WireConnection;346;0;344;0
 WireConnection;347;0;342;0
 WireConnection;347;1;343;0
-WireConnection;348;0;347;0
 WireConnection;349;0;344;0
 WireConnection;350;0;345;0
 WireConnection;350;1;346;0
+WireConnection;348;0;347;0
 WireConnection;355;0;349;0
+WireConnection;351;0;329;0
+WireConnection;351;1;350;0
 WireConnection;353;0;348;0
 WireConnection;353;1;329;0
 WireConnection;353;2;357;0
 WireConnection;354;0;344;0
-WireConnection;351;0;329;0
-WireConnection;351;1;350;0
 WireConnection;0;0;353;0
 WireConnection;0;2;351;0
 WireConnection;0;3;354;0
 WireConnection;0;4;355;0
 ASEEND*/
-//CHKSM=48C16ADEE5CBAE96C24DA5621D4569F16FDB26D2
+//CHKSM=2F743E3855742334E0358A4BF2769E57900F7386

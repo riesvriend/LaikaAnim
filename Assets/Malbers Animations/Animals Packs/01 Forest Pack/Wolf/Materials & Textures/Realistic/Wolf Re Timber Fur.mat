@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Wolf Re Timber Fur
+  m_Shader: {fileID: 4800000, guid: a585ea739537dc340acceaa41c77f52c, type: 3}
+  m_ShaderKeywords: _EMISSION _NORMALMAP
+  m_LightmapFlags: 1
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: 09701e8e9cc9c1544b8dbea5ec838b04, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BodyNormal:
+        m_Texture: {fileID: 2800000, guid: 13579146ea933b144b166890fb81a011, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 13579146ea933b144b166890fb81a011, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emission:
+        m_Texture: {fileID: 2800000, guid: 654af7c78d16add428013c20bac17641, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FurMap:
+        m_Texture: {fileID: 2800000, guid: 4465e4dc19128b841bf2a8338c3e6792, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FurMap1:
+        m_Texture: {fileID: 2800000, guid: 4465e4dc19128b841bf2a8338c3e6792, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FurMap2:
+        m_Texture: {fileID: 2800000, guid: a955501da94190a43bfa2af7ebbf2bea, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FurN:
+        m_Texture: {fileID: 2800000, guid: b2b11ef38a0e7764a879b324c668a443, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FurNormal:
+        m_Texture: {fileID: 2800000, guid: b2b11ef38a0e7764a879b324c668a443, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FurNormal1:
+        m_Texture: {fileID: 2800000, guid: b2b11ef38a0e7764a879b324c668a443, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FurNormal2:
+        m_Texture: {fileID: 2800000, guid: b2b11ef38a0e7764a879b324c668a443, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 6736744417acb8844bf0f7ad314c1f25, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AO: 0.6272063
+    - _AOExp: 1
+    - _AOPower: 0.75
+    - _AlphaClip: 0.5
+    - _AnisotropyFalloff: 66
+    - _AnisotropyOffset: -0.3
+    - _BumpScale: 1.2
+    - _Cutoff: 0.8
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _Emission: 0
+    - _EmissionPower: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0
+    - _GlossyReflections: 1
+    - _Metallic: 0.3
+    - _Metallic1: 0
+    - _Mode: 0
+    - _Normal1: 1
+    - _NormalPower: 0.52
+    - _NormalPower2: 0.84
+    - _NormalPowerBody: 1.5
+    - _NormalPowerFur: 0.5
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SpecularPower: 0.1
+    - _SrcBlend: 1
+    - _TransAmbient: 0.106
+    - _TransDirect: 0.325
+    - _TransNormalDistortion: 0.849
+    - _TransScattering: 10.2
+    - _TransShadow: 0.62
+    - _Translucency: 0
+    - _Transparency: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    - __dirty: 0
+    m_Colors:
+    - _AO: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
+    - _AOTint: {r: 0.5471698, g: 0.44211435, b: 0.38456747, a: 1}
+    - _Color: {r: 0.9245283, g: 0.8531069, b: 0.7893378, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RootTint: {r: 0.3679245, g: 0.2516465, b: 0.2516465, a: 1}
+    - _Tint: {r: 1, g: 1, b: 1, a: 1}

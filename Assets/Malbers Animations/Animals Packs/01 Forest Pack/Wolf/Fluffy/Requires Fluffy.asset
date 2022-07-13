@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fcb0528820550499d051030855ca6d, type: 3}
+  m_Name: Requires Fluffy
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: a9045f5683746af42a484c8258382d52, type: 3}
+  title: Compatible with Fluffy
+  sections:
+  - heading: 
+    text: 'This asset supports Fluffy and has a fur groom included. Fluffy is a third
+      party asset that is available on the Asset Store. '
+    linkText: 
+    url: 
+    reference: {fileID: 0}
+  - heading: 
+    text: '- To start using it please make sure you have imported Fluffy into your
+      project first. Then unpack the Fluffy.unitypackage into your project'
+    linkText: 
+    url: https://assetstore.unity.com/packages/tools/modeling/fluffy-grooming-tool-193828?aid=1100lHT6
+    reference: {fileID: 0}
+  - heading: 
+    text: '- Please note that Fluffy requires minimum Unity version 2021.2.'
+    linkText: 
+    url: 
+    reference: {fileID: 0}
+  - heading: 
+    text: 
+    linkText: Fluffy on the AssetStore
+    url: https://assetstore.unity.com/packages/tools/modeling/fluffy-grooming-tool-193828?aid=1100lHT6
+    reference: {fileID: 0}
+  packages: []
