@@ -508,6 +508,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   events:
+    OnPartialResponse:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 753037470}
+          m_TargetAssemblyTypeName: Oculus.Voice.Demo.UIShapesDemo.ColorChanger,
+            Oculus.Voice.Demo
+          m_MethodName: UpdateColor
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     OnResponse:
       m_PersistentCalls:
         m_Calls:
@@ -550,6 +566,9 @@ MonoBehaviour:
             m_StringArgument: Activate
             m_BoolArgument: 0
           m_CallState: 2
+    OnAborting:
+      m_PersistentCalls:
+        m_Calls: []
     OnAborted:
       m_PersistentCalls:
         m_Calls: []
@@ -607,10 +626,10 @@ MonoBehaviour:
     OnMinimumWakeThresholdHit:
       m_PersistentCalls:
         m_Calls: []
-    OnPartialTranscription:
+    onPartialTranscription:
       m_PersistentCalls:
         m_Calls: []
-    OnFullTranscription:
+    onFullTranscription:
       m_PersistentCalls:
         m_Calls: []
     OnByteDataReady:
@@ -632,6 +651,8 @@ MonoBehaviour:
     sendAudioToWit: 1
     customTranscriptionProvider: {fileID: 0}
     alwaysRecord: 0
+    preferredActivationOffset: -0.5
+  usePlatformServices: 0
 --- !u!4 &737401906
 Transform:
   m_ObjectHideFlags: 0
@@ -832,11 +853,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2483b9bd782f9449a5972b61b7d51a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CameraFloorOffsetObject: {fileID: 1520928353}
-  m_RequestedTrackingMode: 0
-  m_TrackingOriginMode: 1
-  m_TrackingSpace: 0
-  m_CameraYOffset: 1.9
 --- !u!4 &927544878
 Transform:
   m_ObjectHideFlags: 0
@@ -1090,12 +1106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a2a9c34df4095f47b9ca8f975175f5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Device: 0
-  m_PoseSource: 2
-  m_PoseProviderComponent: {fileID: 0}
-  m_TrackingType: 0
-  m_UpdateType: 0
-  m_UseRelativeTransform: 0
 --- !u!1 &1038413892
 GameObject:
   m_ObjectHideFlags: 0
