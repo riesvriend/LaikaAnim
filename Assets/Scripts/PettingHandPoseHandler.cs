@@ -10,7 +10,7 @@ public class PettingHandPoseHandler : MonoBehaviour
     [SerializeField]
     private LaikaMovement laikaMovementHandler;
 
-    [SerializeField]
+    // Linked to Transform Hook on center eye camera https://www.youtube.com/watch?v=wxhej5QIrDE
     public TransformReference player;
 
     public MAnimalAIControl animalAI;
@@ -91,7 +91,7 @@ public class PettingHandPoseHandler : MonoBehaviour
         //var target = new Vector3(x, 0, z);
 
         //animalAI?.SetDestination(target);
-        
+
         if (sendAwayWaypoint == null)
         {
             Debug.Log("HandleGoAway needs a sendAwayWaypoint");

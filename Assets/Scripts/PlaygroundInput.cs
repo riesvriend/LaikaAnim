@@ -1,3 +1,4 @@
+using Oculus.Interaction;
 using Synchrony;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,11 +19,17 @@ public class PlaygroundInput : MonoBehaviour
     public int activeAnimalIndex = 0;
     public Transform cameraOrEyeTransform;
 
-    public List<GameObject> animalToggles = new List<GameObject>();
-
     public ToggleGroup animalToggleGroup;
-    public Toggle HorseToggle;
     public GameObject animalTogglePrefab;
+
+    /// <summary>
+    /// Highlight color/material for ray casting is pointing to the plank
+    /// </summary>
+    public Material menuPlankHoverMaterial;
+    public Material menuPlankNormalMaterial;
+    [SerializeField, Interface(typeof(IInteractableView))]
+    public MonoBehaviour menuPlankInteractableView;
+    public GameObject mainMenu;
 
     public AudioSource musicAudioSource;
     public VideoPlayer videoPlayer;
@@ -31,42 +38,78 @@ public class PlaygroundInput : MonoBehaviour
     //private Sound currentSoundIndex = Sound.MusicAndVideo;
     public bool playBackgroundMusic = true;
 
-    private int movieIndex = 0;
-
     private void Awake()
     {
         ActivateActiveAnimal();
         ActivateSound();
 
+        InitMainMenu();
+        InitWoodenPlankMenuButton();
+    }
+
+    private void InitWoodenPlankMenuButton()
+    {
+        // Clear highlight color
+        Plank_WhenStateChanged(new InteractableStateChangeArgs { NewState = InteractableState.Normal });
+
+        var plank = menuPlankInteractableView as IInteractableView;
+        plank.WhenStateChanged += Plank_WhenStateChanged;
+    }
+
+    private void Plank_WhenStateChanged(InteractableStateChangeArgs args)
+    {
+        if (args.NewState == InteractableState.Hover)
+        {
+            menuPlankRenderer().material = menuPlankHoverMaterial;
+        }
+        else if (args.NewState == InteractableState.Normal)
+        {
+            ClearPlankMenuHighlight();
+        }
+        else if (args.NewState == InteractableState.Select)
+        {
+            HandleMenuPlankSelect();
+        }
+    }
+
+    private MeshRenderer menuPlankRenderer()
+    {
+        return menuPlankInteractableView.GetComponent<MeshRenderer>();
+    }
+
+    private void ClearPlankMenuHighlight()
+    {
+        menuPlankRenderer().material = menuPlankNormalMaterial;
+    }
+
+    /// <summary>
+    /// Adds toggles to the menu to pick the animals 
+    /// </summary>
+    private void InitMainMenu()
+    {
+        // activated by the wooden plank on the side
+        mainMenu.SetActive(false);
+
         // The first toggle button is the dummy for the prefab; disable it
         var dummy = animalToggleGroup.GetComponentsInChildren<Toggle>().Single();
-        dummy.gameObject.SetActive(false); // somehow this will carry forward to the prefab
+        dummy.gameObject.SetActive(false); // somehow this will carry forward to the prefab...
 
         // Generate toggle buttons from a prefab, one for each item in animalsToRotate
         var index = 0;
         foreach (var animal in animalsToRotate)
         {
             var animalToggleGameObject = Instantiate(animalTogglePrefab, parent: animalToggleGroup.transform);
-            animalToggleGameObject.SetActive(true); // so we have to re-anable it in spawned objects
+            animalToggleGameObject.SetActive(true); // ...so we have to re-anable it in spawned objects
+
             var label = animalToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
             label.text = animal.name;
 
             var animalToggle = animalToggleGameObject.GetComponent<Toggle>();
             animalToggle.SetIsOnWithoutNotify(index == activeAnimalIndex);
-
             animalToggle.onValueChanged.AddListener((isOn) => AnimalToggleValueChanged(animalToggle, isOn, animal));
+
+            index += 1;
         }
-    }
-
-    private Toggle[] AnimalToggles()
-    {
-        return animalToggleGroup.GetComponentsInChildren<Toggle>();
-    }
-
-    private void OnDestroy()
-    {
-        //foreach (var t in AnimalToggles())
-        //    t.onValueChanged.RemoveAllListeners();
     }
 
     void AnimalToggleValueChanged(Toggle toggle, bool isOn, GameObject toggledAnimal)
@@ -88,7 +131,6 @@ public class PlaygroundInput : MonoBehaviour
             }
         }
     }
-
 
     void Update()
     {
@@ -113,6 +155,15 @@ public class PlaygroundInput : MonoBehaviour
         //    videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
     }
 
+    
+    public void HandleMenuPlankSelect()
+    {
+        var isActive = !mainMenu.activeSelf;
+        mainMenu.SetActive(isActive);
+        if (isActive)
+            PositionMainMenu();
+    }
+
     private void ActivateActiveAnimal()
     {
         var i = 0;
@@ -126,6 +177,9 @@ public class PlaygroundInput : MonoBehaviour
 
                 if (i == 1)
                     // hack: horse is larger
+                    distanceFromCameraInMeter = 4f;
+                else if (i == 4)
+                    // hack: elephant is larger
                     distanceFromCameraInMeter = 4f;
 
                 var animalPos = cameraOrEyeTransform.position + cameraOrEyeTransform.forward * distanceFromCameraInMeter;
@@ -142,10 +196,16 @@ public class PlaygroundInput : MonoBehaviour
         }
     }
 
-
-
-    public void AnimalSelectedHandler(PointerEventData eventData)
+    private void PositionMainMenu()
     {
-        "AnimalSelectedHandler {eventData}".Log();
+        const float radiusOfMenuCylinder = 4f;
+        const float distanceFromCameraInMeter = 2f - radiusOfMenuCylinder;
+
+        $"Camera pos: {cameraOrEyeTransform.position}".Log();
+
+        var pos = cameraOrEyeTransform.position + distanceFromCameraInMeter * cameraOrEyeTransform.forward;
+        pos.y = 0; // 1.5f - radiusOfMenuCylinder / 2;
+        mainMenu.transform.position = pos;
     }
+
 }
