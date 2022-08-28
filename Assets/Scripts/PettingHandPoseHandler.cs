@@ -7,9 +7,6 @@ using UnityEngine;
 
 public class PettingHandPoseHandler : MonoBehaviour
 {
-    [SerializeField]
-    private LaikaMovement laikaMovementHandler;
-
     // Linked to Transform Hook on center eye camera https://www.youtube.com/watch?v=wxhej5QIrDE
     public TransformReference player;
 
@@ -57,16 +54,11 @@ public class PettingHandPoseHandler : MonoBehaviour
         playerWaypoint.transform.position = target;
 
         animalAI.SetTarget(playerWaypoint.transform);
-
-        //laikaMovementHandler?.HandleVoiceCommand("sit");
-
     }
 
     public void HandleComeUnselected()
     {
         Debug.Log("Come Unselected");
-
-        //laikaMovementHandler?.HandleVoiceCommand("sit");
     }
 
     public void HandleGoAway()
@@ -103,10 +95,5 @@ public class PettingHandPoseHandler : MonoBehaviour
     public void HandleGoAwayUnselected()
     {
         Debug.Log("HandleGoAwayUnselected");
-
-        //laikaMovementHandler?.HandleVoiceCommand("sit");
     }
-
-
-
 }

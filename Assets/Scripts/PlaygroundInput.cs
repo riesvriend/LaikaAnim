@@ -1,3 +1,4 @@
+using MalbersAnimations.Controller.AI;
 using Oculus.Interaction;
 using Synchrony;
 using System.Collections;
@@ -32,6 +33,10 @@ public class PlaygroundInput : MonoBehaviour
     public GameObject mainMenu;
 
     public AudioSource musicAudioSource;
+
+    public List<VideoClip> videoClips = new List<VideoClip>();
+    public int activeVideoClipIndex = 0;
+
     public VideoPlayer videoPlayer;
 
     //enum Sound : int { Silent, VideoOnly, MusicOnly, MusicAndVideo, MaxEnumValue };
@@ -90,12 +95,53 @@ public class PlaygroundInput : MonoBehaviour
         // activated by the wooden plank on the side
         mainMenu.SetActive(false);
 
+        InitAnimalToggleGroup();
+
+        InitVideoClipMenu();
+    }
+
+    private void InitVideoClipMenu()
+    {
+        var animalScollView = animalToggleGroup.transform.parent.parent;
+        var clipScrollViewAsObject = GameObject.Instantiate(
+            original: animalScollView,
+            parent: animalScollView.transform.parent,
+            instantiateInWorldSpace: false);
+
+        var clipScrollViewTransform = clipScrollViewAsObject as UnityEngine.RectTransform;
+        var clipToggleGroupTransform = clipScrollViewTransform.GetChild(0).GetChild(0);
+
+        // clear the cloned toggles in from the cloned group
+        // count will only be adapted in next frame, not during destroy
+        var togglesToDelete = clipToggleGroupTransform.childCount;
+        for (int i = 0; i < togglesToDelete; i += 1)
+            GameObject.Destroy(clipToggleGroupTransform.GetChild(i).gameObject);
+
+        var clipIndex = 0;
+        foreach (var clip in videoClips)
+        {
+            var clipToggleGameObject = Instantiate(animalTogglePrefab, parent: clipToggleGroupTransform);
+            clipToggleGameObject.SetActive(true); // ...so we have to re-anable it in spawned objects
+
+            var label = clipToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
+            label.text = clip.name;
+
+            var clipToggle = clipToggleGameObject.GetComponent<Toggle>();
+            clipToggle.SetIsOnWithoutNotify(clipIndex == activeVideoClipIndex);
+            clipToggle.onValueChanged.AddListener((isOn) => ClipToggleValueChanged(clipToggle, isOn, clip));
+
+            clipIndex += 1;
+        }
+    }
+
+    private void InitAnimalToggleGroup()
+    {
         // The first toggle button is the dummy for the prefab; disable it
         var dummy = animalToggleGroup.GetComponentsInChildren<Toggle>().Single();
         dummy.gameObject.SetActive(false); // somehow this will carry forward to the prefab...
 
         // Generate toggle buttons from a prefab, one for each item in animalsToRotate
-        var index = 0;
+        var animalIndex = 0;
         foreach (var animal in animalsToRotate)
         {
             var animalToggleGameObject = Instantiate(animalTogglePrefab, parent: animalToggleGroup.transform);
@@ -105,10 +151,10 @@ public class PlaygroundInput : MonoBehaviour
             label.text = animal.name;
 
             var animalToggle = animalToggleGameObject.GetComponent<Toggle>();
-            animalToggle.SetIsOnWithoutNotify(index == activeAnimalIndex);
+            animalToggle.SetIsOnWithoutNotify(animalIndex == activeAnimalIndex);
             animalToggle.onValueChanged.AddListener((isOn) => AnimalToggleValueChanged(animalToggle, isOn, animal));
 
-            index += 1;
+            animalIndex += 1;
         }
     }
 
@@ -129,6 +175,45 @@ public class PlaygroundInput : MonoBehaviour
                 }
                 i += 1;
             }
+
+            mainMenu.SetActive(false);
+        }
+    }
+
+    void ClipToggleValueChanged(Toggle toggle, bool isOn, VideoClip toggledClip)
+    {
+        $"Toggle {toggledClip.name}: {toggle.isOn}".Log();
+
+        if (isOn)
+        {
+            var i = 0;
+            foreach (var currentClip in videoClips)
+            {
+                if (currentClip == toggledClip)
+                {
+                    activeVideoClipIndex = i;
+                    ActivateActiveClip();
+                    break;
+                }
+                i += 1;
+            }
+
+            mainMenu.SetActive(false);
+        }
+    }
+
+    private void ActivateActiveClip()
+    {
+        var i = 0;
+        foreach (var clip in videoClips)
+        {
+            var isActive = activeVideoClipIndex == i;
+            if (isActive)
+            {
+                videoPlayer.clip = clip;
+                break;
+            }
+            i += 1;
         }
     }
 
@@ -141,7 +226,6 @@ public class PlaygroundInput : MonoBehaviour
 
             ActivateSound();
         }
-
     }
 
     void ActivateSound()
@@ -155,7 +239,7 @@ public class PlaygroundInput : MonoBehaviour
         //    videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
     }
 
-    
+
     public void HandleMenuPlankSelect()
     {
         var isActive = !mainMenu.activeSelf;
@@ -170,17 +254,27 @@ public class PlaygroundInput : MonoBehaviour
         foreach (var animal in animalsToRotate)
         {
             var isActive = activeAnimalIndex == i;
+            
+            var ai = animal.GetComponentsInChildren<MAnimalAIControl>(includeInactive: true);
+            if (ai.Length == 1)
+            {
+                // Prevent it from away from its start position and running through the player
+                ai[0].ClearTarget();
+                "Clearing AI Target".Log();
+            }
+
             animal.SetActive(isActive);
             if (isActive && cameraOrEyeTransform != null)
             {
-                float distanceFromCameraInMeter = 1.5f;
-
-                if (i == 1)
+                float distanceFromCameraInMeter = 0.5f;
+                if (animal.name.Equals("Laika")) // i = 0
+                    distanceFromCameraInMeter = 0.7f;
+                else if (i == 1)
                     // hack: horse is larger
-                    distanceFromCameraInMeter = 4f;
+                    distanceFromCameraInMeter = 3.5f;
                 else if (i == 4)
                     // hack: elephant is larger
-                    distanceFromCameraInMeter = 4f;
+                    distanceFromCameraInMeter = 3.5f;
 
                 var animalPos = cameraOrEyeTransform.position + cameraOrEyeTransform.forward * distanceFromCameraInMeter;
                 animalPos.y = 0;
@@ -199,12 +293,12 @@ public class PlaygroundInput : MonoBehaviour
     private void PositionMainMenu()
     {
         const float radiusOfMenuCylinder = 4f;
-        const float distanceFromCameraInMeter = 2f - radiusOfMenuCylinder;
+        const float distanceFromCameraInMeter = 1.2f - radiusOfMenuCylinder;
 
         $"Camera pos: {cameraOrEyeTransform.position}".Log();
 
         var pos = cameraOrEyeTransform.position + distanceFromCameraInMeter * cameraOrEyeTransform.forward;
-        pos.y = 0; // 1.5f - radiusOfMenuCylinder / 2;
+        pos.y = 0.5f; // 1.5f - radiusOfMenuCylinder / 2;
         mainMenu.transform.position = pos;
     }
 
