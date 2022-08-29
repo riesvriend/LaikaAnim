@@ -5,12 +5,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// metadata of the animals that we play with
+public class AnimalDef
+{
+    public GameObject gameObject;
+    public int index;
+    public MAnimalAIControl ai;
+    public float minComeCloseDistanceFromPlayerInMeter;
+    public float initialDistanceFromCameraInMeter;
+}
+
 public class PettingHandPoseHandler : MonoBehaviour
 {
     // Linked to Transform Hook on center eye camera https://www.youtube.com/watch?v=wxhej5QIrDE
     public TransformReference player;
 
-    public MAnimalAIControl animalAI;
+    // Set at runtime by the PlaygroundInput class
+    public AnimalDef animalDef;
 
     public MWayPoint sendAwayWaypoint;
 
@@ -49,11 +60,11 @@ public class PettingHandPoseHandler : MonoBehaviour
         var playerTransform = player.Value;
 
         // Keep the middle of the horse out of the eyes of the player
-        var target = playerTransform.transform.position + (playerTransform.forward * 1.0f);
+        var target = playerTransform.transform.position + (playerTransform.forward * animalDef.minComeCloseDistanceFromPlayerInMeter);
 
         playerWaypoint.transform.position = target;
 
-        animalAI.SetTarget(playerWaypoint.transform);
+        animalDef.ai.SetTarget(playerWaypoint.transform);
     }
 
     public void HandleComeUnselected()
@@ -89,7 +100,7 @@ public class PettingHandPoseHandler : MonoBehaviour
             Debug.Log("HandleGoAway needs a sendAwayWaypoint");
             return;
         }
-        animalAI.SetTarget(sendAwayWaypoint.transform);
+        animalDef.ai.SetTarget(sendAwayWaypoint.transform);
     }
 
     public void HandleGoAwayUnselected()

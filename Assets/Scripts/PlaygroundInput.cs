@@ -1,6 +1,8 @@
+using MalbersAnimations.Controller;
 using MalbersAnimations.Controller.AI;
 using Oculus.Interaction;
 using Synchrony;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,8 @@ using UnityEngine.Video;
 /// </summary>
 public class PlaygroundInput : MonoBehaviour
 {
+    public PettingHandPoseHandler pettingHandPoseHandler;
+
     public List<GameObject> animalsToRotate = new List<GameObject>();
     public int activeAnimalIndex = 0;
     public Transform cameraOrEyeTransform;
@@ -42,14 +46,65 @@ public class PlaygroundInput : MonoBehaviour
     //enum Sound : int { Silent, VideoOnly, MusicOnly, MusicAndVideo, MaxEnumValue };
     //private Sound currentSoundIndex = Sound.MusicAndVideo;
     public bool playBackgroundMusic = true;
+    private int playBackgroundMusicIndex => playBackgroundMusic ? 0 : 1;
+
+    private List<AnimalDef> animalDefs;
 
     private void Awake()
     {
+        InitAnimalDefs();
         ActivateActiveAnimal();
-        ActivateSound();
+        HandleMusicHasChanged();
 
         InitMainMenu();
         InitWoodenPlankMenuButton();
+    }
+
+    /// <summary>
+    /// Setup meta data for each animal
+    /// </summary>
+    private void InitAnimalDefs()
+    {
+        this.animalDefs = new List<AnimalDef>();
+        var i = 0;
+        foreach (var animal in animalsToRotate)
+        {
+            var aiList = animal.GetComponentsInChildren<MAnimalAIControl>(includeInactive: true);
+            var ai = aiList.SingleOrDefault();
+            if (ai != null)
+                ai.gameObject.SetActive(true); // not all animals have this internal object active out of the box
+            var def = new AnimalDef()
+            {
+                gameObject = animal,
+                index = i,
+                ai = ai,
+            };
+
+            if (animal.name.Equals("Laika"))
+            {
+                def.initialDistanceFromCameraInMeter = 0.8f;
+                def.minComeCloseDistanceFromPlayerInMeter = 1.0f; // no AI so not relevant
+            }
+            else if (animal.name.Equals("Paard"))
+            {
+                def.initialDistanceFromCameraInMeter = 3.5f;
+                def.minComeCloseDistanceFromPlayerInMeter = 0.4f;
+            }
+            else if (animal.name.Equals("Konijn") || animal.name.Equals("Puppy"))
+            {
+                def.initialDistanceFromCameraInMeter = 0.5f;
+                def.minComeCloseDistanceFromPlayerInMeter = 0.0f;
+            }
+            else if (animal.name.Equals("Olifant"))
+            {
+                def.initialDistanceFromCameraInMeter = 5.5f;
+                def.minComeCloseDistanceFromPlayerInMeter = 2.0f;
+            }
+            else throw new ApplicationException($"Unknown animal: {animal.name}");
+
+            animalDefs.Add(def);
+            i += 1;
+        }
     }
 
     private void InitWoodenPlankMenuButton()
@@ -98,24 +153,12 @@ public class PlaygroundInput : MonoBehaviour
         InitAnimalToggleGroup();
 
         InitVideoClipMenu();
+        InitMusicMenu();
     }
 
     private void InitVideoClipMenu()
     {
-        var animalScollView = animalToggleGroup.transform.parent.parent;
-        var clipScrollViewAsObject = GameObject.Instantiate(
-            original: animalScollView,
-            parent: animalScollView.transform.parent,
-            instantiateInWorldSpace: false);
-
-        var clipScrollViewTransform = clipScrollViewAsObject as UnityEngine.RectTransform;
-        var clipToggleGroupTransform = clipScrollViewTransform.GetChild(0).GetChild(0);
-
-        // clear the cloned toggles in from the cloned group
-        // count will only be adapted in next frame, not during destroy
-        var togglesToDelete = clipToggleGroupTransform.childCount;
-        for (int i = 0; i < togglesToDelete; i += 1)
-            GameObject.Destroy(clipToggleGroupTransform.GetChild(i).gameObject);
+        var clipToggleGroupTransform = CloneToggleGroup();
 
         var clipIndex = 0;
         foreach (var clip in videoClips)
@@ -132,6 +175,44 @@ public class PlaygroundInput : MonoBehaviour
 
             clipIndex += 1;
         }
+    }
+
+    private void InitMusicMenu()
+    {
+        Transform musicToggleGroupTransform = CloneToggleGroup();
+
+        for (var onOffIndex = 0; onOffIndex < 2; onOffIndex += 1)
+        {
+            var clipToggleGameObject = Instantiate(animalTogglePrefab, parent: musicToggleGroupTransform);
+            clipToggleGameObject.SetActive(true);
+
+            var label = clipToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
+            label.text = onOffIndex == 0 ? "Muziek Aan" : "Muziek Uit";
+
+            var clipToggle = clipToggleGameObject.GetComponent<Toggle>();
+            clipToggle.SetIsOnWithoutNotify(onOffIndex == playBackgroundMusicIndex);
+            var isMusicOn = onOffIndex == 0;
+            clipToggle.onValueChanged.AddListener((isOn) => MusicToggleValueChanged(clipToggle, isOn, isMusicOn));
+        }
+    }
+
+    private Transform CloneToggleGroup()
+    {
+        var animalScollView = animalToggleGroup.transform.parent.parent;
+        var musicScrollViewAsObject = GameObject.Instantiate(
+            original: animalScollView,
+            parent: animalScollView.transform.parent,
+            instantiateInWorldSpace: false);
+
+        var musicScrollViewTransform = musicScrollViewAsObject as UnityEngine.RectTransform;
+        var clonedToggleGroupTransform = musicScrollViewTransform.GetChild(0).GetChild(0);
+
+        // clear the cloned toggles in from the cloned group
+        // count will only be adapted in next frame, not during destroy
+        var togglesToDelete = clonedToggleGroupTransform.childCount;
+        for (int i = 0; i < togglesToDelete; i += 1)
+            GameObject.Destroy(clonedToggleGroupTransform.GetChild(i).gameObject);
+        return clonedToggleGroupTransform;
     }
 
     private void InitAnimalToggleGroup()
@@ -202,6 +283,14 @@ public class PlaygroundInput : MonoBehaviour
         }
     }
 
+    void MusicToggleValueChanged(Toggle toggle, bool isOn, bool isMusicOn)
+    {
+        playBackgroundMusic = isMusicOn;
+        HandleMusicHasChanged();
+        mainMenu.SetActive(false);
+    }
+
+
     private void ActivateActiveClip()
     {
         var i = 0;
@@ -217,26 +306,9 @@ public class PlaygroundInput : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        // music (B: button on contrller or M on keyboard)
-        if (OVRInput.GetDown(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.M))
-        {
-            playBackgroundMusic = !playBackgroundMusic;
-
-            ActivateSound();
-        }
-    }
-
-    void ActivateSound()
+    void HandleMusicHasChanged()
     {
         musicAudioSource.enabled = playBackgroundMusic;
-
-        //musicAudioSource.enabled = (currentSoundIndex == Sound.MusicOnly || currentSoundIndex == Sound.MusicAndVideo);
-        //if (currentSoundIndex == Sound.MusicAndVideo || currentSoundIndex == Sound.VideoOnly)
-        //    videoPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
-        //else
-        //    videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
     }
 
 
@@ -250,43 +322,30 @@ public class PlaygroundInput : MonoBehaviour
 
     private void ActivateActiveAnimal()
     {
-        var i = 0;
-        foreach (var animal in animalsToRotate)
+        foreach (var animal in animalDefs)
         {
-            var isActive = activeAnimalIndex == i;
-            
-            var ai = animal.GetComponentsInChildren<MAnimalAIControl>(includeInactive: true);
-            if (ai.Length == 1)
-            {
-                // Prevent it from away from its start position and running through the player
-                ai[0].ClearTarget();
-                "Clearing AI Target".Log();
-            }
+            var isActive = activeAnimalIndex == animal.index;
+            animal.gameObject.SetActive(isActive);
 
-            animal.SetActive(isActive);
             if (isActive && cameraOrEyeTransform != null)
             {
-                float distanceFromCameraInMeter = 0.5f;
-                if (animal.name.Equals("Laika")) // i = 0
-                    distanceFromCameraInMeter = 0.7f;
-                else if (i == 1)
-                    // hack: horse is larger
-                    distanceFromCameraInMeter = 3.5f;
-                else if (i == 4)
-                    // hack: elephant is larger
-                    distanceFromCameraInMeter = 3.5f;
+                pettingHandPoseHandler.animalDef = animal;
 
-                var animalPos = cameraOrEyeTransform.position + cameraOrEyeTransform.forward * distanceFromCameraInMeter;
+                if (animal.ai != null)
+                {
+                    // Prevent it to start running off directly and running through the player
+                    animal.ai.ClearTarget();
+                }
+
+                var animalPos = cameraOrEyeTransform.position + cameraOrEyeTransform.forward * animal.initialDistanceFromCameraInMeter;
                 animalPos.y = 0;
-                animal.transform.position = animalPos;
+                animal.gameObject.transform.position = animalPos;
 
                 // https://stackoverflow.com/questions/22696782/placing-an-object-in-front-of-the-camera
                 var animalRotation = new Quaternion(0.0f, cameraOrEyeTransform.transform.rotation.y, 0.0f, cameraOrEyeTransform.transform.rotation.w).eulerAngles;
                 //animalRotation = Quaternion.Inverse(animalRotation);
-                animal.transform.rotation = Quaternion.Euler(animalRotation.x + 180, animalRotation.y, animalRotation.z + 180);
+                animal.gameObject.transform.rotation = Quaternion.Euler(animalRotation.x + 180, animalRotation.y, animalRotation.z + 180);
             }
-
-            i += 1;
         }
     }
 
