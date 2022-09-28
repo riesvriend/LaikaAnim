@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4520753543771371753
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 455845022989916284, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 99d028b36ad06014dbc1b8ee1553574b, type: 2}
+    - target: {fileID: 561431227457126148, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d9b06f6f85f2bce4b85f3a83e952b19e, type: 2}
+    - target: {fileID: 1754832091140409775, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: Editor_Tabs2
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1859032612716375886, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: b48213bc920ef9c4ead92f79ae1dee0d, type: 2}
+    - target: {fileID: 3676712836161544810, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676712836161544810, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676712836161544810, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676712836161544810, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676712836161544810, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676712836161544810, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676712836161544810, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676712836161544810, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3676712836161544810, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3677775850058654876, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_Name
+      value: Wolf Re Black Magic
+      objectReference: {fileID: 0}
+    - target: {fileID: 3677775850058654876, guid: 434c46157c10fdd45b475f73c6cda7f9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 434c46157c10fdd45b475f73c6cda7f9, type: 3}
