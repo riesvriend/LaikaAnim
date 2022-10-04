@@ -12,7 +12,9 @@ public class AnimalDef
     public int index;
     public MAnimalAIControl ai;
     public float minComeCloseDistanceFromPlayerInMeter;
-    public float initialDistanceFromCameraInMeter;
+    public float animalDistanceFromCameraInMeter;
+
+    public bool IsTableActive { get; set; }
 }
 
 public class PettingHandPoseHandler : MonoBehaviour

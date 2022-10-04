@@ -24,6 +24,8 @@ public class PlaygroundInput : MonoBehaviour
     public int activeAnimalIndex = 0;
     public Transform cameraOrEyeTransform;
 
+    public float tableDistanceFromCameraInMeter;
+    public float tableHeight = 0.85f;
     public ToggleGroup animalToggleGroup;
     public GameObject animalTogglePrefab;
 
@@ -35,6 +37,7 @@ public class PlaygroundInput : MonoBehaviour
     [SerializeField, Interface(typeof(IInteractableView))]
     public MonoBehaviour menuPlankInteractableView;
     public GameObject mainMenu;
+    public GameObject table;
 
     public AudioSource musicAudioSource;
 
@@ -82,22 +85,23 @@ public class PlaygroundInput : MonoBehaviour
 
             if (animal.name.Equals("Laika"))
             {
-                def.initialDistanceFromCameraInMeter = 0.8f;
+                def.animalDistanceFromCameraInMeter = 0.8f;
                 def.minComeCloseDistanceFromPlayerInMeter = 1.0f; // no AI so not relevant
             }
             else if (animal.name.Equals("Paard"))
             {
-                def.initialDistanceFromCameraInMeter = 3.5f;
+                def.animalDistanceFromCameraInMeter = 3.5f;
                 def.minComeCloseDistanceFromPlayerInMeter = 0.4f;
             }
             else if (animal.name.Equals("Konijn") || animal.name.Equals("Puppy"))
             {
-                def.initialDistanceFromCameraInMeter = 0.5f;
+                def.animalDistanceFromCameraInMeter = 0.5f;
                 def.minComeCloseDistanceFromPlayerInMeter = 0.0f;
+                def.IsTableActive = true;
             }
             else if (animal.name.Equals("Olifant"))
             {
-                def.initialDistanceFromCameraInMeter = 5.5f;
+                def.animalDistanceFromCameraInMeter = 5.5f;
                 def.minComeCloseDistanceFromPlayerInMeter = 2.0f;
             }
             else throw new ApplicationException($"Unknown animal: {animal.name}");
@@ -315,6 +319,8 @@ public class PlaygroundInput : MonoBehaviour
     public void HandleMenuPlankSelect()
     {
         var isActive = !mainMenu.activeSelf;
+        
+        // TODO: hide the animals and table that obstruct the menu
         mainMenu.SetActive(isActive);
         if (isActive)
             PositionMainMenu();
@@ -327,8 +333,10 @@ public class PlaygroundInput : MonoBehaviour
             var isActive = activeAnimalIndex == animal.index;
             animal.gameObject.SetActive(isActive);
 
-            if (isActive && cameraOrEyeTransform != null)
+            if (isActive)
             {
+                table.SetActive(animal.IsTableActive);
+
                 pettingHandPoseHandler.animalDef = animal;
 
                 if (animal.ai != null)
@@ -337,14 +345,45 @@ public class PlaygroundInput : MonoBehaviour
                     animal.ai.ClearTarget();
                 }
 
-                var animalPos = cameraOrEyeTransform.position + cameraOrEyeTransform.forward * animal.initialDistanceFromCameraInMeter;
-                animalPos.y = 0;
-                animal.gameObject.transform.position = animalPos;
+                // todo: Forward from camera needs to be projected to the horizontal plane
+                var forward = cameraOrEyeTransform.forward;
+                if (animal.IsTableActive)
+                    // When sitting at the table, try to align the virtual table with the real table by disregarding camera/head
+                    // and assume the world view is reset to face the table
+                    forward = Vector3.forward;
+
+                var animalPos = cameraOrEyeTransform.position + forward * animal.animalDistanceFromCameraInMeter;
+                // Animal is on the floor (0), unless its on the table
+                animalPos.y = 0f;
 
                 // https://stackoverflow.com/questions/22696782/placing-an-object-in-front-of-the-camera
-                var animalRotation = new Quaternion(0.0f, cameraOrEyeTransform.transform.rotation.y, 0.0f, cameraOrEyeTransform.transform.rotation.w).eulerAngles;
-                //animalRotation = Quaternion.Inverse(animalRotation);
-                animal.gameObject.transform.rotation = Quaternion.Euler(animalRotation.x + 180, animalRotation.y, animalRotation.z + 180);
+                var animalYRotation = new Quaternion(0.0f, cameraOrEyeTransform.transform.rotation.y, 0.0f, cameraOrEyeTransform.transform.rotation.w).eulerAngles;
+                if (animal.IsTableActive)
+                    animalYRotation = forward;
+
+                var animalRotation = Quaternion.Euler(animalYRotation.x + 180, animalYRotation.y, animalYRotation.z + 180);
+
+                var animalTransform = animal.gameObject.transform;
+                animalTransform.position = animalPos;
+                animalTransform.rotation = animalRotation;
+
+                if (animal.IsTableActive)
+                {
+                    var tablePos = cameraOrEyeTransform.position + forward * tableDistanceFromCameraInMeter;
+
+                    // put the table-top below the camera
+                    // TODO: instead of hardcoding the 0.5 meter between eyes and table top, consider
+                    // measuring the height of the lowest hand/controller and presume this to be the user's table height
+                    // or, give the user a control mechanism to move the virtual table up or down
+                    tablePos.y = Math.Min(0f, cameraOrEyeTransform.position.y - tableHeight - 0.5f);
+
+                    table.transform.position = tablePos;
+                    table.transform.rotation = animalRotation;
+
+                    // Move the animal up, onto the table
+                    var animalHeightOnTableTop = Math.Max(0f, tablePos.y + tableHeight + 0.2f /* margin */);
+                    animalTransform.position = new Vector3(animalPos.x, animalHeightOnTableTop, animalPos.z);
+                }
             }
         }
     }
@@ -356,7 +395,7 @@ public class PlaygroundInput : MonoBehaviour
 
         $"Camera pos: {cameraOrEyeTransform.position}".Log();
 
-        var pos = cameraOrEyeTransform.position + distanceFromCameraInMeter * cameraOrEyeTransform.forward;
+        var pos = cameraOrEyeTransform.position + distanceFromCameraInMeter * Vector3.forward; // * cameraOrEyeTransform.forward;
         pos.y = 0.5f; // 1.5f - radiusOfMenuCylinder / 2;
         mainMenu.transform.position = pos;
     }
