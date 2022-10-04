@@ -117,8 +117,9 @@ namespace MalbersAnimations.Controller
         //}
 
         public override void StatebyInput()
-        { 
-            if (InputValue && !ExitInputValue && CheckClimbRay())
+        {
+           // Debug.Log($"StatebyInput InputValue {InputValue} ExitInputValue{ExitInputValue} {CheckClimbRay()}");
+            if (InputValue && /*!ExitInputValue &&*/ CheckClimbRay())
             {
                 Activate();
             }
@@ -126,16 +127,21 @@ namespace MalbersAnimations.Controller
 
         public override void StateExitByInput()
         {
-            AllowExit(StateEnum.Fall, ClimbOff);
+            SetExitStatus(ClimbOff);
+          //  AllowExit();
+         //   AllowExit(StateEnum.Fall, ClimbOff); //Force the Fall State
             Debugging($"Exit with Climb Input [{ExitInput.Value}]");
         }
 
         public override void Activate()
         {
-            base.Activate();
-            animal.UseCameraInput = false;       //Climb cannot use Camera Input
-            animal.DisablePivotChest();
-            InInnerCorner = /*InOuterCorner =*/ false;
+            if (CheckClimbRay()) //it cannot be activated there's no Wall to Climb
+            {
+                base.Activate();
+                animal.UseCameraInput = false;       //Climb cannot use Camera Input
+                animal.DisablePivotChest();
+                InInnerCorner = /*InOuterCorner =*/ false;
+            }
         }
 
         public override bool TryActivate()
@@ -156,6 +162,7 @@ namespace MalbersAnimations.Controller
             ExitOnLedge = false;
             animal.ResetCameraInput();
             InInnerCorner = /*InOuterCorner =*/false;
+            ExitInputValue = false;
         }
 
         public override void RestoreAnimalOnExit()
@@ -216,6 +223,9 @@ namespace MalbersAnimations.Controller
             if (animal.platform != HitChest.transform && HitChest.transform != null)  animal.SetPlatform(HitChest.transform); //Set new Platform
 
             WallAngle = Vector3.SignedAngle(AverageNormal, animal.UpVector, animal.Right);
+
+          //  if (!automatic.Value) Debugging($"Try Activate: Valid Wall {ValidWall}");
+
             return ValidWall;
         }
 
@@ -519,6 +529,25 @@ namespace MalbersAnimations.Controller
                 FreeMovement = false,
                 IgnoreLowerStates = true, 
             };
+        }
+
+        public override void SetSpeedSets(MAnimal animal)
+        {
+            var setName = "Climb";
+
+            if (animal.SpeedSet_Get(setName) == null)
+            {
+                animal.speedSets.Add(
+                    new MSpeedSet()
+                    {
+                        name = setName,
+                        StartVerticalIndex = new IntReference(1),
+                        TopIndex = new IntReference(1),
+                        states = new List<StateID>(1) { ID },
+                        Speeds = new List<MSpeed>() { new MSpeed(setName) }
+                    }
+                    );
+            }
         }
 #endif
     }

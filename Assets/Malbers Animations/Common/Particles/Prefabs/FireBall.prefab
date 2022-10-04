@@ -23924,6 +23924,10 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 10
     Variable: {fileID: 0}
+  LifeImpact:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   PushMultiplier:
     UseConstant: 1
     ConstantValue: 0.5
@@ -23966,4 +23970,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  rb: {fileID: 54129463802585006}
+  m_collider: {fileID: 135405681865087232}
   Editor_Tabs1: 0

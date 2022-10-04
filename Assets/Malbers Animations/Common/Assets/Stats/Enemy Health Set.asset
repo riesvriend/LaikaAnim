@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f6d56a840f9f604fa3b0d84c38c8670, type: 3}
   m_Name: Enemy Health Set
   m_EditorClassIdentifier: 
-  items:
-  - {fileID: 0}
-  - {fileID: 0}
+  items: []
   Description: Shows the Health Stat of all the Enemies in this Set
   OnSetEmpty:
     m_PersistentCalls:

@@ -40,6 +40,7 @@ namespace MalbersAnimations.Utilities
 
         /// <summary>This will set AutoAiming for the Aim Logic</summary>
         public bool AimAssist { get => aimAssist; set => aimAssist = value; }
+        public bool IsBeingAimed { get; set; }
        // public bool AimedFocused { get; set; }
         public Transform AimPoint => m_AimPoint;
 
@@ -69,6 +70,7 @@ namespace MalbersAnimations.Utilities
         {
            if (debug) Debug.Log($"Is Being Aimed by [{AimedBy.name}]",this);
 
+            IsBeingAimed = enter;
 
             if (enter)
                 OnAimEnter.Invoke(AimedBy);
@@ -107,6 +109,13 @@ namespace MalbersAnimations.Utilities
                 OnAimExit.Invoke(other.gameObject);
             }
         }
+
+
+        //public static bool AimAssit(Transform o)
+        //{
+        //    return AimTargets.Exists(x => x.transform == o);
+        //}
+
         //public void SendOffset(MEvent _event) => _event.Invoke(Offset.Value);
     }
 }

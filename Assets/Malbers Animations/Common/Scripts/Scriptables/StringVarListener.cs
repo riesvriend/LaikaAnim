@@ -40,6 +40,8 @@ namespace MalbersAnimations
         public virtual void Invoke(string value)
         { if (Enable) Raise.Invoke(value);}
 
+        public virtual void Invoke(Object value) => Invoke(value.name);
+
         public virtual void Invoke() => Invoke(Value);
 
 #if UNITY_EDITOR

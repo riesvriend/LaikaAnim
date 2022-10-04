@@ -35,7 +35,7 @@ namespace MalbersAnimations.Utilities
 
             EditorGUI.BeginChangeCheck();
             {
-                EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+               // EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
                 {
                     list.DoLayoutList();
                     EditorGUI.indentLevel++;
@@ -107,7 +107,7 @@ namespace MalbersAnimations.Utilities
                     }
                     EditorGUI.indentLevel--;
                 }
-                EditorGUILayout.EndVertical();
+              //  EditorGUILayout.EndVertical();
             }
             if (EditorGUI.EndChangeCheck())
             {

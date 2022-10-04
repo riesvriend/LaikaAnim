@@ -61,12 +61,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 1
+  automatic:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 1
   stateAction: 0
@@ -117,6 +125,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -132,8 +141,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ZoneCollider: {fileID: 65020736672465010}
-  EditorShowEvents: 0
-  ShowStatModifiers: 0
+  Editor_Tabs1: 0
 --- !u!114 &114023783579377774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +215,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -231,6 +240,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1562166815266756
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +301,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

@@ -21,7 +21,11 @@ MonoBehaviour:
   action: {fileID: 11400000, guid: d78ffeaf9b1fbda4093999a7c7716b0a, type: 2}
   ModeAbility: 1
   coolDown: 0
+  ModePower: 1
+  abilityStatus: 0
+  AbilityTime: 3
   ShowAction: 0
   ShowCooldown: 0
-  ShowStatus: 0
+  ShowStatus: 1
   ShowAbilityIndex: 1
+  ShowAbilityTime: 1

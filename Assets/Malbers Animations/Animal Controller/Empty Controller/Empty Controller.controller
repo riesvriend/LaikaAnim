@@ -1,5 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1109 &-8098014349900372982
+AnimatorTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 6
+    m_ConditionEvent: State
+    m_EventTreshold: 6
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 2339926721865951337}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 1
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -436,10 +453,13 @@ AnimatorStateMachine:
     m_Position: {x: 410, y: -180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102568048043154122}
-    m_Position: {x: 410, y: -230, z: 0}
+    m_Position: {x: 410, y: -280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 716801879489451168}
     m_Position: {x: 410, y: -130, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 2339926721865951337}
+    m_Position: {x: 410, y: -230, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 1891473532810438109}
@@ -450,9 +470,10 @@ AnimatorStateMachine:
   - {fileID: 1109250881843932194}
   - {fileID: 1109081220252572042}
   - {fileID: 1109505708002850244}
+  - {fileID: -8098014349900372982}
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 110, y: -160, z: 0}
+  m_AnyStatePosition: {x: 110, y: -190, z: 0}
   m_EntryPosition: {x: 110, y: -100, z: 0}
   m_ExitPosition: {x: 430, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -586,6 +607,32 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &2339926721865951337
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Fly
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 0}
+  m_Tag: Fly
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1109 &6532434166211702854
 AnimatorTransition:
   m_ObjectHideFlags: 1

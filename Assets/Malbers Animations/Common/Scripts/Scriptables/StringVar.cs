@@ -35,6 +35,7 @@ namespace MalbersAnimations.Scriptables
         }
 
         public virtual void SetValue(StringVar var) => Value = var.Value;
+        public virtual void SetValue(UnityEngine.Object var) => Value = var.name;
 
         public static implicit operator string(StringVar reference) => reference.Value;
     }
@@ -79,6 +80,8 @@ namespace MalbersAnimations.Scriptables
                     Variable.Value = value;
             }
         }
+
+        public bool Empty => string.IsNullOrEmpty(Value);
 
         #region Operators
         public static implicit operator string(StringReference reference) => reference.Value;

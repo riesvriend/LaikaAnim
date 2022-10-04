@@ -16,9 +16,9 @@ MonoBehaviour:
   Input: Glide
   ExitInput:
     UseConstant: 1
-    ConstantValue: Glide
+    ConstantValue: 
     Variable: {fileID: 0}
-  Priority: 5
+  Priority: 6
   General:
     modify: -1
     RootMotion: 1
@@ -37,18 +37,24 @@ MonoBehaviour:
   GeneralMessage: []
   TagModifiers: []
   UseSendMessage: 0
-  IncludeChildren: 1
+  IncludeChildren: 0
   AllowExitFromAnim: 0
   IncludeSleepState: 0
   SleepFromState:
   - {fileID: 11400000, guid: 8078fbdb01991b44b9c1351f444b5efe, type: 2}
+  - {fileID: 11400000, guid: 9ae07cd2f8f4c054687fecf634f8e5b3, type: 2}
   SleepFromMode: []
   QueueFrom: []
+  ResetFrom: []
   SleepFromStance: []
   stances: []
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  Duration:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1
@@ -69,6 +75,7 @@ MonoBehaviour:
     ConstantValue: 0.1
     Variable: {fileID: 0}
   CanStrafe: 1
+  StrafeAnimations: 1
   MovementStrafe: 1
   IdleStrafe: 1
   debug: 1
@@ -77,6 +84,10 @@ MonoBehaviour:
   GravityDrag:
     UseConstant: 1
     ConstantValue: 1.5
+    Variable: {fileID: 0}
+  StartHeight:
+    UseConstant: 1
+    ConstantValue: 1.75
     Variable: {fileID: 0}
   Bank: 20
   PitchLimit: 20
@@ -93,10 +104,6 @@ MonoBehaviour:
   UseCameraInput:
     UseConstant: 1
     ConstantValue: 1
-    Variable: {fileID: 0}
-  RemoveForce:
-    UseConstant: 1
-    ConstantValue: 5
     Variable: {fileID: 0}
   LandOn:
     serializedVersion: 2

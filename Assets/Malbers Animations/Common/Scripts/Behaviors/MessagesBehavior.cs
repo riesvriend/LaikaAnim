@@ -39,25 +39,16 @@ namespace MalbersAnimations
                 else
                     listeners = animator.GetComponents<IAnimatorListener>();
                 firstime = true;
-               
+
             }
 
-           if (OnTime)
-                foreach (MesssageItem ontimeM in onTimeMessage) ontimeM.sent = false;  //Set all the messages Ontime Sent = false when start
+            if (OnTime)
+                foreach (var ontimeM in onTimeMessage) ontimeM.sent = false;  //Reset all the Ontime Messages
 
             if (OnEnter)
             {
-                foreach (MesssageItem onEnterM in onEnterMessage)
-                {
-                    if (onEnterM.Active && !string.IsNullOrEmpty(onEnterM.message))
-                    {
-                        if (UseSendMessage)
-                            onEnterM.DeliverMessage(animator, SendToChildren, debug);
-                        else
-                            foreach (var animListener in listeners)
-                                onEnterM.DeliverAnimListener(animListener,debug);
-                    }
-                }
+                foreach (var onEnterM in onEnterMessage)
+                    SendAnimatorMessage(animator, onEnterM);
             }
         }
 
@@ -65,26 +56,41 @@ namespace MalbersAnimations
         {
             if (OnExit)
             {
-                foreach (MesssageItem onExitM in onExitMessage)
+                foreach (var onExitM in onExitMessage)
                 {
-                    if (onExitM.Active && !string.IsNullOrEmpty(onExitM.message))
-                    {
-                        if (onEnterMessage != null && onEnterMessage.Length > 0 && onEnterMessage.ToList().Exists(x => x.message == onExitM.message))
-                        {
-                            if (animator.GetCurrentAnimatorStateInfo(layerIndex).fullPathHash == stateInfo.fullPathHash)
-                            {
-                                return;   //Means is Looping to itself So Skip the Exit Mode because an Enter Mode is Playing
-                            }
-                        }
+                    //If we are looping to ourself
+                    if (animator.GetCurrentAnimatorStateInfo(layerIndex).fullPathHash == stateInfo.fullPathHash)
 
-                        if (UseSendMessage)
-                            onExitM.DeliverMessage(animator, SendToChildren, debug);
-                        else
-                            foreach (var animListener in listeners)
-                                onExitM.DeliverAnimListener(animListener, debug);
-                    }
+                        //and an Exit Message is equal to an Enter Message
+                        if (onEnterMessage != null && onEnterMessage.Length > 0 &&
+                            onEnterMessage.ToList().Exists(x => x.message == onExitM.message))
+                        {
+                            return;   //Skip the Exit Mode because an Enter Animations is Playing
+                        }
+                    SendAnimatorMessage(animator, onExitM);
                 }
             }
+
+
+            //Recheck UnSent [Time] Messages
+            if (OnTime)
+                foreach (var onTimeM in onTimeMessage)
+                {
+                    if (!onTimeM.sent)
+                    {
+                        onTimeM.sent = true;
+                        SendAnimatorMessage(animator, onTimeM);
+                    }
+                }
+        }
+
+        private void SendAnimatorMessage(Animator animator, MesssageItem onExitM)
+        {
+            if (UseSendMessage)
+                onExitM.DeliverMessage(animator, SendToChildren, debug);
+            else
+                foreach (var animListener in listeners)
+                    onExitM.DeliverAnimListener(animListener, debug);
         }
 
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -93,24 +99,15 @@ namespace MalbersAnimations
             {
                 if (stateInfo.fullPathHash == animator.GetNextAnimatorStateInfo(layerIndex).fullPathHash) return; //means is transitioning to itself
 
-                foreach (MesssageItem onTimeM in onTimeMessage)
+                foreach (var onTimeM in onTimeMessage)
                 {
-                    if (onTimeM.Active && !string.IsNullOrEmpty(onTimeM.message))
+                    float stateTime = NormalizeTime ? stateInfo.normalizedTime % 1 : stateInfo.normalizedTime;
+
+                    if (!onTimeM.sent && (stateTime >= onTimeM.time))
                     {
-                        // float stateTime = stateInfo.loop ? stateInfo.normalizedTime % 1 : stateInfo.normalizedTime;
-                        float stateTime = NormalizeTime ? stateInfo.normalizedTime % 1 : stateInfo.normalizedTime;
+                        onTimeM.sent = true;
 
-                        if (!onTimeM.sent && (stateTime >= onTimeM.time))
-                        {
-                            onTimeM.sent = true;
-
-                            if (UseSendMessage)
-                                onTimeM.DeliverMessage(animator, SendToChildren, debug);
-
-                            else
-                                foreach (var item in listeners)
-                                    onTimeM.DeliverAnimListener(item, debug);
-                        }
+                        SendAnimatorMessage(animator, onTimeM);
                     }
                 }
             }
@@ -178,7 +175,7 @@ namespace MalbersAnimations
 
             EditorGUI.BeginChangeCheck();
 
-            EditorGUILayout.BeginVertical(MTools.StyleGray);
+          //  EditorGUILayout.BeginVertical(MTools.StyleGray);
             {
                 EditorGUILayout.BeginHorizontal();
 
@@ -230,7 +227,7 @@ namespace MalbersAnimations
                 EditorGUIUtility.labelWidth = 0;
             }
 
-            EditorGUILayout.EndVertical();
+         //   EditorGUILayout.EndVertical();
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(target, "Message Behaviour Inspector");

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using MalbersAnimations.Events;
@@ -12,7 +13,12 @@ namespace MalbersAnimations.Controller
     /// Variables
     public partial class MAnimal
     {
-        // public List<bool> StateLocalActive;
+        ///<summary> List of States for this animal  </summary>
+        public List<State> states = new List<State>();
+        /// <summary>List of Stances Available on the animals</summary>
+        public List<Stance> Stances;
+        ///<summary> List of States for this animal  </summary>
+        public List<Mode> modes = new List<Mode>();
 
         /// <summary>Sets a Bool Parameter on the Animator using the parameter Hash</summary>
         public System.Action<int, bool> SetBoolParameter { get; set; } = delegate { };
@@ -46,16 +52,13 @@ namespace MalbersAnimations.Controller
         #endregion
 
         #region States
-
-
         /// <summary>NECESARY WHEN YOU ARE USING MULTIPLE ANIMALS</summary>
         public bool CloneStates = true;
 
         [Tooltip("The Animal gameObject will have no Parent on the Hierarchy. (Recommended)")]
         public bool NoParent = true;
 
-        ///<summary> List of States for this animal  </summary>
-        public List<State> states = new List<State>();
+      
         
         ///<summary>On Which State the animal should Start on Enable</summary>
         public StateID OverrideStartState;
@@ -80,20 +83,16 @@ namespace MalbersAnimations.Controller
             get => lastState;
             internal set
             {
-                //Debug.Log("value = " + value);
+                if (value == null) return;
 
-               // if (value != lastState) //Change when its different (Stack overflow BUG)
-                {
-                    lastState = value;
-                    LastState.EnterExitEvent?.OnExit.Invoke();
-                   
-                    LastState.ExitState();
+                lastState = value;
 
-                    var LastStateID = (QueueState == null) ? lastState.ID.ID : QueueState.ID.ID;
 
-                 //    Debug.Log("LastStateID = " + LastStateID);
-                    SetIntParameter(hash_LastState, LastStateID);   //Sent to the Animator the previews Active State
-                }
+                LastState.EnterExitEvent?.OnExit.Invoke();
+                LastState.ExitState();                               //Exectute the Exit State code on the Last State.
+                var LastStateID = (QueueState == null) ? lastState.ID.ID : QueueState.ID.ID;
+                SetIntParameter(hash_LastState, LastStateID);   //Sent to the Animator the previews Active State
+                //    Debug.Log("LastStateID = " + LastStateID);
             }
         }
 
@@ -132,12 +131,27 @@ namespace MalbersAnimations.Controller
                 SetIntParameter(hash_State, activeState.ID.ID);                     //Sent to the Animator the value to Apply  
                // Debug.Log("hash_State = " + activeState.ID.ID);
 
-                SetOptionalAnimParameter(hash_StateOn);                             //Use trigger in case the Animal is using Triggers
+                TryAnimParameter(hash_StateOn);                             //Use trigger in case the Animal is using Triggers
                 Strafe = Strafe;                                                    // Execute the code inside in case has changed
 
-                if (!activeState.ValidStance(currentStance)) Stance_Reset();
+                if (HasStances)
+                {
+                    //Check if the Active Stance cannot be used on the New State
+                    if (ActiveStance != null && !ActiveStance.CanBeUsedOnState(ActiveStateID))
+                    {
+                        ActiveStance.SetPersistent(false); //Force to exit if it was persistent
 
-                foreach (var st in states) st.NewActiveState(activeState.ID); //Notify all states that a new state has been activated
+                        if (ActiveStance.OnQueueState(ActiveStateID)) ActiveStance.Queued = true;
+                         
+                        Stance_Reset();
+                    }
+                }
+                //Old Way
+                else  if (!activeState.ValidStance(currentStance))
+                    Stance_Reset();
+
+                foreach (var st in states) st.NewStateActivated(activeState.ID); //Notify all states that a new state has been activated
+                foreach (var sn in Stances) sn.NewStateActivated(activeState.ID); //Notify all stances that a new state has been activated
 
                 Set_Sleep_FromStates(activeState);
                 Check_Queue_States(activeState.ID);    //Check if a queue State was released
@@ -214,17 +228,18 @@ namespace MalbersAnimations.Controller
         #endregion
 
         #region Stance
-
         [SerializeField] private StanceID currentStance;
         [SerializeField] private StanceID defaultStance;
 
+        /// <summary>Does the Animal has the new List of Stances</summary>
+        public bool HasStances { get; private set; }
+        public Stance ActiveStance { get; set; }
+        public Stance LastActiveStance { get; set; }
 
         /// <summary>Last Stance the Animal was</summary>
-        public int LastStance { get; private set; }
+        public int LastStanceID { get; private set; }
 
-        public StanceID DefaultStance { get => defaultStance; set => defaultStance = value; }
-
-
+        public StanceID DefaultStanceID { get => defaultStance; set => defaultStance = value; }
 
         /// <summary>Current Active Stance</summary>
         public StanceID Stance
@@ -232,13 +247,24 @@ namespace MalbersAnimations.Controller
             get => currentStance;
             set
             {
-                if (Sleep || !enabled) return;                      //Do nothing if is not active
-                if (!ActiveState.ValidStance(value)) return;        //Do not Activate any new stance  if the STATE does not allow it
+                if (value == null) return; //Do nothing with empty IDs
+                if (!enabled) return;                      //Do nothing if is not active
+                if (Sleep) return;                      //Do nothing if is not active
 
-                LastStance = currentStance;
+                if (value == currentStance) return; //Change only when the values are different
+
+                if (HasStances)
+                {
+                    SetAdvancedStance(value);
+                    return;
+                }
+                 
+                if (!ActiveState.ValidStance(value)) return;        //Do not Activate any new stance if the STATE does not allow it
+
+                LastStanceID = currentStance;
                 currentStance = value;
 
-                var exit = OnEnterExitStances.Find(st => st.ID.ID == LastStance);
+                var exit = OnEnterExitStances.Find(st => st.ID.ID == LastStanceID);
                 exit?.OnExit.Invoke();
                 OnStanceChange.Invoke(value);
                 var enter = OnEnterExitStances.Find(st => st.ID.ID == value);
@@ -251,11 +277,11 @@ namespace MalbersAnimations.Controller
                     Debug.Log($"<B>[{name}]</B> → <B>[Set Stance] → <color=yellow>{value.name} [{value.ID}]</color></B>");
                 }
 
-                SetOptionalAnimParameter(hash_Stance, currentStance.ID);      //Set on the Animator the Current Stance
-                SetOptionalAnimParameter(hash_LastStance, LastStance);        //Set on the Animator the Last Stance
-                SetOptionalAnimParameter(hash_StateOn);                       //Set on the Animator the Trigger Stance
+                TryAnimParameter(hash_Stance, currentStance.ID);      //Set on the Animator the Current Stance
+                TryAnimParameter(hash_LastStance, LastStanceID);        //Set on the Animator the Last Stance
+                TryAnimParameter(hash_StateOn);                       //Set on the Animator the Trigger Stance
 
-                if (!JustActivateState) SetIntParameter(hash_LastState, ActiveStateID);   //Sent to the Animator the previews Active State  (BUG)
+                if (!JustActivateState) SetIntParameter(hash_LastState, ActiveStateID); //Sent to the Animator the previews Active State  (BUG)
 
                 ActiveState.SetSpeed(); //Check if the speed modifier has changed when you have a new Stance
 
@@ -265,12 +291,77 @@ namespace MalbersAnimations.Controller
                 }
             }
         }
+
+        private void SetAdvancedStance(StanceID value)
+        {
+            var new_stance = Stance_Get(value);
+
+            if (new_stance != null)
+            {
+                if (new_stance.CanActivate())
+                {
+                    LastActiveStance = ActiveStance;
+                    ActiveStance = new_stance;
+                    LastStanceID = currentStance;
+                    currentStance = value;
+
+                    LastActiveStance.Exit();
+                    ActiveStance.Activate();
+                    OnStanceChange.Invoke(value);
+
+                    //Enable and Disable Temporarly the Stances
+                    foreach (var _st in Stances)
+                    {
+                        if (new_stance.DisableStances.Count > 0 &&
+                            new_stance.DisableStances.Contains(_st.ID)) _st.Disable_Temp();
+                        
+                        if (LastActiveStance.DisableStances.Count > 0 &&
+                            LastActiveStance.DisableStances.Contains(_st.ID)) _st.Enable_Temp();
+                    }
+
+                    Set_State_Sleep_FromStance();
+
+                    if (debugStances)
+                        Debug.Log($"<B>[{name}] → Set: <color=yellow>[Stance - {value.name} - {value.ID}]</color></B>", gameObject);
+
+                    TryAnimParameter(hash_Stance, currentStance.ID);      //Set on the Animator the Current Stance
+                    TryAnimParameter(hash_LastStance, LastStanceID);      //Set on the Animator the Last Stance
+                 
+                    if (!JustActivateState) SetIntParameter(hash_LastState, ActiveStateID); //Sent to the Animator the previews Active State  (BUG)
+
+                    TryAnimParameter(hash_StateOn);                    //Set on the Animator the Trigger Stance
+
+                    Strafe = Strafe && ActiveStance.CanStrafe;                 //Update Strafing
+
+                    ActiveState.SetSpeed(); //Check if the speed modifier has changed when you have a new Stance
+
+                    if (IsPlayingMode && ActiveMode.StanceCanInterrupt(currentStance))//If a mode is playing check a State Change
+                    {
+                        Mode_Interrupt();
+                    }
+                }
+            }
+            else
+            {
+                if (debugStances && new_stance == null)
+                {
+                    Debug.Log($"<B>[{name}]</B> - <B> <color=yellow>[Stance: {value.name}]</color> - Fail to Activate. [NOT Found]</B>", gameObject);
+                }
+            }
+
+        }
         #endregion
 
         #region Movement
 
-        /// <summary> Global Animator Speed for the Animal </summary>
+      
+        [Tooltip("Global multiplier for the Animator Speed")]
         public FloatReference AnimatorSpeed = new FloatReference(1);
+
+        [Tooltip("Local Time Multiplier for the Animal. Cool Slowmo Stuffs")]
+        public FloatReference m_TimeMultiplier = new FloatReference(1);
+
+        public float  TimeMultiplier { get => m_TimeMultiplier.Value; set => m_TimeMultiplier.Value = value; }
 
         //public FloatReference MovementDeathValue = new FloatReference(0.05f);
         [SerializeField] private BoolReference alwaysForward = new BoolReference(false);
@@ -291,7 +382,7 @@ namespace MalbersAnimations.Controller
         //public bool AdditiveUp;
 
         /// <summary>Multiplier to Add or Remove Forward Movement to the Animal, Used when the Animal Rotates in Place</summary>
-        public float ForwardMultiplier { get; set; }
+       // public float ForwardMultiplier { get; set; }
 
         /// <summary>(Z), horizontal (X) and Vertical (Y) Movement Input</summary>
         public Vector3 MovementAxis;
@@ -389,21 +480,24 @@ namespace MalbersAnimations.Controller
         public bool UseCameraInput
         {
             get => useCameraInput.Value;
-            set { useCameraInput.Value = UsingMoveWithDirection = value; }
+            set 
+            { 
+                useCameraInput.Value = UsingMoveWithDirection = value;
+              // Debug.Log("useCameraInput.Value = " + useCameraInput.Value);
+            }
         }
 
         /// <summary> Is the animal using a Direction Vector for moving(True) or a World Axis Input (False)</summary>
-        public bool UsingMoveWithDirection { set; get; }
+        public bool UsingMoveWithDirection  { set; get; }
         //{
         //    get => usingMoveWithDirection;
         //    set
         //    {
-        //        usingMoveWithDirection  = value;
+        //        usingMoveWithDirection = value;
         //        Debug.Log("UsingMoveWithDirection = " + value);
         //    }
         //}
-
-        //private bool usingMoveWithDirection;
+       //private bool usingMoveWithDirection;
 
         /// <summary> Is the animal using a Direction Vector for rotate in place(true?)</summary>
         public bool Rotate_at_Direction { set; get; }
@@ -443,7 +537,7 @@ namespace MalbersAnimations.Controller
             set
             {
                 additivePosition = value;
-                if (additivePosLog)
+                 if (additivePosLog)
                     Debug.Log($"Additive Pos:  {(additivePosition / DeltaTime)} ");
             }
         }
@@ -632,7 +726,7 @@ namespace MalbersAnimations.Controller
                     SetBoolParameter(hash_Grounded, grounded.Value);
                 }
                 OnGrounded.Invoke(value);
-                // Debug.Log("Grounded: " + value);
+              //  Debug.Log("Grounded: " + value);
             }
         }
         #endregion
@@ -693,25 +787,24 @@ namespace MalbersAnimations.Controller
         // private int modeStatus;
         private Mode activeMode;
 
-        ///<summary> List of States for this animal  </summary>
-        public List<Mode> modes = new List<Mode>();
 
         /// <summary>Is Playing a mode on the Animator</summary>
         public bool IsPlayingMode => activeMode != null;
 
         /// <summary>A mode is Set, but the Animation has not started yet</summary>
-        public bool IsPreparingMode { get; set; }
-        //{
-        //    get => m_IsPreparingMode;
-        //    internal set
-        //    {
-        //        m_IsPreparingMode = value;
-        //        Debug.Log("m_IsPreparingMode: " + m_IsPreparingMode);
-        //    }
-        //}
-        //bool m_IsPreparingMode;
+        public bool IsPreparingMode //{ get; set; }
+        {
+            get => m_IsPreparingMode;
+            internal set
+            {
+                m_IsPreparingMode = value;
+              // Debug.Log($"[{name}] - <color=orange><b>[☼☼☼ IsPreparingMode::{value}]</b></color>");
+            }
+        }
+        bool m_IsPreparingMode;
 
-        public Zone Zone { get; internal set; }
+        /// <summary>Store if the Animal is on a Zone</summary>
+        public Zone InZone { get; internal set; }
 
         /// <summary>ID Value for the Last Mode Played </summary>
         public int LastModeID { get; internal set; }
@@ -738,6 +831,10 @@ namespace MalbersAnimations.Controller
                 else
                 {
                     ActiveModeID = 0;
+                   
+                    //Rember to reset the trigger on the Mode ON. Just in case
+                    if (hash_ModeOn != 0) 
+                        Anim.ResetTrigger(hash_ModeOn);
                 }
 
                 if (lastMode != null)
@@ -764,12 +861,12 @@ namespace MalbersAnimations.Controller
                 //If the Mode is negative or the Ability is negative then Set the Animator Parameter negative too. (Right Left Abilities)
                 ModeAbility = (value.ID < 0 || ability < 0) ? -mode : mode;
 
-                SetOptionalAnimParameter(hash_ModeOn); //Activate the Optional Trigger
 
-                //IMPORTANT WHEN IS MAKING SOME RANDOM STUFF
-
+                TryAnimParameter(hash_ModeOn); //Activate the Optional Trigger
                 if (hash_ModeOn != 0 && status != 0) //Only send the mode status when we are using Mode ON
-                    SetModeStatus(status);
+                { 
+                    SetModeStatus(status); 
+                }
                 else
                     SetModeStatus(status); //Normal way
 
@@ -789,11 +886,28 @@ namespace MalbersAnimations.Controller
             get => m_ModeIDAbility;
             internal set
             {
-                m_ModeIDAbility = value;
-                SetIntParameter?.Invoke(hash_Mode, m_ModeIDAbility);
+                //if (m_ModeIDAbility != value)
+                {
+                    m_ModeIDAbility = value;
+
+                    if (debugModes)
+                        Debug.Log($"[{name}] → <color=orange><b>Mode: [{m_ModeIDAbility}]</b></color>");
+
+                    SetIntParameter.Invoke(hash_Mode, m_ModeIDAbility);
+                }
             }
         }
         private int m_ModeIDAbility;
+        /// <summary> Set the Parameter Int ID to a value and pass it also to the Animator </summary>
+        public void SetModeStatus(int value)
+        {
+            if (debugModes)
+                Debug.Log($"[{name}] → <color=orange><b>Mode Status: [{value}]</b></color>");
+
+            SetIntParameter.Invoke(hash_ModeStatus, ModeStatus = value);
+        }
+
+
 
         /// <summary>Current Animation Time of the Mode,used in combos</summary>
         public float ModeTime { get; internal set; }
@@ -816,7 +930,8 @@ namespace MalbersAnimations.Controller
             {
                 if (!value && Sleep) //Means is out of sleep
                 {
-                    MTools.ResetFloatParameters(Anim);     //Set All Float values to their defaut (For all the Float Values on the Controller  while is not riding)
+                    //Set All Float values to their defaut (For all the Float Values on the Controller  while is not riding)
+                    MTools.ResetFloatParameters(Anim);    
                     ResetController();
                 }
                 sleep.Value = value;
@@ -827,7 +942,7 @@ namespace MalbersAnimations.Controller
                
                 if (Sleep)
                 {
-                    SetOptionalAnimParameter(hash_Random, 0);    //Set Random to 0
+                    TryAnimParameter(hash_Random, 0);    //Set Random to 0
                                                                  //Reset FreeMovement.
                     if (Rotator) Rotator.localRotation = Quaternion.identity;
                     Bank = 0;
@@ -860,31 +975,41 @@ namespace MalbersAnimations.Controller
 
                 var newStrafe = value && m_CanStrafe.Value && ActiveState.CanStrafe;
 
+
+
                 if (newStrafe != m_strafe.Value)
                 {
                     m_strafe.Value = newStrafe;
-                    OnStrafe.Invoke(m_strafe.Value);
-                    SetOptionalAnimParameter(hash_Strafe, m_strafe.Value);
-                    SetOptionalAnimParameter(hash_StateOn);                 // Check again that the Strafe is On!
-
-                    if (!JustActivateState) SetIntParameter(hash_LastState, ActiveStateID);   //Sent to the Animator the previews Active State  (BUG)
-
-                    if (!m_strafe.Value) //false
-                    {
-                        ResetCameraInput();
-                    }
-                    else
-                    {
-                        Aimer?.SetEnable(true); //Enable the Aimer just in case
-                    }
+                    StrafeLogic();
                 }
+            }
+        }
+
+        private void StrafeLogic()
+        {
+            if (debugStates) Debugging($"Strafe: [{m_strafe.Value}]");
+            OnStrafe.Invoke(m_strafe.Value);
+            TryAnimParameter(hash_Strafe, m_strafe.Value);
+
+            if (ActiveState.StrafeAnimations)
+               TryAnimParameter(hash_StateOn);                 // Check again that the Strafe is On!
+
+            if (!JustActivateState) SetIntParameter(hash_LastState, ActiveStateID);   //Sent to the Animator the previews Active State  (BUG)
+
+            if (!m_strafe.Value) //false
+            {
+                ResetCameraInput();
+            }
+            else
+            {
+                Aimer?.SetEnable(true); //Enable the Aimer just in case
             }
         }
 
         public bool CanStrafe { get => m_CanStrafe.Value; set => m_CanStrafe.Value = value; }
 
         private float StrafeDeltaValue;
-        private float HorizontalAimAngle_Raw;
+        //private float HorizontalAimAngle_Raw;
 
         public Aim Aimer;
 
@@ -938,6 +1063,7 @@ namespace MalbersAnimations.Controller
             }
         }
 
+        /// <summary> Delta Animal Velocity  </summary>
         public Vector3 DeltaVelocity { get; private set; }
 
         /// <summary> Does the Animal Had a Pivot Chest at the beggining?</summary>
@@ -965,10 +1091,11 @@ namespace MalbersAnimations.Controller
         }
         #endregion
 
-        #region Speed Modifiers
+        #region Speed Modifiers 
 
-        /// <summary>The full Velocity we want to without lerping, for the Additional Position NOT INLCUDING ROOTMOTION</summary>
-        public Vector3 TargetSpeed { get; internal set; }
+
+
+        /// <summary>What is the Rigid Body velocity the animal should have...</summary>
         public Vector3 DesiredRBVelocity { get; internal set; }
 
         /// <summary>True if the Current Speed is Locked</summary>
@@ -1035,7 +1162,7 @@ namespace MalbersAnimations.Controller
                 {
                     speedIndex = newValue;
 
-                    var sprintSpeed = Mathf.Clamp(speedIndex + 1, 1, speedModifiers.Count);
+                    var sprintSpeed = Mathf.Clamp(CurrentSpeedSet.SprintIndex, 1, speedModifiers.Count);
 
                     CurrentSpeedModifier = speedModifiers[speedIndex - 1];
 
@@ -1124,7 +1251,7 @@ namespace MalbersAnimations.Controller
                     realSprint = newRealSprint;
 
                     OnSprintEnabled.Invoke(realSprint);
-                    SetOptionalAnimParameter(hash_Sprint, realSprint);        //Set on the Animator Sprint Value
+                    TryAnimParameter(hash_Sprint, realSprint);        //Set on the Animator Sprint Value
 
                     int currentPI = CurrentSpeedIndex;
                     var speed = CurrentSpeedModifier;
@@ -1178,7 +1305,7 @@ namespace MalbersAnimations.Controller
         //int m_GravityTime;
 
 
-        public float GravityPower { get => m_gravityPower.Value * GravityMultiplier; set => m_gravityPower.Value = value; }
+        public float GravityPower { get => m_gravityPower.Value * (GravityMultiplier * ActiveState.GravityMultiplier); set => m_gravityPower.Value = value; }
 
 
         /// <summary>Stored Gravity Velocity when the animal is using Gravity</summary>
@@ -1265,10 +1392,8 @@ namespace MalbersAnimations.Controller
             set => Anim.applyRootMotion = rootMotion.Value = value;
         }
 
-        /// <summary>
-        /// This store the DeltaRootMotion everytime its Deactivated/Activated
-        /// </summary>
-        private Vector3 DeltaRootMotion;
+        /// <summary>  This store the DeltaRootMotion everytime its Deactivated/Activated  </summary>
+        public Vector3 DeltaRootMotion { get; set; }
 
         private bool useGravity;
         /// <summary>Does it use Gravity or not? </summary>
@@ -1338,8 +1463,7 @@ namespace MalbersAnimations.Controller
             get => useOrientToGround && m_OrientToGround.Value;
             set => useOrientToGround = value;
         }
-
-
+        
         public bool GlobalOrientToGround
         {
             get => m_OrientToGround.Value;
@@ -1349,8 +1473,6 @@ namespace MalbersAnimations.Controller
                 Has_Pivot_Chest = value ? Pivot_Chest != null : false; //Hide the Pivor Chest
             }
         }
-
-
 
         [SerializeField, Tooltip("Global Orient to ground. Disable This for Humanoids")]
         private BoolReference m_OrientToGround = new BoolReference(true);
@@ -1374,7 +1496,7 @@ namespace MalbersAnimations.Controller
 
         /// <summary> If we are  in any  animator transition </summary>
         internal bool m_IsAnimatorTransitioning;
-        internal bool FirstAnimatorTransition;
+      //  internal bool FirstAnimatorTransition;
         protected bool m_PreviousIsAnimatorTransitioning;
 
 
@@ -1393,7 +1515,8 @@ namespace MalbersAnimations.Controller
                     currentAnimTag = value;
                     activeState.AnimationTagEnter(value);
 
-                    if (ActiveState.IsPending)                      //If the new Animation Tag is not on the New Active State try to activate it on the last State
+                        //If the new Animation Tag is not on the New Active State try to activate it on the last State
+                    if (ActiveState.IsPending)                      
                         LastState.AnimationTagEnter(value);
                     //Debug.Log("value = " + value);
                 }
@@ -1460,8 +1583,6 @@ namespace MalbersAnimations.Controller
         public List<OnEnterExitStance> OnEnterExitStances;
         ///<summary>List of Events to Use on the Speeds</summary>
         public List<OnEnterExitSpeed> OnEnterExitSpeeds;
-
-
         #endregion
 
         #region Random
@@ -1488,12 +1609,8 @@ namespace MalbersAnimations.Controller
         [SerializeField, Tooltip("Trigger to Notify the Activation of a State")]
         private string m_StateOn = "StateOn";
 
-        //[SerializeField, Tooltip("Trigger to Notify the Activation of a State")]
-        //private string m_StanceOn = "StanceOn";
-
         [SerializeField, Tooltip("Trigger to Notify the Activation of a Mode")]
         private string m_ModeOn = "ModeOn";
-
 
         [SerializeField, Tooltip("The Active State can have multiple status to change inside the State itself")]
         private string m_StateStatus = "StateEnterStatus";
@@ -1510,11 +1627,8 @@ namespace MalbersAnimations.Controller
         [SerializeField, Tooltip("Speed Multiplier for the Animations")]
         private string m_SpeedMultiplier = "SpeedMultiplier";
 
-
         [SerializeField, Tooltip("Active Mode the animal is... The Value is the Mode ID plus the Ability Index. Example Action Eat = 4002")]
         private string m_Mode = "Mode";
-
-       
 
         [SerializeField, Tooltip("Store the Modes Status (Available=0  Started=1  Looping=-1 Interrupted=-2)")]
         private string m_ModeStatus = "ModeStatus";
@@ -1532,7 +1646,10 @@ namespace MalbersAnimations.Controller
         [SerializeField, Tooltip("Random Value for Animations States with multiple animations")] private string m_Random = "Random";
         [SerializeField, Tooltip("Target Angle calculated from the current forward  direction to the desired direction")] private string m_DeltaAngle = "DeltaAngle";
         [SerializeField, Tooltip("Does the Animal Uses Strafe")] private string m_Strafe = "Strafe";
-        [SerializeField, Tooltip("Horizontal Angle for Strafing.")] private string m_strafeAngle = "StrafeAngle";
+       
+        //[SerializeField, Tooltip("Horizontal Angle For the Target or Camera. Old [strafeAngle]")]
+        //    [FormerlySerializedAs("m_strafeAngle")] 
+        //private string m_TargetHorizontal = "TargetHorizontal";
 
         internal int hash_Vertical;
         internal int hash_Horizontal;
@@ -1567,7 +1684,7 @@ namespace MalbersAnimations.Controller
         internal int hash_Sprint;
         internal int hash_Random;
         internal int hash_Strafe;
-        internal int hash_StrafeAngle;
+      //  internal int hash_TargetHorizontal;
         #endregion
     }
 

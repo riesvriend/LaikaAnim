@@ -17,6 +17,48 @@ namespace MalbersAnimations
 #if UNITY_EDITOR
     public static class MalbersEditor
     {
+        public static void CheckAnimParameter(Animator anim,string PName,   AnimatorControllerParameterType Ptype)
+        {
+            if (anim)
+            {
+                var controller = (UnityEditor.Animations.AnimatorController)anim.runtimeAnimatorController;
+                var AllParameters = controller.parameters.ToList();
+
+                if (!AllParameters.Exists(p => p.name == PName))
+                {
+                    var p =
+                    new UnityEngine.AnimatorControllerParameter() { name = PName, type = Ptype };
+                    controller.AddParameter(p);
+                    Debug.Log($"Added to the Animator [{controller.name}] the  {Ptype.ToString()} Parameter [{PName}]");
+                }
+                else
+                {
+                    Debug.Log($"Animator [{controller.name}] already has the {Ptype.ToString()} Parameter: [{PName}]");
+                }
+            }
+        }
+
+        public static void DisplayParam(Animator anim, SerializedProperty prop, AnimatorControllerParameterType valType)
+        {
+            using (new GUILayout.HorizontalScope())
+            {
+                var plus = UnityEditor.EditorGUIUtility.IconContent("d_Toolbar Plus");
+                plus.tooltip = "Create the Animator Parameter";
+
+
+                if (GUILayout.Button(plus, GUILayout.Width(24), GUILayout.Height(20)))
+                {
+                    CheckAnimParameter(anim, prop.stringValue, valType);
+                }
+
+                EditorGUIUtility.labelWidth -= 26;
+                EditorGUILayout.PropertyField(prop);
+                EditorGUIUtility.labelWidth = 0;
+                var s = new GUIStyle(EditorStyles.miniLabel) { alignment = TextAnchor.MiddleLeft };
+                EditorGUILayout.LabelField(valType.ToString(), s, GUILayout.Width(28));
+            }
+        }
+
 
         //public static object RunCode(string userCode, string MyClass, string MyMethod)
         //{
@@ -36,13 +78,88 @@ namespace MalbersAnimations
                 boldFoldout.fontStyle = FontStyle.Bold;
                 return boldFoldout;
             }
-        } 
+        }
+
+       // private static GUIStyle descriptionStyle;
+
+        public static GUIStyle DescriptionStyle
+        {
+            get
+            {
+                //if (descriptionStyle == null)
+               // {
+                    var descriptionStyle = new GUIStyle(MTools.StyleGray)
+                    {
+                        fontSize = 12,
+                        fontStyle = FontStyle.Bold,
+                        alignment = TextAnchor.MiddleLeft,
+                        stretchWidth = true
+                    };
+                    descriptionStyle.normal.textColor = EditorStyles.boldLabel.normal.textColor;
+                //}
+
+                return descriptionStyle;
+            }
+        }
+
+
+      //private static GUIStyle toolTipStyle;
+
+        public static GUIStyle ToolTipStyle
+        {
+            get
+            {
+                //if (toolTipStyle == null)
+               // {
+                   var toolTipStyle = new GUIStyle(MTools.StyleBlue)
+                    {
+                        fontSize = 12,
+                        fontStyle = FontStyle.Bold,
+                        alignment = TextAnchor.MiddleLeft,
+                        stretchWidth = true
+                    };
+                    toolTipStyle.normal.textColor = EditorStyles.boldLabel.normal.textColor;
+               // }
+
+                return toolTipStyle;
+            }
+        }
+
+        private static GUIContent _icon_Add;
+        public static GUIContent Icon_Add
+        {
+            get
+            {
+                if (_icon_Add == null)
+                {
+                    _icon_Add = EditorGUIUtility.IconContent("d_Toolbar Plus@2x", "Add Selected");
+                    _icon_Add.tooltip = "Create new";
+                }
+
+                return _icon_Add;
+            }
+        }
+
+        private static GUIContent _icon_delete;
+        public static GUIContent Icon_Delete
+        {
+            get
+            {
+                if (_icon_delete == null)
+                {
+                    _icon_delete = EditorGUIUtility.IconContent("d_TreeEditor.Trash", "Delete");
+                    _icon_delete.tooltip = "Remove";
+                }
+
+                return _icon_delete;
+            }
+        }
 
         #region Styles      
         public static GUIStyle StyleGray => MTools.StyleGray;
         public static GUIStyle StyleBlue => MTools.StyleBlue;
         public static GUIStyle StyleGreen => MTools.StyleGreen;
-      
+
         #endregion
 
         public static Preset GetPreset(string name)
@@ -61,7 +178,7 @@ namespace MalbersAnimations
 
         }
 
-        
+
         public static bool CopyObjectSerialization(Object source, Object target)
         {
             Preset preset = new Preset(source);
@@ -73,7 +190,7 @@ namespace MalbersAnimations
         {
             Preset preset = new Preset(source);
             AssetDatabase.CreateAsset(preset, "Assets/" + name + ".preset");
-        } 
+        }
 
         public static string GetPropertyType(SerializedProperty property)
         {
@@ -275,7 +392,7 @@ namespace MalbersAnimations
         {
             DrawEventConnection(t, e, selected, Color.white);
         }
-        public static void DrawEventConnection(Transform t,UnityEngine.Events.UnityEvent e, bool selected, Color color)
+        public static void DrawEventConnection(Transform t, UnityEngine.Events.UnityEvent e, bool selected, Color color)
         {
             for (int i = 0; i < e.GetPersistentEventCount(); i++)
             {
@@ -294,7 +411,7 @@ namespace MalbersAnimations
 
                 if (go != null && go != t.gameObject && !go.IsPrefab())
                 {
-                    DrawInteraction(t.position, go.transform.position,selected, color);
+                    DrawInteraction(t.position, go.transform.position, selected, color);
                 }
             }
         }
@@ -319,7 +436,7 @@ namespace MalbersAnimations
         {
             var styleDesc = new GUIStyle(StyleBlue)
             {
-                fontSize = 12,  
+                fontSize = 12,
                 fontStyle = FontStyle.Bold,
                 alignment = TextAnchor.MiddleLeft,
                 stretchWidth = true
@@ -329,14 +446,25 @@ namespace MalbersAnimations
             UnityEditor.EditorGUILayout.LabelField(v, styleDesc);
         }
 
-        public static GUIContent DebugCont = new GUIContent((Texture)(AssetDatabase.LoadAssetAtPath("Assets/Malbers Animations/Common/Scripts/Editor/Icons/Debug_Icon.png", typeof(Texture))), "Debug");
+        private static GUIContent debugCont;
 
+        public static GUIContent DebugCont
+        {
+            get 
+            {
+                if (debugCont == null)
+                    debugCont =  new GUIContent((Texture)
+                        (AssetDatabase.LoadAssetAtPath("Assets/Malbers Animations/Common/Scripts/Editor/Icons/Debug_Icon.png",
+                        typeof(Texture))), "Debug");
+                return debugCont;
+            } 
+        }
 
         public static void DrawDebugIcon(SerializedProperty property)
         {
             var currentGUIColor = GUI.color;
             GUI.color = property.boolValue ? Color.red : currentGUIColor;
-            property.boolValue = GUILayout.Toggle(property.boolValue, DebugCont, EditorStyles.miniButton, GUILayout.Width(25));
+            property.boolValue = GUILayout.Toggle(property.boolValue, DebugCont, EditorStyles.miniButton, GUILayout.Width(25), GUILayout.Height(20));
             GUI.color = currentGUIColor;
         }
 

@@ -256,8 +256,6 @@ namespace MalbersAnimations
             serializedObject.Update();
 
             MalbersEditor.DrawDescription("Type of Waypoint that uses an Area to get the Destination point");
-            UnityEditor.EditorGUILayout.BeginVertical(MTools.StyleGray);
-            {
                 if (!isChild)
                 {
                     UnityEditor.EditorGUILayout.BeginVertical(UnityEditor.EditorStyles.helpBox);
@@ -312,8 +310,6 @@ namespace MalbersAnimations
                     UnityEditor.EditorGUILayout.EndVertical();
                     UnityEditor.EditorGUILayout.PropertyField(OnTargetArrived);
                 }
-            }
-            UnityEditor.EditorGUILayout.EndVertical();
             serializedObject.ApplyModifiedProperties();
         }
     }

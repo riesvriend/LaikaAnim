@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aaefcc8cb0c31046bdac1700fd93837, type: 3}
   m_Name: Target Look to my Eyes
   m_EditorClassIdentifier: 
+  active: 1
   Description: The Target Look to my Head
   MessageID:
     UseConstant: 1
@@ -19,7 +20,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   UpdateInterval: 0.2
   WaitForPreviousTask: 0
-  SetLookAtOn: 1
+  SetAimOn: 1
   LookAtTargetS: 0
   LookAtTargetT: 0
   TargetVar: {fileID: 0}
@@ -28,4 +29,3 @@ MonoBehaviour:
   tag: {fileID: 11400000, guid: 2025081d3dc8152468d62dd382634a53, type: 2}
   DisableOnExit: 1
   showTransformVar: 0
-  ShowOption1: 0

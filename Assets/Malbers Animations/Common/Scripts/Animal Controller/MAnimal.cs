@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using MalbersAnimations.Events;
 using UnityEngine.Events;
-using MalbersAnimations.Scriptables; 
+using MalbersAnimations.Scriptables;
+using MalbersAnimations.Utilities;
 
 namespace MalbersAnimations.Controller
 {
     /// <summary>  This will controll all Animals Motion
-    /// Version 1.3.1
     /// See changelog here https://malbersanimations.gitbook.io/animal-controller/annex/changelog
     /// </summary>
 
@@ -16,7 +16,7 @@ namespace MalbersAnimations.Controller
     [SelectionBase]
     [AddComponentMenu("Malbers/Animal Controller/Animal")]
     public partial class MAnimal : MonoBehaviour,   
-        IAnimatorListener, ICharacterMove, IGravity, /*IMLayer , */
+        IAnimatorListener, ICharacterMove, IGravity, IObjectCore, 
         IRandomizer, IMAnimator, ISleepController, IMDamagerSet, 
         IAnimatorStateCycle, ICharacterAction// ITriggerInteract, IInteracter
     {
@@ -25,38 +25,51 @@ namespace MalbersAnimations.Controller
         //Animal CallBacks: All public methods and behaviors that it can be called outside the script
 
         #region Editor Show 
-        [HideInInspector] public bool showPivots = true;
         [HideInInspector] public int PivotPosDir;
-        [HideInInspector] public bool showStates = true;
-        [HideInInspector] public bool ModeShowEvents;
-        [HideInInspector] public int Editor_Tabs1;
-        [HideInInspector] public int Editor_Tabs2;
-        [HideInInspector] public int Editor_EventTabs;
+       // [HideInInspector] public bool ModeShowEvents;
         [HideInInspector] public int SelectedMode;
         [HideInInspector] public int SelectedState;
+        [HideInInspector] public int SelectedStance;
+        //[HideInInspector] public bool ShowAnimParametersOptional = false;
+        //[HideInInspector] public bool ShowAnimParameters = false;
+        //[HideInInspector] public bool ShowLockInputs = false;
+        //[HideInInspector] public bool ShowMisc = false;
+        
+        
+        [HideInInspector] public bool ShowStateInInspector = false;
+
+        [HideInInspector] public int Editor_Tabs1;
+        [HideInInspector] public int Mode_Tabs1;
+        [HideInInspector] public int Editor_Tabs2;
+        [HideInInspector] public int Ability_Tabs;
+        [HideInInspector] public int Editor_EventTabs;
+      
+        [HideInInspector] public bool showPivots = true;
         [HideInInspector] public bool debugStates;
         [HideInInspector] public bool debugStances;
         [HideInInspector] public bool debugModes;
-        [HideInInspector] public bool ShowAnimParametersOptional = false;
-        [HideInInspector] public bool ShowAnimParameters = false;
-        [HideInInspector] public bool ShowLockInputs = false;
-        [HideInInspector] public bool ShowMisc = false;
-        [HideInInspector] public bool ShowStateInInspector = false;
-
-      
         [HideInInspector] public bool debugGizmos = true;
-        [HideInInspector] public bool ShowMovement = false;
-        [HideInInspector] public bool ShowGround = true;
 
-       //[HideInInspector] public bool ShowFreeMovement = true;
+        // [HideInInspector] public bool ShowMovement = false;
+        // [HideInInspector] public bool ShowGround = true;
 
-        [HideInInspector] public bool showGeneral = true;
-        [HideInInspector] public bool showExposedVariables = false;
-        [HideInInspector] public bool showReferences = true;
-        [HideInInspector] public bool showGravity = true;
-        #endregion  
+        //[HideInInspector] public bool ShowFreeMovement = true;
+
+        // [HideInInspector] public bool showGeneral = true;
+        // [HideInInspector] public bool showExposedVariables = false;
+        // [HideInInspector] public bool showReferences = true;
+        // [HideInInspector] public bool showGravity = true;
+        #endregion
 
 #if UNITY_EDITOR
+
+        private void OnValidate()
+        {
+            if (Anim == null) Anim = GetComponentInParent<Animator>();   //Cache the Animator
+            if (RB == null) RB = GetComponentInParent<Rigidbody>();      //Cache the Rigid Body  
+            if (Aimer == null) Aimer = gameObject.FindComponent<Aim>();  //Cache the Aim Component 
+        }
+
         void Reset()
         {
 
@@ -97,9 +110,10 @@ namespace MalbersAnimations.Controller
 
             MTools.SetDirty(this);
 
+            var DefStance = MTools.GetInstance<StanceID>("Default");
 
-            defaultStance = MTools.GetInstance<StanceID>("Default");
-            currentStance = MTools.GetInstance<StanceID>("Default");
+            if (defaultStance == null) defaultStance = DefStance;
+            if (currentStance == null) currentStance = DefStance;
         }
 
         [ContextMenu("Create Event Listeners")]

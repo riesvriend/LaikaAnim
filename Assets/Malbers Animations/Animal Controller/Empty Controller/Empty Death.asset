@@ -18,7 +18,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 
     Variable: {fileID: 0}
-  Priority: 7
+  Priority: 8
   General:
     modify: -1
     RootMotion: 1
@@ -39,6 +39,7 @@ MonoBehaviour:
   UseSendMessage: 0
   IncludeChildren: 1
   AllowExitFromAnim: 0
+  IncludeSleepState: 1
   SleepFromState: []
   SleepFromMode: []
   QueueFrom:
@@ -48,6 +49,10 @@ MonoBehaviour:
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  AllowExitTime:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1

@@ -1,422 +1,1247 @@
 fileFormatVersion: 2
 guid: cf0c88094d59e064bb6dd10fbed27caf
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: Arrow
-    100002: Bip001 Footsteps
-    100004: Bip001 HeadNub
-    100006: Bip001 L Toe0
-    100008: Bip001 L Toe0Nub
-    100010: Bip001 R Toe0Nub
-    100012: Bow
-    100014: Bow_Bn Knot
-    100016: Bow_Bn Lower01
-    100018: Bow_Bn Lower02
-    100020: Bow_Bn Root
-    100022: Bow_Bn Upper01
-    100024: Bow_Bn Upper02
-    100026: CG
-    100028: CG L Finger0Nub
-    100030: CG L Finger1Nub
-    100032: CG L Finger2Nub
-    100034: CG L Finger3Nub
-    100036: CG L Finger4Nub
-    100038: CG R Finger0Nub
-    100040: CG R Finger1Nub
-    100042: CG R Finger2Nub
-    100044: CG R Finger3Nub
-    100046: CG R Finger4Nub
-    100048: CowBoy
-    100050: Head
-    100052: L Calf
-    100054: L Clavicle
-    100056: L Finger0
-    100058: L Finger01
-    100060: L Finger02
-    100062: L Finger1
-    100064: L Finger11
-    100066: L Finger12
-    100068: L Finger2
-    100070: L Finger21
-    100072: L Finger22
-    100074: L Finger3
-    100076: L Finger31
-    100078: L Finger32
-    100080: L Finger4
-    100082: L Finger41
-    100084: L Finger42
-    100086: L Foot
-    100088: L Forearm
-    100090: L Hand
-    100092: L Thigh
-    100094: L UpperArm
-    100096: Neck
-    100098: Pelvis
-    100100: R Calf
-    100102: R Clavicle
-    100104: R Finger0
-    100106: R Finger01
-    100108: R Finger02
-    100110: R Finger1
-    100112: R Finger11
-    100114: R Finger12
-    100116: R Finger2
-    100118: R Finger21
-    100120: R Finger22
-    100122: R Finger3
-    100124: R Finger31
-    100126: R Finger32
-    100128: R Finger4
-    100130: R Finger41
-    100132: R Finger42
-    100134: R Foot
-    100136: R Forearm
-    100138: R Hand
-    100140: R Thigh
-    100142: R Toe0
-    100144: R UpperArm
-    100146: //RootNode
-    100148: Spine
-    100150: Spine1
-    100152: M
-    100154: Ear L
-    100156: Ear R
-    100158: Horsito Body
-    100160: Horsito Eye
-    100162: Horsito Mane
-    100164: Horsito Tail
-    100166: Jaw
-    100168: L HorseLink
-    100170: L Toe0
-    100172: Neck1
-    100174: Neck2
-    100176: Pistol 01
-    100178: Pistol 02
-    100180: R HorseLink
-    100182: R_CG
-    100184: R_Footsteps
-    100186: R_Head
-    100188: R_HeadNub
-    100190: R_L Calf
-    100192: R_L Clavicle
-    100194: R_L Finger0
-    100196: R_L Finger01
-    100198: R_L Finger02
-    100200: R_L Finger0Nub
-    100202: R_L Finger1
-    100204: R_L Finger11
-    100206: R_L Finger12
-    100208: R_L Finger1Nub
-    100210: R_L Finger2
-    100212: R_L Finger21
-    100214: R_L Finger22
-    100216: R_L Finger2Nub
-    100218: R_L Finger3
-    100220: R_L Finger31
-    100222: R_L Finger32
-    100224: R_L Finger3Nub
-    100226: R_L Finger4
-    100228: R_L Finger41
-    100230: R_L Finger42
-    100232: R_L Finger4Nub
-    100234: R_L Foot
-    100236: R_L Forearm
-    100238: R_L Hand
-    100240: R_L Thigh
-    100242: R_L Toe0
-    100244: R_L Toe0Nub
-    100246: R_L UpperArm
-    100248: R_Neck
-    100250: R_Pelvis
-    100252: R_R Calf
-    100254: R_R Clavicle
-    100256: R_R Finger0
-    100258: R_R Finger01
-    100260: R_R Finger02
-    100262: R_R Finger0Nub
-    100264: R_R Finger1
-    100266: R_R Finger11
-    100268: R_R Finger12
-    100270: R_R Finger1Nub
-    100272: R_R Finger2
-    100274: R_R Finger21
-    100276: R_R Finger22
-    100278: R_R Finger2Nub
-    100280: R_R Finger3
-    100282: R_R Finger31
-    100284: R_R Finger32
-    100286: R_R Finger3Nub
-    100288: R_R Finger4
-    100290: R_R Finger41
-    100292: R_R Finger42
-    100294: R_R Finger4Nub
-    100296: R_R Foot
-    100298: R_R Forearm
-    100300: R_R Hand
-    100302: R_R Thigh
-    100304: R_R Toe0
-    100306: R_R Toe0Nub
-    100308: R_R UpperArm
-    100310: R_Spine
-    100312: R_Spine1
-    100314: R_Spine2
-    100316: Reins
-    100318: Reins Head
-    100320: Reins_Bn_Hand_L
-    100322: Reins_Bn_Hand_R
-    100324: Reins_Bn_Head_L
-    100326: Reins_Bn_Head_R
-    100328: Reins_Bn_Neck_L
-    100330: Reins_Bn_Neck_R
-    100332: Saddle
-    100334: Spine2
-    100336: Tail01
-    100338: Tail02
-    100340: Tail03
-    100342: Tail04
-    100344: Tail05
-    100346: Root
-    400000: Arrow
-    400002: Bip001 Footsteps
-    400004: Bip001 HeadNub
-    400006: Bip001 L Toe0
-    400008: Bip001 L Toe0Nub
-    400010: Bip001 R Toe0Nub
-    400012: Bow
-    400014: Bow_Bn Knot
-    400016: Bow_Bn Lower01
-    400018: Bow_Bn Lower02
-    400020: Bow_Bn Root
-    400022: Bow_Bn Upper01
-    400024: Bow_Bn Upper02
-    400026: CG
-    400028: CG L Finger0Nub
-    400030: CG L Finger1Nub
-    400032: CG L Finger2Nub
-    400034: CG L Finger3Nub
-    400036: CG L Finger4Nub
-    400038: CG R Finger0Nub
-    400040: CG R Finger1Nub
-    400042: CG R Finger2Nub
-    400044: CG R Finger3Nub
-    400046: CG R Finger4Nub
-    400048: CowBoy
-    400050: Head
-    400052: L Calf
-    400054: L Clavicle
-    400056: L Finger0
-    400058: L Finger01
-    400060: L Finger02
-    400062: L Finger1
-    400064: L Finger11
-    400066: L Finger12
-    400068: L Finger2
-    400070: L Finger21
-    400072: L Finger22
-    400074: L Finger3
-    400076: L Finger31
-    400078: L Finger32
-    400080: L Finger4
-    400082: L Finger41
-    400084: L Finger42
-    400086: L Foot
-    400088: L Forearm
-    400090: L Hand
-    400092: L Thigh
-    400094: L UpperArm
-    400096: Neck
-    400098: Pelvis
-    400100: R Calf
-    400102: R Clavicle
-    400104: R Finger0
-    400106: R Finger01
-    400108: R Finger02
-    400110: R Finger1
-    400112: R Finger11
-    400114: R Finger12
-    400116: R Finger2
-    400118: R Finger21
-    400120: R Finger22
-    400122: R Finger3
-    400124: R Finger31
-    400126: R Finger32
-    400128: R Finger4
-    400130: R Finger41
-    400132: R Finger42
-    400134: R Foot
-    400136: R Forearm
-    400138: R Hand
-    400140: R Thigh
-    400142: R Toe0
-    400144: R UpperArm
-    400146: //RootNode
-    400148: Spine
-    400150: Spine1
-    400152: M
-    400154: Ear L
-    400156: Ear R
-    400158: Horsito Body
-    400160: Horsito Eye
-    400162: Horsito Mane
-    400164: Horsito Tail
-    400166: Jaw
-    400168: L HorseLink
-    400170: L Toe0
-    400172: Neck1
-    400174: Neck2
-    400176: Pistol 01
-    400178: Pistol 02
-    400180: R HorseLink
-    400182: R_CG
-    400184: R_Footsteps
-    400186: R_Head
-    400188: R_HeadNub
-    400190: R_L Calf
-    400192: R_L Clavicle
-    400194: R_L Finger0
-    400196: R_L Finger01
-    400198: R_L Finger02
-    400200: R_L Finger0Nub
-    400202: R_L Finger1
-    400204: R_L Finger11
-    400206: R_L Finger12
-    400208: R_L Finger1Nub
-    400210: R_L Finger2
-    400212: R_L Finger21
-    400214: R_L Finger22
-    400216: R_L Finger2Nub
-    400218: R_L Finger3
-    400220: R_L Finger31
-    400222: R_L Finger32
-    400224: R_L Finger3Nub
-    400226: R_L Finger4
-    400228: R_L Finger41
-    400230: R_L Finger42
-    400232: R_L Finger4Nub
-    400234: R_L Foot
-    400236: R_L Forearm
-    400238: R_L Hand
-    400240: R_L Thigh
-    400242: R_L Toe0
-    400244: R_L Toe0Nub
-    400246: R_L UpperArm
-    400248: R_Neck
-    400250: R_Pelvis
-    400252: R_R Calf
-    400254: R_R Clavicle
-    400256: R_R Finger0
-    400258: R_R Finger01
-    400260: R_R Finger02
-    400262: R_R Finger0Nub
-    400264: R_R Finger1
-    400266: R_R Finger11
-    400268: R_R Finger12
-    400270: R_R Finger1Nub
-    400272: R_R Finger2
-    400274: R_R Finger21
-    400276: R_R Finger22
-    400278: R_R Finger2Nub
-    400280: R_R Finger3
-    400282: R_R Finger31
-    400284: R_R Finger32
-    400286: R_R Finger3Nub
-    400288: R_R Finger4
-    400290: R_R Finger41
-    400292: R_R Finger42
-    400294: R_R Finger4Nub
-    400296: R_R Foot
-    400298: R_R Forearm
-    400300: R_R Hand
-    400302: R_R Thigh
-    400304: R_R Toe0
-    400306: R_R Toe0Nub
-    400308: R_R UpperArm
-    400310: R_Spine
-    400312: R_Spine1
-    400314: R_Spine2
-    400316: Reins
-    400318: Reins Head
-    400320: Reins_Bn_Hand_L
-    400322: Reins_Bn_Hand_R
-    400324: Reins_Bn_Head_L
-    400326: Reins_Bn_Head_R
-    400328: Reins_Bn_Neck_L
-    400330: Reins_Bn_Neck_R
-    400332: Saddle
-    400334: Spine2
-    400336: Tail01
-    400338: Tail02
-    400340: Tail03
-    400342: Tail04
-    400344: Tail05
-    400346: Root
-    2300000: Arrow
-    2300002: Pistol 01
-    2300004: Pistol 02
-    3300000: Arrow
-    3300002: Pistol 01
-    3300004: Pistol 02
-    4300000: CowBoy
-    4300002: Arrow
-    4300004: Bow
-    4300006: M
-    4300008: Pistol 02
-    4300010: Pistol 01
-    4300012: Horsito Eye
-    4300014: Horsito Mane
-    4300016: Horsito Tail
-    4300018: Saddle
-    4300020: Reins Head
-    4300022: Reins
-    4300024: Horsito Body
-    7400000: Bow E
-    7400002: Bow N
-    7400004: Bow W
-    7400006: Bow S
-    7400008: Bow Prepare E
-    7400010: Bow Prepare N
-    7400012: Bow Prepare W
-    7400014: Bow Prepare S
-    7400016: Bow Hold E 0
-    7400018: Bow Hold N 0
-    7400020: Bow Hold W 0
-    7400022: Bow Hold S 0
-    7400024: Bow Hold E 4
-    7400026: Bow Hold N 4
-    7400028: Bow Hold W 4
-    7400030: Bow Hold S 4
-    7400032: Bow Release E
-    7400034: Bow Release N
-    7400036: Bow Release W
-    7400038: Bow Release S
-    7400040: Bow Hold E 1
-    7400042: Bow Hold E 2
-    7400044: Bow Hold E 3
-    7400046: Bow Hold N 1
-    7400048: Bow Hold N 2
-    7400050: Bow Hold N 3
-    7400052: Bow Hold W 1
-    7400054: Bow Hold W 2
-    7400056: Bow Hold W 3
-    7400058: Bow Hold S 1
-    7400060: Bow Hold S 2
-    7400062: Bow Hold S 3
-    7400064: Bow Imposible Angle
-    9500000: //RootNode
-    13700000: Bow
-    13700002: CowBoy
-    13700004: M
-    13700006: Horsito Body
-    13700008: Horsito Eye
-    13700010: Horsito Mane
-    13700012: Horsito Tail
-    13700014: Reins
-    13700016: Reins Head
-    13700018: Saddle
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Arrow
+  - first:
+      1: 100002
+    second: Bip001 Footsteps
+  - first:
+      1: 100004
+    second: Bip001 HeadNub
+  - first:
+      1: 100006
+    second: Bip001 L Toe0
+  - first:
+      1: 100008
+    second: Bip001 L Toe0Nub
+  - first:
+      1: 100010
+    second: Bip001 R Toe0Nub
+  - first:
+      1: 100012
+    second: Bow
+  - first:
+      1: 100014
+    second: Bow_Bn Knot
+  - first:
+      1: 100016
+    second: Bow_Bn Lower01
+  - first:
+      1: 100018
+    second: Bow_Bn Lower02
+  - first:
+      1: 100020
+    second: Bow_Bn Root
+  - first:
+      1: 100022
+    second: Bow_Bn Upper01
+  - first:
+      1: 100024
+    second: Bow_Bn Upper02
+  - first:
+      1: 100026
+    second: CG
+  - first:
+      1: 100028
+    second: CG L Finger0Nub
+  - first:
+      1: 100030
+    second: CG L Finger1Nub
+  - first:
+      1: 100032
+    second: CG L Finger2Nub
+  - first:
+      1: 100034
+    second: CG L Finger3Nub
+  - first:
+      1: 100036
+    second: CG L Finger4Nub
+  - first:
+      1: 100038
+    second: CG R Finger0Nub
+  - first:
+      1: 100040
+    second: CG R Finger1Nub
+  - first:
+      1: 100042
+    second: CG R Finger2Nub
+  - first:
+      1: 100044
+    second: CG R Finger3Nub
+  - first:
+      1: 100046
+    second: CG R Finger4Nub
+  - first:
+      1: 100048
+    second: CowBoy
+  - first:
+      1: 100050
+    second: Head
+  - first:
+      1: 100052
+    second: L Calf
+  - first:
+      1: 100054
+    second: L Clavicle
+  - first:
+      1: 100056
+    second: L Finger0
+  - first:
+      1: 100058
+    second: L Finger01
+  - first:
+      1: 100060
+    second: L Finger02
+  - first:
+      1: 100062
+    second: L Finger1
+  - first:
+      1: 100064
+    second: L Finger11
+  - first:
+      1: 100066
+    second: L Finger12
+  - first:
+      1: 100068
+    second: L Finger2
+  - first:
+      1: 100070
+    second: L Finger21
+  - first:
+      1: 100072
+    second: L Finger22
+  - first:
+      1: 100074
+    second: L Finger3
+  - first:
+      1: 100076
+    second: L Finger31
+  - first:
+      1: 100078
+    second: L Finger32
+  - first:
+      1: 100080
+    second: L Finger4
+  - first:
+      1: 100082
+    second: L Finger41
+  - first:
+      1: 100084
+    second: L Finger42
+  - first:
+      1: 100086
+    second: L Foot
+  - first:
+      1: 100088
+    second: L Forearm
+  - first:
+      1: 100090
+    second: L Hand
+  - first:
+      1: 100092
+    second: L Thigh
+  - first:
+      1: 100094
+    second: L UpperArm
+  - first:
+      1: 100096
+    second: Neck
+  - first:
+      1: 100098
+    second: Pelvis
+  - first:
+      1: 100100
+    second: R Calf
+  - first:
+      1: 100102
+    second: R Clavicle
+  - first:
+      1: 100104
+    second: R Finger0
+  - first:
+      1: 100106
+    second: R Finger01
+  - first:
+      1: 100108
+    second: R Finger02
+  - first:
+      1: 100110
+    second: R Finger1
+  - first:
+      1: 100112
+    second: R Finger11
+  - first:
+      1: 100114
+    second: R Finger12
+  - first:
+      1: 100116
+    second: R Finger2
+  - first:
+      1: 100118
+    second: R Finger21
+  - first:
+      1: 100120
+    second: R Finger22
+  - first:
+      1: 100122
+    second: R Finger3
+  - first:
+      1: 100124
+    second: R Finger31
+  - first:
+      1: 100126
+    second: R Finger32
+  - first:
+      1: 100128
+    second: R Finger4
+  - first:
+      1: 100130
+    second: R Finger41
+  - first:
+      1: 100132
+    second: R Finger42
+  - first:
+      1: 100134
+    second: R Foot
+  - first:
+      1: 100136
+    second: R Forearm
+  - first:
+      1: 100138
+    second: R Hand
+  - first:
+      1: 100140
+    second: R Thigh
+  - first:
+      1: 100142
+    second: R Toe0
+  - first:
+      1: 100144
+    second: R UpperArm
+  - first:
+      1: 100146
+    second: //RootNode
+  - first:
+      1: 100148
+    second: Spine
+  - first:
+      1: 100150
+    second: Spine1
+  - first:
+      1: 100152
+    second: M
+  - first:
+      1: 100154
+    second: Ear L
+  - first:
+      1: 100156
+    second: Ear R
+  - first:
+      1: 100158
+    second: Horsito Body
+  - first:
+      1: 100160
+    second: Horsito Eye
+  - first:
+      1: 100162
+    second: Horsito Mane
+  - first:
+      1: 100164
+    second: Horsito Tail
+  - first:
+      1: 100166
+    second: Jaw
+  - first:
+      1: 100168
+    second: L HorseLink
+  - first:
+      1: 100170
+    second: L Toe0
+  - first:
+      1: 100172
+    second: Neck1
+  - first:
+      1: 100174
+    second: Neck2
+  - first:
+      1: 100176
+    second: Pistol 01
+  - first:
+      1: 100178
+    second: Pistol 02
+  - first:
+      1: 100180
+    second: R HorseLink
+  - first:
+      1: 100182
+    second: R_CG
+  - first:
+      1: 100184
+    second: R_Footsteps
+  - first:
+      1: 100186
+    second: R_Head
+  - first:
+      1: 100188
+    second: R_HeadNub
+  - first:
+      1: 100190
+    second: R_L Calf
+  - first:
+      1: 100192
+    second: R_L Clavicle
+  - first:
+      1: 100194
+    second: R_L Finger0
+  - first:
+      1: 100196
+    second: R_L Finger01
+  - first:
+      1: 100198
+    second: R_L Finger02
+  - first:
+      1: 100200
+    second: R_L Finger0Nub
+  - first:
+      1: 100202
+    second: R_L Finger1
+  - first:
+      1: 100204
+    second: R_L Finger11
+  - first:
+      1: 100206
+    second: R_L Finger12
+  - first:
+      1: 100208
+    second: R_L Finger1Nub
+  - first:
+      1: 100210
+    second: R_L Finger2
+  - first:
+      1: 100212
+    second: R_L Finger21
+  - first:
+      1: 100214
+    second: R_L Finger22
+  - first:
+      1: 100216
+    second: R_L Finger2Nub
+  - first:
+      1: 100218
+    second: R_L Finger3
+  - first:
+      1: 100220
+    second: R_L Finger31
+  - first:
+      1: 100222
+    second: R_L Finger32
+  - first:
+      1: 100224
+    second: R_L Finger3Nub
+  - first:
+      1: 100226
+    second: R_L Finger4
+  - first:
+      1: 100228
+    second: R_L Finger41
+  - first:
+      1: 100230
+    second: R_L Finger42
+  - first:
+      1: 100232
+    second: R_L Finger4Nub
+  - first:
+      1: 100234
+    second: R_L Foot
+  - first:
+      1: 100236
+    second: R_L Forearm
+  - first:
+      1: 100238
+    second: R_L Hand
+  - first:
+      1: 100240
+    second: R_L Thigh
+  - first:
+      1: 100242
+    second: R_L Toe0
+  - first:
+      1: 100244
+    second: R_L Toe0Nub
+  - first:
+      1: 100246
+    second: R_L UpperArm
+  - first:
+      1: 100248
+    second: R_Neck
+  - first:
+      1: 100250
+    second: R_Pelvis
+  - first:
+      1: 100252
+    second: R_R Calf
+  - first:
+      1: 100254
+    second: R_R Clavicle
+  - first:
+      1: 100256
+    second: R_R Finger0
+  - first:
+      1: 100258
+    second: R_R Finger01
+  - first:
+      1: 100260
+    second: R_R Finger02
+  - first:
+      1: 100262
+    second: R_R Finger0Nub
+  - first:
+      1: 100264
+    second: R_R Finger1
+  - first:
+      1: 100266
+    second: R_R Finger11
+  - first:
+      1: 100268
+    second: R_R Finger12
+  - first:
+      1: 100270
+    second: R_R Finger1Nub
+  - first:
+      1: 100272
+    second: R_R Finger2
+  - first:
+      1: 100274
+    second: R_R Finger21
+  - first:
+      1: 100276
+    second: R_R Finger22
+  - first:
+      1: 100278
+    second: R_R Finger2Nub
+  - first:
+      1: 100280
+    second: R_R Finger3
+  - first:
+      1: 100282
+    second: R_R Finger31
+  - first:
+      1: 100284
+    second: R_R Finger32
+  - first:
+      1: 100286
+    second: R_R Finger3Nub
+  - first:
+      1: 100288
+    second: R_R Finger4
+  - first:
+      1: 100290
+    second: R_R Finger41
+  - first:
+      1: 100292
+    second: R_R Finger42
+  - first:
+      1: 100294
+    second: R_R Finger4Nub
+  - first:
+      1: 100296
+    second: R_R Foot
+  - first:
+      1: 100298
+    second: R_R Forearm
+  - first:
+      1: 100300
+    second: R_R Hand
+  - first:
+      1: 100302
+    second: R_R Thigh
+  - first:
+      1: 100304
+    second: R_R Toe0
+  - first:
+      1: 100306
+    second: R_R Toe0Nub
+  - first:
+      1: 100308
+    second: R_R UpperArm
+  - first:
+      1: 100310
+    second: R_Spine
+  - first:
+      1: 100312
+    second: R_Spine1
+  - first:
+      1: 100314
+    second: R_Spine2
+  - first:
+      1: 100316
+    second: Reins
+  - first:
+      1: 100318
+    second: Reins Head
+  - first:
+      1: 100320
+    second: Reins_Bn_Hand_L
+  - first:
+      1: 100322
+    second: Reins_Bn_Hand_R
+  - first:
+      1: 100324
+    second: Reins_Bn_Head_L
+  - first:
+      1: 100326
+    second: Reins_Bn_Head_R
+  - first:
+      1: 100328
+    second: Reins_Bn_Neck_L
+  - first:
+      1: 100330
+    second: Reins_Bn_Neck_R
+  - first:
+      1: 100332
+    second: Saddle
+  - first:
+      1: 100334
+    second: Spine2
+  - first:
+      1: 100336
+    second: Tail01
+  - first:
+      1: 100338
+    second: Tail02
+  - first:
+      1: 100340
+    second: Tail03
+  - first:
+      1: 100342
+    second: Tail04
+  - first:
+      1: 100344
+    second: Tail05
+  - first:
+      1: 100346
+    second: Root
+  - first:
+      4: 400000
+    second: Arrow
+  - first:
+      4: 400002
+    second: Bip001 Footsteps
+  - first:
+      4: 400004
+    second: Bip001 HeadNub
+  - first:
+      4: 400006
+    second: Bip001 L Toe0
+  - first:
+      4: 400008
+    second: Bip001 L Toe0Nub
+  - first:
+      4: 400010
+    second: Bip001 R Toe0Nub
+  - first:
+      4: 400012
+    second: Bow
+  - first:
+      4: 400014
+    second: Bow_Bn Knot
+  - first:
+      4: 400016
+    second: Bow_Bn Lower01
+  - first:
+      4: 400018
+    second: Bow_Bn Lower02
+  - first:
+      4: 400020
+    second: Bow_Bn Root
+  - first:
+      4: 400022
+    second: Bow_Bn Upper01
+  - first:
+      4: 400024
+    second: Bow_Bn Upper02
+  - first:
+      4: 400026
+    second: CG
+  - first:
+      4: 400028
+    second: CG L Finger0Nub
+  - first:
+      4: 400030
+    second: CG L Finger1Nub
+  - first:
+      4: 400032
+    second: CG L Finger2Nub
+  - first:
+      4: 400034
+    second: CG L Finger3Nub
+  - first:
+      4: 400036
+    second: CG L Finger4Nub
+  - first:
+      4: 400038
+    second: CG R Finger0Nub
+  - first:
+      4: 400040
+    second: CG R Finger1Nub
+  - first:
+      4: 400042
+    second: CG R Finger2Nub
+  - first:
+      4: 400044
+    second: CG R Finger3Nub
+  - first:
+      4: 400046
+    second: CG R Finger4Nub
+  - first:
+      4: 400048
+    second: CowBoy
+  - first:
+      4: 400050
+    second: Head
+  - first:
+      4: 400052
+    second: L Calf
+  - first:
+      4: 400054
+    second: L Clavicle
+  - first:
+      4: 400056
+    second: L Finger0
+  - first:
+      4: 400058
+    second: L Finger01
+  - first:
+      4: 400060
+    second: L Finger02
+  - first:
+      4: 400062
+    second: L Finger1
+  - first:
+      4: 400064
+    second: L Finger11
+  - first:
+      4: 400066
+    second: L Finger12
+  - first:
+      4: 400068
+    second: L Finger2
+  - first:
+      4: 400070
+    second: L Finger21
+  - first:
+      4: 400072
+    second: L Finger22
+  - first:
+      4: 400074
+    second: L Finger3
+  - first:
+      4: 400076
+    second: L Finger31
+  - first:
+      4: 400078
+    second: L Finger32
+  - first:
+      4: 400080
+    second: L Finger4
+  - first:
+      4: 400082
+    second: L Finger41
+  - first:
+      4: 400084
+    second: L Finger42
+  - first:
+      4: 400086
+    second: L Foot
+  - first:
+      4: 400088
+    second: L Forearm
+  - first:
+      4: 400090
+    second: L Hand
+  - first:
+      4: 400092
+    second: L Thigh
+  - first:
+      4: 400094
+    second: L UpperArm
+  - first:
+      4: 400096
+    second: Neck
+  - first:
+      4: 400098
+    second: Pelvis
+  - first:
+      4: 400100
+    second: R Calf
+  - first:
+      4: 400102
+    second: R Clavicle
+  - first:
+      4: 400104
+    second: R Finger0
+  - first:
+      4: 400106
+    second: R Finger01
+  - first:
+      4: 400108
+    second: R Finger02
+  - first:
+      4: 400110
+    second: R Finger1
+  - first:
+      4: 400112
+    second: R Finger11
+  - first:
+      4: 400114
+    second: R Finger12
+  - first:
+      4: 400116
+    second: R Finger2
+  - first:
+      4: 400118
+    second: R Finger21
+  - first:
+      4: 400120
+    second: R Finger22
+  - first:
+      4: 400122
+    second: R Finger3
+  - first:
+      4: 400124
+    second: R Finger31
+  - first:
+      4: 400126
+    second: R Finger32
+  - first:
+      4: 400128
+    second: R Finger4
+  - first:
+      4: 400130
+    second: R Finger41
+  - first:
+      4: 400132
+    second: R Finger42
+  - first:
+      4: 400134
+    second: R Foot
+  - first:
+      4: 400136
+    second: R Forearm
+  - first:
+      4: 400138
+    second: R Hand
+  - first:
+      4: 400140
+    second: R Thigh
+  - first:
+      4: 400142
+    second: R Toe0
+  - first:
+      4: 400144
+    second: R UpperArm
+  - first:
+      4: 400146
+    second: //RootNode
+  - first:
+      4: 400148
+    second: Spine
+  - first:
+      4: 400150
+    second: Spine1
+  - first:
+      4: 400152
+    second: M
+  - first:
+      4: 400154
+    second: Ear L
+  - first:
+      4: 400156
+    second: Ear R
+  - first:
+      4: 400158
+    second: Horsito Body
+  - first:
+      4: 400160
+    second: Horsito Eye
+  - first:
+      4: 400162
+    second: Horsito Mane
+  - first:
+      4: 400164
+    second: Horsito Tail
+  - first:
+      4: 400166
+    second: Jaw
+  - first:
+      4: 400168
+    second: L HorseLink
+  - first:
+      4: 400170
+    second: L Toe0
+  - first:
+      4: 400172
+    second: Neck1
+  - first:
+      4: 400174
+    second: Neck2
+  - first:
+      4: 400176
+    second: Pistol 01
+  - first:
+      4: 400178
+    second: Pistol 02
+  - first:
+      4: 400180
+    second: R HorseLink
+  - first:
+      4: 400182
+    second: R_CG
+  - first:
+      4: 400184
+    second: R_Footsteps
+  - first:
+      4: 400186
+    second: R_Head
+  - first:
+      4: 400188
+    second: R_HeadNub
+  - first:
+      4: 400190
+    second: R_L Calf
+  - first:
+      4: 400192
+    second: R_L Clavicle
+  - first:
+      4: 400194
+    second: R_L Finger0
+  - first:
+      4: 400196
+    second: R_L Finger01
+  - first:
+      4: 400198
+    second: R_L Finger02
+  - first:
+      4: 400200
+    second: R_L Finger0Nub
+  - first:
+      4: 400202
+    second: R_L Finger1
+  - first:
+      4: 400204
+    second: R_L Finger11
+  - first:
+      4: 400206
+    second: R_L Finger12
+  - first:
+      4: 400208
+    second: R_L Finger1Nub
+  - first:
+      4: 400210
+    second: R_L Finger2
+  - first:
+      4: 400212
+    second: R_L Finger21
+  - first:
+      4: 400214
+    second: R_L Finger22
+  - first:
+      4: 400216
+    second: R_L Finger2Nub
+  - first:
+      4: 400218
+    second: R_L Finger3
+  - first:
+      4: 400220
+    second: R_L Finger31
+  - first:
+      4: 400222
+    second: R_L Finger32
+  - first:
+      4: 400224
+    second: R_L Finger3Nub
+  - first:
+      4: 400226
+    second: R_L Finger4
+  - first:
+      4: 400228
+    second: R_L Finger41
+  - first:
+      4: 400230
+    second: R_L Finger42
+  - first:
+      4: 400232
+    second: R_L Finger4Nub
+  - first:
+      4: 400234
+    second: R_L Foot
+  - first:
+      4: 400236
+    second: R_L Forearm
+  - first:
+      4: 400238
+    second: R_L Hand
+  - first:
+      4: 400240
+    second: R_L Thigh
+  - first:
+      4: 400242
+    second: R_L Toe0
+  - first:
+      4: 400244
+    second: R_L Toe0Nub
+  - first:
+      4: 400246
+    second: R_L UpperArm
+  - first:
+      4: 400248
+    second: R_Neck
+  - first:
+      4: 400250
+    second: R_Pelvis
+  - first:
+      4: 400252
+    second: R_R Calf
+  - first:
+      4: 400254
+    second: R_R Clavicle
+  - first:
+      4: 400256
+    second: R_R Finger0
+  - first:
+      4: 400258
+    second: R_R Finger01
+  - first:
+      4: 400260
+    second: R_R Finger02
+  - first:
+      4: 400262
+    second: R_R Finger0Nub
+  - first:
+      4: 400264
+    second: R_R Finger1
+  - first:
+      4: 400266
+    second: R_R Finger11
+  - first:
+      4: 400268
+    second: R_R Finger12
+  - first:
+      4: 400270
+    second: R_R Finger1Nub
+  - first:
+      4: 400272
+    second: R_R Finger2
+  - first:
+      4: 400274
+    second: R_R Finger21
+  - first:
+      4: 400276
+    second: R_R Finger22
+  - first:
+      4: 400278
+    second: R_R Finger2Nub
+  - first:
+      4: 400280
+    second: R_R Finger3
+  - first:
+      4: 400282
+    second: R_R Finger31
+  - first:
+      4: 400284
+    second: R_R Finger32
+  - first:
+      4: 400286
+    second: R_R Finger3Nub
+  - first:
+      4: 400288
+    second: R_R Finger4
+  - first:
+      4: 400290
+    second: R_R Finger41
+  - first:
+      4: 400292
+    second: R_R Finger42
+  - first:
+      4: 400294
+    second: R_R Finger4Nub
+  - first:
+      4: 400296
+    second: R_R Foot
+  - first:
+      4: 400298
+    second: R_R Forearm
+  - first:
+      4: 400300
+    second: R_R Hand
+  - first:
+      4: 400302
+    second: R_R Thigh
+  - first:
+      4: 400304
+    second: R_R Toe0
+  - first:
+      4: 400306
+    second: R_R Toe0Nub
+  - first:
+      4: 400308
+    second: R_R UpperArm
+  - first:
+      4: 400310
+    second: R_Spine
+  - first:
+      4: 400312
+    second: R_Spine1
+  - first:
+      4: 400314
+    second: R_Spine2
+  - first:
+      4: 400316
+    second: Reins
+  - first:
+      4: 400318
+    second: Reins Head
+  - first:
+      4: 400320
+    second: Reins_Bn_Hand_L
+  - first:
+      4: 400322
+    second: Reins_Bn_Hand_R
+  - first:
+      4: 400324
+    second: Reins_Bn_Head_L
+  - first:
+      4: 400326
+    second: Reins_Bn_Head_R
+  - first:
+      4: 400328
+    second: Reins_Bn_Neck_L
+  - first:
+      4: 400330
+    second: Reins_Bn_Neck_R
+  - first:
+      4: 400332
+    second: Saddle
+  - first:
+      4: 400334
+    second: Spine2
+  - first:
+      4: 400336
+    second: Tail01
+  - first:
+      4: 400338
+    second: Tail02
+  - first:
+      4: 400340
+    second: Tail03
+  - first:
+      4: 400342
+    second: Tail04
+  - first:
+      4: 400344
+    second: Tail05
+  - first:
+      4: 400346
+    second: Root
+  - first:
+      23: 2300000
+    second: Arrow
+  - first:
+      23: 2300002
+    second: Pistol 01
+  - first:
+      23: 2300004
+    second: Pistol 02
+  - first:
+      33: 3300000
+    second: Arrow
+  - first:
+      33: 3300002
+    second: Pistol 01
+  - first:
+      33: 3300004
+    second: Pistol 02
+  - first:
+      43: 4300000
+    second: CowBoy
+  - first:
+      43: 4300002
+    second: Arrow
+  - first:
+      43: 4300004
+    second: Bow
+  - first:
+      43: 4300006
+    second: M
+  - first:
+      43: 4300008
+    second: Pistol 02
+  - first:
+      43: 4300010
+    second: Pistol 01
+  - first:
+      43: 4300012
+    second: Horsito Eye
+  - first:
+      43: 4300014
+    second: Horsito Mane
+  - first:
+      43: 4300016
+    second: Horsito Tail
+  - first:
+      43: 4300018
+    second: Saddle
+  - first:
+      43: 4300020
+    second: Reins Head
+  - first:
+      43: 4300022
+    second: Reins
+  - first:
+      43: 4300024
+    second: Horsito Body
+  - first:
+      74: 7400000
+    second: Bow E
+  - first:
+      74: 7400002
+    second: Bow N
+  - first:
+      74: 7400004
+    second: Bow W
+  - first:
+      74: 7400006
+    second: Bow S
+  - first:
+      74: 7400008
+    second: Bow Prepare E
+  - first:
+      74: 7400010
+    second: Bow Prepare N
+  - first:
+      74: 7400012
+    second: Bow Prepare W
+  - first:
+      74: 7400014
+    second: Bow Prepare S
+  - first:
+      74: 7400016
+    second: Bow Hold E 0
+  - first:
+      74: 7400018
+    second: Bow Hold N 0
+  - first:
+      74: 7400020
+    second: Bow Hold W 0
+  - first:
+      74: 7400022
+    second: Bow Hold S 0
+  - first:
+      74: 7400024
+    second: Bow Hold E 4
+  - first:
+      74: 7400026
+    second: Bow Hold N 4
+  - first:
+      74: 7400028
+    second: Bow Hold W 4
+  - first:
+      74: 7400030
+    second: Bow Hold S 4
+  - first:
+      74: 7400032
+    second: Bow Release E
+  - first:
+      74: 7400034
+    second: Bow Release N
+  - first:
+      74: 7400036
+    second: Bow Release W
+  - first:
+      74: 7400038
+    second: Bow Release S
+  - first:
+      74: 7400040
+    second: Bow Hold E 1
+  - first:
+      74: 7400042
+    second: Bow Hold E 2
+  - first:
+      74: 7400044
+    second: Bow Hold E 3
+  - first:
+      74: 7400046
+    second: Bow Hold N 1
+  - first:
+      74: 7400048
+    second: Bow Hold N 2
+  - first:
+      74: 7400050
+    second: Bow Hold N 3
+  - first:
+      74: 7400052
+    second: Bow Hold W 1
+  - first:
+      74: 7400054
+    second: Bow Hold W 2
+  - first:
+      74: 7400056
+    second: Bow Hold W 3
+  - first:
+      74: 7400058
+    second: Bow Hold S 1
+  - first:
+      74: 7400060
+    second: Bow Hold S 2
+  - first:
+      74: 7400062
+    second: Bow Hold S 3
+  - first:
+      74: 7400064
+    second: Bow Imposible Angle
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Bow
+  - first:
+      137: 13700002
+    second: CowBoy
+  - first:
+      137: 13700004
+    second: M
+  - first:
+      137: 13700006
+    second: Horsito Body
+  - first:
+      137: 13700008
+    second: Horsito Eye
+  - first:
+      137: 13700010
+    second: Horsito Mane
+  - first:
+      137: 13700012
+    second: Horsito Tail
+  - first:
+      137: 13700014
+    second: Reins
+  - first:
+      137: 13700016
+    second: Reins Head
+  - first:
+      137: 13700018
+    second: Saddle
+  - first:
+      74: -2351547610814510673
+    second: Bow Fire
   externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 0
@@ -445,6 +1270,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Prepare E
       takeName: Take 001
+      internalID: 0
       firstFrame: 13
       lastFrame: 40
       wrapMode: 0
@@ -617,6 +1443,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Prepare N
       takeName: Take 001
+      internalID: 0
       firstFrame: 56
       lastFrame: 84
       wrapMode: 0
@@ -789,6 +1616,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Prepare W
       takeName: Take 001
+      internalID: 0
       firstFrame: 101
       lastFrame: 128
       wrapMode: 0
@@ -961,6 +1789,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Prepare S
       takeName: Take 001
+      internalID: 0
       firstFrame: 144
       lastFrame: 172
       wrapMode: 0
@@ -1133,6 +1962,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold E 0
       takeName: Take 001
+      internalID: 0
       firstFrame: 0
       lastFrame: 0.1
       wrapMode: 0
@@ -1305,6 +2135,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold N 0
       takeName: Take 001
+      internalID: 0
       firstFrame: 44
       lastFrame: 44.1
       wrapMode: 0
@@ -1477,6 +2308,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold W 0
       takeName: Take 001
+      internalID: 0
       firstFrame: 88
       lastFrame: 88.1
       wrapMode: 0
@@ -1649,6 +2481,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold S 0
       takeName: Take 001
+      internalID: 0
       firstFrame: 133
       lastFrame: 133.1
       wrapMode: 0
@@ -1821,6 +2654,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold E 4
       takeName: Take 001
+      internalID: 0
       firstFrame: 7
       lastFrame: 7.1
       wrapMode: 0
@@ -1993,6 +2827,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold N 4
       takeName: Take 001
+      internalID: 0
       firstFrame: 51
       lastFrame: 51.1
       wrapMode: 0
@@ -2165,6 +3000,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold W 4
       takeName: Take 001
+      internalID: 0
       firstFrame: 95
       lastFrame: 95.1
       wrapMode: 0
@@ -2337,6 +3173,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold S 4
       takeName: Take 001
+      internalID: 0
       firstFrame: 140
       lastFrame: 140.1
       wrapMode: 0
@@ -2509,6 +3346,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Release E
       takeName: Take 001
+      internalID: 0
       firstFrame: 8
       lastFrame: 39
       wrapMode: 0
@@ -2681,6 +3519,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Release N
       takeName: Take 001
+      internalID: 0
       firstFrame: 52
       lastFrame: 83
       wrapMode: 0
@@ -2853,6 +3692,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Release W
       takeName: Take 001
+      internalID: 0
       firstFrame: 96
       lastFrame: 127
       wrapMode: 0
@@ -3025,6 +3865,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Release S
       takeName: Take 001
+      internalID: 0
       firstFrame: 141
       lastFrame: 172
       wrapMode: 0
@@ -3197,6 +4038,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold E 1
       takeName: Take 001
+      internalID: 0
       firstFrame: 2.5
       lastFrame: 2.55
       wrapMode: 0
@@ -3369,6 +4211,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold E 2
       takeName: Take 001
+      internalID: 0
       firstFrame: 4
       lastFrame: 4.1
       wrapMode: 0
@@ -3541,6 +4384,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold E 3
       takeName: Take 001
+      internalID: 0
       firstFrame: 5.5
       lastFrame: 5.55
       wrapMode: 0
@@ -3713,6 +4557,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold N 1
       takeName: Take 001
+      internalID: 0
       firstFrame: 46.5
       lastFrame: 46.55
       wrapMode: 0
@@ -3885,6 +4730,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold N 2
       takeName: Take 001
+      internalID: 0
       firstFrame: 48
       lastFrame: 48.1
       wrapMode: 0
@@ -4057,6 +4903,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold N 3
       takeName: Take 001
+      internalID: 0
       firstFrame: 49.5
       lastFrame: 49.55
       wrapMode: 0
@@ -4229,6 +5076,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold W 1
       takeName: Take 001
+      internalID: 0
       firstFrame: 90.5
       lastFrame: 90.55
       wrapMode: 0
@@ -4401,6 +5249,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold W 2
       takeName: Take 001
+      internalID: 0
       firstFrame: 92
       lastFrame: 92.1
       wrapMode: 0
@@ -4573,6 +5422,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold W 3
       takeName: Take 001
+      internalID: 0
       firstFrame: 93.5
       lastFrame: 93.55
       wrapMode: 0
@@ -4745,6 +5595,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold S 1
       takeName: Take 001
+      internalID: 0
       firstFrame: 135.5
       lastFrame: 135.6
       wrapMode: 0
@@ -4917,6 +5768,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold S 2
       takeName: Take 001
+      internalID: 0
       firstFrame: 137
       lastFrame: 137.1
       wrapMode: 0
@@ -5089,6 +5941,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Hold S 3
       takeName: Take 001
+      internalID: 0
       firstFrame: 138.5
       lastFrame: 138.55
       wrapMode: 0
@@ -5261,6 +6114,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Bow Imposible Angle
       takeName: Take 001
+      internalID: 0
       firstFrame: 183.9
       lastFrame: 184
       wrapMode: 0
@@ -5430,6 +6284,179 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Bow Fire
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 52
+      lastFrame: 55
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: R_CG
+        weight: 1
+      - path: R_CG/R_Pelvis
+        weight: 1
+      - path: R_CG/R_Pelvis/R_L Thigh
+        weight: 1
+      - path: R_CG/R_Pelvis/R_L Thigh/R_L Calf
+        weight: 1
+      - path: R_CG/R_Pelvis/R_L Thigh/R_L Calf/R_L Foot
+        weight: 1
+      - path: R_CG/R_Pelvis/R_L Thigh/R_L Calf/R_L Foot/R_L Toe0
+        weight: 1
+      - path: R_CG/R_Pelvis/R_R Thigh
+        weight: 1
+      - path: R_CG/R_Pelvis/R_R Thigh/R_R Calf
+        weight: 1
+      - path: R_CG/R_Pelvis/R_R Thigh/R_R Calf/R_R Foot
+        weight: 1
+      - path: R_CG/R_Pelvis/R_R Thigh/R_R Calf/R_R Foot/R_R Toe0
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger0
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger0/R_L Finger01
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger0/R_L Finger01/R_L Finger02
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger1
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger1/R_L Finger11
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger1/R_L Finger11/R_L Finger12
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger2
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger2/R_L Finger21
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger2/R_L Finger21/R_L Finger22
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger3
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger3/R_L Finger31
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger3/R_L Finger31/R_L Finger32
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger4
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger4/R_L Finger41
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_L Clavicle/R_L UpperArm/R_L
+          Forearm/R_L Hand/R_L Finger4/R_L Finger41/R_L Finger42
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_Neck
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_Neck/R_Head
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger0
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger0/R_R Finger01
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger0/R_R Finger01/R_R Finger02
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger1
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger1/R_R Finger11
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger1/R_R Finger11/R_R Finger12
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger2
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger2/R_R Finger21
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger2/R_R Finger21/R_R Finger22
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger3
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger3/R_R Finger31
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger3/R_R Finger31/R_R Finger32
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger4
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger4/R_R Finger41
+        weight: 1
+      - path: R_CG/R_Pelvis/R_Spine/R_Spine1/R_Spine2/R_R Clavicle/R_R UpperArm/R_R
+          Forearm/R_R Hand/R_R Finger4/R_R Finger41/R_R Finger42
+        weight: 1
+      - path: Root
+        weight: 0
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -5437,25 +6464,32 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 0
     importBlendShapes: 0
     importCameras: 0
     importLights: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 0
     keepQuads: 0
     weldVertices: 0
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: 1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 2
@@ -5464,10 +6498,10 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 2
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 1
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human:
     - boneName: R_Pelvis
       humanName: Hips
@@ -6178,14 +7212,18 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 1
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: ad864157c60001248a43a5bce72ae69e,
     type: 3}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 2
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

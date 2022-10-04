@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: Arrow Equiped
   m_EditorClassIdentifier: 
   Description: Current Arrow  Equiped on the Bow
+  debug: 0
   value: {fileID: 1000013609580904, guid: bb8064ee21219ba4b99f8db3e12df536, type: 3}
-  OnValueChanged:
-    m_PersistentCalls:
-      m_Calls: []

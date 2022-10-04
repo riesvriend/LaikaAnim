@@ -16,12 +16,11 @@ namespace MalbersAnimations
     {
         #region Variables
         private ICharacterMove mCharacterMove;
-        public IInputSystem InputSystem;
        
         public InputAxis Horizontal = new InputAxis("Horizontal", true, true);
         public InputAxis Vertical = new InputAxis("Vertical", true, true);
         public InputAxis UpDown = new InputAxis("UpDown", false, true);
-        protected IAIControl AI;  //Referece for AI Input Sources
+     //   protected IAIControl AI;  //Referece for AI Input Sources
 
 
         private float horizontal;        //Horizontal Right & Left   Axis X
@@ -81,32 +80,25 @@ namespace MalbersAnimations
             }
         }
 
-
-
         protected override void OnDisable()
         {
             base.OnDisable();
              mCharacterMove?.Move(Vector3.zero);       //When the Input is Disable make sure the character/animal is not moving.
         }
 
-
-        void Awake()
+        protected override void Initialize()
         {
-            InputSystem = DefaultInput.GetInputSystem(PlayerID);                   //Get Which Input System is being used
-
-            //Update to all the Inputs to the active Input System
-            Horizontal.InputSystem = Vertical.InputSystem = UpDown.InputSystem = InputSystem;
-            foreach (var i in inputs)
-                i.InputSystem = InputSystem;              
-
-            List_to_Dictionary();       //Convert the Inputs to Dic... easier to find
-            InitializeCharacter();
-            MoveCharacter = true;       //Set that the Character can be moved
-             AI = this.FindInterface<IAIControl>();
+            base.Initialize();
+            InitializeCharacter(); 
+            Horizontal.InputSystem = Vertical.InputSystem = UpDown.InputSystem = Input_System;
         }
 
-        protected void InitializeCharacter() => mCharacterMove = GetComponent<ICharacterMove>();
-
+        protected void InitializeCharacter()
+        {
+            mCharacterMove = GetComponent<ICharacterMove>();
+            MoveCharacter = true;       //Set that the Character can be moved
+         //   AI = this.FindInterface<IAIControl>();
+        }
 
         public virtual void UpAxis(bool input)
         {
@@ -128,8 +120,6 @@ namespace MalbersAnimations
 
             m_InputAxis = new Vector3(horizontal, upDown, vertical);
 
-            //Debug.Log("m_InputAxis = " + m_InputAxis);
-
             if (mCharacterMove != null)
             {
                 mCharacterMove.SetInputAxis(MoveCharacter ? m_InputAxis : Vector3.zero);
@@ -144,12 +134,5 @@ namespace MalbersAnimations
 
         public void ResetInputAxis() => m_InputAxis = Vector3.zero;
 
-        /// <summary>Convert the List of Inputs into a Dictionary</summary>
-        void List_to_Dictionary()
-        {
-            DInputs = new Dictionary<string, InputRow>();
-            foreach (var item in inputs)
-                DInputs.Add(item.name, item);
-        }
     } 
 }

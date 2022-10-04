@@ -18,7 +18,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 
     Variable: {fileID: 0}
-  Priority: 6
+  Priority: 7
   General:
     modify: -1
     RootMotion: 1
@@ -26,7 +26,7 @@ MonoBehaviour:
     Gravity: 0
     Grounded: 0
     OrientToGround: 0
-    CustomRotation: 0
+    CustomRotation: 1
     FreeMovement: 0
     AdditivePosition: 1
     AdditiveRotation: 0
@@ -43,11 +43,16 @@ MonoBehaviour:
   SleepFromState: []
   SleepFromMode: []
   QueueFrom: []
+  ResetFrom: []
   SleepFromStance: []
   stances: []
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  Duration:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1
@@ -68,10 +73,11 @@ MonoBehaviour:
     ConstantValue: 0.1
     Variable: {fileID: 0}
   CanStrafe: 0
+  StrafeAnimations: 1
   MovementStrafe: 1
   IdleStrafe: 1
   debug: 1
-  Editor_Tabs1: 0
+  Editor_Tabs1: 3
   ID: {fileID: 11400000, guid: 3fbb696c31f7ed846b7ec9b2f76fd0e5, type: 2}
   LedgeLayer:
     UseConstant: 1
@@ -81,23 +87,25 @@ MonoBehaviour:
     Variable: {fileID: 0}
   automatic:
     UseConstant: 1
-    ConstantValue: 0
+    ConstantValue: 1
     Variable: {fileID: 0}
   Kinematic:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
-  wallDistance: 0.8
+  wallDistance: 0.7
   ForwardLength: 1.5
   WallChecker: 0.15
   AlignSmoothness: 10
   profiles:
   - name: Ledge Grab
     EnterStatus: 0
+    MaxVSpeed: 0
+    ForwardMultiplier: 1
     Height: 1.55
     LedgeExitDistance: 0.65
     ExitTime: 0.9
-    AlingOffset: {x: 0, y: -0.2, z: 0}
+    AlingOffset: {x: 0, y: -1.15}
     Orient: 1
     AdditivePosition: 0
     HeightSpeed: 1

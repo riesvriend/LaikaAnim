@@ -2,6 +2,7 @@
 
 namespace MalbersAnimations.Controller
 {
+    [AddComponentMenu("Malbers/Attack Trigger")]
     public class AttackTriggerBehaviour : StateMachineBehaviour
     {
         [Tooltip("0: Disable All Attack Triggers\n-1: Enable All Attack Triggers\nx: Enable the Attack Trigger by its index")]
@@ -11,14 +12,22 @@ namespace MalbersAnimations.Controller
         [MinMaxRange(0, 1)]
         public RangedFloat AttackActivation = new RangedFloat(0.3f, 0.6f);
 
+        [Tooltip("Damage Multiplier to apply regarding the animation.. (A finisher can cause more Damage)")]
+        public float Multiplier = 1f;
         private bool isOn, isOff;
         private IMDamagerSet[] damagers;
 
 
         override public void OnStateEnter(Animator anim, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (damagers == null) damagers = anim.GetComponents<IMDamagerSet>();
             isOn = isOff = false;                                   //Reset the ON/OFF parameters (to be used on the Range of the animation
+
+            if (damagers == null) damagers = anim.GetComponents<IMDamagerSet>();
+
+            //Let know everybody that an attack trigger animation has started (Needed for the Weapon Manager)
+            if (damagers != null)
+                foreach (var d in damagers)
+                    d.DamagerAnimationStart(stateInfo.fullPathHash);
         }
 
         override public void OnStateUpdate(Animator anim, AnimatorStateInfo state, int layer)
@@ -27,14 +36,16 @@ namespace MalbersAnimations.Controller
 
             if (!isOn && (time >= AttackActivation.minValue))
             {
-                foreach (var d in damagers) d.ActivateDamager(AttackTrigger);
+                foreach (var d in damagers) d.ActivateDamager(AttackTrigger, Multiplier);
                 isOn = true;
             }
 
             if (!isOff && (time >= AttackActivation.maxValue))
             {
-                if (anim.IsInTransition(layer) && anim.GetNextAnimatorStateInfo(layer).fullPathHash == state.fullPathHash) return; //means is transitioning to it self so do not OFF it
-                foreach (var d in damagers) d.ActivateDamager(0);
+                //means is transitioning to it self so do skip sending off the 
+                if (anim.IsInTransition(layer) && anim.GetNextAnimatorStateInfo(layer).fullPathHash == state.fullPathHash) return;
+
+                foreach (var d in damagers) d.ActivateDamager(0, Multiplier);
                 isOff = true;
             }
         }
@@ -44,10 +55,15 @@ namespace MalbersAnimations.Controller
             if (anim.GetCurrentAnimatorStateInfo(layer).fullPathHash == state.fullPathHash) return; //means is transitioning to it self
 
             if (!isOff)
-                foreach (var d in damagers) d.ActivateDamager(0);  //Double check that the Trigger is OFF
+                foreach (var d in damagers) d.ActivateDamager(0, Multiplier);  //Double check that the Trigger is OFF
 
 
             isOn = isOff = false;                                               //Reset the ON/OFF variables
+
+            //Let know everybody that an attack trigger animation has started (Needed for the Weapon Manager)
+            if (damagers != null)
+                foreach (var d in damagers)
+                    d.DamagerAnimationEnd(state.fullPathHash);
         }
     }
 }

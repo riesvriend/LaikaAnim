@@ -14,15 +14,15 @@ namespace MalbersAnimations.Controller.AI
 
         public AlignTo alignTo = AlignTo.TransformHook;
 
-        [FormerlySerializedAs("AlignTarget"),Hide("showTHook",true,false)] 
+        [FormerlySerializedAs("AlignTarget")]
+        [Hide("alignTo", (int)AlignTo.TransformHook)]
+       
         public TransformVar TransformHook;
-        [Hide("showGHook",true,false)]
+        [Hide("alignTo", (int)AlignTo.GameObjectHook)]
+       
         public GameObjectVar GameObjectHook;
         [Tooltip("Align time to rotate towards the Target")]
         public float alignTime = 0.3f;
-
-
-
 
         public override void StartTask(MAnimalBrain brain, int index)
         {
@@ -51,16 +51,6 @@ namespace MalbersAnimations.Controller.AI
             }
 
             brain.TaskDone(index);
-        }
-
-        [HideInInspector] public bool showTHook, showGHook;
-
-        private void OnValidate()
-        {
-            showTHook = showGHook = false;
-            if (alignTo == AlignTo.TransformHook) showTHook = true;
-            if (alignTo == AlignTo.GameObjectHook) showGHook = true;
-
         }
 
         void Reset() { Description = "Makes the Animal do a quick alignment towards an object"; }

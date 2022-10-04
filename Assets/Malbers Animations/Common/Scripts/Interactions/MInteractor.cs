@@ -37,7 +37,7 @@ namespace MalbersAnimations.Utilities
 
         public int ID => m_ID.Value;
 
-        public bool Active { get => !enabled; set => enabled = !value; }
+        public bool Enabled { get => !enabled; set => enabled = !value; }
 
         public GameObject Owner => gameObject;
 
@@ -83,8 +83,9 @@ namespace MalbersAnimations.Utilities
         {
             if (collider.isTrigger && TriggerInteraction == QueryTriggerInteraction.Ignore) return;    //Skip colliders
 
-            var NewInteractables = collider.gameObject.FindInterfaces<IInteractable>().ToList(); //Find all Interactables
+            var NewInteractables = collider.FindInterfaces<IInteractable>(); //Find all Interactables
  
+            if (NewInteractables != null)
             foreach (var item in NewInteractables)
             {
                 if (FocusedInteractables.Contains(item)) continue; //The new interactable its already there
@@ -98,20 +99,19 @@ namespace MalbersAnimations.Utilities
             {
                 var NewInteractabless = collider.FindInterfaces<IInteractable>();
 
-                foreach (var item in NewInteractabless)
-                {
-                    if (item != null && FocusedInteractables.Contains(item)) //means the interactor is exiting
+                if (NewInteractabless != null)
+                    foreach (var item in NewInteractabless)
                     {
-                        UnFocus(item);
+                        if (item != null && FocusedInteractables.Contains(item)) //means the interactor is exiting
+                            UnFocus(item);
                     }
-                }
             }
         }
 
 
-        public void Focus(IInteractable item )
+        public virtual void Focus(IInteractable item )
         {
-            if (item.Active) //Ignore One Disable Interactors
+            if (item != null && item.Active) //Ignore One Disable Interactors
             {
                 item.CurrentInteractor = this;
                 OnFocused.Invoke(item.Owner);
@@ -119,6 +119,16 @@ namespace MalbersAnimations.Utilities
                 FocusedInteractables.Add(item);
                 if (item.Auto) Interact(item); //Interact if the interacter is on Auto
             }
+        }
+
+        public virtual void Focus(Component item)
+        {
+            if (item is IInteractable) Focus(item as IInteractable);
+        }
+
+        public virtual void Focus(GameObject item)
+        {
+            if (item != null) Focus(item.FindInterface<IInteractable>());
         }
 
         public void UnFocus(IInteractable item)
@@ -161,9 +171,17 @@ namespace MalbersAnimations.Utilities
             OnFocused.Invoke(null);
         }
 
-        public void Interact(GameObject interactable) => Interact(interactable?.FindInterface<IInteractable>());
+        public void Interact(GameObject interactable)
+        {
+            if (interactable)
+            Interact(interactable.FindInterface<IInteractable>());
+        }
 
-        public void Interact(Component interactable) => Interact(interactable?.FindInterface<IInteractable>());
+        public void Interact(Component interactable)
+        {
+            if (interactable)
+                Interact(interactable.FindInterface<IInteractable>());
+        }
 
         [SerializeField] private int Editor_Tabs1;
     }

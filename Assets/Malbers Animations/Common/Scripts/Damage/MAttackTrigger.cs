@@ -13,6 +13,7 @@ namespace MalbersAnimations.Controller
 {
     /// <summary>Simple Script to make damage anything with a stat</summary>
     [AddComponentMenu("Malbers/Damage/Attack Trigger")]
+    [SelectionBase]
     public class MAttackTrigger : MDamager
     {
         [RequiredField, Tooltip("Collider used for the Interaction")]
@@ -50,16 +51,22 @@ namespace MalbersAnimations.Controller
 
         private void Awake()
         {
-            this.Delay_Action(1, () => { if (animator) defaultAnimatorSpeed = animator.speed; }); //Delay this so the Animal can change the Animator Speed the first time
+            this.Delay_Action(1, () => { if (animator) defaultAnimatorSpeed = animator.speed; });
+            //Delay this so the Animal can change the Animator Speed the first time
             FindTrigger();
+
+            if (!m_Active.Value) enabled = false;
         }
 
 
         private void FindTrigger()
         {
             if (Owner == null)
+            {
                 Owner = transform.root.gameObject;                         //Set which is the owner of this AttackTrigger
-
+                var core = transform.GetComponentInParent<IObjectCore>();
+                if (core != null) owner = core.transform.gameObject;
+            }
             if (Trigger)
             {
                 Proxy = TriggerProxy.CheckTriggerProxy(Trigger, Layer, TriggerInteraction, Owner.transform); 
@@ -110,7 +117,7 @@ namespace MalbersAnimations.Controller
 
             damagee = other.GetComponentInParent<IMDamage>();                      //Get the Animal on the Other collider
             var center = Trigger.bounds.center;
-            Direction = (center - other.bounds.center).normalized;                      //Calculate the direction of the attack
+            Direction = (other.bounds.center- center ).normalized;                      //Calculate the direction of the attack
 
             TryInteract(other.gameObject);                                              //Get the interactable on the Other collider
             TryPhysics(other.attachedRigidbody, other, center, Direction, Force);       //If the other has a riggid body and it can be pushed
@@ -126,9 +133,13 @@ namespace MalbersAnimations.Controller
             TryDamage(other.GetComponentInParent<IMDamage>(), EnemyStatExit); //if the other does'nt have the Damagable Interface dont send the Damagable stuff
         }
 
-        public override void DoDamage(bool value) => enabled = value;
+        public override void DoDamage(bool value,float multiplier)
+        {
+            base.DoDamage(value,multiplier);
+            enabled = value;
+        }
 
-     
+
 
 
 #if UNITY_EDITOR
@@ -139,66 +150,23 @@ namespace MalbersAnimations.Controller
             if (!Trigger) Trigger = gameObject.AddComponent<BoxCollider>();
             Trigger.isTrigger = true;
             enabled = false;
+            m_Active.Value = false;
         }
 
 
         void OnDrawGizmos()
         {
-            if (Trigger != null)
-                DrawTriggers(transform, Trigger, DebugColor, false);
+            DrawTriggers(transform, Trigger, DebugColor, false);
         }
 
         void OnDrawGizmosSelected()
         {
             if (!Application.isPlaying)
-                if (Trigger != null)
-                    DrawTriggers(transform, Trigger, DebugColor, true);
+                DrawTriggers(transform, Trigger, DebugColor, true);
         }
 
 
-        public static void DrawTriggers(Transform transform, Collider Trigger, Color DebugColor, bool always = false)
-        {
-            Gizmos.color = DebugColor;
-            var DColorFlat = new Color(DebugColor.r, DebugColor.g, DebugColor.b, 1f);
-
-            Gizmos.matrix = transform.localToWorldMatrix;
-
-            if (Trigger != null)
-                if (always || Trigger.enabled)
-                {
-                    var isen = Trigger.enabled;
-                    Trigger.enabled = true;
-
-                    if (Trigger is BoxCollider)
-                    {
-                        BoxCollider _C = Trigger as BoxCollider;
-
-                        var sizeX = transform.lossyScale.x * _C.size.x;
-                        var sizeY = transform.lossyScale.y * _C.size.y;
-                        var sizeZ = transform.lossyScale.z * _C.size.z;
-
-                        Matrix4x4 rotationMatrix = Matrix4x4.TRS(_C.bounds.center, transform.rotation, new Vector3(sizeX, sizeY, sizeZ));
-
-                        Gizmos.matrix = rotationMatrix;
-
-                        Gizmos.DrawCube(Vector3.zero, Vector3.one);
-                        Gizmos.color = DColorFlat;
-                        Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
-
-                    }
-                    else if (Trigger is SphereCollider)
-                    {
-                        SphereCollider _C = Trigger as SphereCollider;
-                        Gizmos.matrix = transform.localToWorldMatrix;
-
-
-                        Gizmos.DrawSphere(Vector3.zero + _C.center, _C.radius);
-                        Gizmos.color = DColorFlat;
-                        Gizmos.DrawWireSphere(Vector3.zero + _C.center, _C.radius);
-                    }
-                    Trigger.enabled = isen;
-                }
-        }
+     
 
         //[ContextMenu("Create Cinemachine Impulse")]
         //void CreateCinemachinePulse()

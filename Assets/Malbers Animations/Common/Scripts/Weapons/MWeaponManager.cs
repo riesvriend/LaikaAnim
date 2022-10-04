@@ -5,25 +5,31 @@ using MalbersAnimations.Weapons;
 using MalbersAnimations.Scriptables;
 using MalbersAnimations.Events;
 using MalbersAnimations.Utilities;
+using MalbersAnimations.Controller;
 
 #if UNITY_EDITOR
 using UnityEditorInternal;
 using UnityEditor;
 #endif
 
-namespace MalbersAnimations.HAP
+namespace MalbersAnimations
 {
+
     /// <summary> Rider Combat Mode</summary>
 
-    [AddComponentMenu("Malbers/Weapons/Weapon Manager")]
+    [AddComponentMenu("Malbers/Weapons/Weapon Manager [AC]")]
 
-    public partial class MWeaponManager : MonoBehaviour, IAnimatorListener, IMAnimator, IMWeaponOwner, IMDamagerSet
+    public partial class MWeaponManager : MonoBehaviour, IAnimatorListener, IMAnimator, IMWeaponOwner, IMDamagerSet, IWeaponManager
     {
+        [HideInInspector] public int Editor_Tabs1;
+        [HideInInspector] public int Editor_Tabs2;
+
+
         public void Debugging(string value, string color = "white")
         {
 #if UNITY_EDITOR
             if (debug)
-                Debug.Log($"<B>[{name}] → <color={color}>{value}</color></B>", this);
+                Debug.Log($"<B>[{name}] → [WeaponM] → <color={color}>{value}</color></B>", this);
 #endif
         }
 
@@ -32,8 +38,6 @@ namespace MalbersAnimations.HAP
         /// Callbacks: all the public functions and methods
         /// Logic: all Combat logic is there, Equip, Unequip, Aim Mode...
         /// Variables: All Variables and Properties
-
-
         #region RESET COMBAT VALUES WHEN THE SCRIPT IS CREATED ON THE EDITOR
 
 #if UNITY_EDITOR
@@ -43,106 +47,132 @@ namespace MalbersAnimations.HAP
             var m_Aim = GetComponent<Aim>();
             if (m_Aim == null) m_Aim = gameObject.AddComponent<Aim>();
 
-            BoolVar RiderCombatMode = MTools.GetInstance<BoolVar>("RC Combat Mode");
 
-            //MEvent RCCombatMode = MTools.GetInstance<MEvent>("RC Combat Mode");
-            MEvent RCEquipedWeapon = MTools.GetInstance<MEvent>("RC Equiped Weapon");
-            MEvent SetCameraSettings = MTools.GetInstance<MEvent>("Set Camera Settings");
+            BoolVar WMCombatMode = MTools.GetInstance<BoolVar>("WM Combat Mode");
+            MEvent WMEquipedWeapon = MTools.GetInstance<MEvent>("WM Equiped Weapon");
+            MEvent SetCameraAimState = MTools.GetInstance<MEvent>("Set Camera AimState");
 
-            if (RiderCombatMode != null) UnityEditor.Events.UnityEventTools.AddPersistentListener(OnCombatMode, RiderCombatMode.SetValue);
-          //  if (RCCombatMode != null) UnityEditor.Events.UnityEventTools.AddPersistentListener(OnCombatMode, RCCombatMode.Invoke);
-            if (RCEquipedWeapon != null) UnityEditor.Events.UnityEventTools.AddPersistentListener(OnEquipWeapon, RCEquipedWeapon.Invoke);
+            if (WMCombatMode != null) UnityEditor.Events.UnityEventTools.AddPersistentListener(OnCombatMode, WMCombatMode.SetValue);
+            if (WMEquipedWeapon != null) UnityEditor.Events.UnityEventTools.AddPersistentListener(OnEquipWeapon, WMEquipedWeapon.Invoke);
 
-            if (SetCameraSettings != null)
+            if (SetCameraAimState != null)
+                UnityEditor.Events.UnityEventTools.AddPersistentListener(m_Aim.OnAimSide, SetCameraAimState.Invoke);
+
+
+            //AC Weapons
+            animal = this.FindComponent<MAnimal>();
+            comboManager = this.FindComponent<ComboManager>();
+            DrawWeaponModeID = MTools.GetInstance<ModeID>("Weapon Draw");
+            StoreWeaponModeID = MTools.GetInstance<ModeID>("Weapon Store");
+            UnarmedModeID = MTools.GetInstance<ModeID>("Attack1");
+
+            var DefaultHolster = MTools.GetInstance<HolsterID>("Left Holster");
+
+            holsters = new List<Holster>() { new Holster() { ID = DefaultHolster, Slots = new List<Transform>(1) { transform } } };
+
+
+
+            Animator Anim = GetComponent<Animator>();
+
+            if (Anim && Anim.avatar.isHuman)
             {
-                UnityEditor.Events.UnityEventTools.AddPersistentListener(m_Aim.OnAimSide, SetCameraSettings.Invoke);
+                LeftHandEquipPoint = Anim.GetBoneTransform(HumanBodyBones.LeftHand);
+                RightHandEquipPoint = Anim.GetBoneTransform(HumanBodyBones.RightHand);
             }
         }
 
-        [ContextMenu("Create Combat Inputs", false, 1)]
-        void ConnectToInput()
+
+        [ContextMenu("Create Weapon Inputs")]
+        void CreateInputs()
         {
             MInput input = GetComponent<MInput>();
-            
-            if (input == null)
-            { input = gameObject.AddComponent<MInput>(); }
+            if (input == null) { input = gameObject.AddComponent<MInput>(); }
 
-            BoolVar RiderCombatMode = MTools.GetInstance<BoolVar>("RC Combat Mode");
 
-            BoolVar RCWeaponInput = MTools.GetInstance<BoolVar>("RC Weapon Input");
-           
+            Debug.Log("input = " + input.ActiveMap.name);
 
-            #region AIM INPUT       
-
-            var AIM = input.FindInput("Aim");
-            if (AIM == null)
-            {
-                AIM = new InputRow("Aim", "Aim", KeyCode.Mouse1, InputButton.Press, InputType.Key);
-                input.inputs.Add(AIM);
-
-                AIM.active.Variable = RiderCombatMode;
-                AIM.active.UseConstant = false;
-
-                UnityEditor.Events.UnityEventTools.AddPersistentListener(AIM.OnInputChanged, Aim_Set);
-                Debug.Log("<B>Aim</B> Input created and connected to RiderCombat.SetAim()");
-            }
-            #endregion
-
-            #region RiderAttack1 INPUT
-            var RCA1 = input.FindInput("RiderAttack1");
+            var RCA1 = input.FindInput("MainAttack");
             if (RCA1 == null)
             {
-                RCA1 = new InputRow("RiderAttack1", "RiderAttack1", KeyCode.Mouse0, InputButton.Press, InputType.Key);
-                input.inputs.Add(RCA1);
-
-                RCA1.active.Variable = RiderCombatMode;
-                RCA1.active.UseConstant = false;
-
-                UnityEditor.Events.UnityEventTools.AddPersistentListener(RCA1.OnInputDown, MainAttack);
-                UnityEditor.Events.UnityEventTools.AddPersistentListener(RCA1.OnInputUp, MainAttackReleased);
-
-                Debug.Log("<B>RiderAttack1</B> Input created and connected to RiderCombat.MainAttack() and RiderCombat.MainAttackReleased()");
+                RCA1 = new InputRow("MainAttack", "MainAttack", KeyCode.Mouse0, InputButton.Press, InputType.Key);
+                input.ActiveMap.inputs.Add(RCA1);
+                Debug.Log("<B>WeaponAttack1</B> Input created");
             }
-            #endregion
 
-            #region RiderAttack2 INPUT
-            var RCA2 = input.FindInput("RiderAttack2");
-            if (RCA2 == null)
+            RCA1 = input.FindInput("SecondAttack");
+            if (RCA1 == null)
             {
-                RCA2 = new InputRow("RiderAttack2", "RiderAttack2", KeyCode.Mouse1, InputButton.Press, InputType.Key);
-                input.inputs.Add(RCA2);
-
-                RCA2.active.Variable = RiderCombatMode;
-                RCA2.active.UseConstant = false;
-
-                UnityEditor.Events.UnityEventTools.AddPersistentListener(RCA2.OnInputDown, SecondAttack);
-                UnityEditor.Events.UnityEventTools.AddPersistentListener(RCA2.OnInputUp, SecondAttackReleased);
-
-                Debug.Log("<B>RiderAttack2</B> Input created and connected to RiderCombat.SecondAttack() and RiderCombat.SecondAttackReleased() ");
+                RCA1 = new InputRow("SecondAttack", "SecondAttack", KeyCode.Mouse1, InputButton.Press, InputType.Key);
+                input.ActiveMap.inputs.Add(RCA1);
+                Debug.Log("<B>SecondAttack</B> Input created");
             }
-            #endregion
 
-            #region Reload INPUT
             var Reload = input.FindInput("Reload");
             if (Reload == null)
             {
                 Reload = new InputRow("Reload", "Reload", KeyCode.R, InputButton.Down, InputType.Key);
-                input.inputs.Add(Reload);
+                input.ActiveMap.inputs.Add(Reload);
+                Debug.Log("<B>Reload</B> Input created");
+            }
 
-                Reload.active.Variable = RiderCombatMode;
-                Reload.active.UseConstant = false;
+            var Aim = input.FindInput("Aim");
+            if (Aim == null)
+            {
+                Aim = new InputRow("Aim", "Aim", KeyCode.Mouse1, InputButton.Press, InputType.Key);
+                input.ActiveMap.inputs.Add(Aim);
+                Debug.Log("<B>Aim</B> Input created");
+            }
 
-                UnityEditor.Events.UnityEventTools.AddPersistentListener(Reload.OnInputDown, ReloadWeapon);
+            EditorUtility.SetDirty(input);
+        }
 
-                Debug.Log("<B>Reload</B> Input created and connected to RiderCombat.ReloadWeapon() ");
+        [ContextMenu("Create Holsters Inputs")]
+
+        void ConnectDefaultHolsters()
+        {
+            MInput input = GetComponent<MInput>();
+            if (input == null) { input = gameObject.AddComponent<MInput>(); }
+
+            #region Holster Left
+            var Holster_ = input.FindInput("HolsterLeft");
+            if (Holster_ == null)
+            {
+                Holster_ = new InputRow("HolsterLeft", "HolsterLeft", KeyCode.Alpha4, InputButton.Down, InputType.Key);
+                input.inputs.Add(Holster_);
+
+                Debug.Log("<B>Holster Left</B> Input created");
+
+            }
+            #endregion
+
+            #region Holster Right
+            Holster_ = input.FindInput("HolsterRight");
+            if (Holster_ == null)
+            {
+                Holster_ = new InputRow("HolsterRight", "HolsterRight", KeyCode.Alpha5, InputButton.Down, InputType.Key);
+                input.inputs.Add(Holster_);
+
+                Debug.Log("<B>Holster Right</B> Input created");
+            }
+            #endregion
+
+            #region Holster Back
+            Holster_ = input.FindInput("HolsterBack");
+            if (Holster_ == null)
+            {
+                Holster_ = new InputRow("HolsterBack", "HolsterBack", KeyCode.Alpha6, InputButton.Down, InputType.Key);
+                input.inputs.Add(Holster_);
+
+                Debug.Log("<B>Holster Back</B> Input created");
             }
             #endregion
 
             EditorUtility.SetDirty(input);
-        } 
+
+        }
 
 
-        [ContextMenu("Create Event Listeners", false, 2)]
+        [ContextMenu("Create Event Listeners")]
         void CreateEventListeners()
         {
             MEvent RCSetAim = MTools.GetInstance<MEvent>("RC Set Aim");
@@ -186,62 +216,14 @@ namespace MalbersAnimations.HAP
 
                 Debug.Log("<B>RC MainAttack</B> Added to the Event Listeners");
             }
-
-            //*******************//
-            if (listener.Events.Find(item => item.Event == RCSecondaryAttack) == null)
-            {
-                var item = new MEventItemListener()
-                {
-                    Event = RCSecondaryAttack,
-                    useVoid = false,
-                    useBool = true
-                };
-
-                UnityEditor.Events.UnityEventTools.AddPersistentListener(item.ResponseBool, SecondAttack);
-                listener.Events.Add(item);
-
-                Debug.Log("<B>RC SecondaryAttack</B> Added to the Event Listeners");
-
-
-                EditorUtility.SetDirty(listener);
-            }
-        }
-
-
-        [ContextMenu("Create Weapons on Holsters")]
-        void InstantiateWeaponsHolsters()
-        {
-            foreach (var h in holsters)
-            {
-                if (h.Weapon != null && h.Weapon.gameObject.IsPrefab())
-                {
-                    h.Weapon = GameObject.Instantiate(h.Weapon, h.Transform);
-                    h.Weapon.name = h.Weapon.name.Replace("(Clone)", "");
-                    h.Weapon.transform.SetLocalTransform(h.Weapon.HolsterOffset);
-                }
-            }
-
-            UnityEditor.EditorUtility.SetDirty(this);
-        }
-
-
-        [ContextMenu("Find Holster Weapons")]
-        internal void ValidateWeaponsChilds()
-        {
-            foreach (var h in holsters)
-            {
-                if (h.Weapon == null && h.Transform != null && h.Transform.childCount > 0)
-                {
-                    h.Weapon = (h.Transform.GetChild(0).GetComponent<MWeapon>()); ;
-                }
-            }
-
-            InstantiateWeaponsHolsters();
         }
 
 #endif
         #endregion
     }
+
+
+
 
     #region Inspector
 
@@ -249,22 +231,39 @@ namespace MalbersAnimations.HAP
     [CustomEditor(typeof(MWeaponManager))]
     public class MWeaponManagerEditor : Editor
     {
-        public static GUIStyle StyleBlue => MTools.Style(new Color(0, 0.5f, 1f, 0.3f));
-        public static GUIStyle StyleGreen => MTools.Style(new Color(0f, 1f, 0.5f, 0.3f));
+        GUIStyle StyleGreen => MTools.Style(new Color(0f, 1f, 0.5f, 0.3f));
 
         MWeaponManager M;
 
         private SerializedProperty
-             debug, LeftHandEquipPoint, RightHandEquipPoint, UseDefaultIK, UseWeaponsOnlyWhileRiding, DisableAim,
-            OnEquipWeapon, OnUnequipWeapon, OnCombatMode, OnWeaponAction, CombatLayerPath, CombatLayerName, OnMainAttackStart,
-         StrafeOnTarget,  holsters, UseInventory, UseHolsters, DefaultHolster, HolsterTime,AlreadyInstantiated, StoreAfter,
-          Editor_Tabs1, Editor_Tabs2, m_WeaponAim, m_WeaponType, m_WeaponHand, m_WeaponHold, m_WeaponAction;//, ExitCombatOnDismount;
+            debug, LeftHandEquipPoint, RightHandEquipPoint,/* UseDefaultIK,*/
+            Anim,
+            OnEquipWeapon, OnUnequipWeapon, OnCombatMode, OnCanAim, OnWeaponAction,
+            m_CombatLayerPath, m_CombatLayerName,
+           // OnMainAttackStart,
+
+            DisableModes, ExitOnModes, ExitOnState, ExitFast,// IKLerp,
+
+            holsters, UseExternal, UseHolsters,
+            HolsterTime, DestroyOnUnequip, InstantiateOnEquip,
+            StoreAfter, start_weapon, m_IgnoreDraw, aim, m_IgnoreStore,
+
+            animal, comboManager, DrawWeapon, StoreWeapon, UnarmedMode, IgnoreHandOffset,
+
+            m_AimInput, m_ReloadInput, m_MainAttack, m_SecondAttack,  // m_SpecialAttack,
+
+          Editor_Tabs1, Editor_Tabs2, m_WeaponType, m_LeftHand, m_IKFreeHand, m_IKAim,  //m_WeaponPower, ExitCombatOnDismount;
+
+            m_ModeOn, m_Mode, m_WeaponPower
+        ;
 
         private ReorderableList holsterReordable;
 
         private void OnEnable()
         {
             M = (MWeaponManager)target;
+
+            // StyleGreen = 
 
             FindProperties();
 
@@ -275,69 +274,55 @@ namespace MalbersAnimations.HAP
             };
 
         }
-
-        private void DrawHolsterHeader(Rect rect)
-        {
-            var IDRect = new Rect(rect);
-            IDRect.height = EditorGUIUtility.singleLineHeight;
-            IDRect.width *= 0.5f;
-            IDRect.x += 18;
-            EditorGUI.LabelField(IDRect, "   Holster ID");
-            IDRect.x += IDRect.width - 10;
-            IDRect.width -= 18;
-            EditorGUI.LabelField(IDRect, "   Holster Transform ");
-
-            var buttonRect = new Rect(rect) { x = rect.width - 30, width = 63, y = rect.y - 1};
-            var oldColor = GUI.backgroundColor;
-            GUI.backgroundColor = new Color(.8f, .8f, 1f, 1f);
-           
-            if (GUI.Button(buttonRect, new GUIContent("Weapon", "Check for Weapons on the Holsters.\nIf the weapons are prefab it will instantiate them on the scene"), EditorStyles.miniButton))
-            {
-                M.ValidateWeaponsChilds();
-                EditorUtility.SetDirty(target);
-            }
-
-
-            GUI.backgroundColor = oldColor;
-        }
-
-        private void DrawHolsterElement(Rect rect, int index, bool isActive, bool isFocused)
-        {
-            rect.y += 2;
-
-            var holster = holsters.GetArrayElementAtIndex(index);
-
-            var ID = holster.FindPropertyRelative("ID");
-            var t = holster.FindPropertyRelative("Transform");
-
-            var IDRect = new Rect(rect);
-            IDRect.height = EditorGUIUtility.singleLineHeight;
-            IDRect.width *= 0.5f;
-            IDRect.x += 18;
-            EditorGUI.PropertyField(IDRect, ID, GUIContent.none);
-            IDRect.x += IDRect.width;
-            IDRect.width -= 18;
-            EditorGUI.PropertyField(IDRect, t, GUIContent.none);
-        }
-
         private void FindProperties()
         {
-            UseDefaultIK = serializedObject.FindProperty("UseDefaultIK");
+            animal = serializedObject.FindProperty("animal");
+
+
+            m_AimInput = serializedObject.FindProperty("m_AimInput");
+            m_ReloadInput = serializedObject.FindProperty("m_ReloadInput");
+            m_MainAttack = serializedObject.FindProperty("m_MainAttack");
+            m_SecondAttack = serializedObject.FindProperty("m_SecondAttack");
+            //m_SpecialAttack = serializedObject.FindProperty("m_SpecialAttack");
+
+             
+
+            DisableModes = serializedObject.FindProperty("DisableModes");
+            ExitOnState = serializedObject.FindProperty("ExitOnState");
+            ExitOnModes = serializedObject.FindProperty("ExitOnModes");
+            ExitFast = serializedObject.FindProperty("ExitFast");
+
+            Anim = serializedObject.FindProperty("anim");
+
+            start_weapon = serializedObject.FindProperty("startWeapon");
+            aim = serializedObject.FindProperty("aim");
+
+            IgnoreHandOffset = serializedObject.FindProperty("IgnoreHandOffset");
+            comboManager = serializedObject.FindProperty("comboManager");
+            DrawWeapon = serializedObject.FindProperty("DrawWeaponModeID");
+            StoreWeapon = serializedObject.FindProperty("StoreWeaponModeID");
+            UnarmedMode = serializedObject.FindProperty("UnarmedModeID");
+
+            // UseDefaultIK = serializedObject.FindProperty("UseDefaultIK");
             StoreAfter = serializedObject.FindProperty("StoreAfter");
-            DisableAim = serializedObject.FindProperty("DisableAim");
+            m_IgnoreDraw = serializedObject.FindProperty("m_IgnoreDraw");
+            m_IgnoreStore = serializedObject.FindProperty("m_IgnoreStore");
+           // DisableAim = serializedObject.FindProperty("DisableAim");
 
-            m_WeaponAim = serializedObject.FindProperty("m_WeaponAim");
+
+            #region Animator Parameters
             m_WeaponType = serializedObject.FindProperty("m_WeaponType");
-            m_WeaponHold = serializedObject.FindProperty("m_WeaponCharge");
-            m_WeaponAction = serializedObject.FindProperty("m_WeaponAction");
-
-            m_WeaponHand = serializedObject.FindProperty("m_WeaponHand");
-            UseWeaponsOnlyWhileRiding = serializedObject.FindProperty("UseWeaponsOnlyWhileRiding");
-
+            m_LeftHand = serializedObject.FindProperty("m_LeftHand");
+            m_IKFreeHand = serializedObject.FindProperty("m_IKFreeHand");
+            m_IKAim = serializedObject.FindProperty("m_IKAim");
+            m_ModeOn = serializedObject.FindProperty("m_ModeOn");
+            m_Mode = serializedObject.FindProperty("m_Mode");
+            m_WeaponPower = serializedObject.FindProperty("m_WeaponPower");
+            #endregion
 
 
             holsters = serializedObject.FindProperty("holsters");
-            DefaultHolster = serializedObject.FindProperty("DefaultHolster");
+            //  DefaultHolster = serializedObject.FindProperty("DefaultHolster");
             HolsterTime = serializedObject.FindProperty("HolsterTime");
 
 
@@ -353,82 +338,518 @@ namespace MalbersAnimations.HAP
             RightHandEquipPoint = serializedObject.FindProperty("RightHandEquipPoint");
 
             OnCombatMode = serializedObject.FindProperty("OnCombatMode");
+            OnCanAim = serializedObject.FindProperty("OnCanAim");
             OnEquipWeapon = serializedObject.FindProperty("OnEquipWeapon");
             OnUnequipWeapon = serializedObject.FindProperty("OnUnequipWeapon");
             OnWeaponAction = serializedObject.FindProperty("OnWeaponAction");
-            OnMainAttackStart = serializedObject.FindProperty("OnMainAttackStart");
-   
+            //   OnMainAttackStart = serializedObject.FindProperty("OnMainAttackStart");
 
-            //OnTarget = serializedObject.FindProperty("OnTarget");
-            CombatLayerPath = serializedObject.FindProperty("CombatLayerPath");
-            CombatLayerName = serializedObject.FindProperty("CombatLayerName");
-            StrafeOnTarget = serializedObject.FindProperty("StrafeOnTarget");
-          //  defaultHolster = serializedObject.FindProperty("DefaultHolster");
 
-           
-            UseInventory = serializedObject.FindProperty("UseInventory");
+            m_CombatLayerName = serializedObject.FindProperty("m_CombatLayerName");
+            m_CombatLayerPath = serializedObject.FindProperty("m_CombatLayerPath");
+
+
+
+
+            UseExternal = serializedObject.FindProperty("UseExternal");
             UseHolsters = serializedObject.FindProperty("UseHolsters");
-            AlreadyInstantiated = serializedObject.FindProperty("AlreadyInstantiated");
-          
+
+
+            DestroyOnUnequip = serializedObject.FindProperty("DestroyOnUnequip");
+            InstantiateOnEquip = serializedObject.FindProperty("InstantiateOnEquip");
+
 
             debug = serializedObject.FindProperty("debug");
         }
+
+        private void DrawHolsterHeader(Rect rect)
+        {
+            var IDRect = new Rect(rect);
+            IDRect.height = EditorGUIUtility.singleLineHeight;
+            IDRect.width *= 0.5f;
+            IDRect.x += 18;
+            EditorGUI.LabelField(IDRect, "   Holster ID");
+            IDRect.x += IDRect.width - 10;
+            IDRect.width -= 18;
+            EditorGUI.LabelField(IDRect, "   Weapon ");
+
+            //var buttonRect = new Rect(rect) { x = rect.width - 30, width = 63, y = rect.y - 1 };
+            //var oldColor = GUI.backgroundColor;
+            //GUI.backgroundColor = new Color(.8f, .8f, 1f, 1f);
+
+            //if (GUI.Button(buttonRect, new GUIContent("Weapon", "Check for Weapons on the Holsters.\nIf the weapons are prefab it will instantiate them on the scene"), EditorStyles.miniButton))
+            //{
+            //    M.ValidateWeaponsChilds();
+            //    EditorUtility.SetDirty(target);
+            //}
+
+
+            //GUI.backgroundColor = oldColor;
+        }
+
+        private void DrawHolsterElement(Rect rect, int index, bool isActive, bool isFocused)
+        {
+            rect.y += 2;
+
+            var holster = holsters.GetArrayElementAtIndex(index);
+
+            var ID = holster.FindPropertyRelative("ID");
+            //  var t = holster.FindPropertyRelative("Transform");
+            var Weapon = holster.FindPropertyRelative("Weapon");
+
+
+
+            var IDRect = new Rect(rect)
+            {
+                height = EditorGUIUtility.singleLineHeight
+            };
+            IDRect.width *= 0.5f;
+            IDRect.x += 18;
+            IDRect.width -= 10;
+            EditorGUI.PropertyField(IDRect, ID, GUIContent.none);
+
+
+
+
+
+            var pre = "";
+            var tooltip = "";
+            var oldColor = GUI.backgroundColor;
+            var newColor = oldColor;
+
+            var weaponObj = Weapon.objectReferenceValue as Component;
+            if (weaponObj && weaponObj.gameObject != null)
+            {
+                if (weaponObj.gameObject.IsPrefab())
+                {
+                    newColor = Color.green;
+                    pre = "[P]";
+                    tooltip = "The Weapon is a Prefab. It will be instantiated on start";
+                }
+                else
+                {
+                    pre = "[S]";
+                    tooltip = "The Weapon is in the scene";
+                }
+            }
+
+
+            IDRect.x += IDRect.width + 10;
+            IDRect.width -= 25;
+
+
+            GUI.backgroundColor = newColor;
+            EditorGUI.PropertyField(IDRect, Weapon, GUIContent.none);
+            GUI.backgroundColor = oldColor;
+
+            var lbRect = new Rect(rect)
+            {
+                height = EditorGUIUtility.singleLineHeight,
+                width = 20,
+                x = rect.width + 25,
+            };
+
+            EditorGUI.LabelField(lbRect, new GUIContent(pre, tooltip));
+        }
+
 
         /// <summary> Draws all of the fields for the selected ability. </summary>
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            MalbersEditor.DrawDescription("System for using weapons while Riding");
+            MalbersEditor.DrawDescription("System for using weapons while a character is grounded & riding");
 
-            if (!Application.isPlaying)
-                AddLayer();
+            //if (!Application.isPlaying)
+            //    AddLayer();
 
- 
-
-            EditorGUI.BeginChangeCheck();
+            if (helpboxStyle == null)
             {
-                EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+                helpboxStyle = new GUIStyle(MTools.StyleGray)
                 {
-
-                    Editor_Tabs1.intValue = GUILayout.Toolbar(Editor_Tabs1.intValue, new string[] { "General", "Holsters/Inv", "Events"/*,"References" */ });
-
-                    if (Editor_Tabs1.intValue != 4) Editor_Tabs2.intValue = 4;
-
-                    Editor_Tabs2.intValue = GUILayout.Toolbar(Editor_Tabs2.intValue, new string[] { "Advanced", "Animator", "Debug" });
-
-                    if (Editor_Tabs2.intValue != 4) Editor_Tabs1.intValue = 4;
-
-                    //First Tabs
-                    int Selection = Editor_Tabs1.intValue;
-
-                    if (Selection == 0) DrawGeneral();
-                    else if (Selection == 1) ShowHolsters();
-                    else if (Selection == 2) DrawEvents();
-
-
-                    //2nd Tabs
-                    Selection = Editor_Tabs2.intValue;
-
-                    if (Selection == 0) DrawAdvanced();
-                    else if (Selection == 1) DrawAnimator();
-                    else if (Selection == 2) DrawDebug();
-
-                  
-                }
-                EditorGUILayout.EndVertical();
-            }
-            if (EditorGUI.EndChangeCheck())
-            {
-                Undo.RecordObject(target, "Rider Combat Change");
-                //EditorUtility.SetDirty(target);
+                    fontSize = 12,
+                    fontStyle = FontStyle.Bold,
+                    alignment = TextAnchor.MiddleLeft,
+                    stretchWidth = true
+                };
+                helpboxStyle.normal.textColor = EditorStyles.boldLabel.normal.textColor;
             }
 
+
+            var Hols = "Holsters";
+
+            if (!M.UseHolsters) Hols = "External";
+
+            Editor_Tabs1.intValue = GUILayout.Toolbar(Editor_Tabs1.intValue, new string[] { "General", Hols, "AC", "Events" });
+
+            if (Editor_Tabs1.intValue != 5) Editor_Tabs2.intValue = 5;
+
+            Editor_Tabs2.intValue = GUILayout.Toolbar(Editor_Tabs2.intValue, new string[] { "Inputs", "Advanced", "Animator", "Debug" });
+
+            if (Editor_Tabs2.intValue != 5) Editor_Tabs1.intValue = 5;
+
+            //First Tabs
+            int Selection = Editor_Tabs1.intValue;
+
+            if (Selection == 0) DrawGeneral();
+            else if (Selection == 1) ShowHolsters();
+            else if (Selection == 2) DrawAC();
+            else if (Selection == 3) DrawEvents();
+
+
+            //2nd Tabs
+            Selection = Editor_Tabs2.intValue;
+
+            if (Selection == 0) DrawInputs();
+            else if (Selection == 1) DrawAdvanced();
+            else if (Selection == 2) DrawAnimator();
+            else if (Selection == 3) DrawDebug();
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void AddLayer()
+        private void DrawInputs()
+        {
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                EditorGUILayout.PropertyField(m_AimInput);
+                EditorGUILayout.PropertyField(m_ReloadInput);
+                EditorGUILayout.PropertyField(m_MainAttack);
+                EditorGUILayout.PropertyField(m_SecondAttack);
+            }
+
+            if (M.UseHolsters)
+            {
+                using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                {
+                    for (int i = 0; i < holsters.arraySize; i++)
+                    {
+                        var element = holsters.GetArrayElementAtIndex(i);
+                        var input = element.FindPropertyRelative("Input");
+                        EditorGUILayout.PropertyField(input, new GUIContent($"Holster [{i}] Input"));
+                    }
+                }
+            }
+
+        }
+
+        private void DrawAC()
+        {
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                EditorGUILayout.PropertyField(animal);
+
+                if (animal.objectReferenceValue != null)
+                {
+                    EditorGUILayout.PropertyField(DrawWeapon, new GUIContent("Mode [Draw Weapon]"));
+                    EditorGUILayout.PropertyField(StoreWeapon, new GUIContent("Mode [Store Weapon]"));
+                    EditorGUILayout.PropertyField(UnarmedMode, new GUIContent("Mode [Unarmed]"));
+
+                    EditorGUILayout.Space();
+
+                    EditorGUILayout.PropertyField(comboManager);
+                    EditorGUILayout.Space();
+
+                    EditorGUI.indentLevel++;
+                    EditorGUILayout.PropertyField(DisableModes);
+                    EditorGUI.indentLevel--;
+
+                    EditorGUI.indentLevel++;
+                    EditorGUILayout.PropertyField(ExitOnState);
+                    EditorGUI.indentLevel--; 
+                    
+                    EditorGUI.indentLevel++;
+                    EditorGUILayout.PropertyField(ExitOnModes);
+                    EditorGUI.indentLevel--;
+
+                    EditorGUILayout.PropertyField(ExitFast);
+                }
+            }
+        }
+
+        private void DrawAnimator()
+        {
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                EditorGUILayout.PropertyField(Anim);
+                EditorGUILayout.LabelField("Animator Parameters", EditorStyles.boldLabel);
+                //     DisplayParam(m_WeaponAction, UnityEngine.AnimatorControllerParameterType.Int);
+                MalbersEditor.DisplayParam(M.Anim, m_WeaponType, UnityEngine.AnimatorControllerParameterType.Int);
+                MalbersEditor.DisplayParam(M.Anim, m_LeftHand, UnityEngine.AnimatorControllerParameterType.Bool);
+                MalbersEditor.DisplayParam(M.Anim, m_IKFreeHand, UnityEngine.AnimatorControllerParameterType.Float);
+                MalbersEditor.DisplayParam(M.Anim, m_IKAim, UnityEngine.AnimatorControllerParameterType.Float);
+
+                if (M.animal == null)
+                {
+                    MalbersEditor.DisplayParam(M.Anim, m_ModeOn, UnityEngine.AnimatorControllerParameterType.Trigger);
+                    MalbersEditor.DisplayParam(M.Anim, m_Mode, UnityEngine.AnimatorControllerParameterType.Int);
+                    MalbersEditor.DisplayParam(M.Anim, m_WeaponPower, UnityEngine.AnimatorControllerParameterType.Float);
+                }
+            }
+
+
+            EditorGUILayout.LabelField("Weapon Action Values:" +
+              "\nNone = 0" +
+              "\nIdle = 100" +
+              "\nAim = 97" +
+              "\nAttack = 101" +
+              "\nReload = 96" +
+              //"\nCharge_Hold = 95" +
+              "\nDraw = 99" +
+              "\nStore = 98", helpboxStyle);
+        }
+        private GUIStyle helpboxStyle;
+
+        private void DrawDebug()
+        {
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                EditorGUILayout.PropertyField(debug, new GUIContent("Debug", ""));
+
+                if (Application.isPlaying)
+                {
+                    Repaint();
+                    EditorGUI.BeginDisabledGroup(true);
+
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+                        if (M.HasAnimal) EditorGUILayout.Toggle("Preparing Mode", M.animal.IsPreparingMode);
+                        EditorGUILayout.Toggle("Is In Combat mode", M.CombatMode);
+                        EditorGUILayout.Toggle("Is Riding: ", M.IsRiding);
+                    }
+
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+                        EditorGUILayout.Toggle("Is Aiming", M.Aim);
+                        if (M.Aimer != null) EditorGUILayout.Toggle("Aiming Side", M.AimingSide);
+                    }
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+                        EditorGUILayout.FloatField("IK Aim", M.IKAimWeight);
+                        EditorGUILayout.FloatField("IK 2Hands", M.IK2HandsWeight);
+                    }
+
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+                        EditorGUILayout.EnumPopup("Weapon Action: ", M.WeaponAction);
+                        EditorGUILayout.IntField("Anim Action: ", M.WeaponAnimAction);
+                    }
+
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+                        EditorGUILayout.ObjectField("Active Weapon:  ", M.Weapon, typeof(MWeapon), false);
+
+                        if (M.Weapon)
+                        {
+                            EditorGUILayout.ObjectField("Active Holster:  ", M.ActiveHolster?.ID, typeof(HolsterID), false);
+                            EditorGUILayout.ObjectField("Weapon.Type:  ", M.Weapon?.WeaponType, typeof(WeaponID), false);
+                            EditorGUILayout.Toggle("Weapon.Active: ", M.Weapon.Enabled);
+                            EditorGUILayout.Toggle("Weapon.Input: ", M.Weapon.Input);
+                            EditorGUILayout.Toggle("Weapon.IsAiming: ", M.Weapon.IsAiming);
+                            EditorGUILayout.Toggle("Weapon.RightHand: ", M.Weapon.IsRightHanded);
+                            EditorGUILayout.Toggle("Weapon.Ready: ", M.Weapon.IsReady);
+                            EditorGUILayout.Toggle("Weapon.CanAttack: ", M.Weapon.CanAttack);
+                            EditorGUILayout.Toggle("Weapon.IsAttacking: ", M.Weapon.IsAttacking);
+                            EditorGUILayout.Toggle("Weapon.IsReloading: ", M.Weapon.IsReloading);
+                            EditorGUILayout.Toggle("Weapon.CanCharge: ", M.Weapon.CanCharge);
+                            EditorGUILayout.Toggle("Weapon.HasAmmo: ", M.Weapon.HasAmmo);
+
+                            if (M.Weapon.CanCharge)
+                            {
+                                EditorGUILayout.Toggle("Weapon.IsCharging: ", M.Weapon.IsCharging);
+                                EditorGUILayout.FloatField("Weapon.Power: ", M.Weapon.Power);
+                                EditorGUILayout.FloatField("Weapon.ChargeNorm: ", M.Weapon.ChargedNormalized);
+                            }
+                        }
+                    }
+                    EditorGUI.EndDisabledGroup();
+                }
+            }
+        }
+
+        private void ShowHolsters()
+        {
+            EditorGUILayout.Space();
+            var selection = UseHolsters.boolValue ? 0 : 1;
+            selection = GUILayout.Toolbar(selection, new string[] { "Use Holsters", "Use External" });
+            UseExternal.boolValue = selection != 0;
+            UseHolsters.boolValue = selection == 0;
+
+
+            if (styleDesc == null)
+            {
+                styleDesc = new GUIStyle(StyleGreen)
+                {
+                    fontSize = 12,
+                    fontStyle = FontStyle.Bold,
+                    alignment = TextAnchor.MiddleLeft,
+                    stretchWidth = true
+                };
+
+                styleDesc.normal.textColor = EditorStyles.label.normal.textColor;
+            }
+
+
+            if (UseExternal.boolValue)
+            {
+                EditorGUILayout.LabelField("Use the Method <Equip_External(GameObject)> to equip weapons", styleDesc);
+                using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                {
+                    EditorGUILayout.PropertyField(InstantiateOnEquip);
+                    EditorGUILayout.PropertyField(DestroyOnUnequip);
+                }
+            }
+
+            //Holder Stufss
+            if (M.UseHolsters)
+            {
+                EditorGUILayout.LabelField("The weapons are child of the Holsters", styleDesc);
+
+                // EditorGUILayout.PropertyField(DefaultHolster, new GUIContent("Default Holster", "Default  Holster used when no Holster is selected"));
+                EditorGUILayout.PropertyField(HolsterTime, new GUIContent("Holster Time", "Time to smooth parent the weapon to the Hand and Holster"));
+
+                holsterReordable.DoLayoutList();
+
+                if (holsterReordable.index != -1)
+                {
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+                        var element = holsters.GetArrayElementAtIndex(holsterReordable.index);
+                        var Input = element.FindPropertyRelative("Input");
+                        var Slots = element.FindPropertyRelative("Slots");
+                        EditorGUILayout.PropertyField(Input);
+                        EditorGUI.indentLevel++;
+                        EditorGUILayout.PropertyField(Slots, true);
+                        EditorGUI.indentLevel--;
+                    }
+                }
+            }
+        }
+
+        private void DrawGeneral()
+        {
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                var dC = start_weapon.displayName;
+                if (M.StartWeapon && M.StartWeapon.IsPrefab())
+                {
+                    dC += " [Prefab]";
+                }
+
+                using (new GUILayout.HorizontalScope())
+                {
+                    EditorGUILayout.PropertyField(start_weapon, new GUIContent(dC, start_weapon.tooltip));
+                    MalbersEditor.DrawDebugIcon(debug);
+                }
+
+                //using (var cc = new EditorGUI.ChangeCheckScope())
+                //{
+                //    EditorGUILayout.PropertyField(aim);
+                //    if (cc.changed && Application.isPlaying)
+                //    {
+                //        serializedObject.ApplyModifiedProperties();
+                //        M.SetAimLogic(M.Aim);
+                //        //Debug.Log("M.Aim = " + M.Aim);
+                //    }
+                //}
+
+
+                EditorGUILayout.PropertyField(m_IgnoreDraw);
+                EditorGUILayout.PropertyField(m_IgnoreStore);
+                EditorGUILayout.PropertyField(StoreAfter);
+            }
+
+            EquipWeaponPoints();
+        }
+
+        private void EquipWeaponPoints()
+        {
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                LeftHandEquipPoint.isExpanded = MalbersEditor.Foldout(LeftHandEquipPoint.isExpanded, "Weapon Equip Points");
+
+                if (LeftHandEquipPoint.isExpanded)
+                {
+                    EditorGUILayout.PropertyField(LeftHandEquipPoint, new GUIContent("Left Hand"));
+                    EditorGUILayout.PropertyField(RightHandEquipPoint, new GUIContent("Right Hand"));
+                    EditorGUILayout.PropertyField(IgnoreHandOffset);
+                }
+
+
+                //Animator Anim = M.GetComponent<Animator>();
+                //if (Anim)
+                //{
+                //    if (LeftHandEquipPoint.objectReferenceValue == null)
+                //    {
+                //        M.LeftHandEquipPoint = Anim.GetBoneTransform(HumanBodyBones.LeftHand);
+                //    }
+
+                //    if (RightHandEquipPoint.objectReferenceValue == null)
+                //    {
+                //        M.RightHandEquipPoint = Anim.GetBoneTransform(HumanBodyBones.RightHand);
+                //    }
+                //}
+            }
+
+        }
+        private void DrawAdvanced()
+        {
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+              if (M.animal == null)
+                    AddLayers();
+
+
+                EditorGUILayout.LabelField(new GUIContent("Combat Animator", "Location and Name of the Combat while Riding Layer, on the Resource folder"), EditorStyles.boldLabel);
+                EditorGUILayout.PropertyField(m_CombatLayerName, new GUIContent("Layer Name", "Name of the Riding Combat Layer"));
+                EditorGUILayout.PropertyField(m_CombatLayerPath, new GUIContent("Animator Path", "Path of the Combat Layer on the Resource Folder"));
+            
+            }
+        }
+
+
+        private GUIStyle styleDesc;
+
+        void DrawEvents()
+        {
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                EditorGUILayout.PropertyField(OnCombatMode);
+                EditorGUILayout.PropertyField(OnCanAim);
+                EditorGUILayout.PropertyField(OnEquipWeapon);
+                EditorGUILayout.PropertyField(OnUnequipWeapon);
+              //  EditorGUILayout.PropertyField(OnMainAttackStart);
+                EditorGUILayout.PropertyField(OnWeaponAction);
+            }
+
+            if (M.UseHolsters)
+            {
+                using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                {
+                    for (int i = 0; i < holsters.arraySize; i++)
+                    {
+                        var element = holsters.GetArrayElementAtIndex(i);
+                        var input = element.FindPropertyRelative("OnWeaponInHolster");
+                        EditorGUILayout.PropertyField(input, new GUIContent($" On Weapon In Holster [{i}]"));
+                    }
+                }
+            }
+        }
+
+        void AddLayerCombat(UnityEditor.Animations.AnimatorController CurrentAnimator)
+        {
+            var m_CombatLayerPath = serializedObject.FindProperty("m_CombatLayerPath");
+
+            UnityEditor.Animations.AnimatorController MountAnimator = 
+                Resources.Load<UnityEditor.Animations.AnimatorController>(m_CombatLayerPath.stringValue);
+
+            MTools.AddParametersOnAnimator(CurrentAnimator, MountAnimator);
+
+            foreach (var item in MountAnimator.layers)
+                CurrentAnimator.AddLayer(item);
+        }
+
+        private void AddLayers()
         {
             Animator anim = M.GetComponent<Animator>();
 
@@ -440,260 +861,25 @@ namespace MalbersAnimations.HAP
                 {
                     var layers = controller.layers.ToList();
 
-                    if (layers.Find(layer => layer.name == "Mounted") == null)
-                    {
-                        EditorGUILayout.HelpBox("No Mounted Layer Found, Add it the Mounted Layer using the Rider 3rd Person Script", MessageType.Warning);
-                    }
-                    else
-                    {
+                    var defaultColor = GUI.color;
+                    GUI.color = Color.green;
 
-                        var defaultColor = GUI.color;
-                        GUI.color = Color.green;
+                    var ST = new GUIStyle(EditorStyles.miniButtonMid) { fontStyle = FontStyle.Bold };
 
-                        var ST = new GUIStyle(EditorStyles.miniButtonMid) { fontStyle = FontStyle.Bold };
-                        if (layers.Find(layer => layer.name == M.CombatLayerName) == null)
+                  
+
+                    if (layers.Find(layer => layer.name == m_CombatLayerName.stringValue) == null)
+                    {
+                        if (GUILayout.Button(new GUIContent("Add Combat Layers",
+                            "There's no [Combat] layers on the current Animator. " +
+                            "This will add all the Animator Parameters and States needed for the using weapons while Riding"), ST))
                         {
-                            if (GUILayout.Button(new GUIContent("Add Rider Combat Layers",
-                                "There's no [Riding Combat] layers on the current Animator. " +
-                                "This will add all the Animator Parameters and States needed for the using weapons while Riding"), ST))
-                            {
-                                AddLayerMountedCombat(controller);
-                            }
-                        }
-                        GUI.color = defaultColor;
-                    }
-                }
-            }
-        }
-
-        private void DrawAnimator()
-        {
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            {
-                EditorGUILayout.LabelField("Animator Parameters", EditorStyles.boldLabel);
-                EditorGUILayout.PropertyField(m_WeaponAim);
-                EditorGUILayout.PropertyField(m_WeaponAction);
-                EditorGUILayout.PropertyField(m_WeaponType);
-                EditorGUILayout.PropertyField(m_WeaponHold);
-                EditorGUILayout.PropertyField(m_WeaponHand);
-            }
-            EditorGUILayout.EndVertical();
-        }
-
-        private void DrawDebug()
-        {
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            {
-                EditorGUILayout.PropertyField(debug, new GUIContent("Debug", ""));
-
-                if (Application.isPlaying)
-                {
-                    EditorGUI.BeginDisabledGroup(true);
-                    EditorGUILayout.Toggle("Is In Combat mode", M.CombatMode);
-                    EditorGUILayout.Toggle("Is Aiming", M.Aim);
-                    EditorGUILayout.Toggle("Aiming Side", M.AimingSide);
-                    EditorGUILayout.FloatField("IK Weight", M.WeaponIKW);
-                    EditorGUILayout.Space();
-                    EditorGUILayout.ObjectField("Active Weapon:  ", M.Weapon, typeof(MWeapon), false);
-                    EditorGUILayout.IntField("Weapon.Action: ", M.WeaponAction);
-
-                    if (M.Weapon)
-                    {
-                        EditorGUILayout.ObjectField("Weapon.Type:  ", M.Weapon?.WeaponType, typeof(WeaponID), false);
-                        EditorGUILayout.Toggle("Weapon.Active: ", M.Weapon.Active);
-                        EditorGUILayout.Toggle("Weapon.IsAiming: ", M.Weapon.IsAiming);
-                        EditorGUILayout.Toggle("Weapon.RightHand: ", M.Weapon.IsRightHanded);
-                        EditorGUILayout.Toggle("Weapon.Ready: ", M.Weapon.IsReady);
-                        EditorGUILayout.Toggle("Weapon.CanAttack: ", M.Weapon.CanAttack);
-                        EditorGUILayout.Toggle("Weapon.IsAttacking: ", M.Weapon.IsAttacking);
-                        EditorGUILayout.Toggle("Weapon.IsReloading: ", M.Weapon.IsReloading);
-                        EditorGUILayout.Toggle("Weapon.CanCharge: ", M.Weapon.CanCharge);
-                        if (M.Weapon.CanCharge)
-                        {
-                            EditorGUILayout.Toggle("Weapon.IsCharging: ", M.Weapon.IsCharging);
-                            EditorGUILayout.FloatField("Weapon.Power: ", M.Weapon.Power);
-                            EditorGUILayout.FloatField("Weapon.ChargeNorm: ", M.Weapon.ChargedNormalized);
+                            AddLayerCombat(controller);
                         }
                     }
-                    EditorGUI.EndDisabledGroup();
+                    GUI.color = defaultColor;
+
                 }
-
-            }
-            EditorGUILayout.EndVertical();
-        }
-
-        private void ShowHolsters()
-        {
-
-            EditorGUILayout.Space();
-            var selection = UseHolsters.boolValue ? 1 : 0;
-            selection = GUILayout.Toolbar(selection, new string[] { "Use Inventory", "Use Holsters"});
-            UseHolsters.boolValue = selection != 0;
-            UseInventory.boolValue = selection == 0;
-         
-
-            if (UseInventory.boolValue)
-            {
-                EditorGUILayout.BeginVertical(StyleGreen);
-                {
-                    EditorGUILayout.LabelField("Use the Method <Equip_External(GameObject)> to equip weapons",EditorStyles.boldLabel);
-                }
-                EditorGUILayout.EndVertical();
-
-                EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                {
-                    AlreadyInstantiated.boolValue = EditorGUILayout.ToggleLeft(new GUIContent("Already Instantiated", "The weapon is already instantiated before entering 'GetWeaponByInventory'"), AlreadyInstantiated.boolValue);
-                }
-                EditorGUILayout.EndVertical();
-            }
-
-            //Holder Stufss
-            if (M.UseHolsters)
-            {
-                EditorGUILayout.BeginVertical(StyleGreen);
-                {
-                    EditorGUILayout.LabelField("The weapons are child of the Holsters", EditorStyles.boldLabel);
-                }
-                EditorGUILayout.EndVertical();
-
-                 EditorGUILayout.PropertyField(DefaultHolster, new GUIContent("Default Holster", "Default  Holster used when no Holster is selected"));
-                 EditorGUILayout.PropertyField(HolsterTime, new GUIContent("Holster Time", "Time to smooth parent the weapon to the Hand and Holster"));
-
-                holsterReordable.DoLayoutList();
-
-                if (holsterReordable.index != -1)
-                {
-                    EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                    var element = holsters.GetArrayElementAtIndex(holsterReordable.index);
-                    var Weapon = element.FindPropertyRelative("Weapon");
-
-                    var pre = "";
-                    var oldColor = GUI.backgroundColor;
-                    var newColor = oldColor;
-
-                    var weaponObj = Weapon.objectReferenceValue as Component;
-                    if (weaponObj && weaponObj.gameObject != null)
-                    {
-                        if (weaponObj.gameObject.IsPrefab())
-                        {
-                            newColor = Color.green;
-                            pre = "[Prefab]";
-                        }
-                        else pre = "[in Scene]";
-                    }
-
-
-                    EditorGUILayout.LabelField("Holster Weapon " + pre, EditorStyles.boldLabel);
-                    GUI.backgroundColor = newColor;
-                    EditorGUILayout.PropertyField(Weapon);
-                    GUI.backgroundColor = oldColor;
-                    EditorGUILayout.EndVertical();
-                }
-            }
-        }
-
-        private void DrawGeneral()
-        {
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-           //EditorGUILayout.PropertyField(StrafeOnTarget, new GUIContent("Strafe on Target/Aim", "If is The Rider is aiming or has a Target:\nThe Character will be set to Strafe"));
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.PropertyField(StoreAfter);
-            MalbersEditor.DrawDebugIcon(debug);
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndVertical();
-
-            EquipWeaponPoints();
-
-            EditorGUILayout.PropertyField(UseWeaponsOnlyWhileRiding, new GUIContent("Weapons while Riding",
-                   "The Weapons can only be used when the Rider is Mounting the Animal. (Disable this to test the weapons on ground (EXPERIMENTAL)"));
-        }
-
-        private void EquipWeaponPoints()
-        {
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            {
-                EditorGUILayout.LabelField("Weapon Equip Points", EditorStyles.boldLabel);
-                EditorGUILayout.PropertyField(LeftHandEquipPoint, new GUIContent("Left Hand"));
-                EditorGUILayout.PropertyField(RightHandEquipPoint, new GUIContent("Right Hand"));
-
-                Animator Anim = M.GetComponent<Animator>();
-                if (Anim)
-                {
-                    if (LeftHandEquipPoint.objectReferenceValue == null)
-                    {
-                        M.LeftHandEquipPoint = Anim.GetBoneTransform(HumanBodyBones.LeftHand);
-                    }
-
-                    if (RightHandEquipPoint.objectReferenceValue == null)
-                    {
-                        M.RightHandEquipPoint = Anim.GetBoneTransform(HumanBodyBones.RightHand);
-                    }
-                }
-            }
-            EditorGUILayout.EndVertical();
-        }
-        private void DrawAdvanced()
-        {
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            {
-                EditorGUILayout.LabelField(new GUIContent("Combat Riding Animator", "Location and Name of the Combat while Riding Layer, on the Resource folder"), EditorStyles.boldLabel);
-                EditorGUILayout.PropertyField(CombatLayerName, new GUIContent("Layer Name", "Name of the Riding Combat Layer"));
-                EditorGUILayout.PropertyField(CombatLayerPath, new GUIContent("Animator Path", "Path of the Combat Layer on the Resource Folder"));
-
-                EditorGUILayout.PropertyField(UseWeaponsOnlyWhileRiding, new GUIContent("Weapons while Riding",
-                    "The Weapons can only be used when the Rider is Mounting the Animal. (Disable this to test the weapons on ground (EXPERIMENTAL)"));
-
-                EditorGUILayout.PropertyField(UseDefaultIK, new GUIContent("Default IK", 
-                    "Weapon Manager uses Default Unity IK, Disable this if you are going to use The Animation Rigging Package or any 3rd Party IK Solution"));
-
-                EditorGUILayout.PropertyField(DisableAim);
-            }
-            EditorGUILayout.EndVertical();
-        }
-
-        bool EventHelp = false;
-
-        void DrawEvents()
-        {
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            {
-                EditorGUILayout.BeginHorizontal();
-                {
-                    EditorGUILayout.LabelField(new GUIContent("Events"), EditorStyles.boldLabel);
-                    EventHelp = GUILayout.Toggle(EventHelp, "?", EditorStyles.miniButton, GUILayout.Width(18));
-                }
-                EditorGUILayout.EndHorizontal();
-                {
-                    if (EventHelp)
-                        EditorGUILayout.HelpBox("On Equip Weapon: Invoked when the rider equip a weapon. \n\nOn Unequip Weapon: Invoked when the rider unequip a weapon." +
-                            "\nOn Weapon Action: Gets invoked when a new WeaponAction is set. (See Weapon Actions enum for more detail). \n" +
-                            "\nOn Attack: Invoked when the rider is about to Attack(Melee) or Fire(Range)\n\nOn AimSide: Invoked when the rider is Aiming\n " +
-                            "1:The camera is on the Right Side\n-1 The camera is on the Left Side\n 0:The Aim is Reseted\n\nOn Target: Invoked when the Target is changed",
-                            MessageType.None);
-
-                    EditorGUILayout.PropertyField(OnCombatMode);
-
-                    EditorGUILayout.PropertyField(OnEquipWeapon);
-                    EditorGUILayout.PropertyField(OnUnequipWeapon);
-                    EditorGUILayout.PropertyField(OnMainAttackStart);
-                    EditorGUILayout.PropertyField(OnWeaponAction);
-                    EditorGUILayout.Space();
-
-                    //EditorGUILayout.PropertyField(OnAiming);
-                }
-            }
-            EditorGUILayout.EndVertical();
-        }
-
-        void AddLayerMountedCombat(UnityEditor.Animations.AnimatorController CurrentAnimator)
-        {
-            UnityEditor.Animations.AnimatorController MountAnimator = Resources.Load<UnityEditor.Animations.AnimatorController>(M.CombatLayerPath);
-
-            MTools.AddParametersOnAnimator(CurrentAnimator, MountAnimator);
-
-            foreach (var item in MountAnimator.layers)
-            {
-                CurrentAnimator.AddLayer(item);
             }
         }
     }

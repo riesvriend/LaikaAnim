@@ -98,6 +98,7 @@ namespace MalbersAnimations.Scriptables
         }
 
         public Vector3Reference(Vector3 value) => Value = value;
+        public Vector3Reference(float x, float y, float z)  => Value = new Vector3(x,y,z);
 
         public Vector3 Value
         {

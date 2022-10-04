@@ -13,7 +13,7 @@ namespace MalbersAnimations.Controller.AI
 
         [Tooltip("Mode you want to activate when the brain is using this task")]
         public ModeID modeID;
-        [Tooltip("Ability ID for the Mode... if is set to -1 it will play a random Ability")]
+        [Tooltip("Ability ID for the Mode... if is set to -99 it will play a random Ability")]
         public IntReference AbilityID = new IntReference(-99);
         public FloatReference ModePower = new FloatReference();
         [Tooltip("Play the mode only when the animal has arrived to the target")]

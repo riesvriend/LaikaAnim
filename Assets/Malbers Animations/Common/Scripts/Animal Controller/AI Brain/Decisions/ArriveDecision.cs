@@ -20,9 +20,9 @@ namespace MalbersAnimations.Controller.AI
             }
             else
             {
-                Result = 
+                Result =
                     brain.AIControl.HasArrived &&
-                    brain.Target.root.name == TargetName; //If we are looking for an specific Target
+                    (brain.Target.name == TargetName || brain.Target.root.name == TargetName); //If we are looking for an specific Target
             }
 
             return Result;

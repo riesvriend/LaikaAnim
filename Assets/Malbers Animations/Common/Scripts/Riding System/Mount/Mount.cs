@@ -63,7 +63,7 @@ namespace MalbersAnimations.HAP
         [Tooltip("Set the Mount Triggers the Animal is Dismounted")]
         public BoolReference Set_MTriggersDismount = new BoolReference(true);
 
-        /// <summary>Works for the ID of the Mount (EX Wagon</summary>
+        [Tooltip("Mount ID value.. 0 is a horse, 100 is a Wagon")]
         public IntReference ID;
 
 
@@ -212,10 +212,14 @@ namespace MalbersAnimations.HAP
             }
         }
 
-
+        public static List<Mount> AllMounts;
 
         void OnEnable()
         {
+            if (AllMounts == null) AllMounts = new List<Mount>();
+
+            AllMounts.Add(this);
+
             Animal.OnStateActivate.AddListener(AnimalStateChange);
             Animal.OnSpeedChange.AddListener(SetAnimatorSpeed);
         }
@@ -224,6 +228,8 @@ namespace MalbersAnimations.HAP
         {
             Animal.OnStateActivate.RemoveListener(AnimalStateChange);
             Animal.OnSpeedChange.RemoveListener(SetAnimatorSpeed);
+
+            AllMounts.Remove(this);
 
             if (NearbyRider)  NearbyRider.MountTriggerExit();
         }
@@ -491,7 +497,7 @@ namespace MalbersAnimations.HAP
 
             MalbersEditor.DrawDescription("Makes this animal mountable. Requires Mount Triggers and Moint Points");
 
-            EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+           // EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
             {
                 EditorGUI.BeginChangeCheck();
                 {
@@ -517,14 +523,14 @@ namespace MalbersAnimations.HAP
                     else if (Selection == 2) ShowDebug();
                 }
 
-                EditorGUILayout.EndVertical();
+            }
+             //   EditorGUILayout.EndVertical();
 
 
                 if (M.MountPoint == null)
                 {
                     EditorGUILayout.HelpBox("'Mount Point'  is empty, please set a reference", MessageType.Warning);
                 }
-            }
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(target, "Mount Inspector");

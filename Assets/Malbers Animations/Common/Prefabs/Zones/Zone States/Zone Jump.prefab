@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -74,7 +75,7 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'JUMP
@@ -220,12 +221,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 1
+  automatic:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 1
   stateAction: 0
@@ -238,7 +247,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   stateStatus:
     UseConstant: 1
-    ConstantValue: -1
+    ConstantValue: 0
     Variable: {fileID: 0}
   tags: []
   modeID: {fileID: 0}
@@ -276,6 +285,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -288,6 +298,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1269648742212714840}
+        m_TargetAssemblyTypeName: 
         m_MethodName: Align
         m_Mode: 0
         m_Arguments:
@@ -302,8 +313,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ZoneCollider: {fileID: 65768614311566830}
-  EditorShowEvents: 1
-  ShowStatModifiers: 0
+  Editor_Tabs1: 0
 --- !u!114 &1269648742212714840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,6 +334,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.25
   AngleOffset: 0
   AlignCurve:
@@ -354,8 +365,6 @@ MonoBehaviour:
   AlignRot: 1
   DoubleSided: 1
   AlignLookAt: 0
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
 --- !u!1 &1318360333358220
 GameObject:
@@ -442,6 +451,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -466,6 +476,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1847019362169600
 GameObject:
   m_ObjectHideFlags: 0

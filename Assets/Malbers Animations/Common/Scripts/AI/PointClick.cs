@@ -10,7 +10,7 @@ namespace MalbersAnimations
     [AddComponentMenu("Malbers/AI/Point Click")]
     public class PointClick : MonoBehaviour
     {
-        [CreateScriptableAsset] public PointClickData pointClickData;
+        public PointClickData pointClickData;
         [Tooltip ("UI to intantiate on the Hit Point ")]
         public GameObject PointUI;
         [Tooltip ("Radius to find <AI Targets> on the Hit Point")]

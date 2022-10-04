@@ -47,7 +47,7 @@ namespace MalbersAnimations
         int ID { get; }
 
         /// <summary>Can the Interacter Interact?</summary>
-        bool Active { get; set; }
+        bool Enabled { get; set; }
 
         /// <summary> GameObject of who is doing the Interaction  </summary>
         GameObject Owner { get; }

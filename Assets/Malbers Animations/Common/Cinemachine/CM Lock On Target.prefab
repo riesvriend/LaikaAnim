@@ -66,7 +66,7 @@ MonoBehaviour:
   m_ZDamping: 1
   m_TargetMovementOnly: 1
   m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenY: 0.46
   m_CameraDistance: 10
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
@@ -163,7 +163,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.778761, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -285,6 +285,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: 2a60c9d3a0ea68e47b30753459e3042b, type: 2}
     useInt: 1
     useFloat: 0
@@ -379,3 +380,4 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1

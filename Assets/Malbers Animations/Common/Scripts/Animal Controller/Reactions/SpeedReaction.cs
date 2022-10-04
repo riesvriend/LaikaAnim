@@ -6,25 +6,26 @@ namespace MalbersAnimations.Controller.Reactions
     [CreateAssetMenu(menuName = "Malbers Animations/Animal Reactions/Speed Reaction"/*, order = 3*/)]
     public class SpeedReaction : MReaction
     {
-        public enum Speed_Reaction { Activate, Increase, Decrease, LockCurrentSpeed,LockSpeed, TopSpeed, AnimationSpeed , GlobalAnimatorSpeed, SetRandomSpeed ,  Sprint }
+        public enum Speed_Reaction
+        { Activate, Increase, Decrease, LockCurrentSpeed,LockSpeed, TopSpeed, AnimationSpeed , GlobalAnimatorSpeed, SetRandomSpeed ,  Sprint }
 
         public Speed_Reaction type = Speed_Reaction.Activate;
 
-        [Hide("showSpeed_Set", true,false),
+        [Hide("showSpeed_Set"),
             Tooltip("Speed Set on the Animal to make the changes (E.g. 'Ground' 'Fly')")]
         public string SpeedSet = "Ground";
 
 
-        [Hide("ShowBoolValue",true,false)]
+        [Hide("ShowBoolValue")]
         public bool Value = true;
 
 
-        [Hide("showSpeed_Index", true, false), 
+        [Hide("showSpeed_Index"), 
             Tooltip("Index of the Speed Set on the Animal to make the changes (E.g. 'Walk-1' 'Trot-2', 'Run-3')")]
         public int Index = 1;
 
 
-        [Hide("showAnimSpeed", true, false)]
+        [Hide("showAnimSpeed")]
         public float animatorSpeed = 1;
 
         protected override void _React(MAnimal animal)

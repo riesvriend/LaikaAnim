@@ -14252,13 +14252,13 @@ MonoBehaviour:
     ConstantValue: 1
     Variable: {fileID: 0}
   m_hitLayer:
-    UseConstant: 0
+    UseConstant: 1
     ConstantValue:
       serializedVersion: 2
       m_Bits: 4294967295
     Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
   triggerInteraction: 1
-  owner: {fileID: 0}
+  owner: {fileID: 100010}
   m_HitEffect:
     UseConstant: 1
     ConstantValue: {fileID: 0}
@@ -14302,9 +14302,9 @@ MonoBehaviour:
     Variable: {fileID: 0}
   m_Force:
     UseConstant: 1
-    ConstantValue: 100
+    ConstantValue: 5
     Variable: {fileID: 0}
-  forceMode: 0
+  forceMode: 2
   OnHit:
     m_PersistentCalls:
       m_Calls: []
@@ -14328,7 +14328,7 @@ MonoBehaviour:
   upwardsModifier: 1
   radius: 3
   life: 1
-  Editor_Tabs1: 3
+  Editor_Tabs1: 0
 --- !u!82 &82975409229690506
 AudioSource:
   m_ObjectHideFlags: 0

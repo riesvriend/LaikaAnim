@@ -202,7 +202,7 @@ namespace MalbersAnimations
 
             EditorGUI.BeginChangeCheck();
             {
-                EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+               // EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
                 {
                     MalbersEditor.DrawScript(script);
 
@@ -236,7 +236,7 @@ namespace MalbersAnimations
 
                             Limb member = M.bodyParts[list.index].member;
 
-                            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
                             {
                                 EditorGUILayout.PropertyField(Element.FindPropertyRelative("AttachedLimb"), new GUIContent("Attached Limb", "The Attached limb on the Animal.. this gameobject will be hide after is dismemered"), true);
                                 if (member != null) //If theres a member on it
@@ -248,7 +248,6 @@ namespace MalbersAnimations
                                     }
                                 }
                             }
-                            EditorGUILayout.EndVertical();
 
 
 
@@ -277,9 +276,9 @@ namespace MalbersAnimations
                             }
                             EditorGUILayout.PropertyField(Element.FindPropertyRelative("OnDismember"), new GUIContent("On Dismember", "Invoked when Dismember is called"), true);
                         }
-                        EditorGUILayout.EndVertical();
                     }
                 }
+               //EditorGUILayout.EndVertical();
 
                 if (changer)
                 {

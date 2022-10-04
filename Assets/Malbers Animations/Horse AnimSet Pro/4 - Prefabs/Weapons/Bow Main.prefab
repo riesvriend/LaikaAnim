@@ -179,7 +179,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29534d89a52192c4aa7c674daa188102, type: 2}
+  - {fileID: 2100000, guid: 84146ccda7f89b24b8349e8d06e85451, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -441,7 +441,7 @@ MonoBehaviour:
       Variable: {fileID: 0}
   m_cChance:
     UseConstant: 1
-    ConstantValue: 0.1
+    ConstantValue: 0.2
     Variable: {fileID: 0}
   cMultiplier:
     UseConstant: 1
@@ -471,6 +471,15 @@ MonoBehaviour:
     ConstantValue: 0.2
     Variable: {fileID: 0}
   debug: 0
+  m_UI: {fileID: 0}
+  description:
+    UseConstant: 1
+    ConstantValue: 
+    Variable: {fileID: 0}
+  minForce:
+    UseConstant: 1
+    ConstantValue: 50
+    Variable: {fileID: 0}
   minDamage:
     UseConstant: 1
     ConstantValue: 15
@@ -479,14 +488,13 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 25
     Variable: {fileID: 0}
-  m_UI: {fileID: 0}
-  minForce:
-    UseConstant: 1
-    ConstantValue: 50
-    Variable: {fileID: 0}
   chargeTime:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  m_MaxCharge:
+    UseConstant: 1
+    ConstantValue: 50
     Variable: {fileID: 0}
   chargeCharMultiplier: 0.75
   ChargeCurve:
@@ -513,9 +521,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  description:
+  GroundArmPose: 1
+  RidingArmPose: 1
+  GroundCombo: -1
+  RidingCombo: -1
+  m_AimOrigin: {fileID: 4000012813729316}
+  m_AimSide: 2
+  weaponType: {fileID: 11400000, guid: 011ef3104a8cb334ca00baaf88478ebd, type: 2}
+  holster: {fileID: 11400000, guid: 31941dcdef3462d4c959c444d5b4ad1b, type: 2}
+  holsterAnim: {fileID: 0}
+  m_holsterIndex: 0
+  rightHand:
     UseConstant: 1
-    ConstantValue: 
+    ConstantValue: 0
     Variable: {fileID: 0}
   m_rate:
     UseConstant: 1
@@ -523,39 +541,27 @@ MonoBehaviour:
     Variable: {fileID: 0}
   m_Automatic:
     UseConstant: 1
-    ConstantValue: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   m_IgnoreDraw:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  m_AimOrigin: {fileID: 4000012813729316}
-  m_AimSide: 2
-  weaponType: {fileID: 11400000, guid: 011ef3104a8cb334ca00baaf88478ebd, type: 2}
-  holster: {fileID: 11400000, guid: 31941dcdef3462d4c959c444d5b4ad1b, type: 2}
-  holsterAnim: {fileID: 0}
-  IKProfile: {fileID: 0}
-  iKProfile: {fileID: 11400000, guid: 302e520540ae7d94895db7e1e2f18eb6, type: 2}
-  rightHand:
+  m_IgnoreStore:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  positionOffsetR: {x: -0.123, y: 0.019, z: -0.002}
-  rotationOffsetR: {x: 0, y: -90, z: 0}
-  positionOffsetL: {x: -0.1253, y: 0.0175, z: -0.022}
-  rotationOffsetL: {x: 10, y: -90, z: 0}
-  HolsterOffset:
-    Position: {x: 0.063, y: -0.03, z: -0.112}
-    Rotation: {x: -10, y: 230, z: 170}
-    Scale: {x: 1, y: 1, z: 1}
-  positionOffsetIKHand:
+  stance: {fileID: 0}
+  strafeOnAim:
     UseConstant: 1
-    ConstantValue: {x: 0, y: 0, z: 0}
+    ConstantValue: 1
     Variable: {fileID: 0}
-  rotationOffsetIKHand:
+  UseStrafe:
     UseConstant: 1
-    ConstantValue: {x: 0, y: 0, z: 0}
+    ConstantValue: 0
     Variable: {fileID: 0}
+  AimIKRight: {fileID: 11400000, guid: d9e6144658a1ef14f93572e3e86b5247, type: 2}
+  AimIKLeft: {fileID: 11400000, guid: 2fafa6d94671be94da5374cbdce5ac7d, type: 2}
   TwoHandIK:
     UseConstant: 1
     ConstantValue: 0
@@ -564,6 +570,18 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  HolsterOffset:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 1, y: 1, z: 1}
+  LeftHandOffset:
+    Position: {x: -0.138, y: 0.031, z: 0.002}
+    Rotation: {x: 0, y: 270, z: 0}
+    Scale: {x: 1, y: 1, z: 1}
+  RightHandOffset:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 270, z: 0}
+    Scale: {x: 1, y: 1, z: 1}
   Sounds:
   - {fileID: 8300000, guid: 6f45d27fd173aef4ba40357906e28656, type: 3}
   - {fileID: 8300000, guid: 5d57cd60566a34d429591148beecc370, type: 3}
@@ -587,28 +605,29 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: cee5f7ae493b11e4d829fda47704796b, type: 2}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 11400000, guid: e17859a94bd39ea4e97dd3b8c699424a, type: 2}
+        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, Assembly-CSharp
         m_MethodName: Invoke
-        m_Mode: 5
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 21300000, guid: e5104606edd259f42964eb58891dac1f,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Fire Arrow
+          m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: eb38210b7bfa18d468125b92760c8382, type: 2}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 11400000, guid: de2d0ec684288bf4991c5760679163b3, type: 2}
+        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, Assembly-CSharp
         m_MethodName: Invoke
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
-          m_StringArgument: Aim
+          m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
   OnUnequiped:
@@ -626,28 +645,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: cee5f7ae493b11e4d829fda47704796b, type: 2}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 11400000, guid: de2d0ec684288bf4991c5760679163b3, type: 2}
+        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, Assembly-CSharp
         m_MethodName: Invoke
-        m_Mode: 5
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Attack1
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: eb38210b7bfa18d468125b92760c8382, type: 2}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Invoke
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Attack2
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   OnCharged:
@@ -671,10 +678,16 @@ MonoBehaviour:
   OnAiming:
     m_PersistentCalls:
       m_Calls: []
-  Editor_Tabs1: 3
-  Editor_Tabs2: 4
+  OnUseFreeHand:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReleaseFreeHand:
+    m_PersistentCalls:
+      m_Calls: []
+  Editor_Tabs1: 4
+  Editor_Tabs2: 3
   releaseProjectile: 2
-  CancelAim: 0
+  CancelAim: 1
   m_Projectile:
     UseConstant: 0
     ConstantValue: {fileID: 1000013609580904, guid: 07664bb973f838341915f33795774cfb,
@@ -691,66 +704,18 @@ MonoBehaviour:
     Variable: {fileID: 0}
   HasReloadAnim:
     UseConstant: 1
-    ConstantValue: 0
+    ConstantValue: 1
     Variable: {fileID: 0}
   m_AimAngle:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
   AimLimit:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: -0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9537964
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+    minValue: -180
+    maxValue: 90
   m_Ammo:
     UseConstant: 0
-    ConstantValue: 10
+    ConstantValue: 20
     Variable: {fileID: 11400000, guid: 8e7e385b1b0a88a4c95a1f2cca5bd5f9, type: 2}
   m_AmmoInChamber:
     UseConstant: 1
@@ -807,7 +772,7 @@ MonoBehaviour:
   LowerBnMaxRot:
   - {x: 0, y: 0, z: 0.9840981, w: -0.17762631}
   - {x: 0, y: 0, z: 0.24249887, w: 0.9701517}
-  DefaultPosKnot: {x: -0.0000072661737, y: 0.33197632, z: 0}
+  DefaultPosKnot: {x: 0, y: 0.33197632, z: 0}
   KnotHandOffset: {x: -0.17, y: 0.03, z: 0.04}
   RotUpperDir: {x: -0, y: -0, z: -1}
   RotLowerDir: {x: 0, y: 0, z: 1}

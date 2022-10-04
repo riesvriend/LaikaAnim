@@ -1,4 +1,5 @@
 ﻿using MalbersAnimations.Scriptables;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,19 +12,19 @@ namespace MalbersAnimations.Controller
         public enum FlyInput { Toggle, Press, None}
 
         [Header("Fly Parameters")]
-        [Range(0, 90),Tooltip("Bank amount used when turning")]
+        [Tooltip("Bank amount used when turning")]
         public float Bank = 30;
-        [Range(0, 90), Tooltip("Pitch Limit to Rotate the Rotator Up and Down")]
+        [Tooltip("Pitch Limit to Rotate the Rotator Up and Down")]
         [FormerlySerializedAs("Ylimit")]
         public float PitchLimit = 80;
+        
 
-     
+
 
         [Tooltip("Bank amount used when turning while straffing")]
         public float BankStrafe = 0; 
         [Tooltip("Limit to go Up and Down while straffing")]
-        [FormerlySerializedAs("YlimitStrafe")]
-        public float PitchLimitStrafe = 0;
+        public float PitchStrafe = 0;
 
 
         [Space]
@@ -61,9 +62,9 @@ namespace MalbersAnimations.Controller
         
         [Space,Tooltip("Avoids a surface to land when Flying. E.g. if the animal does not have a swim state, set this to void landing/entering the water")]
         public bool AvoidSurface = false;
-        [Tooltip("RayCast distance to find the Surface to avoid"), Hide("AvoidSurface", true, false)]
+        [Tooltip("RayCast distance to find the Surface to avoid"), Hide("AvoidSurface",  false)]
         public float SurfaceDistance = 0.5f;
-        [Tooltip("Which layers to search to avoid that surface. Triggers are not inlcuded"), Hide("AvoidSurface", true, false)]
+        [Tooltip("Which layers to search to avoid that surface. Triggers are not inlcuded"), Hide("AvoidSurface",  false)]
         public LayerMask SurfaceLayer = 16;
 
         [Header("Gliding")]
@@ -210,7 +211,7 @@ namespace MalbersAnimations.Controller
 
                 if (animal.Strafe)
                 {
-                    limit = PitchLimitStrafe;
+                    limit = PitchStrafe;
                     bank = BankStrafe;
                 }
  
@@ -229,11 +230,15 @@ namespace MalbersAnimations.Controller
 
                 GravityPush(deltatime); //Add artificial gravity to the Fly
 
-              
-                animal.FreeMovementRotator(limit, bank);
-
-                if (TryAvoidSurface()) return;
-
+                if (TryAvoidSurface())
+                {
+                    animal.FreeMovementRotator(0, 0);
+                    return;
+                }
+                else
+                {
+                    animal.FreeMovementRotator(limit, bank);
+                }
                 if (InertiaLerp.Value > 0)
                     animal.AddInertia(ref verticalInertia, InertiaLerp);
             }
@@ -247,7 +252,6 @@ namespace MalbersAnimations.Controller
                     var takeOffImp = Impulse * ImpulseCurve.Evaluate(elapsedImpulseTime / ImpulseTime);
                     animal.AdditivePosition +=  animal.UpVector  * takeOffImp  * deltatime;
                     elapsedImpulseTime += deltatime;
-                    Debug.Log(takeOffImp);
                 }
             }
         }
@@ -390,7 +394,7 @@ namespace MalbersAnimations.Controller
             {
                 base.InputValue = value;
 
-               // Debug.Log($"{this.name} value = " + value);
+               
 
                 if (InCoreAnimation && IsActiveState && !value && CanExit) //When the Fly Input is false then allow exit
                 {
@@ -400,6 +404,29 @@ namespace MalbersAnimations.Controller
         }
 
 #if UNITY_EDITOR
+
+        public override void SetSpeedSets(MAnimal animal)
+        {
+            var setName = "Fly";
+
+            if (animal.SpeedSet_Get(setName) == null)
+            {
+                animal.speedSets.Add(
+                    new MSpeedSet()
+                    {
+                        name = setName,
+                        StartVerticalIndex = new IntReference(1), 
+                        PitchLerpOn = new FloatReference(3), 
+                        PitchLerpOff = new FloatReference(3),
+                        TopIndex = new IntReference(2),
+                        states = new List<StateID>(1) { ID },
+                        Speeds = new List<MSpeed>() { new MSpeed(setName), new MSpeed(setName + " Fast", 2, 4, 4) { animator = new FloatReference(1.33f) } }
+                    }
+                    );
+            }
+        }
+
+
         void Reset()
         {
             ID = MTools.GetInstance<StateID>("Fly");

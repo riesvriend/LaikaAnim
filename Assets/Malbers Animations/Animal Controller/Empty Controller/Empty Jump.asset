@@ -46,11 +46,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4dc5ca673dc60d346a62529c8a9bd8ff, type: 2}
   - {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
   QueueFrom: []
+  ResetFrom: []
   SleepFromStance: []
   stances: []
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  Duration:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1
@@ -71,6 +76,7 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   CanStrafe: 1
+  StrafeAnimations: 1
   MovementStrafe: 1
   IdleStrafe: 1
   debug: 1
@@ -115,14 +121,27 @@ MonoBehaviour:
   - name: Default
     LastState: {fileID: 0}
     VerticalSpeed: 0
-    JumpTime: 0.4
+    ForwardPush: 0
+    JumpTime: 0.6
     Height:
       UseConstant: 1
-      ConstantValue: 12
+      ConstantValue: 20
       Variable: {fileID: 0}
     GravityPower:
       UseConstant: 1
-      ConstantValue: 4
+      ConstantValue: 5
       Variable: {fileID: 0}
     StartGravityTime: 25
-  multipleJumps: []
+  multipleJumps:
+  - name: Default
+    JumpNumber: 2
+    JumpTime: 0.6
+    Height:
+      UseConstant: 1
+      ConstantValue: 7
+      Variable: {fileID: 0}
+    GravityPower:
+      UseConstant: 1
+      ConstantValue: 5
+      Variable: {fileID: 0}
+    StartGravityTime: 10

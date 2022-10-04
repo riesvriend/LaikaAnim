@@ -11,13 +11,13 @@ namespace MalbersAnimations.Conditions
         public enum SpeedCondition { VerticalSpeed, CurrentSpeedSet, CurrentSpeedModifier,  ActiveIndex, Sprinting , CanSprint }
 
         public SpeedCondition Condition;
-        [Hide("showCompare", true,false)]
+        [Hide("showCompare", false)]
         public ComparerInt compare = ComparerInt.Equal;
 
-        [Hide("showValue",true,false)]
+        [Hide("showValue",false)]
         public float Value = 0;
         
-        [Hide("showName",true,false)]
+        [Hide("showName",false)]
         public string SpeedName;
 
         public override string DisplayName => "Animal/Speeds";

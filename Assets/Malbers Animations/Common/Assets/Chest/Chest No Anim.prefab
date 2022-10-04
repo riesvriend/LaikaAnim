@@ -74,10 +74,14 @@ MonoBehaviour:
   OnTrigger_Exit:
     m_PersistentCalls:
       m_Calls: []
+  OnTrigger_Stay:
+    m_PersistentCalls:
+      m_Calls: []
   OnGameObjectEnter:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3320733372154244841}
+        m_TargetAssemblyTypeName: 
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -92,6 +96,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3320733372154244841}
+        m_TargetAssemblyTypeName: 
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -102,8 +107,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnGameObjectStay:
+    m_PersistentCalls:
+      m_Calls: []
   m_debug: 0
-  ShowEvents: 1
+  useOnTriggerStay:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  trigger: {fileID: 0}
+  Editor_Tabs1: 0
 --- !u!114 &1641551291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +154,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2766297322343216836}
+        m_TargetAssemblyTypeName: 
         m_MethodName: SetTrigger
         m_Mode: 5
         m_Arguments:
@@ -152,6 +166,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1641551291}
+        m_TargetAssemblyTypeName: 
         m_MethodName: Instantiate
         m_Mode: 2
         m_Arguments:
@@ -164,6 +179,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 11400000, guid: 9955a8b735377c24b951da0c8949595e, type: 2}
+        m_TargetAssemblyTypeName: 
         m_MethodName: Add
         m_Mode: 3
         m_Arguments:
@@ -175,6 +191,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1641551291}
+        m_TargetAssemblyTypeName: 
         m_MethodName: DestroyMeNextFrame
         m_Mode: 1
         m_Arguments:
@@ -187,97 +204,6 @@ MonoBehaviour:
         m_CallState: 2
   Description: 
   ShowDescription: 0
---- !u!114 &748592714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3320733372154244841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8097927ca26ab4343a884532eb8eb442, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputs:
-  - name: Open Chest
-    active:
-      UseConstant: 1
-      ConstantValue: 1
-      Variable: {fileID: 0}
-    type: 1
-    input: InputValue
-    key: 101
-    GetPressed: 1
-    InputValue: 0
-    ToggleValue: 0
-    ResetOnDisable: 1
-    OnInputDown:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1641551294}
-          m_MethodName: OnEnable
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-    OnInputUp:
-      m_PersistentCalls:
-        m_Calls: []
-    OnLongPress:
-      m_PersistentCalls:
-        m_Calls: []
-    OnDoubleTap:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputChanged:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputEnable:
-      m_PersistentCalls:
-        m_Calls: []
-    OnInputDisable:
-      m_PersistentCalls:
-        m_Calls: []
-    DoubleTapTime: 0.3
-    LongPressTime: 0.5
-    OnInputPressed:
-      m_PersistentCalls:
-        m_Calls: []
-    OnPressedNormalized:
-      m_PersistentCalls:
-        m_Calls: []
-  showInputEvents: 0
-  OnInputEnabled:
-    m_PersistentCalls:
-      m_Calls: []
-  OnInputDisabled:
-    m_PersistentCalls:
-      m_Calls: []
-  IgnoreOnPause:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
-  PlayerID: Player0
---- !u!114 &-6840252261509588182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2766297322352592132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e0b5b9d4af0f31439aabd6b5de7b49e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text: This Chest does not Require the Mode Action -> Ability Open Chest. It uses
-    a Trigger Proxy instead of a Zone
 --- !u!1001 &4777089777221534641
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -364,6 +290,209 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4777089777221534641}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &748592714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3320733372154244841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8097927ca26ab4343a884532eb8eb442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputs:
+  - name: Open Chest
+    active:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    type: 1
+    input: InputValue
+    key: 101
+    GetPressed: 1
+    InputValue: 0
+    ToggleValue: 0
+    ResetOnDisable: 1
+    OnInputDown:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1641551294}
+          m_TargetAssemblyTypeName: 
+          m_MethodName: OnEnable
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    OnInputUp:
+      m_PersistentCalls:
+        m_Calls: []
+    OnLongPress:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDoubleTap:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInputChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInputEnable:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInputDisable:
+      m_PersistentCalls:
+        m_Calls: []
+    DoubleTapTime: 0.3
+    LongPressTime: 0.5
+    SmoothDecrease: 0
+    OnInputPressed:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPressedNormalized:
+      m_PersistentCalls:
+        m_Calls: []
+  AllInputs: []
+  actionMaps: []
+  ActiveMapIndex: 0
+  DefaultMap:
+    name:
+      UseConstant: 1
+      ConstantValue: Default
+      Variable: {fileID: 0}
+    inputs:
+    - name: Open Chest
+      active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      type: 1
+      input: InputValue
+      key: 101
+      GetPressed: 1
+      InputValue: 0
+      ToggleValue: 0
+      ResetOnDisable: 1
+      OnInputDown:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 1641551294}
+            m_TargetAssemblyTypeName: 
+            m_MethodName: OnEnable
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 1
+            m_CallState: 2
+      OnInputUp:
+        m_PersistentCalls:
+          m_Calls: []
+      OnLongPress:
+        m_PersistentCalls:
+          m_Calls: []
+      OnDoubleTap:
+        m_PersistentCalls:
+          m_Calls: []
+      OnInputChanged:
+        m_PersistentCalls:
+          m_Calls: []
+      OnInputEnable:
+        m_PersistentCalls:
+          m_Calls: []
+      OnInputDisable:
+        m_PersistentCalls:
+          m_Calls: []
+      DoubleTapTime: 0.3
+      LongPressTime: 0.5
+      SmoothDecrease: 0
+      OnInputPressed:
+        m_PersistentCalls:
+          m_Calls: []
+      OnPressedNormalized:
+        m_PersistentCalls:
+          m_Calls: []
+  ActiveMap:
+    name:
+      UseConstant: 1
+      ConstantValue: Default
+      Variable: {fileID: 0}
+    inputs:
+    - name: Open Chest
+      active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      type: 1
+      input: InputValue
+      key: 101
+      GetPressed: 1
+      InputValue: 0
+      ToggleValue: 0
+      ResetOnDisable: 1
+      OnInputDown:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 1641551294}
+            m_TargetAssemblyTypeName: 
+            m_MethodName: OnEnable
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 1
+            m_CallState: 2
+      OnInputUp:
+        m_PersistentCalls:
+          m_Calls: []
+      OnLongPress:
+        m_PersistentCalls:
+          m_Calls: []
+      OnDoubleTap:
+        m_PersistentCalls:
+          m_Calls: []
+      OnInputChanged:
+        m_PersistentCalls:
+          m_Calls: []
+      OnInputEnable:
+        m_PersistentCalls:
+          m_Calls: []
+      OnInputDisable:
+        m_PersistentCalls:
+          m_Calls: []
+      DoubleTapTime: 0.3
+      LongPressTime: 0.5
+      SmoothDecrease: 0
+      OnInputPressed:
+        m_PersistentCalls:
+          m_Calls: []
+      OnPressedNormalized:
+        m_PersistentCalls:
+          m_Calls: []
+  showInputEvents: 0
+  ResetOnFocusLost: 0
+  OnInputEnabled:
+    m_PersistentCalls:
+      m_Calls: []
+  OnInputDisabled:
+    m_PersistentCalls:
+      m_Calls: []
+  IgnoreOnPause:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  PlayerID: Player0
 --- !u!1001 &4777089778430573057
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -466,3 +595,19 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 4777089778430573057}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6840252261509588182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2766297322352592132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0b5b9d4af0f31439aabd6b5de7b49e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: This Chest does not Require the Mode Action -> Ability Open Chest. It uses
+    a Trigger Proxy instead of a Zone
+  reference: {fileID: 0}
+  ShowDescription: 0

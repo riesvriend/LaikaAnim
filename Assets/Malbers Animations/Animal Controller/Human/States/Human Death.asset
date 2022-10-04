@@ -18,7 +18,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 
     Variable: {fileID: 0}
-  Priority: 10
+  Priority: 11
   General:
     modify: -1
     RootMotion: 1
@@ -45,11 +45,16 @@ MonoBehaviour:
   QueueFrom:
   - {fileID: 11400000, guid: 9ae07cd2f8f4c054687fecf634f8e5b3, type: 2}
   - {fileID: 11400000, guid: 8078fbdb01991b44b9c1351f444b5efe, type: 2}
+  ResetFrom: []
   SleepFromStance: []
   stances: []
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  Duration:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1
@@ -70,6 +75,7 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   CanStrafe: 0
+  StrafeAnimations: 1
   MovementStrafe: 1
   IdleStrafe: 1
   debug: 1

@@ -31,7 +31,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 224996856923056914}
   - {fileID: 4073206038481128}
@@ -67,7 +66,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debug: 0
   automatic: 0
-  DisableAfterUsed: 0
   BoneOnly: 0
   Angle: 360
   Weight: 1
@@ -123,14 +121,12 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
-  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 582640521697247116}
-        m_TargetAssemblyTypeName: 
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -145,7 +141,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 582640521697247116}
-        m_TargetAssemblyTypeName: 
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -160,7 +155,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1568184514266641412}
-        m_TargetAssemblyTypeName: 
         m_MethodName: Align
         m_Mode: 0
         m_Arguments:
@@ -172,7 +166,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 582640521697247116}
-        m_TargetAssemblyTypeName: 
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -187,7 +180,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ZoneCollider: {fileID: 65828915882394542}
-  Editor_Tabs1: 0
+  EditorShowEvents: 1
+  ShowStatModifiers: 0
 --- !u!114 &410859314147607806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +197,6 @@ MonoBehaviour:
   pointType: 0
   stoppingDistance: 0.75
   slowingDistance: 0
-  m_arriveLookAt: 0
   m_height: 0.5
   m_WaitTime:
     minValue: 1
@@ -214,7 +207,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114325918912131826}
-        m_TargetAssemblyTypeName: 
         m_MethodName: TargetArrived
         m_Mode: 0
         m_Arguments:
@@ -271,7 +263,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  AlignPos: 1
+  AlignPos: 0
   AlignRot: 0
   DoubleSided: 1
   AlignLookAt: 0
@@ -323,7 +315,6 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.12, y: 0.12, z: 0.12}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 224182341577880154}
   m_Father: {fileID: 4598879409358134}
@@ -383,7 +374,6 @@ RectTransform:
   m_LocalRotation: {x: -0.000000115202326, y: 0.7071067, z: -0.7071068, w: -0.00000011520231}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.04456928, y: 0.04456928, z: 0.04456928}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 224996856923056914}
   m_RootOrder: 0
@@ -416,7 +406,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -463,7 +452,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 2, y: 0.01, z: 2}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4598879409358134}
   m_RootOrder: 1
@@ -487,12 +475,10 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -517,7 +503,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &6777038013821264242
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,7 +529,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4598879409358134}
   m_RootOrder: 2

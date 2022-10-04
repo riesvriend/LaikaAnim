@@ -64,12 +64,10 @@ namespace MalbersAnimations.Weapons
                     {
                         if (!holster.Weapon.IsEquiped)
                         {
-                           var IsCollectable = holster.Weapon.GetComponent<ICollectable>();
+                            holster.Weapon.IsCollectable?.Drop();
 
-                            IsCollectable.Drop();
                             if (holster.Weapon)
-                            //Destroy(holster.Weapon.gameObject);
-                            holster.Weapon = null;
+                                holster.Weapon = null;
                         }
                         else
                         {
@@ -81,7 +79,7 @@ namespace MalbersAnimations.Weapons
 
                     if (newWeapon.IsPrefab()) newWeapon = Instantiate(newWeapon);       //if is a prefab instantiate on the scene
 
-                    newWeapon.transform.parent = holster.Transform;                     //Parent the weapon to his original holster          
+                    newWeapon.transform.parent = holster.GetSlot(nextWeapon.HolsterSlot); //Parent the weapon to his original holster          
                     newWeapon.transform.SetLocalTransform(nextWeapon.HolsterOffset);
 
                     holster.Weapon = nextWeapon;
@@ -95,17 +93,17 @@ namespace MalbersAnimations.Weapons
             ActiveHolster = holsters[ActiveHolsterIndex];
         }
 
-        [ContextMenu("Validate Holster Child Weapons")]
-        internal void ValidateWeaponsChilds()
-        {
-            foreach (var h in holsters)
-            {
-                if (h.Weapon == null && h.Transform != null && h.Transform.childCount > 0 )
-                {
-                    h.Weapon = (h.Transform.GetChild(0).GetComponent<MWeapon>()); ;
-                }
-            }
-        }
+        //[ContextMenu("Validate Holster Child Weapons")]
+        //internal void ValidateWeaponsChilds()
+        //{
+        //    foreach (var h in holsters)
+        //    {
+        //        if (h.Weapon == null && h.Transform != null && h.Transform.childCount > 0 )
+        //        {
+        //            h.Weapon = (h.Transform.GetChild(0).GetComponent<MWeapon>()); ;
+        //        }
+        //    }
+        //}
     }
 
 #region Inspector
@@ -148,15 +146,14 @@ namespace MalbersAnimations.Weapons
             IDRect.width -= 18;
             EditorGUI.LabelField(IDRect, "   Holster Transform ");
 
-            var buttonRect = new Rect(rect) { x = rect.width - 30, width = 55 , y = rect.y-1, height = EditorGUIUtility.singleLineHeight +3};
-
-            var oldColor = GUI.backgroundColor;
-            GUI.backgroundColor = new Color(0, 0.5f, 1f, 0.6f);
-            if (GUI.Button(buttonRect,new GUIContent("Weapon","Check for Weapons on the Holsters"), EditorStyles.miniButton))
-            {
-                m.ValidateWeaponsChilds();
-            }
-            GUI.backgroundColor = oldColor;
+           //var buttonRect = new Rect(rect) { x = rect.width - 30, width = 55 , y = rect.y-1, height = EditorGUIUtility.singleLineHeight +3};
+            //var oldColor = GUI.backgroundColor;
+            //GUI.backgroundColor = new Color(0, 0.5f, 1f, 0.6f);
+            //if (GUI.Button(buttonRect,new GUIContent("Weapon","Check for Weapons on the Holsters"), EditorStyles.miniButton))
+            //{
+            //    m.ValidateWeaponsChilds();
+            //}
+            //GUI.backgroundColor = oldColor;
         }
 
         private void DrawHolsterElement(Rect rect, int index, bool isActive, bool isFocused)

@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 760305990459949033, guid: 3713da0b703b90c46965625018868bfd,
+        type: 3}
+      propertyPath: ActiveMapIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 797631423224758285, guid: 3713da0b703b90c46965625018868bfd,
         type: 3}
       propertyPath: m_Name
@@ -26,6 +31,21 @@ PrefabInstance:
         type: 3}
       propertyPath: UseInventory
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314853264784305934, guid: 3713da0b703b90c46965625018868bfd,
+        type: 3}
+      propertyPath: UseExternal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314853264784305934, guid: 3713da0b703b90c46965625018868bfd,
+        type: 3}
+      propertyPath: UseHolsters
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314853264784305934, guid: 3713da0b703b90c46965625018868bfd,
+        type: 3}
+      propertyPath: Editor_Tabs1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3812847776239422769, guid: 3713da0b703b90c46965625018868bfd,
         type: 3}

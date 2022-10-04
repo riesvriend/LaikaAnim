@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using MalbersAnimations.Weapons;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -6,7 +7,9 @@ using UnityEditor;
 
 namespace MalbersAnimations.Controller
 {
+
     [HelpURL("https://malbersanimations.gitbook.io/animal-controller/main-components/manimal-controller/modes#mode-behaviour")]
+    [AddComponentMenu("Malbers/Mode Behavior")]
     public class ModeBehaviour : StateMachineBehaviour
     { 
         public ModeID ModeID;
@@ -25,9 +28,8 @@ namespace MalbersAnimations.Controller
         private Mode ModeOwner;
         private Ability ActiveAbility;
 
-
         public void InitializeBehaviour(MAnimal animal)
-        {
+        { 
             this.animal = animal;
             if (ModeID != null)
             {
@@ -42,7 +44,7 @@ namespace MalbersAnimations.Controller
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!animal) return;
+            if (!animal) { Destroy(this); return; } //Remove the behaviour if there's no Animal
 
             if (ModeID == null)  { Debug.LogError("Mode behaviour needs an ID"); return; }
             if (ModeOwner == null) { Debug.LogError($"There's no [{ModeID.name}] mode on your character"); return; }
@@ -50,12 +52,11 @@ namespace MalbersAnimations.Controller
             ActiveAbility = ModeOwner.ActiveAbility;
             if (animal.ModeStatus == Int_ID.Loop) return;            //Means is Looping so Skip!!!
 
-            if (EnterMode)   ModeOwner.AnimationTagEnter();
+            if (EnterMode)   ModeOwner.AnimationTagEnter(stateInfo.fullPathHash);
         }
 
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!animal) return; 
             //Means is Looping to itself So Skip the Exit Mode EXTREMELY IMPORTANT
             if (animator.GetCurrentAnimatorStateInfo(layerIndex).fullPathHash == stateInfo.fullPathHash) return;
             
@@ -64,7 +65,6 @@ namespace MalbersAnimations.Controller
 
         public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (!animal) return;
             ModeOwner.OnModeStateMove(stateInfo, animator, layerIndex);
         }
     }

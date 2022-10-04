@@ -220,7 +220,7 @@ namespace MalbersAnimations
             serializedObject.Update();
 
             MalbersEditor.DrawDescription("Uses this Transform position as the destination point for AI Driven characters");
-            EditorGUILayout.BeginVertical(MTools.StyleGray);
+          //  EditorGUILayout.BeginVertical(MTools.StyleGray);
             {
                 UnityEditor.EditorGUILayout.BeginVertical(UnityEditor.EditorStyles.helpBox);
                 {
@@ -264,7 +264,7 @@ namespace MalbersAnimations
                 UnityEditor.EditorGUILayout.EndVertical();
                 UnityEditor.EditorGUILayout.PropertyField(OnTargetArrived);
             }
-            UnityEditor.EditorGUILayout.EndVertical();
+           // UnityEditor.EditorGUILayout.EndVertical();
             serializedObject.ApplyModifiedProperties();
         }
     }

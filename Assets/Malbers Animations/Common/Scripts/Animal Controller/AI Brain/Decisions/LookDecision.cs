@@ -43,6 +43,8 @@ namespace MalbersAnimations.Controller.AI
         public bool MoveToTarget = true;
         [Tooltip("Remove Target when loose sight:\nIf the Target No longer on the Field of View: Set the Target from the AIControl as NULL")]
         public bool RemoveTarget = false;
+        [Tooltip("Select randomly one of the potential targets, not the first one found")]
+        public bool ChooseRandomly = false;
 
         [Space]
         [Tooltip("Look for this Unity Tag on an Object")]
@@ -309,18 +311,43 @@ namespace MalbersAnimations.Controller.AI
             float minDistance = float.MaxValue;
             Transform Closest = null;
 
-            for (int i = 0; i < Tags.TagsHolders.Count; i++)
-            {
-                var go = Tags.TagsHolders[i].transform;
+            var filtredTags = Tags.GambeObjectbyTag(tags);
+            if (filtredTags == null)
+                return false;
 
-                if (go != null)
+            if (ChooseRandomly)
+            {
+                while(filtredTags.Count != 0)
                 {
-                    if (IsInFieldOfView(brain, go.position, out float Distance))
+                    int newIndex = Random.Range(0, filtredTags.Count);
+                    var go = filtredTags[newIndex].transform;
+
+                    if(go != null)
                     {
-                        if (Distance < minDistance)
+                        if (IsInFieldOfView(brain, go.position, out float Distance))
                         {
-                            minDistance = Distance;
-                            Closest = go;
+                            AssignMoveTarget(brain, go, assign);
+                            return true;
+                        }
+                    }
+                    filtredTags.RemoveAt(newIndex);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < filtredTags.Count; i++)
+                {
+                    var go = filtredTags[i].transform;
+
+                    if (go != null)
+                    {
+                        if (IsInFieldOfView(brain, go.position, out float Distance))
+                        {
+                            if (Distance < minDistance)
+                            {
+                                minDistance = Distance;
+                                Closest = go;
+                            }
                         }
                     }
                 }
@@ -338,6 +365,8 @@ namespace MalbersAnimations.Controller.AI
         {
             if (string.IsNullOrEmpty(UnityTag)) return false;
 
+            if (ChooseRandomly)
+                return ChooseRandomObject(brain, assign, index);
             return ClosestGameObject(brain, assign, index);
         }
 
@@ -345,6 +374,8 @@ namespace MalbersAnimations.Controller.AI
         {
             if (gameObjectSet == null || gameObjectSet.Count == 0) return false;
 
+            if (ChooseRandomly)
+                return ChooseRandomObject(brain, assign, index);
             return ClosestGameObject(brain, assign, index);
         }
 
@@ -404,6 +435,37 @@ namespace MalbersAnimations.Controller.AI
             }
             return false;
         }
+
+        public bool ChooseRandomObject(MAnimalBrain brain, bool assign, int index)
+        {
+            var All = new List<GameObject>();
+            if (brain.DecisionsVars[index].gameobjects != null)
+                All.AddRange(brain.DecisionsVars[index].gameobjects); //catch all the saved gameobjects with a tag
+            if (All.Count == 0) return false;
+
+            while (All.Count != 0)
+            {
+                int newIndex = Random.Range(0, All.Count);
+                if (All[newIndex] != null)
+                {
+                    var Center = All[newIndex].transform.position + new Vector3(0, brain.Animal.Height, 0);
+
+                    var renderer = brain.DecisionsVars[index].Components[newIndex];
+
+                    if (renderer != null) Center = (renderer as Renderer).bounds.center;
+
+                    if (IsInFieldOfView(brain, Center, out float Distance))
+                    {
+                        AssignMoveTarget(brain, All[newIndex].transform, assign);
+                        return true;
+                    }
+                }
+                All.RemoveAt(newIndex);
+            }
+
+            return false;
+        }
+
 
         public bool LookForGameObjectByName(MAnimalBrain brain, bool assign)
         {
@@ -496,7 +558,7 @@ namespace MalbersAnimations.Controller.AI
 
         SerializedProperty
             Description, UnityTag, debugColor, zoneType, ZoneID, tags, LookRange, LookAngle, lookFor, transform, gameobject, gameObjectSet, AllZones, WaitForTasks, WaitForTask, LookMultiplier,
-            MessageID, send, interval, ObstacleLayer, MoveToTarget, AssignTarget, GameObjectName, RemoveTarget, ZoneModeIndex;
+            MessageID, send, interval, ObstacleLayer, MoveToTarget, AssignTarget, GameObjectName, RemoveTarget, ZoneModeIndex, ChooseRandomly;
 
         //MonoScript script;
         private void OnEnable()
@@ -506,6 +568,7 @@ namespace MalbersAnimations.Controller.AI
             Description = serializedObject.FindProperty("Description");
             tags = serializedObject.FindProperty("tags");
             RemoveTarget = serializedObject.FindProperty("RemoveTarget");
+            ChooseRandomly = serializedObject.FindProperty("ChooseRandomly");
             GameObjectName = serializedObject.FindProperty("GameObjectName");
             UnityTag = serializedObject.FindProperty("UnityTag");
             LookRange = serializedObject.FindProperty("LookRange");
@@ -561,9 +624,11 @@ namespace MalbersAnimations.Controller.AI
                         EditorGUI.indentLevel++;
                         EditorGUILayout.PropertyField(tags, true);
                         EditorGUI.indentLevel--;
+                        EditorGUILayout.PropertyField(ChooseRandomly);
                         break;
                     case LookFor.UnityTag:
                         EditorGUILayout.PropertyField(UnityTag);
+                        EditorGUILayout.PropertyField(ChooseRandomly);
                         break;
                     case LookFor.Zones:
                         var ZoneName = ((ZoneType)zoneType.intValue).ToString();
@@ -605,6 +670,7 @@ namespace MalbersAnimations.Controller.AI
                         break;
                     case LookFor.RuntimeGameobjectSet:
                         EditorGUILayout.PropertyField(gameObjectSet);
+                        EditorGUILayout.PropertyField(ChooseRandomly);
                         break;
                     default:
                         break;
@@ -612,6 +678,7 @@ namespace MalbersAnimations.Controller.AI
 
                 EditorGUILayout.PropertyField(AssignTarget);
                 EditorGUILayout.PropertyField(MoveToTarget);
+               
 
                 if (!AssignTarget.boolValue)
                 {

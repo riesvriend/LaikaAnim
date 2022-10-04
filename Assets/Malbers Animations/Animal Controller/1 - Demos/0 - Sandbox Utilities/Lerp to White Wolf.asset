@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86459bdf5dea22643860b4aab52f895f, type: 3}
   m_Name: Lerp to White Wolf
   m_EditorClassIdentifier: 
-  ToMaterial: {fileID: 2100000, guid: 84f8917fe19272b498e3eea3401ba603, type: 2}
+  ToMaterial: {fileID: 2100000, guid: 5504432effd046248b011754a8e7b30f, type: 2}
   materialIndex: 0
   time:
     UseConstant: 1

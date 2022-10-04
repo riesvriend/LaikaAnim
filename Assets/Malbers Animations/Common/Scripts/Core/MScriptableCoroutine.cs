@@ -17,13 +17,19 @@ namespace MalbersAnimations
             {
                 Main = this;
                 ScriptableCoroutines = new List<ScriptableCoroutine>();
+               // Debug.Log("Restart: Create New List = " + ScriptableCoroutines,gameObject);  
+                DontDestroyOnLoad(this);
+            }
+            else
+            {
+              //  Debug.Log("Destroying Duplicates: "+gameObject.name);
+                Destroy(this);
             }
         }
 
         private void Awake()
         {
             Restart();
-            DontDestroyOnLoad(this);
         }
 
 
@@ -38,6 +44,8 @@ namespace MalbersAnimations
                     Main.ScriptableCoroutines.Add(SC); //Add the Fist Time
                 }
                 Main.StartCoroutine(Coroutine);
+
+               // Debug.Log("Play Coroutine: " + SC.name, SC);
             }
         }
 
@@ -53,16 +61,20 @@ namespace MalbersAnimations
                 var ScriptCoro = new GameObject();
                 ScriptCoro.name = "Scriptable Coroutines";
                 ScriptCoro.AddComponent<MScriptableCoroutine>();
+
+              //  Debug.Log("Create New SC for the First Time", ScriptCoro);
             }
         }
 
-        protected virtual void OnDestroy()
+        protected virtual void OnDisable()
         {
             if (ScriptableCoroutines != null)
             foreach (var c in ScriptableCoroutines)
                 c.CleanCoroutine();
 
             StopAllCoroutines();
+
+           // Debug.Log("StopAllCoroutines",gameObject);
         }
     }
 }

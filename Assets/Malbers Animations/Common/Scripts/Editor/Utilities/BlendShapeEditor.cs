@@ -33,7 +33,7 @@ namespace MalbersAnimations.Utilities
 
             EditorGUI.BeginChangeCheck();
             {
-                using (new GUILayout.VerticalScope(MalbersEditor.StyleGray))
+              //  using (new GUILayout.VerticalScope(MalbersEditor.StyleGray))
                 {
                     using (new GUILayout.VerticalScope(EditorStyles.helpBox))
                     {

@@ -39,7 +39,7 @@ namespace MalbersAnimations
 
             MalbersEditor.DrawDescription("Stats Manager");
 
-            EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+          //  EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
             {
 
                 if (Application.isPlaying)
@@ -58,19 +58,25 @@ namespace MalbersAnimations
 
                 if (list.index != -1)
                 {
-                    var element = statList.GetArrayElementAtIndex(list.index);
-                   
-                   
-                    var EditorTabs = element.FindPropertyRelative("EditorTabs");
+                    var element = statList.GetArrayElementAtIndex(list.index); 
 
-                    EditorTabs.intValue = GUILayout.Toolbar(EditorTabs.intValue, Tabs1);
+                    EditorGUI.indentLevel++;
+                    EditorGUILayout.PropertyField(element, new GUIContent("Properties"),false);
+                    EditorGUI.indentLevel--;
 
-                    if (EditorTabs.intValue == 0) DrawGeneral(element);
-                    else DrawEvents(element); 
+                    if (element.isExpanded)
+                    {
+                        var EditorTabs = element.FindPropertyRelative("EditorTabs");
+
+                        EditorTabs.intValue = GUILayout.Toolbar(EditorTabs.intValue, Tabs1);
+
+                        if (EditorTabs.intValue == 0) DrawGeneral(element);
+                        else DrawEvents(element);
+                    }
                 }
             }
             //EditorGUILayout.PropertyField(Set,new GUIContent("Runtime Set")); 
-            EditorGUILayout.EndVertical();
+        //    EditorGUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -94,28 +100,28 @@ namespace MalbersAnimations
             var DegenWaitTime = element.FindPropertyRelative("DegenWaitTime");
             var multiplier = element.FindPropertyRelative("multiplier");
 
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            EditorGUILayout.BeginHorizontal();
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                EditorGUIUtility.labelWidth = 60;
-                EditorGUILayout.PropertyField(Value);
-                EditorGUILayout.PropertyField(multiplier, new GUIContent("Mult", "Stat Multiplier to be used when the value is modified"));
-                EditorGUIUtility.labelWidth = 0;
-            }
-            EditorGUILayout.EndHorizontal();
+                using (new GUILayout.HorizontalScope())
+                {
+                    EditorGUIUtility.labelWidth = 60;
+                    EditorGUILayout.PropertyField(Value);
+                    EditorGUILayout.PropertyField(multiplier, new GUIContent("Mult", "Stat Multiplier to be used when the value is modified"));
+                    EditorGUIUtility.labelWidth = 0;
+                }
 
-            EditorGUILayout.BeginHorizontal();
-            {
-                EditorGUIUtility.labelWidth = 60;
-                EditorGUILayout.PropertyField(MinValue, new GUIContent("Min"));
-                EditorGUILayout.PropertyField(MaxValue, new GUIContent("Max"));
-                EditorGUIUtility.labelWidth = 0;
-            }
-            EditorGUILayout.EndHorizontal();
+                using (new GUILayout.HorizontalScope())
+                {
+                    EditorGUIUtility.labelWidth = 60;
+                    EditorGUILayout.PropertyField(MinValue, new GUIContent("Min"));
+                    EditorGUILayout.PropertyField(MaxValue, new GUIContent("Max"));
+                    EditorGUIUtility.labelWidth = 0;
+                }
 
-            EditorGUILayout.PropertyField(DisableOnEmpty);
 
-            EditorGUILayout.EndVertical();
+                EditorGUILayout.PropertyField(DisableOnEmpty);
+
+            }  
 
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);

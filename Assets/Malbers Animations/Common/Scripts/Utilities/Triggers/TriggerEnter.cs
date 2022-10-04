@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using MalbersAnimations.Events;
 using MalbersAnimations.Scriptables;
-using MalbersAnimations.Controller;
-using System;
-using UnityEditor;
 
 namespace MalbersAnimations.Utilities
 {

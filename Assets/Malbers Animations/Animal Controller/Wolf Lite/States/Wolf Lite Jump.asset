@@ -20,7 +20,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   Priority: 5
   General:
-    modify: 3279
+    modify: 7375
     RootMotion: 1
     Sprint: 1
     Gravity: 0
@@ -47,12 +47,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4dc5ca673dc60d346a62529c8a9bd8ff, type: 2}
   - {fileID: 11400000, guid: b04409080ae7e3c4fa645d8c67b40424, type: 2}
   - {fileID: 11400000, guid: 36ebf5306b7174949934aa62255781b1, type: 2}
+  - {fileID: 11400000, guid: 4d183b4d42bdb3f47a6f19b36e4a7d4d, type: 2}
   QueueFrom: []
+  ResetFrom: []
   SleepFromStance: []
   stances: []
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  Duration:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1
@@ -73,10 +79,11 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   CanStrafe: 0
+  StrafeAnimations: 1
   MovementStrafe: 1
   IdleStrafe: 1
   debug: 1
-  Editor_Tabs1: 1
+  Editor_Tabs1: 3
   ID: {fileID: 11400000, guid: 9ae07cd2f8f4c054687fecf634f8e5b3, type: 2}
   JumpPressed:
     UseConstant: 1
@@ -88,19 +95,19 @@ MonoBehaviour:
     Variable: {fileID: 0}
   JumpPressedLerp: 4
   AirControl:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue: 1
     Variable: {fileID: 11400000, guid: f39bbadf72c684c4d804bfe47b409b80, type: 2}
   AirRotation:
     UseConstant: 1
-    ConstantValue: 10
+    ConstantValue: 5
     Variable: {fileID: 11400000, guid: 5c4fe0b08ccfb364689cd2dfa25c82aa, type: 2}
   jumpProfiles:
   - name: In Place
     VerticalSpeed: 0
     JumpLandDistance: 1.53
     fallingTime: 0.66
-    ExitTime: 0.9
+    ExitTime: 0.967
     CliffTime:
       minValue: 0.55
       maxValue: 0.7

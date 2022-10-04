@@ -16,23 +16,27 @@ namespace MalbersAnimations.Conditions
     [AddComponentMenu("Malbers/Interactions/Conditions"),DisallowMultipleComponent]
     public class MConditions : MonoBehaviour
     {
+        [SerializeReference]
         public List<MCondition> conditions;
 
         public UnityEvent Then = new UnityEvent();
         public UnityEvent Else = new UnityEvent();
+
+        public MCondition Pinned;
 
         public bool debug;
 
         [HideInInspector] public int SelectedState = -1;
 
         /// <summary> Set the Target of the conditions depending of the Object Type</summary>
-        public virtual void SetConditionsTarget(UnityEngine.Object target)
+        public virtual void SetTarget(UnityEngine.Object target)
         {
             foreach (var c in conditions)
-            {
                 c.SetTarget(target);
-            }
         }
+
+        public virtual void Pin_SetTarget(UnityEngine.Object target) => Pinned?.SetTarget(target);
+        public virtual void Pin_Condition(int Index) => Pinned = conditions[Index];
 
         public void Evaluate() => TryEvaluate();
 

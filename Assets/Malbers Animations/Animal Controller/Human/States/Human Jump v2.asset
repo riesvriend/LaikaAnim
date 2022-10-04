@@ -59,15 +59,24 @@ MonoBehaviour:
   IncludeSleepState: 1
   SleepFromState:
   - {fileID: 11400000, guid: c44e7e8d6840aa243b6c33ec85052763, type: 2}
+  - {fileID: 11400000, guid: 7e364e53b77644c47aa3abdaa2e2c08c, type: 2}
   SleepFromMode:
   - {fileID: 11400000, guid: 4dc5ca673dc60d346a62529c8a9bd8ff, type: 2}
   - {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
+  - {fileID: 11400000, guid: dc411047be38d924fbfc67128f6957f2, type: 2}
+  - {fileID: 11400000, guid: 29bdac49b8510e74db1c074ba91fbe3f, type: 2}
+  - {fileID: 11400000, guid: 87cd5a9f71d66f84493bd68df8277f21, type: 2}
   QueueFrom: []
+  ResetFrom: []
   SleepFromStance: []
   stances: []
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  Duration:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1
@@ -88,13 +97,14 @@ MonoBehaviour:
     ConstantValue: 0.1
     Variable: {fileID: 0}
   CanStrafe: 1
+  StrafeAnimations: 0
   MovementStrafe: 1
   IdleStrafe: 1
   debug: 1
   Editor_Tabs1: 3
   ID: {fileID: 11400000, guid: 9ae07cd2f8f4c054687fecf634f8e5b3, type: 2}
   AirControl:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue: 1
     Variable: {fileID: 11400000, guid: f39bbadf72c684c4d804bfe47b409b80, type: 2}
   AirRotation:
@@ -128,10 +138,13 @@ MonoBehaviour:
     Variable: {fileID: 0}
   ResetJump:
   - {fileID: 11400000, guid: 975403cc10f8cec46a3caa6ed4e3d6c5, type: 2}
+  - {fileID: 11400000, guid: 7e364e53b77644c47aa3abdaa2e2c08c, type: 2}
+  - {fileID: 11400000, guid: 2f7727669c8fcdf4999e66cb669e2608, type: 2}
   profiles:
   - name: InPlace
     LastState: {fileID: 0}
     VerticalSpeed: 0
+    ForwardPush: 0
     JumpTime: 0.2
     Height:
       UseConstant: 1
@@ -145,6 +158,7 @@ MonoBehaviour:
   - name: Walk
     LastState: {fileID: 0}
     VerticalSpeed: 0.5
+    ForwardPush: 0
     JumpTime: 0.1
     Height:
       UseConstant: 1
@@ -158,10 +172,25 @@ MonoBehaviour:
   - name: Run
     LastState: {fileID: 0}
     VerticalSpeed: 1.2
+    ForwardPush: 0
     JumpTime: 0.5
     Height:
       UseConstant: 1
       ConstantValue: 6
+      Variable: {fileID: 0}
+    GravityPower:
+      UseConstant: 1
+      ConstantValue: 2
+      Variable: {fileID: 0}
+    StartGravityTime: 10
+  - name: WallRun
+    LastState: {fileID: 11400000, guid: 2f7727669c8fcdf4999e66cb669e2608, type: 2}
+    VerticalSpeed: 0
+    ForwardPush: 3
+    JumpTime: 0.5
+    Height:
+      UseConstant: 1
+      ConstantValue: 10
       Variable: {fileID: 0}
     GravityPower:
       UseConstant: 1

@@ -14,7 +14,13 @@ namespace MalbersAnimations.Controller
         /// <summary>Is this Mode Active?</summary>
         [SerializeField] private bool active = true;
 
+        /// <summary>Enable Disable the modes temporarilly and internally by multiple outside sources</summary>
+        private int TemporalActivation = 1;
+
         [SerializeField] private bool ignoreLowerModes = false;
+
+        [Tooltip("The Abilities animations have cooldown. If this is set to false then the animations needs to finish before activating a new Ability")]
+        [SerializeField] private bool hasCoolDown = false;
 
         /// <summary>Animation Tag Hash of the Mode</summary>
         protected int ModeTagHash;
@@ -22,13 +28,13 @@ namespace MalbersAnimations.Controller
         public string Input;
         /// <summary>ID of the Mode </summary>
         [SerializeField] public ModeID ID;
-       
-        
-        /// <summary>Modifier that can be used when the Mode is Enabled/Disabled or Interrupted</summary>
+
         [CreateScriptableAsset]
+        /// <summary>Modifier that can be used when the Mode is Enabled/Disabled or Interrupted</summary>
+        [ExposeScriptableAsset]
         public ModeModifier modifier;
 
-        /// <summary>Elapsed time to be interrupted by another Mode If 0 then the Mode cannot be interrupted by any other mode </summary>
+        [Tooltip("Elapsed time needed to interrupt the current ability by another Mode. [Has Cooldown needs to be true]")]
         public FloatReference CoolDown = new FloatReference(0);
 
         /// <summary>List of Abilities </summary>
@@ -46,6 +52,8 @@ namespace MalbersAnimations.Controller
         public UnityEvent OnEnterMode = new UnityEvent();
         public UnityEvent OnExitMode = new UnityEvent();
 
+        public float PositionMultiplier => ActiveAbility.AdditivePosition;
+
         [Tooltip("Global Audio Source assigned to the Mode to Play Audio Clips")]
         public AudioSource m_Source;
         #endregion
@@ -54,13 +62,38 @@ namespace MalbersAnimations.Controller
 
         /// <summary>Is THIS Mode Playing?</summary>
         public bool PlayingMode { get; set; }
+        //{
+        //    get  => playingMode;
+
+        //    set
+        //    {
+        //        playingMode = value;
+        //        Debug.Log($"{Animal.name} {ID.name} PlayingMode [{playingMode}]");
+        //    }
+        //}
+        //private bool playingMode;
+
+        /// <summary>Stored Value for the Actual charge of the Mode</summary>
+        public float ChargeValue { get; set; }
         // public int EnterStateInfo { get; set; }
 
         /// <summary> Is the Mode In transition </summary>
         public bool IsInTransition { get; set; }
 
-        /// <summary> Is the Mode Active</summary>
-        public bool Active { get => active; set => active = value; }
+        /// <summary> Is the Mode Enabled</summary>
+        public bool Active
+        {
+            get => active && TemporalActivation > 0;
+            set
+            {
+                if (value != active)
+                {
+                    active = value;
+                    Debugging($"<b><color=green>Set Active: </color>[{value}] </b>");
+                }
+            }
+        }
+
 
         /// <summary>Priority of the Mode.  Higher value more priority</summary>
         public int Priority { get; internal set; }
@@ -73,23 +106,22 @@ namespace MalbersAnimations.Controller
 
         public string Name => ID != null ? ID.name : string.Empty;
 
-        /// <summary>Does this Mode uses Cool Down? False if Cooldown = 0</summary>
-        public bool HasCoolDown => (CoolDown == 0) || InCoolDown;
+        /// <summary>Means the Ability needs to finish the Animation or it has cooldown and its on cooldown</summary>
+       // public bool HasCoolDown => (CoolDown == 0) || InCoolDown;
+        public bool HasCoolDown { get => hasCoolDown; set => hasCoolDown = value; }
 
         /// <summary>Is this mode in CoolDown?</summary>
-        public bool InCoolDown  { get; internal set; }
+        public bool InCoolDown { get; internal set; }
         //{
         //    get
         //    {
-        //        Debug.Log($"{Animal.name} InCoolDown [{inCoolDown}]");
-
         //        return inCoolDown;
         //    }
 
         //    set
         //    {
         //        inCoolDown = value;
-
+        //        Debug.Log($"{Animal.name} {ID.name} InCoolDown [{inCoolDown}]");
         //    }
         //}
         //private bool inCoolDown;
@@ -107,17 +139,22 @@ namespace MalbersAnimations.Controller
             {
                 m_AbilityIndex.Value = value;
                 OnAbilityIndex.Invoke(value);
-              //  Debug.Log($"{Animal.name} AbilityIndex [{m_AbilityIndex.Value}]");
+                //  Debug.Log($"{Animal.name} AbilityIndex [{m_AbilityIndex.Value}]");
             }
         }
 
         public void SetAbilityIndex(int index) => AbilityIndex = index;
 
+        /// <summary>Interrupt this mode only if is the one playing</summary>
+        public void Interrupt()
+        {
+            if (Animal.ActiveMode == this) Animal.Mode_Interrupt();
+        }
 
         public MAnimal Animal { get; private set; }
 
         /// <summary> Current Selected Ability to Play on the Mode</summary>
-        public Ability ActiveAbility  { get; private set; }
+        public Ability ActiveAbility { get; private set; }
         //{
         //    get => m_ActiveAbility;
         //    set
@@ -129,7 +166,7 @@ namespace MalbersAnimations.Controller
         //private Ability m_ActiveAbility;
 
         /// <summary>Current Value of the Input if this mode was called  by an Input</summary>
-        public bool InputValue  { get; internal set; }
+        public bool InputValue { get; internal set; }
         //{
         //    get => m_InputValue;
         //    set
@@ -139,44 +176,27 @@ namespace MalbersAnimations.Controller
         //    }
         //}
         //private bool m_InputValue;
-
         #endregion
-
-      
 
 
         internal void ConnectInput(IInputSource InputSource, bool connect)
         {
-            if (!string.IsNullOrEmpty(Input)) //If a mode has an Input 
+            //Mode Input
+            if (connect)
+                InputSource.ConnectInput(Input, ActivatebyInput);
+            else
+                InputSource.DisconnectInput(Input, ActivatebyInput);
+
+            //Abilities Inputs
+            foreach (var a in Abilities)
             {
-                var input = InputSource.GetInput(Input);
+                ////Very important to use the same listener, so it can be added or removed.
+                if (a.InputListener == null) a.InputListener = (x) => ActivateAbilitybyInput(a, x);
 
-                if (input != null)
-                {
-                    if (connect)
-                        input.InputChanged.AddListener(ActivatebyInput);
-                    else
-                        input.InputChanged.RemoveListener(ActivatebyInput);
-                }
-            }
-
-            foreach (var ability in Abilities)
-            {
-                if (!string.IsNullOrEmpty(ability.Input)) //If a mode has an Input 
-                {
-                    var input = InputSource.GetInput(ability.Input);
-
-                    if (input != null)
-                    {
-                        if (ability.InputListener == null)
-                            ability.InputListener = (x) => ActivateAbilitybyInput(ability, x); //Very important to remove the same added listener.
-
-                        if (connect)
-                            input.InputChanged.AddListener(ability.InputListener);
-                        else
-                            input.InputChanged.RemoveListener(ability.InputListener);
-                    }
-                }
+                if (connect)
+                    InputSource.ConnectInput(a.Input, a.InputListener);
+                else
+                    InputSource.DisconnectInput(a.Input, a.InputListener);
             }
         }
 
@@ -187,6 +207,7 @@ namespace MalbersAnimations.Controller
             OnAbilityIndex.Invoke(AbilityIndex);                //Make the first invoke
             ActivationTime = -CoolDown * 2;
             InCoolDown = false;
+            TemporalActivation = 1;
         }
 
         /// <summary>Reset the current mode and ability</summary> 
@@ -196,7 +217,9 @@ namespace MalbersAnimations.Controller
             {
                 Animal.Set_State_Sleep_FromMode(false);  //Restore all the States that are sleep from this mode
             }
-                PlayingMode = false;
+
+            PlayingMode = false;
+            //InCoolDown = false;
 
 
             modifier?.OnModeExit(this);
@@ -209,33 +232,35 @@ namespace MalbersAnimations.Controller
                     if (ActiveAbility.audioSource != null) ActiveAbility.audioSource.Stop();
                     if (m_Source != null) m_Source.Stop();
                 }
-                OnExitInvoke();
+
+                ActiveAbility.OnExit.Invoke();
+                // OnExitInvoke();
             }
 
             if (ResetToDefault && !InputValue) //Important if the Input is still Active then Do not Reset to Default
                 m_AbilityIndex.Value = DefaultIndex.Value;
 
             ActiveAbility = null;                           //Reset to the default
-            //InCoolDown = false;
-
-           // Debugging("ResetMode");
-
         }
 
         /// <summary>Reset the current mode inside the Animal</summary> 
         public virtual void ModeExit()
         {
-           // Debugging("ModeExit");
+            // Debugging("ModeExit");
+            Animal.ModeTime = 0;            //Reset Mode Time 
+            Animal.ModeAbility = 0;         //Reset the Mode Parameter on the Animator... 
+            Animal.SetModeStatus(0);        //Reset/Interrupt the Mode Ability to 0
 
+            //These two at the end!!! Super Important and needs to be at the end!!
+            OnExitMode.Invoke();
             Animal.ActiveMode = null;
-            Animal.ModeTime = 0;                            //Reset Mode Time 
-            Animal.SetModeStatus(Animal.ModeAbility = 0); //Reset the Mode Ability to 0
+            //InCoolDown = false;
         }
 
         /// <summary>Resets the Ability Index on the  animal to the default value</summary>
         public virtual void ResetAbilityIndex()
         {
-            if (!Animal.Zone) SetAbilityIndex(DefaultIndex); //Dont reset it if you are on a zone... the Zone will do it automatically if you exit it
+            if (!Animal.InZone) SetAbilityIndex(DefaultIndex); //Dont reset it if you are on a zone... the Zone will do it automatically if you exit it
         }
 
         /// <summary>Returns True if a mode has an Ability Index</summary>
@@ -255,9 +280,12 @@ namespace MalbersAnimations.Controller
 
                 if (InputValue)
                 {
-                    if (Animal.Zone && Animal.Zone.IsMode) //meaning the Zone its a Mode zone and it also changes the Status
-                        Animal.Zone.ActivateZone(Animal);
-                    else 
+                    Debugging($"<B><color=yellow>[Try Activate by Input <{Input}>]</color></B>");
+
+
+                    if (Animal.InZone && Animal.InZone.IsMode) //meaning the Zone its a Mode zone and it also changes the Status
+                        Animal.InZone.ActivateZone(Animal);
+                    else
                         TryActivate();
                 }
                 else
@@ -287,7 +315,7 @@ namespace MalbersAnimations.Controller
 
                 if (ability.InputValue)
                 {
-                   TryActivate(ability);
+                    TryActivate(ability);
                 }
                 else
                 {
@@ -307,6 +335,8 @@ namespace MalbersAnimations.Controller
             ActiveAbility = newAbility;
             Animal.SetModeParameters(this, modeStatus);
 
+            ChargeValue = 0;
+
             ActiveAbility.modifier?.OnModeEnter(this); //Active Local Mode Modifier
 
             AudioSource source = ActiveAbility.audioSource != null ? ActiveAbility.audioSource : m_Source;
@@ -314,13 +344,19 @@ namespace MalbersAnimations.Controller
             {
                 if (!ActiveAbility.audioClip.NullOrEmpty())
                     source.clip = ActiveAbility.audioClip.GetValue();
-             
+
                 if (source.isPlaying) source.Stop();
                 source.PlayDelayed(ActiveAbility.ClipDelay);
             }
 
-            Debugging($"<B><color=yellow>[PREPARED]</color></B> Ability: <B><color=white>[{ActiveAbility.Name}]</color>. {deb}</b>");
+            Debugging($"<B><color=yellow>[PREPARED]</color></B> Ability: <B><color=white>[{ActiveAbility.Name}] " +
+                $"[{Mathf.Abs(ID * 1000) + Mathf.Abs(ActiveAbility.Index)}]</color>. {deb}</b>");
         }
+
+        /// <summary>Force the Activation of a Mode using the Active Ability Index</summary>
+        public bool ForceActivate() => ForceActivate(AbilityIndex);
+
+        /// <summary>Force the Activation of a Mode using an Ability Index</summary>
 
         public bool ForceActivate(int abilityIndex)
         {
@@ -328,19 +364,18 @@ namespace MalbersAnimations.Controller
 
             if (!Animal.IsPreparingMode)
             {
-                Debugging($"<B><color=Cyan>[FORCED ACTIVATE {AbilityIndex}]</color></B>");
+                Debugging($"<B><color=Cyan>[FORCED ACTIVATE] Next Ability:[{AbilityIndex}]</color></B>");
 
                 if (Animal.IsPlayingMode)
                 {
                     Animal.ActiveMode.ResetMode();
                     Animal.ActiveMode.ModeExit();                          //This allows to Play a mode again
                 }
-                
                 return TryActivate();
-
             }
             return false;
         }
+         
 
 
         public virtual bool TryActivate() => TryActivate(AbilityIndex);
@@ -355,7 +390,7 @@ namespace MalbersAnimations.Controller
             {
                 TryNextAbility.Status = status;
 
-                if (status == AbilityStatus.PlayOneTime)
+                if (status == AbilityStatus.ActiveByTime)
                     TryNextAbility.AbilityTime = time;
 
                 return TryActivate(TryNextAbility);
@@ -366,47 +401,53 @@ namespace MalbersAnimations.Controller
         /// <summary>Checks if the ability can be activated</summary>
         public virtual bool TryActivate(Ability newAbility)
         {
-            //Debug.Log($"TryActivate {(newAbility != null ? newAbility.Name : "NULL")}");
-
             if (!Active) return false;  
              
             int ModeStatus = 0; //Default Mode Status on the Mode .. This is changed if It can transition from an old ability to another
-            string deb = "";    //Safe the Aproved Result
+            string deb = "<-->";    //Safe the Aproved Result
              
             if (newAbility == null)
             {
-               // ModeExit();
-                Debugging($"Ability is [NULL]. FAILED TO PLAY");
-                ResetMode();
+                Debugging($"<Color=red> Skip Ability is [NULL] Index is {AbilityIndex}.</color>");
+                Animal.IsPreparingMode = false; //?!?!?!?!??!?! BUG?!?!? NOT??? MAYBE ???? 
                 return false;
             } 
+
+            // Debug.Log($"-----------------TryActivate {newAbility.Name} [{newAbility.Index.Value}]");
             
             if (Animal.IsPreparingMode)
             {
-                Debugging($"Its already preparing a Mode [Skip]");
+                Debugging($"<color=red><B>[{newAbility.Name}]</B> Failed to play. Its already preparing another Mode [Skip]</color>");
                 return false;
             }
 
+            //RARE BUG!!!!!! JUST IN CASE (IF THIS MODE SAYS THAT IS PLAYING MODE BUT IS NOT)
+            if (Animal.IsPlayingMode && this.PlayingMode && Animal.ActiveMode != this) PlayingMode = false;
+
+            
+            
             if (!newAbility.Active)
             {
-                Debugging($"<B>[{newAbility.Name}]</B> is Disabled. Mode Ignored");
+                Debugging($"<color=red><B>[{newAbility.Name}]</B> Failed to play. <Disabled></color>");
                 return false;
             }
 
             if (StateCanInterrupt(Animal.ActiveState.ID, newAbility))       //Check if the States can block the mode
             {
-                Debugging($"<B>[{newAbility.Name}]</B> cannot be Activated. The Active State [{Animal.ActiveStateID.name}] won't allow it");
+                Debugging($"<color=red><B>[{newAbility.Name}]</B> Failed to play." +
+                    $" Active State [{Animal.ActiveStateID.name}] won't allow it</color>");
                 return false;
             }
 
             if (StanceCanInterrupt(Animal.Stance, newAbility))       //Check if the States can block the mode
             {
-                Debugging($"<B>[{newAbility.Name}]</B> cannot be Activated. The current Stance won't allow it");
+                Debugging($"<color=red><B>[{newAbility.Name}]</B> Failed to play." +
+                   $" The current Stance won't allow it</color>");
                 return false;
             }
 
             //If this IS the mode that the animal is playing
-            if (PlayingMode)
+            if (this.PlayingMode)
             {
                 //if is set to Toggle then if is already playing this mode then stop it
                 if (ActiveAbility.Index == newAbility.Index && CheckStatus(AbilityStatus.Toggle))
@@ -422,55 +463,65 @@ namespace MalbersAnimations.Controller
                 {
                     ModeStatus = ActiveAbility.Index; //This is used to Transition from an Older Mode Ability to a new one
                     deb = ($"Last Ability [{ModeStatus}] is allowing it. <Check ModeBehaviour>");
-                    ResetMode();
+                    ResetMode(); //GO TO THE END
                 }
-                //Means the Ability needs to finish its animation or Finish the Cooldown
-                else if (HasCoolDown)
+                //Means the Ability needs to finish its animation
+                else if (!HasCoolDown)
                 {
-                    Debugging($"<b>[Failed to play - <color=white >{newAbility.Name}</color>]</b>. " +
-                        $"<b><color=white>[{Name}]</color></b> is in cooldown");
+                    Debugging($"<color=red><B>[{newAbility.Name}]</B> Failed to play." +
+                        $"Ability [{ActiveAbility.Name}] needs to finish</color>");
+                    return false;
+                }
+                //Means the Ability needs to finish its cooldown
+                else if (InCoolDown)
+                {
+                    Debugging($"<color=red><B>[{newAbility.Name}]</B> Failed to play." +
+                        $"Ability [{ActiveAbility.Name}] is in cooldown</color>");
                     return false;
                 }
                 //Means the Ability was in cooldown but the coldown ended!!
                 else if (!InCoolDown)
                 {
-                    ResetMode();
+                    ResetMode();//GO TO THE END
                     ModeExit(); //This allows to Play a mode again INT ID  = 0 to it can be available again
                     deb = ($"No Longer in Cooldown [Same Mode]");
                 }
             }
             //If the Animal is playing a Different Mode
-            else if (Animal.IsPlayingMode)    
+            else if (Animal.IsPlayingMode)
             {
-                var ActiveMode = Animal.ActiveMode;   //Store the Playing mode
+                var ActiveMode = Animal.ActiveMode;
+               // Debug.Log($"ActiveMode {ActiveMode.Name}");
+               //Debug.Log($"Priority [{Priority}] .. ActiveMode.Priority: {ActiveMode.Priority} ....  INCO{ActiveMode.InCoolDown}");
 
-                if (Priority > ActiveMode.Priority && IgnoreLowerModes && !InCoolDown)
+                if (Priority > ActiveMode.Priority && IgnoreLowerModes)
                 {
                     ActiveMode.ResetMode();
                     ActiveMode.InputValue = false;              //Set the Input to false so both modes don't overlap
                     ActiveMode.ModeExit();                      //This allows to Play a mode again
-
-                    deb = ($"Has Interrupted [{ActiveMode.ID.name}] Mode, because it had lower Priority");
+                    ActiveMode.InCoolDown = false;
+                    deb = ($"Exit [{ActiveMode.Name}] Mode, New [{Name}] has Higher Priority");
+                    //GO TO THE END
                 }
-                else
+                else if (!ActiveMode.HasCoolDown || ActiveMode.InCoolDown) //IF IT NEEDS TO FINISH ITS ANIMATIONS
                 {
-                    if (ActiveMode.HasCoolDown)
-                    {
-                        Debugging($"<B>[Failed to Activate]</B>. <b>[{ActiveMode.ID.name}]</b> needs to finish its animation");
-                        return false; //Means that the Animations needs to finish first if the Active Mode Has no Cool Down so skip the code
-                    }
-                    else if (!ActiveMode.InCoolDown)   //Means that the Active mode can be Interrupted since is no longer on cooldown
-                    {
-                        ActiveMode.ResetMode();
-                        ActiveMode.ModeExit(); //This allows to Play a mode again INT ID  = 0 to it can be available again
-                        deb = ($"No Longer in Cooldown [Different Mode]");
-                    }
+                    Debugging($"<color=red><B>[{newAbility.Name}]</B> Failed to play." +
+                        $"<b>[{ActiveMode.ID.name}]</b> needs to finish the current ability</color>");
+
+                    return false;
+                }
+                else if (!ActiveMode.InCoolDown)    //Means that the Active mode can be Interrupted since is no longer on cooldown
+                {
+                    ActiveMode.ResetMode();
+                    ActiveMode.ModeExit();          //This allows to Play a mode again INT ID  = 0 to it can be available again
+                    deb = ($"[Mode {ActiveMode.Name}] is no Longer in Cooldown ");
+                    //GO TO THE END
                 }
             }
-            else if (InCoolDown)
+            else if (HasCoolDown && CoolDown > 0  && InCoolDown) //If This mode is in cooldown even if is not playing ... it has finished
             {
-                Debugging($"<b>[Failed to play - <color=white >{newAbility.Name}</color>]</b>. " +
-                    $"<b><color=white>[Mode: {Name}]</color></b> is still in cooldown");
+                Debugging($"<color=red><B>[{newAbility.Name}]</B> Failed to play." +
+                  $" <b>[Mode: {Name}]</b> is still in Long Cooldown</color>");
                 return false;
             }
 
@@ -483,7 +534,7 @@ namespace MalbersAnimations.Controller
 
         /// <summary> Called by the Mode Behaviour on Entering the Animation State.
         ///Done this way to check for Modes that are on other Layers besides the Base Layer </summary>
-        public void AnimationTagEnter()
+        public void AnimationTagEnter(int AnimationPathHash)
         {
             if (ActiveAbility != null && !PlayingMode)
             {
@@ -498,17 +549,21 @@ namespace MalbersAnimations.Controller
 
                 ActivationTime = Time.time;                                 //Store the time the Mode started
 
-                if (!AllowMovement) Animal.InertiaPositionSpeed = Vector3.zero; //Remove Speeds if the Mode is Playing that does not allow Movement
+              //  if (!AllowMovement) Animal.InertiaPositionSpeed = Vector3.zero; //Remove Speeds if the Mode is Playing that does not allow Movement
 
                 var AMode = ActiveAbility.Status;                    //Check if the Current Ability overrides the global properties
 
                 var AModeName = AMode.ToString();
 
-                int ModeStatus = Int_ID.Loop;                                   //That means the Ability is Loopable
+                int ModeStatus = -1;               //That means the Ability is Loopable
 
                 if (AMode == AbilityStatus.PlayOneTime)
                 {
-                    ModeStatus = Int_ID.OneTime;                //That means the Ability is OneTime 
+                    ModeStatus = 1;                //That means the Ability is OneTime 
+                }
+                if (AMode == AbilityStatus.Charged)
+                {
+                    InputValue = true;               //Make sure the Input Value is se to true on Charged 
                 }
                 else if (AMode == AbilityStatus.ActiveByTime)
                 {
@@ -524,7 +579,7 @@ namespace MalbersAnimations.Controller
                     InputValue = false;
                 }
 
-                Debugging($"<B><color=orange>[ANIMATION ENTER]</color></B> Ability: " +
+                Debugging($"<B><color=yellow>[ANIM-ENTER]</color></B> Ability: " +
                     $"<B><color=white>[{ActiveAbility.Name}]</color> Status: <color=white> [{AModeName}]</color></B>");
 
                 SetCoolDown();
@@ -537,11 +592,20 @@ namespace MalbersAnimations.Controller
         {
             if (ActiveAbility.Status == AbilityStatus.Charged && ActiveAbility.AbilityTime > 0)
             {
-                var currentTime = (Time.time - ActivationTime)/ActiveAbility.AbilityTime;
-                var curve = ActiveAbility.ChargeCurve.Evaluate(currentTime);
-                var Char_Value = curve * ActiveAbility.ChargeValue;
+                var elapsedTime = (Time.time - ActivationTime)/ActiveAbility.AbilityTime;
+                var curve = ActiveAbility.ChargeCurve.Evaluate(elapsedTime);
+
+                ChargeValue = curve * ActiveAbility.ChargeValue;
+
                 Animal.Mode_SetPower(curve);
-                ActiveAbility.OnCharged.Invoke(Char_Value);
+                ActiveAbility.OnCharged.Invoke(ChargeValue);
+
+                //Release the Charged Ability
+                if (elapsedTime > 1 && ActiveAbility.Release)
+                {
+                    InputValue = false;
+                    Interrupt();
+                }
             }    
         }
 
@@ -549,20 +613,28 @@ namespace MalbersAnimations.Controller
         /// Done this way to check for Modes that are on other Layers besides the base one </summary>
         public void AnimationTagExit(Ability exitingAbility, int ExitTransitionAbility)
         {
-
             //Debug.Log("Active Ability = " + ActiveAbility.Index.Value);
             //Debug.Log("Exiting Avility = " + exitingAbility.Index.Value);
             //Debug.Log("ActiveMode = " + Animal.ActiveMode);
-
             //Means that we just exiting the same animation that we entered IMPORTANT
-            string ExitTagLogic = "[Skip Exit Logic]";
+
+              string deb = $"<B><color=red>[ANIM-EXIT]</color></B> Ability: " +
+                $"<B><color=white>[{(exitingAbility != null ?  exitingAbility.Name: "NULL")}]</color> </B> ";
+             
+              var ExitTagLogic =  $"Status: <B><color=white>[Skip Exit Logic]</color></B>";
+
             if (Animal.ActiveMode == this && ActiveAbility != null && ActiveAbility.Index.Value == exitingAbility.Index.Value)
             {
+                ExitTagLogic = $"Status: <B><color=white>[Mode Reseted] Status:[{ActiveAbility.Status}] " +
+                    $"ExitAb:[{exitingAbility.Index.Value}]</color></B>";
+                Debugging(deb + ExitTagLogic);
 
-                ExitTagLogic = $"[Mode Reseted] AcAb:[{ActiveAbility.Index.Value}- {ActiveAbility.Status.ToString()}] ExAb:[{exitingAbility.Index.Value}]";
 
-                if (ActiveAbility.Status != AbilityStatus.PlayOneTime) SetCoolDown(); //Set the cooldown after the mode has finish if is not set to Play one time
+                //Set the cooldown after the mode has finish if is not set to Play one time
+                if (ActiveAbility.Status != AbilityStatus.PlayOneTime) 
+                    SetCoolDown(); 
 
+                //OnExitInvoke();
                 ResetMode();
                 ModeExit();
 
@@ -572,15 +644,16 @@ namespace MalbersAnimations.Controller
 
                     if (TryActivate(ExitTransitionAbility))
                     {
-                        ExitTagLogic = "[Exit to another Ability]";
-                        AnimationTagEnter();  //Do the animation Tag Enter since the next animation it may not be a entering mode animation
+                        ExitTagLogic = $"Status: <B><color=white>[Exit to another Ability]</color></B>";
+                        Debugging(deb + ExitTagLogic);
+
+                        AnimationTagEnter(0);  //Do the animation Tag Enter since the next animation it may not be a entering mode animation
                     }
                 }
                 else
                 {
                     if (!InCoolDown) //If the Mode is not in CoolDown
-                    {
-
+                    { 
                         if (InputValue)                             //Check if the Input is still Active so the mode can be reactivated again.
                             TryActivate();
                         else if (exitingAbility.InputValue)         //Check if the Input is still Active on th Ability so the mode can be reactivated again.
@@ -588,12 +661,11 @@ namespace MalbersAnimations.Controller
                     }
                 }
             }
-            Debugging($"<B><color=red>[ANIMATION EXIT]</color></B> Ability: <B><color=white>[{(exitingAbility?.Name)}]</color> " +
-                $"Status: <color=white>{ExitTagLogic}</color></B>");
-        }
-      
-       
-
+            else
+            {
+                Debugging(deb + ExitTagLogic);
+            }
+        } 
 
         public virtual Ability GetTryAbility(int index)
         {
@@ -628,8 +700,8 @@ namespace MalbersAnimations.Controller
 
         public virtual void OnModeStateMove(AnimatorStateInfo stateInfo, Animator anim, int Layer)
         {
-            IsInTransition = anim.IsInTransition(Layer) &&
-            (anim.GetNextAnimatorStateInfo(Layer).fullPathHash != anim.GetCurrentAnimatorStateInfo(Layer).fullPathHash);
+            //IsInTransition = anim.IsInTransition(Layer) &&
+            //(anim.GetNextAnimatorStateInfo(Layer).fullPathHash != anim.GetCurrentAnimatorStateInfo(Layer).fullPathHash);
 
             if (Animal.ActiveMode == this)
             {
@@ -653,8 +725,6 @@ namespace MalbersAnimations.Controller
                 if (properties.affect == AffectStates.Exclude && HasState(properties, ID)      //If the new state is on the Exclude State
                 || (properties.affect == AffectStates.Include && !HasState(properties, ID)))   //OR If the new state is not on the Include State
                 {
-                    Debugging($"Current State [{ID.name}] is Blocking <B>" + ability.Name + "</B>");
-
                     return true;
                 }
             }
@@ -690,9 +760,12 @@ namespace MalbersAnimations.Controller
 
         private void SetCoolDown()
         {
-            if (CoolDown > 0)
+            if (HasCoolDown)
             {
-                if (I_CoolDown != null) Animal.StopCoroutine(I_CoolDown);
+                if (I_CoolDown != null)
+                { 
+                    Animal.StopCoroutine(I_CoolDown);
+                }
                 Animal.StartCoroutine(I_CoolDown = C_SetCoolDown(CoolDown));
             }
         }
@@ -746,6 +819,7 @@ namespace MalbersAnimations.Controller
         {
             Active = false;
             InputValue = false;
+            InCoolDown = false;
 
             if (PlayingMode)
             {
@@ -762,11 +836,22 @@ namespace MalbersAnimations.Controller
 
         public virtual void Enable() => Active = true;
 
+        /// <summary> Enable the Mode temporarily by an external source, use Disable Temporal when using this</summary>
+        public virtual void Enable_Temporal() => TemporalActivation++;
+
+
+        /// <summary> Disable the Mode temporarily by an external source, use EnableTemporal to reset it back up </summary>
+        public virtual void Disable_Temporal() => TemporalActivation--;
+
+
+        /// <summary> Reset Temporal Activation</summary>
+        public virtual void Reset_Temporal() => TemporalActivation = 1;
+
 
         internal void Debugging(string deb)
         {
 #if UNITY_EDITOR
-            if (Animal.debugModes) Debug.Log($"[{Animal.name}] - Mode <b>[{ID.name}]</b> - {deb}");
+            if (Animal.debugModes) Debug.Log($"[{Animal.name}] → Mode <color=white> <b>[{ID.name}]</b> </color> - {deb}"); 
 #endif
         }
 
@@ -798,7 +883,7 @@ namespace MalbersAnimations.Controller
         public bool m_stopAudio= true;
 
         [Tooltip("Local Mode Modifier to Add to the Ability")]
-        [CreateScriptableAsset]
+        [ExposeScriptableAsset]
         public ModeModifier modifier;
 
         /// <summary>Overrides Properties on the mode</summary>
@@ -818,8 +903,16 @@ namespace MalbersAnimations.Controller
         public AnimationCurve ChargeCurve = new AnimationCurve(MTools.DefaultCurve);
 
         [Tooltip("Charge maximun value for the Charged ability")]
-        public FloatReference ChargeValue = new FloatReference(1); 
-      
+        public FloatReference ChargeValue = new FloatReference(1);
+
+
+        [Tooltip("Release the Charged Ability when it reaches is Time")]
+        public bool Release;
+
+        [Tooltip("Multiplier added to the Additive position when the mode is playing. This will fix the issue Additive Speeds to mess with RootMotion Modes")]
+        public float AdditivePosition = 1f;
+
+
 
         /// <summary>Time value when the Status is set Time</summary>
         public float AbilityTime { get => abilityTime.Value ; set => abilityTime.Value = value; }
@@ -852,6 +945,7 @@ namespace MalbersAnimations.Controller
         /// <summary> The Ability is Enabled One time and Exit when the Animation is finished </summary>
         PlayOneTime = 0,
         /// <summary> The Ability can be charged</summary>
+        [InspectorName("Charged or Hold Input Down")]
         Charged = 1,
         /// <summary> The Ability is On for an x ammount of time</summary>
         ActiveByTime = 2,

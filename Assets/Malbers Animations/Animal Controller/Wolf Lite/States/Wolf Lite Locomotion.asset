@@ -43,11 +43,16 @@ MonoBehaviour:
   SleepFromState: []
   SleepFromMode: []
   QueueFrom: []
+  ResetFrom: []
   SleepFromStance: []
   stances: []
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  Duration:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1
@@ -81,7 +86,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  WallStop: 1
+  WallStop: 0
   WallRayLength: 1
   StopLayer:
     serializedVersion: 2

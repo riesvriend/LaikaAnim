@@ -4,9 +4,13 @@ using UnityEngine.Serialization;
 
 namespace MalbersAnimations.Controller
 {
+    
+    
     [HelpURL("https://malbersanimations.gitbook.io/animal-controller/main-components/manimal-controller/states/fall")]
     public class Fall : State
     {
+        //TODO: DO Fall Rotator
+
         public override string StateName => "Fall";
         public enum FallBlending { DistanceNormalized, Distance, VerticalVelocity }
 
@@ -86,14 +90,14 @@ namespace MalbersAnimations.Controller
 
         /// <summary> Normalized Value of the Height </summary>
         float Fall_Float;
-        public Vector3 UpImpulse { get; set; }
+        public Vector3 UpImpulse { get; private set; }
+        public bool Has_UP_Impulse { get; private set; }
 
         private MSpeed FallSpeed = MSpeed.Default;
 
         public Vector3 FallPoint { get; private set; }
 
         /// <summary> UP Impulse was going UP </summary>
-        public bool Has_UP_Impulse { get; private set; }
 
         private bool GoingDown;
         private int Hits;
@@ -112,7 +116,7 @@ namespace MalbersAnimations.Controller
 
             fall_Pivot += animal.DeltaPos; //Check for the Next Frame
 
-            float Multiplier = animal.Pivot_Multiplier * lengthMultiplier;
+            float Multiplier = animal.Pivot_Multiplier * lengthMultiplier*0.99f;
             return TryFallRayCasting(fall_Pivot, Multiplier);
         }
 
@@ -144,8 +148,6 @@ namespace MalbersAnimations.Controller
                             TerrainSlope = Vector3.SignedAngle(hit.normal, animal.UpVector, animal.Right);
                             MTools.DrawWireSphere(fall_Pivot + Direction * DistanceToGround, Color.magenta, Radius);
                             FallRayCast = hit;
-
-
                            
                             if (TerrainSlope > -animal.maxAngleSlope) //Check for the first Good Fall Ray that does not break the Fall.
                                 break;
@@ -157,6 +159,8 @@ namespace MalbersAnimations.Controller
                         GameObjectHit = FallRayCast.transform.gameObject;
                         IsDebree = GameObjectHit.CompareTag(animal.DebrisTag);
                     }
+
+                   // Debug.Log("IsDebree = " + IsDebree, GameObjectHit);
 
                     if (animal.DeepSlope  || (TerrainSlope < -animal.maxAngleSlope && !IsDebree))
                     {
@@ -173,7 +177,7 @@ namespace MalbersAnimations.Controller
 
                     if (FallSlope > animal.maxAngleSlope)
                     {
-                        Debugging($"[Try] The Animal is on the Air and the angle SLOPE of the ground hitted is too Deep");
+                        Debugging($"[Try] The Animal is on the Air and the angle SLOPE of the ground hitted is too Deep. {FallRayCast.transform.name}");
 
                         return true;
                     }
@@ -247,7 +251,7 @@ namespace MalbersAnimations.Controller
             animal.SetCustomSpeed(FallSpeed, false);
 
             //Disable the Gravity if we are on an external Force (Wind, Spring) //IMPORTANT
-            if (animal.HasExternalForce && animal.Zone) animal.UseGravity = false;
+            if (animal.HasExternalForce && animal.InZone) animal.UseGravity = false;
 
             Has_UP_Impulse = Vector3.Dot(UpImpulse, animal.UpVector) > 0;
 
@@ -257,7 +261,8 @@ namespace MalbersAnimations.Controller
 
 
 
-            CanExit = true;  //This for long animation Transitions. Force the Fall State to exit in case if near the ground
+            //THIS CAUSE UNWANTED BEHAVIOURS ON SLOPES
+           // CanExit = true;  //This for long animation Transitions. Force the Fall State to exit in case if near the ground
         }
 
         public override Vector3 Speed_Direction()
@@ -273,7 +278,7 @@ namespace MalbersAnimations.Controller
         {
             if (InCoreAnimation)
             {
-                if (animal.Zone && animal.HasExternalForce) animal.GravityTime = 0; //Reset the gravity when the animal is on a Force Zone.
+                if (animal.InZone && animal.HasExternalForce) animal.GravityTime = 0; //Reset the gravity when the animal is on a Force Zone.
 
                 animal.AdditivePosition += UpImpulse;
 
@@ -298,6 +303,9 @@ namespace MalbersAnimations.Controller
             float SprintMultiplier = (animal.VerticalSmooth);
             var FallPoint = animal.Main_Pivot_Point + (animal.Forward * Offset * ScaleFactor) +
                (animal.Forward * (SprintMultiplier * MoveMultiplier * ScaleFactor)); //Calculate ahead the falling ray
+ 
+            //var Gravity = this.Gravity;
+            var Gravity = animal.DeepSlope ? this.Gravity :  -animal.Up;
 
             //fall_Pivot += animal.DeltaPos; //Check for the Next Frame
             //FallPoint = animal.Main_Pivot_Point;
@@ -500,6 +508,14 @@ namespace MalbersAnimations.Controller
         }
 
 #if UNITY_EDITOR
+
+
+        public override void SetSpeedSets(MAnimal animal)
+        {
+            //Do nothing... the Fall is an automatic State, the Fall Speed is created internally
+        }
+
+
 
         /// <summary>This is Executed when the Asset is created for the first time </summary>
         private void Reset()

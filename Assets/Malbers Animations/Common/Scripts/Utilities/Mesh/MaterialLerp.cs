@@ -56,7 +56,7 @@ namespace MalbersAnimations.Utilities
     public class InternalMaterialLerp
     {
         public Renderer renderer;
-        [CreateScriptableAsset(false)] public MaterialLerpSO materials;
+        [ExposeScriptableAsset] public MaterialLerpSO materials;
     }
 }
 

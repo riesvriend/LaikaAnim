@@ -9,9 +9,9 @@ namespace MalbersAnimations.Controller.AI
     {
         public override string DisplayName => "Variables/Check Transform Var";
 
-         public TransformVar Var;
+        public TransformVar Var;
         public CompareTransformVar compare;
-        [Hide("showSet",true,false)]
+        [Hide("compare",2 )]
         public RuntimeGameObjects Set;
 
         public override bool Decide(MAnimalBrain brain, int Index)

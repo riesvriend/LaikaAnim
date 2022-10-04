@@ -35,7 +35,7 @@ namespace MalbersAnimations.Utilities
 
             EditorGUI.BeginChangeCheck();
             {
-                EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+                //EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
                 {
                     list.DoLayoutList();
                     if (showMeshesList.boolValue)
@@ -51,7 +51,7 @@ namespace MalbersAnimations.Utilities
                         }
                     }
                 }
-                EditorGUILayout.EndVertical();
+                //EditorGUILayout.EndVertical();
 
             }
             if (EditorGUI.EndChangeCheck())

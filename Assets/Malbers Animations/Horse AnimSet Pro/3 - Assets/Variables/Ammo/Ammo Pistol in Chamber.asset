@@ -13,9 +13,5 @@ MonoBehaviour:
   m_Name: Ammo Pistol in Chamber
   m_EditorClassIdentifier: 
   Description: Total Bullets for the Pistol carry by the rider
-  value: 0
-  OnValueChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: MalbersAnimations.Events.IntEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  debug: 0
+  value: 8

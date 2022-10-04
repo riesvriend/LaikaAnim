@@ -32,6 +32,10 @@ namespace MalbersAnimations.Controller
 
                 foreach (var mode in modes)
                     mode.ConnectInput(InputSource, connect);
+
+
+                foreach (var stance in Stances)
+                    stance.ConnectInput(InputSource, connect);
             }
         } 
 
@@ -94,71 +98,11 @@ namespace MalbersAnimations.Controller
         private void Debugging(string value)
         {
 #if UNITY_EDITOR
-                Debug.Log($"<B>[{name}]</B>  → <color=white>{value}</color>",this);
+                Debug.Log($"<B>[{name}]</B> → <color=white>{value}</color>",this);
 #endif
         }
 
         #endregion
-
-        // #region Animal Aligment
-        //public virtual void Aling_Position(Vector3 Destination, float time, AnimationCurve curve)
-        //{
-        //   if (!Aligning) StartCoroutine(AlignPos(Destination,time,curve));
-        //}
-
-        //public virtual void Aling_Position(Vector3 Destination, Quaternion DestRot, float time, AnimationCurve curve)
-        //{
-        //    if (!Aligning) StartCoroutine(AlignTransform(Destination, DestRot, time, curve));
-        //}
-
-        //private bool Aligning;
-
-        //IEnumerator AlignPos(Vector3 NewPosition, float time, AnimationCurve curve = null)
-        //{
-        //    float elapsedTime = 0;
-        //    Aligning = true;
-
-        //    var Wait = new WaitForFixedUpdate();
-
-        //    Vector3 CurrentPos = transform.position;
-
-        //    while ((time > 0) && (elapsedTime <= time))
-        //    {
-        //        float result = curve != null ? curve.Evaluate(elapsedTime / time) : elapsedTime / time;               //Evaluation of the Pos curve
-        //        transform.position = Vector3.LerpUnclamped(CurrentPos, NewPosition, result);
-        //        elapsedTime += Time.fixedDeltaTime;
-
-        //        yield return Wait;
-        //    }
-
-        //    transform.position = NewPosition;
-        //    Aligning = false;
-        //    yield return null;
-        //}
-        //IEnumerator AlignTransform(Vector3 PosDestination, Quaternion RotDestination,  float time, AnimationCurve curve = null)
-        //{
-        //    float elapsedTime = 0;
-        //    Aligning = true;
-
-        //    Vector3 CurrentPos = transform.position;
-        //    Quaternion CurrentRot = transform.rotation;
-
-        //    var Wait = new WaitForFixedUpdate();
-        //    while ((time > 0) && (elapsedTime <= time))
-        //    {
-        //        float result = curve != null ? curve.Evaluate(elapsedTime / time) : elapsedTime / time;               //Evaluation of the Pos curve
-        //        transform.position = Vector3.LerpUnclamped(CurrentPos, PosDestination, result);
-        //        transform.rotation = Quaternion.LerpUnclamped(CurrentRot, RotDestination, result);
-        //        elapsedTime += Time.fixedDeltaTime;
-
-        //        yield return Wait;
-        //    }
-        //    transform.position = PosDestination;
-        //    transform.rotation = RotDestination;
-        //    Aligning = false;
-        //    yield return null;
-        //}
-        // #endregion
 
         #region Gravity
         /// <summary>Resets the gravity to the default Vector.Down value</summary>
@@ -179,6 +123,11 @@ namespace MalbersAnimations.Controller
             DeltaPos = Vector3.ProjectOnPlane(DeltaPos, UpVector);
         }
 
+        public void ResetDeltaRootMotion()
+        {
+            DeltaRootMotion = Vector3.zero;
+        }
+
         /// <summary>The Ground will change the Gravity Direction. Using the ground Normal as reference</summary>
         /// <param name="value"> Enable/Disable the logic</param>
         public void GroundChangesGravity(bool value) => ground_Changes_Gravity.Value = value;
@@ -193,29 +142,59 @@ namespace MalbersAnimations.Controller
         #endregion
 
         #region Stances
-      
+
         /// <summary>Toggle the New Stance with the Default Stance▼▲ </summary>
-        public void Stance_Toggle(StanceID NewStance) => Stance = (Stance.ID == NewStance.ID) ? DefaultStance : NewStance;
+        public void Stance_Toggle(StanceID NewStance)
+        {
+            if (NewStance == null) Debug.LogError("The Stance you are trying to Toggle is NULL. Please check your reference!");
+            else
+            Stance = (Stance.ID == NewStance.ID) ? DefaultStanceID : NewStance;
+        }
 
         public void Stance_Set(StanceID id) => Stance = id;
-        
+
+        public Stance Pin_Stance { get; set; }
+        public Stance Stance_Get(StanceID id) => Pin_Stance = Stances.Find(x => x.ID == id);
+
         public void Stance_Set(int id)
         {
-            var NewStance = ScriptableObject.CreateInstance<StanceID>();
-            NewStance.name = "Stance(" + id+")";
-            NewStance.ID = id;
-            Stance = NewStance;
+            var stance = Stances.Find(x => x.ID.ID == id);
+            if (stance != null)
+                Stance = stance.ID;
+        }
+        public void Stance_Enable(StanceID id) => Stance_Get(id)?.Enable(true);
+        public void Stance_Disable(StanceID id) => Stance_Get(id)?.Enable(false);
+        public void Stance_Enable(StanceID id,bool val) => Stance_Get(id)?.Enable(val);
+
+        public void Stance_Enable_Temporal(StanceID id) => Stance_Get(id)?.Enable_Temp();
+        public void Stance_Disable_Temporal(StanceID id) => Stance_Get(id)?.Disable_Temp();
+
+        public void Stance_Persistent(StanceID id,bool val) => Stance_Get(id)?.SetPersistent(val);
+
+        public void Stance_PersistentOn(StanceID id) => Stance_Persistent(id,true);
+        public void Stance_Activate_Persistent(StanceID id)
+        {
+            Stance_Get(id);
+
+            if (Pin_Stance != null)
+            {
+                Stance_Set(Pin_Stance.ID);
+                Pin_Stance.SetPersistent(true);
+            }
+        }
+        public void Stance_ResetPersistent()
+        {
+            ActiveStance.SetPersistent(false);
+            Stance_Reset();
         }
 
 
         /// <summary>Changes the Last State on the Animator</summary>
         public void Stance_SetLast(int id)
         {
-            LastStance = id;
-            SetOptionalAnimParameter(hash_LastStance, LastStance);        //Set on the Animator the Last Stance
+            LastStanceID = id;
+            TryAnimParameter(hash_LastStance, LastStanceID);        //Set on the Animator the Last Stance
         }
-
-
 
         public void Stance_Reset() => Stance = defaultStance;
 
@@ -231,7 +210,8 @@ namespace MalbersAnimations.Controller
             return this.InvokeWithParams(message, value);
         }
 
-        public void SetAnimatorSpeed(float value) => AnimatorSpeed = value;
+        /// <summary>Update the Animator Speed stuffs</summary>
+        public void SetAnimatorSpeed(float value) => Anim.speed = AnimatorSpeed = value;
 
 
         /// <summary>Set a Int on the Animator</summary>
@@ -246,22 +226,22 @@ namespace MalbersAnimations.Controller
         /// <summary>Set a Trigger to the Animator</summary>
         public virtual void SetAnimParameter(int hash) => Anim.SetTrigger(hash);
 
-        public virtual void SetOptionalAnimParameter(int Hash, float value)
+        public virtual void TryAnimParameter(int Hash, float value)
         {
             if (Hash != 0) SetFloatParameter(Hash, value);
         }
 
-        public virtual void SetOptionalAnimParameter(int Hash, int value)
+        public virtual void TryAnimParameter(int Hash, int value)
         {
             if (Hash != 0) SetIntParameter(Hash, value);
         }
 
-        public virtual void SetOptionalAnimParameter(int Hash, bool value)
+        public virtual void TryAnimParameter(int Hash, bool value)
         {
             if (Hash!=0) SetBoolParameter(Hash, value);
         }
 
-        public virtual void SetOptionalAnimParameter(int Hash)
+        public virtual void TryAnimParameter(int Hash)
         {
             if (Hash != 0) SetTriggerParameter(Hash);
         }
@@ -275,19 +255,16 @@ namespace MalbersAnimations.Controller
             {
                 RandomPriority = priority;
                 RandomID = Randomizer ? value : 0;
-                SetOptionalAnimParameter(hash_Random, RandomID);
+                TryAnimParameter(hash_Random, RandomID);
             }
         }
 
         public void ResetRandomPriority(int priority)
         {
             if (priority >= RandomPriority)
-            {
                 RandomPriority = 0;
-            }
         }
-
-
+         
 
         /// <summary>Used by Animator Events </summary>
         public virtual void EnterTag(string tag) => AnimStateTag = Animator.StringToHash(tag);
@@ -366,7 +343,7 @@ namespace MalbersAnimations.Controller
         }
 
         /// <summary>Set the State Exit Status on the Animator</summary>
-        public virtual void State_SetExitStatus(int ExitStatus) => SetOptionalAnimParameter(hash_StateExitStatus, ExitStatus);
+        public virtual void State_SetExitStatus(int ExitStatus) => TryAnimParameter(hash_StateExitStatus, ExitStatus);
 
         public virtual void State_Enable(StateID ID) => State_Enable(ID.ID);
         public virtual void State_Disable(StateID ID) => State_Disable(ID.ID);
@@ -374,6 +351,8 @@ namespace MalbersAnimations.Controller
         public virtual void State_Enable(int ID) => State_Get(ID)?.Enable(true);
 
         public virtual void State_Disable(int ID) => State_Get(ID)?.Enable(false);
+
+        public virtual void ActiveState_Persisent(bool value) => ActiveState.IsPersistent = value;
 
         /// <summary>Force the Activation of an state regarding if is enable or not</summary>
         public virtual void State_Force(int ID)
@@ -435,13 +414,19 @@ namespace MalbersAnimations.Controller
         /// <summary>Try to Activate a State direclty from the Animal Script </summary>
         public virtual void State_Activate(StateID ID) => State_Activate(ID.ID);
 
+        /// <summary>Try to Activate a State by its ID, Checking the necessary conditions for activation (NO Returns)</summary>
+        public virtual void State_Try(StateID ID) => State_TryActivate(ID.ID);
+
 
         /// <summary>Try to Activate a State by its ID, Checking the necessary conditions for activation</summary>
         public virtual bool State_TryActivate(int ID)
         {
             State NewState = State_Get(ID);
+
             if (NewState &&  NewState.CanBeActivated)
             {
+                Debug.Log("asdasdasd");
+
                 return NewState.TryActivate();
             }
             return false;
@@ -507,20 +492,22 @@ namespace MalbersAnimations.Controller
         public bool HasMode(int ID) => Mode_Get(ID) != null;
 
         /// <summary> Returns a Mode by its ID</summary>
-        public virtual Mode Mode_Get(ModeID ModeID) => Mode_Get(ModeID.ID);
+        public virtual Mode Mode_Get(ModeID ModeID)
+        {
+            if (ModeID == null) return null;
+            return Mode_Get(ModeID.ID);
+        }
 
         /// <summary> Returns a Mode by its ID</summary>
         public virtual Mode Mode_Get(int ModeID) => modes.Find(m => m.ID == ModeID);
 
-        /// <summary> Set the Parameter Int ID to a value and pass it also to the Animator </summary>
-        public void SetModeStatus(int value)
+
+        public void Mode_SetPower(float value)
         {
-           // Debug.Log("SetModeStatus" + value);
-
-            SetIntParameter?.Invoke(hash_ModeStatus, ModeStatus = value);
+            ModePower = value;
+         //   Debug.Log("ModePower = " + ModePower); 
+            TryAnimParameter(hash_ModePower, ModePower );
         }
-
-        public void Mode_SetPower(float value) => SetOptionalAnimParameter(hash_ModePower, ModePower = value);
 
         /// <summary>Activate a Random Ability on the Animal using a Mode ID</summary>
         public virtual void Mode_Activate(ModeID ModeID) => Mode_Activate(ModeID.ID, -99);
@@ -657,22 +644,30 @@ namespace MalbersAnimations.Controller
             else
             {
                 ModeAbility = 0; //Reset Mode 
-                SetModeStatus(Int_ID.Available);
+                SetModeStatus(0);
                 return;
             }
+
             //ActiveMode.PlayingMode = false;
             ActiveMode = null;
-            ModeTime = 0;                            //Reset Mode Time 
+            ModeTime = 0;
+            IsPreparingMode = false;
         }
 
         /// <summary> Re-Check all the Sprint conditions and Invoke the Sprint Event </summary>
         public virtual void SprintUpdate() => Sprint = sprint; //Check Again the sprint everytime a new state is active IMPORTANT
-        public virtual void Sprint_Set(bool value) => Sprint = value; 
+        public virtual void Sprint_Set(bool value) => Sprint = value;
 
 
 
         /// <summary>Set IntID to -2 to exit the Mode Animation</summary>
-        public virtual void Mode_Interrupt() => SetModeStatus(Int_ID.Interrupted);
+        public virtual void Mode_Interrupt()
+        {
+            IsPreparingMode = false;
+            SetModeStatus(Int_ID.Interrupted);
+            ModeAbility = 0;
+            if (hash_ModeOn != 0) Anim.ResetTrigger(hash_ModeOn); //Reset the MODE ON Parameter
+        }
 
         /// <summary>Deactivate all modes</summary>
         public virtual void Mode_Disable_All()
@@ -710,14 +705,51 @@ namespace MalbersAnimations.Controller
             } 
         }
 
-        /// <summary>Set the Active Ability Index of a Mode</summary>
-        public virtual void Mode_ActiveAbilityIndex(int Mode, int ActiveAbility) => Mode_Get(Mode).SetAbilityIndex(ActiveAbility);
-
         /// <summary>Enable a Mode by his ID</summary>
         public virtual void Mode_Enable(ModeID id) => Mode_Enable(id.ID);
 
         /// <summary>Enable a Mode by his ID</summary>
         public virtual void Mode_Enable(int id) => Mode_Get(id)?.Enable();
+
+        /// <summary> Enable the Mode temporarily by an external source, use Disable Temporal when using this</summary>
+        public virtual void Mode_Enable_Temporal(int id) => Mode_Get(id)?.Enable_Temporal();
+        /// <summary> Enable the Mode temporarily by an external source, use Disable Temporal when using this</summary>
+        public virtual void Mode_Enable_Temporal(ModeID id) => Mode_Enable_Temporal(id.ID);
+
+
+        /// <summary> Disable the Mode temporarily by an external source, use Enable Temporal when using this</summary>
+        public virtual void Mode_Disable_Temporal(ModeID id) => Mode_Disable_Temporal((int)id);
+        /// <summary> Disable the Mode temporarily by an external source, use Enable Temporal when using this</summary>
+        public virtual void Mode_Disable_Temporal(int id) => Mode_Get(id)?.Disable_Temporal();
+
+        public virtual void Mode_Ability_Disable(string abilityName)
+        {
+            foreach (var M in modes)
+            {
+                foreach (var ability in M.Abilities)
+                {
+                    if (abilityName.Contains(ability.Name))
+                        ability.Active = false;
+                }
+            }
+        }
+
+        public virtual void Mode_Ability_Enable(string abilityName)
+        {
+            foreach (var M in modes)
+            {
+                foreach (var ability in M.Abilities)
+                {
+                    if (abilityName.Contains(ability.Name))
+                        ability.Active = true;
+                }
+            }
+        }
+
+        /// <summary>Set the Active Ability Index of a Mode</summary>
+        public virtual void Mode_ActiveAbilityIndex(int Mode, int ActiveAbility) => Mode_Get(Mode).SetAbilityIndex(ActiveAbility);
+
+      
 
         /// <summary>Pin a mode to Activate later</summary>
         public virtual void Mode_Pin(ModeID ID)
@@ -762,13 +794,82 @@ namespace MalbersAnimations.Controller
             if (ability != null) ability.Active = true;
         }
 
-        /// <summary>Pin an Ability on the Pin Mode to Activate later</summary>
-        public virtual void Mode_Pin_Disable_Ability(int AbilityIndex)
+        /// <summary>Pin an Ability on the Pin Mode to Disable it</summary>
+        public virtual void Mode_Pin_Ability_Disable(int AbilityIndex)
         {
             if (AbilityIndex == 0) return;
             var ability = Pin_Mode?.GetAbility(AbilityIndex);
             if (ability != null) ability.Active = false;
         }
+
+
+        ///// <summary>Pin an Ability on the Pin Mode to Disable it</summary>
+        //public virtual void Mode_Ability_Disable(string name)
+        //{
+        //    var ability = Mode_AbilitybyName(name);
+
+        //    if (ability != null)
+        //        ability.Active = false;
+        //}
+
+        ///// <summary>Pin an Ability on the Pin Mode to Disable it</summary>
+        //public virtual void Mode_Ability_Enable(string name)
+        //{
+        //    var ability = Mode_AbilitybyName(name);
+
+        //    if (ability != null)
+        //        ability.Active = true;
+        //}
+
+
+        /// <summary>Disable a mode Ability using its Combined Index</summary>
+        public virtual void Mode_Ability_Disable(int IndexCombined)
+        {
+            var ability = Mode_AbilitybyIndexCombined(IndexCombined);
+
+            if (ability != null)
+                ability.Active = false;
+        }
+
+        /// <summary>Enable a mode Ability using its Combined Index</summary>
+        public virtual void Mode_Ability_Enable(int IndexCombined)
+        {
+            var ability = Mode_AbilitybyIndexCombined(IndexCombined);
+
+            if (ability != null)
+                ability.Active = true;
+        }
+
+        /// <summary>Returns tbe first ModeAbility found by Name</summary>
+        public virtual Ability Mode_AbilitybyName(string name)
+        {
+            for (int i = 0; i < modes.Count; i++)
+            {
+                for (int j = 0; j < modes[i].Abilities.Count; j++)
+                {
+                    if (modes[i].Abilities[j].Name == name)
+                    {
+                       return modes[i].Abilities[j];
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>Returns a ModeAbility by its Combined Index. E.g. Eat is 4002</summary>
+        public virtual Ability Mode_AbilitybyIndexCombined(int IndexCombined)
+        {
+            var mode = modes.Find(m => m.ID == IndexCombined / 1000);
+
+            if (mode != null)
+            {
+                return mode.Abilities.Find(ab => ab.Index == IndexCombined % 1000);
+            }
+            return null;
+        }
+
+        /// <summary>Pin an Ability on the Pin Mode to Activate later</summary>
+        public virtual void Mode_Pin_Disable_Ability(int AbilityIndex) => Mode_Pin_Ability_Disable(AbilityIndex);
 
 
         /// <summary>Changes  Pinned Mode Status in all the Abilities</summary>
@@ -792,7 +893,7 @@ namespace MalbersAnimations.Controller
         }
 
         public virtual void Mode_Pin_Enable(bool value) => Pin_Mode?.SetActive(value);
-        public virtual void Mode_Pin_EnableInvert(bool value) => Pin_Mode?.SetActive(!value);
+        public virtual void Mode_Pin_Enable_Invert(bool value) => Pin_Mode?.SetActive(!value);
 
         public virtual void Mode_Pin_Input(bool value) => Pin_Mode?.ActivatebyInput(value);
 
@@ -808,10 +909,10 @@ namespace MalbersAnimations.Controller
         public virtual void Strafe_Toggle() => Strafe ^= true;
 
         /// <summary>Gets the movement from the Input Script or AI</summary>
-        public virtual void Move(Vector3 move)
+        public virtual void Move(Vector3 direction)
         {
             UseRawInput = false;
-            RawInputAxis = move;//.normalized; //Store the Last Raw Direction sent (Important to Normalize?? why??)
+            RawInputAxis = direction;//.normalized; //Store the Last Raw Direction sent (Important to Normalize?? why??)
             Rotate_at_Direction = false;
             DeltaAngle = 0;
         }
@@ -1032,10 +1133,11 @@ namespace MalbersAnimations.Controller
         /// <summary> If the Animal has touched the ground then Grounded will be set to true  </summary>
         public bool CheckIfGrounded()
         {
-            AlignRayCasting();
-
+            //AlignRayCasting();
+            AlignIfGrounded();
             if (MainRay && FrontRay && !DeepSlope)
             {
+                hit_Hip.distance = Height * 2f;
                 return Grounded = true;   //Activate the Grounded Parameter so the Idle and the Locomotion State can be activated
             }
             
@@ -1045,26 +1147,30 @@ namespace MalbersAnimations.Controller
        public void Always_Forward(bool value) => AlwaysForward = value;
 
         /// <summary>Activate Attack triggers </summary>
-        public virtual void ActivateDamager(int ID)
+        public virtual void ActivateDamager(int ID, float multiplier)
         {
-            if (Sleep) return;
+            if (Sleep || !enabled) return;
 
             if (ID == -1)                         //Enable all Attack Triggers
             {
-                foreach (var dam in Attack_Triggers) dam.DoDamage(true);
+                foreach (var dam in Attack_Triggers) dam.DoDamage(true,multiplier);
             }
             else if (ID == 0)                     //Disable all Attack Triggers
             {
-                foreach (var dam in Attack_Triggers) dam.DoDamage(false);
+                foreach (var dam in Attack_Triggers) dam.DoDamage(false, multiplier);
             }
             else
             {
                 var Att_T = Attack_Triggers.FindAll(x => x.Index == ID);        //Enable just a trigger with an index
 
                 if (Att_T != null)
-                    foreach (var dam in Att_T) dam.DoDamage(true);
+                    foreach (var dam in Att_T) dam.DoDamage(true, multiplier);
             }
         }
+
+        public void DamagerAnimationStart(int hash) { }
+        public void DamagerAnimationEnd(int hash) { }
+
 
         /// <summary>Store all the Animal Colliders </summary>
         internal void GetAnimalColliders()
@@ -1116,10 +1222,70 @@ namespace MalbersAnimations.Controller
 
 
 
-        private void OnDestroy()
-        {
-            OnDisable();
-        }
+        //private void OnDestroy()
+        //{
+        //    OnDisable();
+        //}
         #endregion
+
+        // #region Animal Aligment
+        //public virtual void Aling_Position(Vector3 Destination, float time, AnimationCurve curve)
+        //{
+        //   if (!Aligning) StartCoroutine(AlignPos(Destination,time,curve));
+        //}
+
+        //public virtual void Aling_Position(Vector3 Destination, Quaternion DestRot, float time, AnimationCurve curve)
+        //{
+        //    if (!Aligning) StartCoroutine(AlignTransform(Destination, DestRot, time, curve));
+        //}
+
+        //private bool Aligning;
+
+        //IEnumerator AlignPos(Vector3 NewPosition, float time, AnimationCurve curve = null)
+        //{
+        //    float elapsedTime = 0;
+        //    Aligning = true;
+
+        //    var Wait = new WaitForFixedUpdate();
+
+        //    Vector3 CurrentPos = transform.position;
+
+        //    while ((time > 0) && (elapsedTime <= time))
+        //    {
+        //        float result = curve != null ? curve.Evaluate(elapsedTime / time) : elapsedTime / time;               //Evaluation of the Pos curve
+        //        transform.position = Vector3.LerpUnclamped(CurrentPos, NewPosition, result);
+        //        elapsedTime += Time.fixedDeltaTime;
+
+        //        yield return Wait;
+        //    }
+
+        //    transform.position = NewPosition;
+        //    Aligning = false;
+        //    yield return null;
+        //}
+        //IEnumerator AlignTransform(Vector3 PosDestination, Quaternion RotDestination,  float time, AnimationCurve curve = null)
+        //{
+        //    float elapsedTime = 0;
+        //    Aligning = true;
+
+        //    Vector3 CurrentPos = transform.position;
+        //    Quaternion CurrentRot = transform.rotation;
+
+        //    var Wait = new WaitForFixedUpdate();
+        //    while ((time > 0) && (elapsedTime <= time))
+        //    {
+        //        float result = curve != null ? curve.Evaluate(elapsedTime / time) : elapsedTime / time;               //Evaluation of the Pos curve
+        //        transform.position = Vector3.LerpUnclamped(CurrentPos, PosDestination, result);
+        //        transform.rotation = Quaternion.LerpUnclamped(CurrentRot, RotDestination, result);
+        //        elapsedTime += Time.fixedDeltaTime;
+
+        //        yield return Wait;
+        //    }
+        //    transform.position = PosDestination;
+        //    transform.rotation = RotDestination;
+        //    Aligning = false;
+        //    yield return null;
+        //}
+        // #endregion
     }
 }

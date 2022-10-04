@@ -173,7 +173,7 @@ namespace MalbersAnimations.Controller
 
             EditorGUI.BeginChangeCheck();
             {
-                EditorGUILayout.BeginVertical(MTools.StyleGray);
+               // EditorGUILayout.BeginVertical(MTools.StyleGray);
                 {
                     EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                     {
@@ -213,7 +213,7 @@ namespace MalbersAnimations.Controller
                     EditorGUILayout.EndVertical();
                 }
             }
-            EditorGUILayout.EndVertical();
+           // EditorGUILayout.EndVertical();
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(target, "Dragon Egg Values Changed");

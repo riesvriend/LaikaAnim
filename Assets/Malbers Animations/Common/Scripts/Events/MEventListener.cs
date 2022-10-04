@@ -75,9 +75,11 @@ namespace MalbersAnimations.Events
         [Tooltip("Inverts the value of the Bool Event")]
         public bool InvertBool = false;
 
+        public float multiplier = 1;
+
         public virtual void OnEventInvoked() => Response.Invoke();
         public virtual void OnEventInvoked(string value) => ResponseString.Invoke(value);
-        public virtual void OnEventInvoked(float value) => ResponseFloat.Invoke(value);
+        public virtual void OnEventInvoked(float value) => ResponseFloat.Invoke(value*multiplier);
 
         public virtual void OnEventInvoked(int value)
         {
@@ -204,25 +206,29 @@ namespace MalbersAnimations.Events
             serializedObject.Update();
 
             MalbersEditor.DrawDescription("Events Listeners. It uses MEvents asset to response when those events are called");
-
-            EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+            using (new GUILayout.VerticalScope())
             {
-              //  MalbersEditor.DrawScript(script);
+                list.DoLayoutList();
 
-                EditorGUILayout.BeginVertical(/*EditorStyles.helpBox*/);
+                if (list.index != -1)
                 {
-                    list.DoLayoutList();
-
-                    if (list.index != -1)
+                    if (list.index < list.count)
                     {
-                        if (list.index < list.count)
+                        using (new GUILayout.VerticalScope(EditorStyles.helpBox))
                         {
+                            var ev = M.Events[list.index].Event;
+
+                            string evName = ev != null ? ev.name : "<Add Event!>";
+
                             SerializedProperty Element = eventsListeners.GetArrayElementAtIndex(list.index);
+                            EditorGUI.indentLevel++;
+                            EditorGUILayout.PropertyField(Element, new GUIContent($"{evName} [{list.index}]"), false);
+                            EditorGUI.indentLevel--;
 
-                            if (M.Events[list.index].Event != null)
+
+                            if (M.Events[list.index].Event != null && Element.isExpanded)
                             {
-
-                                string Descp = M.Events[list.index].Event.Description;
+                                var Descp = M.Events[list.index].Event.Description;
 
                                 if (Descp != string.Empty)
                                 {
@@ -237,7 +243,7 @@ namespace MalbersAnimations.Events
 
                                     style.normal.textColor = EditorStyles.label.normal.textColor;
 
-                                       UnityEditor.EditorGUILayout.TextArea(Descp, style);
+                                    M.Events[list.index].Event.Description = UnityEditor.EditorGUILayout.TextArea(Descp, style);
                                 }
 
                                 EditorGUILayout.Space();
@@ -254,8 +260,8 @@ namespace MalbersAnimations.Events
                                 useVector2 = Element.FindPropertyRelative("useVector2");
                                 useSprite = Element.FindPropertyRelative("useSprite");
 
-                                var TypeStyle = new GUIStyle( EditorStyles.objectField);
-                            
+                                var TypeStyle = new GUIStyle(EditorStyles.objectField);
+
 
                                 EditorGUILayout.BeginHorizontal();
                                 {
@@ -304,9 +310,7 @@ namespace MalbersAnimations.Events
                         }
                     }
                 }
-                EditorGUILayout.EndVertical();
             }
-            EditorGUILayout.EndVertical();
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -344,6 +348,7 @@ namespace MalbersAnimations.Events
             {
                 MalbersEditor.DrawLineHelpBox();
                 EditorGUILayout.PropertyField(Element.FindPropertyRelative("ResponseFloat"), new GUIContent("Response"));
+                EditorGUILayout.PropertyField(Element.FindPropertyRelative("multiplier"));
             }
         }
 

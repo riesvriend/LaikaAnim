@@ -499,12 +499,8 @@ namespace MalbersAnimations.Controller.AI
             }
 
 
-
-
             EditorGUILayout.Space();
-            EditorGUILayout.BeginVertical(MTools.StyleGreen);
-            EditorGUILayout.HelpBox(taskk.ToString() + ":\n" + Help, MessageType.None);
-            EditorGUILayout.EndVertical();
+            MalbersEditor.DrawDescription(taskk.ToString() + ":\n" + Help);
 
             if (EditorGUI.EndChangeCheck())
             {

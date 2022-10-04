@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012360144132}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1838584, y: 1.1838583, z: 1.1838578}
+  m_LocalPosition: {x: -0.009, y: 0.0056, z: -0.008}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children: []
   m_Father: {fileID: 4000011008835940}
   m_RootOrder: 0
@@ -206,6 +206,15 @@ MonoBehaviour:
     ConstantValue: 0.2
     Variable: {fileID: 0}
   debug: 0
+  m_UI: {fileID: 0}
+  description:
+    UseConstant: 1
+    ConstantValue: 
+    Variable: {fileID: 0}
+  minForce:
+    UseConstant: 1
+    ConstantValue: 100
+    Variable: {fileID: 0}
   minDamage:
     UseConstant: 1
     ConstantValue: 10
@@ -214,14 +223,13 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 20
     Variable: {fileID: 0}
-  m_UI: {fileID: 0}
-  minForce:
-    UseConstant: 1
-    ConstantValue: 100
-    Variable: {fileID: 0}
   chargeTime:
     UseConstant: 1
     ConstantValue: 0
+    Variable: {fileID: 0}
+  m_MaxCharge:
+    UseConstant: 1
+    ConstantValue: 1
     Variable: {fileID: 0}
   chargeCharMultiplier: 1
   ChargeCurve:
@@ -248,49 +256,47 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  description:
+  GroundArmPose: 1
+  RidingArmPose: 1
+  GroundCombo: -1
+  RidingCombo: -1
+  m_AimOrigin: {fileID: 525021583795392285}
+  m_AimSide: 2
+  weaponType: {fileID: 11400000, guid: 43666c8e1a066754ea91031d4303549a, type: 2}
+  holster: {fileID: 11400000, guid: d255c533616b51e45a47b4cd57f1ac7a, type: 2}
+  holsterAnim: {fileID: 0}
+  m_holsterIndex: 0
+  rightHand:
     UseConstant: 1
-    ConstantValue: 
+    ConstantValue: 1
     Variable: {fileID: 0}
   m_rate:
     UseConstant: 1
-    ConstantValue: 0.3
+    ConstantValue: 0.4
     Variable: {fileID: 0}
   m_Automatic:
     UseConstant: 1
-    ConstantValue: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   m_IgnoreDraw:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  m_AimOrigin: {fileID: 525021583795392285}
-  m_AimSide: 1
-  weaponType: {fileID: 11400000, guid: 43666c8e1a066754ea91031d4303549a, type: 2}
-  holster: {fileID: 11400000, guid: d255c533616b51e45a47b4cd57f1ac7a, type: 2}
-  holsterAnim: {fileID: 0}
-  IKProfile: {fileID: 11400000, guid: 587b9e33b92d0a3418f87c28a8475014, type: 2}
-  iKProfile: {fileID: 0}
-  rightHand:
+  m_IgnoreStore:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  stance: {fileID: 0}
+  strafeOnAim:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
-  positionOffsetR: {x: -0.215, y: 0.02, z: 0.08}
-  rotationOffsetR: {x: 4.07, y: 0, z: 0}
-  positionOffsetL: {x: -0.121, y: 0.024, z: -0.057}
-  rotationOffsetL: {x: 180, y: 0, z: 0}
-  HolsterOffset:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0}
-    Scale: {x: 1, y: 1, z: 1}
-  positionOffsetIKHand:
+  UseStrafe:
     UseConstant: 1
-    ConstantValue: {x: 0, y: 0, z: 0}
+    ConstantValue: 0
     Variable: {fileID: 0}
-  rotationOffsetIKHand:
-    UseConstant: 1
-    ConstantValue: {x: 0, y: 0, z: 0}
-    Variable: {fileID: 0}
+  AimIKRight: {fileID: 11400000, guid: be9ae408e509c7247a028a9a8020541b, type: 2}
+  AimIKLeft: {fileID: 11400000, guid: 844093fc41a273a409092fca8a3d57aa, type: 2}
   TwoHandIK:
     UseConstant: 1
     ConstantValue: 0
@@ -299,6 +305,18 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  HolsterOffset:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 1, y: 1, z: 1}
+  LeftHandOffset:
+    Position: {x: -0.203, y: 0.028, z: -0.075}
+    Rotation: {x: 0, y: 180, z: 180}
+    Scale: {x: 1, y: 1, z: 1}
+  RightHandOffset:
+    Position: {x: -0.203, y: 0.028, z: 0.075}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 1, y: 1, z: 1}
   Sounds:
   - {fileID: 8300000, guid: 1daf9bc6974ab5c46a334c0a9f30f05f, type: 3}
   - {fileID: 8300000, guid: 8a24f8d36df76604c848149f255c4bed, type: 3}
@@ -321,6 +339,31 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: e17859a94bd39ea4e97dd3b8c699424a, type: 2}
+        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, Assembly-CSharp
+        m_MethodName: Invoke
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 21300000, guid: f2eebb54b252149469494b398a3aa04a,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: de2d0ec684288bf4991c5760679163b3, type: 2}
+        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, Assembly-CSharp
+        m_MethodName: Invoke
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   OnUnequiped:
     m_PersistentCalls:
       m_Calls:
@@ -336,6 +379,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: de2d0ec684288bf4991c5760679163b3, type: 2}
+        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, Assembly-CSharp
+        m_MethodName: Invoke
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnCharged:
     m_PersistentCalls:
       m_Calls: []
@@ -343,6 +398,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnAiming:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUseFreeHand:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReleaseFreeHand:
     m_PersistentCalls:
       m_Calls: []
   Editor_Tabs1: 4
@@ -372,29 +433,8 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   AimLimit:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 2
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+    minValue: -180
+    maxValue: 180
   m_Ammo:
     UseConstant: 0
     ConstantValue: 30
@@ -431,19 +471,7 @@ MonoBehaviour:
         m_CallState: 2
   OnReload:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: 0d1b7f1dcbff53f4bab999eb2a0af596, type: 2}
-        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, Assembly-CSharp
-        m_MethodName: LogDeb
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: PISTOL RELOAD
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   InstantiateProjectileOfFire: 1
 --- !u!82 &82784942622768678
 AudioSource:

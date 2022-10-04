@@ -11,7 +11,7 @@ namespace MalbersAnimations.Conditions
         public enum ModeCondition { PlayingMode, PlayingAbility, HasMode, HasAbility, Enabled }
         public ModeCondition Condition;
         public ModeID Value;
-        [Hide("showName", true,false)]
+        [Hide("Condition",1,3)]
         public string AbilityName;
 
         private Mode mode;
@@ -48,15 +48,7 @@ namespace MalbersAnimations.Conditions
 
         private void Reset() => Name = "New Animal Mode Condition";
 
-        [HideInInspector, SerializeField] private bool showName;
-     
-
-        protected override void OnValidate()
-        {
-            base.OnValidate();
-
-            showName = Condition == ModeCondition.PlayingAbility || Condition == ModeCondition.HasAbility;
-        }
+       
 
     }
 }

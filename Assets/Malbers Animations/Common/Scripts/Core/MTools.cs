@@ -45,6 +45,13 @@ namespace MalbersAnimations
             def.localEulerAngles = Rotation;
             def.localScale = Scale;
         }
+
+        public void SetOffset(Transform t)
+        {
+            t.localPosition = Position;
+            t.localEulerAngles = Rotation;
+            t.localScale = Scale;
+        }
     }
 
 
@@ -377,6 +384,10 @@ namespace MalbersAnimations
 
         #region Vector Math
 
+
+        /// <summary>
+        /// Gives the force needed to throw something at a target using Physyics
+        /// </summary>
         public static float PowerFromAngle(Vector3 OriginPos, Vector3 TargetPos, float angle)
         {
             Vector2 OriginPos2 = new Vector2(OriginPos.x, OriginPos.z);
@@ -520,6 +531,11 @@ namespace MalbersAnimations
         }
 
 
+        public static Vector3 ClosestPointOnPlane(Vector3 planeOffset, Vector3 planeNormal, Vector3 point)
+         => point + DistanceFromPlane(planeOffset, planeNormal, point) * planeNormal;
+
+        public static float DistanceFromPlane(Vector3 planeOffset, Vector3 planeNormal, Vector3 point)
+              => Vector3.Dot(planeOffset - point, planeNormal);
 
         #endregion
 
@@ -547,14 +563,15 @@ namespace MalbersAnimations
 
             Vector3 CurrentPos = t1.position;
 
+            t1.SendMessage("ResetDeltaRootMotion", SendMessageOptions.DontRequireReceiver);
+
+
             while ((time > 0) && (elapsedTime <= time))
             {
                 float result = curve != null ? curve.Evaluate(elapsedTime / time) : elapsedTime / time;               //Evaluation of the Pos curve
                 t1.position = Vector3.LerpUnclamped(CurrentPos, NewPosition, result);
                 elapsedTime += Time.fixedDeltaTime;
-
                 yield return Wait;
-;
             }
             t1.position = NewPosition;
         }
@@ -576,6 +593,7 @@ namespace MalbersAnimations
 
             var Wait = new WaitForFixedUpdate();
 
+            t1.SendMessage("ResetDeltaRootMotion", SendMessageOptions.DontRequireReceiver);
 
             while ((time > 0) && (elapsedTime <= time))
             {
@@ -597,7 +615,7 @@ namespace MalbersAnimations
 
             Quaternion CurrentRot = t1.rotation;
             Vector3 direction = (t2.position - t1.position).normalized;
-            direction.y = t1.forward.y;
+            direction = Vector3.ProjectOnPlane(direction, t1.up);
             Quaternion FinalRot = Quaternion.LookRotation(direction);
             while ((time > 0) && (elapsedTime <= time))
             {
@@ -611,6 +629,28 @@ namespace MalbersAnimations
             t1.rotation = FinalRot;
         }
 
+        public static IEnumerator AlignLookAtTransformDirection(Transform t1, Vector3 direction, float time, AnimationCurve curve = null)
+        {
+            float elapsedTime = 0;
+            var wait = new WaitForFixedUpdate();
+
+            Quaternion CurrentRot = t1.rotation;
+
+            direction = Vector3.ProjectOnPlane(direction, t1.up);
+ 
+            Quaternion FinalRot = Quaternion.LookRotation(direction);
+
+            while ((time > 0) && (elapsedTime <= time))
+            {
+                float result = curve != null ? curve.Evaluate(elapsedTime / time) : elapsedTime / time;               //Evaluation of the Pos curve
+
+                t1.rotation = Quaternion.SlerpUnclamped(CurrentRot, FinalRot, result);
+                elapsedTime += Time.fixedDeltaTime;
+                yield return wait;
+            }
+            t1.rotation = FinalRot;
+        }
+
         public static IEnumerator AlignLookAtTransform(Transform t1, Vector3 targetPosition, float time, AnimationCurve curve = null)
         {
             float elapsedTime = 0;
@@ -619,7 +659,7 @@ namespace MalbersAnimations
             Quaternion CurrentRot = t1.rotation;
             Vector3 direction = (targetPosition - t1.position).normalized;
 
-            direction.y = t1.forward.y;
+            direction = Vector3.ProjectOnPlane(direction, t1.up); //Remove Y values
 
             Quaternion FinalRot = Quaternion.LookRotation(direction);
 
@@ -649,9 +689,14 @@ namespace MalbersAnimations
                 Vector3 CurrentPos = TargetToAlign.position;
 
                 Ray TargetRay = new Ray(AlignOrigin, (TargetToAlign.position - AlignOrigin).normalized);
+             
                 Vector3 TargetPos = TargetRay.GetPoint(radius *  TargetToAlign.localScale.y);
 
                 Debug.DrawRay(TargetRay.origin,TargetRay.direction, Color.white,1f);
+
+                TargetToAlign.SendMessage("ResetDeltaRootMotion", SendMessageOptions.DontRequireReceiver); //Send this to the animal
+
+                MTools.DrawWireSphere(TargetPos, Color.red, 0.05f, 3);
 
                 while ((time > 0) && (elapsedTime <= time))
                 {
@@ -659,11 +704,15 @@ namespace MalbersAnimations
 
                     TargetToAlign.position = Vector3.LerpUnclamped(CurrentPos, TargetPos, result);
 
+                    MTools.DrawWireSphere(TargetToAlign.position, Color.white, 0.05f, 3);
+
+
                     elapsedTime += Time.fixedDeltaTime;
 
                     yield return Wait;
                 }
                 TargetToAlign.position = TargetPos;
+
             }
             yield return null;
         }
@@ -832,7 +881,7 @@ namespace MalbersAnimations
         public static void Draw_Arrow(Vector3 pos, Vector3 direction, Color color, float duration = 0, float arrowHeadLength = 0.25f, float arrowHeadAngle = 20.0f)
         {
             if (direction == Vector3.zero) return;
-            Debug.DrawRay(pos, direction, color);
+            Debug.DrawRay(pos, direction, color,duration);
 
             Vector3 right = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 + arrowHeadAngle, 0) * new Vector3(0, 0, 1);
             Vector3 left = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 180 - arrowHeadAngle, 0) * new Vector3(0, 0, 1);
@@ -1036,22 +1085,22 @@ namespace MalbersAnimations
 #endif
         }
 
-        public static void DrawTriggers(Transform transform, Collider Trigger, Color DebugColor, bool always = false)
+        public static void DrawTriggers(Transform transform, Collider col, Color DebugColor, bool always = false)
         {
             Gizmos.color = DebugColor;
             var DColorFlat = new Color(DebugColor.r, DebugColor.g, DebugColor.b, 1f);
 
             Gizmos.matrix = transform.localToWorldMatrix;
 
-            if (Trigger != null)
-                if (always || Trigger.enabled)
+            if (col != null)
+                if (always || col.enabled)
                 {
-                    var isen = Trigger.enabled;
-                    Trigger.enabled = true;
+                    var isen = col.enabled;
+                    col.enabled = true;
 
-                    if (Trigger is BoxCollider)
+                    if (col is BoxCollider)
                     {
-                        BoxCollider _C = Trigger as BoxCollider;
+                        BoxCollider _C = col as BoxCollider;
 
                         var sizeX = transform.lossyScale.x * _C.size.x;
                         var sizeY = transform.lossyScale.y * _C.size.y;
@@ -1066,9 +1115,9 @@ namespace MalbersAnimations
                         Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
 
                     }
-                    else if (Trigger is SphereCollider)
+                    else if (col is SphereCollider)
                     {
-                        SphereCollider _C = Trigger as SphereCollider;
+                        SphereCollider _C = col as SphereCollider;
                         Gizmos.matrix = transform.localToWorldMatrix;
 
 
@@ -1076,7 +1125,7 @@ namespace MalbersAnimations
                         Gizmos.color = DColorFlat;
                         Gizmos.DrawWireSphere(Vector3.zero + _C.center, _C.radius);
                     }
-                    Trigger.enabled = isen;
+                    col.enabled = isen;
                 }
         }
 
@@ -1142,6 +1191,43 @@ namespace MalbersAnimations
 #endif
         }
 
+        public static void DrawRay(Vector3 p1, Vector3 dir, float width = 2f)
+        {
+#if UNITY_EDITOR
+            var p2 = p1 + dir;
+
+            int count = 1 + Mathf.CeilToInt(width); // how many lines are needed.
+            if (count == 1)
+            {
+                Gizmos.DrawLine(p1, p2);
+            }
+            else
+            {
+                Camera c = Camera.current;
+                if (c == null)
+                {
+                    Debug.LogError("Camera.current is null");
+                    return;
+                }
+                var scp1 = c.WorldToScreenPoint(p1);
+                var scp2 = c.WorldToScreenPoint(p2);
+
+                Vector3 v1 = (scp2 - scp1).normalized; // line direction
+                Vector3 n = Vector3.Cross(v1, Vector3.forward); // normal vector
+
+                for (int i = 0; i < count; i++)
+                {
+                    Vector3 o = 0.99f * n * width * ((float)i / (count - 1) - 0.5f);
+                    Vector3 origin = c.ScreenToWorldPoint(scp1 + o);
+                    Vector3 destiny = c.ScreenToWorldPoint(scp2 + o);
+                    Gizmos.DrawLine(origin, destiny);
+                }
+            }
+#endif
+        }
+
+
+
         public static void DrawLine(Vector3 p1, Vector3 p2, float width = 2f)
         {
 #if UNITY_EDITOR
@@ -1183,15 +1269,11 @@ namespace MalbersAnimations
 #if UNITY_EDITOR
 
         #region Styles      
-        public static GUIStyle StyleGray => Style(new Color(0.5f, 0.5f, 0.5f, 0.3f));
-    
-        public static GUIStyle StyleDarkGray => Style(new Color(0.2f, 0.2f, 0.2f, 0.4f));
-        public static GUIStyle StyleBlue => Style(new Color(0, 0.5f, 1f, 0.3f));
+        public static GUIStyle StyleDarkGray => Style(new Color(0.35f, 0.5f, 0.7f, 0.2f));
+        public static GUIStyle StyleGray => Style(new Color(0.35f, 0.5f, 0.7f, 0.2f));
+        public static GUIStyle StyleBlue => Style(new Color(0.1f, 0.6f, .9f, 0.42f));
         public static GUIStyle StyleGreen => Style(new Color(0f, 1f, 0.4f, 0.3f));
-        //public static GUIStyle StyleRed => Style(new Color(1, 0.3f, 0f, 0.3f));
         public static GUIStyle StyleOrange => Style(new Color(1f, 0.5f, 0.0f, 0.3f));
-        //public static GUIStyle Border => Style(new Color(0, 0.5f, 1f, 0.0f));
-        //public static GUIStyle FlatBox => Style(new Color(0.35f, 0.35f, 0.35f, 0.1f));
         #endregion
 
 
@@ -1713,7 +1795,7 @@ namespace MalbersAnimations
         }
 
         /// <summary> Returns all the Instances created on the Project for an Scriptable Asset. WORKS ON EDITOR ONLY </summary>
-        public static List<T> GetAllInstances<T>() where T : ScriptableObject
+        public static List<T> GetAllInstances<T>() where T : Object
         {
 #if UNITY_EDITOR
             if (Application.isEditor)
@@ -1735,7 +1817,7 @@ namespace MalbersAnimations
         }
 
         /// <summary>Returns the Instance of an Scriptable Object by its name. WORKS ON EDITOR ONLY</summary>
-        public static T GetInstance<T>(string name) where T : ScriptableObject
+        public static T GetInstance<T>(string name) where T : Object
         {
 #if UNITY_EDITOR
             if (Application.isEditor)

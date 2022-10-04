@@ -188,6 +188,11 @@ namespace MalbersAnimations.Controller
                 }
             }
 
+            if (activeJump.CliffTime.minValue == 0 && activeJump.CliffTime.maxValue == 0)
+            {
+                activeJump.CliffTime = new RangedFloat(0.333f, 0.666f);
+            }
+
             Debugging($"Jump Profile: <B>[{ activeJump.name}]</B>");
         }
 
@@ -281,10 +286,8 @@ namespace MalbersAnimations.Controller
         private void CheckForGround(float normalizedTime)
         {
             if (activeJump.CliffLandDistance == 0) return; //Do nothing if RayLenght is zero
-
-            var clifftime = activeJump.CliffTime != 0 ? activeJump.CliffTime : 0.333f;
-
-            if (normalizedTime > clifftime) //Need to happen the First 1/3 of the Root Jump Animation
+          
+            if (activeJump.CliffTime.IsInRange(normalizedTime)) //Need to happen the First 1/3 of the Root Jump Animation
             {
                 var RayLength = activeJump.CliffLandDistance * ScaleFactor;
                 var MainPivot = animal.Main_Pivot_Point;
@@ -301,7 +304,7 @@ namespace MalbersAnimations.Controller
 
                     if (!DeepSlope)       //Jump to a jumpable cliff not an inclined one
                     {
-                        Debugging("[Allow Exit] Near Ground");
+                        Debugging($"[Allow Exit] Cliff Time - Near Ground. Normalized time: {normalizedTime:F2} ");
                         AllowExit();
                         animal.CheckIfGrounded();
                         //  Debug.Break();
@@ -373,7 +376,13 @@ namespace MalbersAnimations.Controller
 
 
 #if UNITY_EDITOR
-            internal void Reset()
+
+        public override void SetSpeedSets(MAnimal animal)
+        {
+            //Do nothing... the Fall is an automatic State, the Fall Speed is created internally
+        }
+
+        internal void Reset()
         {
             ID = MTools.GetInstance<StateID>("Jump");
             Input = "Jump";
@@ -404,7 +413,7 @@ namespace MalbersAnimations.Controller
 
             jumpProfiles = new List<JumpProfile>()
             { new JumpProfile()
-            { name = "Jump",  fallingTime = 0.7f,    CliffTime = 0.333f,  ForwardMultiplier = 1,  HeightMultiplier =  1, JumpLandDistance = 1.7f}
+            { name = "Jump",  fallingTime = 0.7f,    CliffTime = new RangedFloat( 0.333f,0.666f),  ForwardMultiplier = 1,  HeightMultiplier =  1, JumpLandDistance = 1.7f}
             };
         }
 #endif
@@ -441,8 +450,8 @@ namespace MalbersAnimations.Controller
 
        
         [Tooltip("Animation normalized time to check if we can end the jump sooner. if its set to zero I will use 0.333 normalize value as default")]
-        [Range(0, 1)]
-        public float CliffTime;
+        [MinMaxRange(0, 1)]
+        public RangedFloat CliffTime;
 
         /// <summary>Maximum distance to land on a Cliff </summary>
         [Tooltip("Maximum distance to land on a Cliff")]

@@ -8,10 +8,9 @@ using System.Linq;
 using UnityEngine.Events;
 using System.Linq.Expressions;
 
-
 public static class MalbersAnimationsExtensions
 {
-
+    #region Float Int
     public static bool CompareFloat(this float current,  float newValue, ComparerInt comparer)
     {
         switch (comparer)
@@ -45,6 +44,12 @@ public static class MalbersAnimationsExtensions
                 return false;
         }
     }
+
+    public static bool InRange(this float current, float min, float max) => current >= min && current <= max;
+    public static bool InRange(this int current, float min, float max) => current >= min && current <= max;
+    
+
+    #endregion
 
     /// <summary> Same as StartCoroutine but it also stores the coroytine in an IEnumerator </summary>
     public static void StartCoroutine(this MonoBehaviour Mono, out IEnumerator Cor, IEnumerator newCoro)
@@ -108,6 +113,8 @@ public static class MalbersAnimationsExtensions
         return pos;
     }
 
+
+   
 
     #endregion
 
@@ -298,14 +305,7 @@ public static class MalbersAnimationsExtensions
     /// <summary>The GameObject is a prefab, Meaning in not in any scene</summary>
     public static bool IsPrefab(this GameObject go) => !go.scene.IsValid();
 
-
-    //public static bool TryGetClosest(this GameObject origin, IEnumerable<GameObject> from, out GameObject closest)
-    //{
-    //    return false;
-    //}
-
     #endregion
-
 
 
     #region Delay Action
@@ -351,6 +351,8 @@ public static class MalbersAnimationsExtensions
         action.Invoke();
     }
 
+
+
     private static IEnumerator DelayedAction(Func<bool> Condition, Action action)
     {
         yield return new WaitWhile(Condition);
@@ -373,6 +375,19 @@ public static class MalbersAnimationsExtensions
     #endregion
 
     #region Find Components/Interfaces
+    public static T CopyComponent<T>(this T original, GameObject destination) where T : Component
+    {
+        Type type = original.GetType();
+
+        Component copy = destination.AddComponent(type);
+
+        var fields = type.GetFields();
+
+        foreach (System.Reflection.FieldInfo field in fields)
+            field.SetValue(copy, field.GetValue(original));
+
+        return copy as T;
+    }
 
     public static T FindComponent<T>(this GameObject c) where T: Component
     {
@@ -436,13 +451,13 @@ public static class MalbersAnimationsExtensions
     public static T[] FindInterfaces<T>(this GameObject c)
     {
         T[] Ttt = c.GetComponents<T>();
-        if (Ttt != null) return Ttt;
+        if (Ttt != null && Ttt.Length > 0) return Ttt;
 
         Ttt = c.GetComponentsInParent<T>();
-        if (Ttt != null) return Ttt;
+        if (Ttt != null && Ttt.Length > 0) return Ttt;
 
         Ttt = c.GetComponentsInChildren<T>(true);
-        if (Ttt != null) return Ttt;
+        if (Ttt != null && Ttt.Length > 0) return Ttt;
 
         return default;
     }
@@ -497,8 +512,6 @@ public static class MalbersAnimationsExtensions
     }
 
     #endregion
-
-
 
     /// <summary>  Checks if a GameObject has been destroyed. </summary>
     /// <param name="gameObject">GameObject reference to check for destructedness</param>
@@ -640,7 +653,20 @@ public static class MalbersAnimationsExtensions
         }
         else
         {
-            methodPtr = sender.GetType().GetMethod(method);
+            try
+            {
+                methodPtr = sender.GetType().GetMethod(method);
+            }
+            catch (Exception)
+            {
+                //methodPtr = sender.GetType().GetMethods().First
+                //(m => m.Name == method && m.GetParameters().Count() == 0);
+
+                //Debug.Log("OTHER");
+
+                throw;
+            }
+
         }
 
         if (methodPtr != null)

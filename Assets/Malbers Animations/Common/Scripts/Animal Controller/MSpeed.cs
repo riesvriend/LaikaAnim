@@ -20,6 +20,9 @@ namespace MalbersAnimations.Controller
         [Tooltip("Set the Top Index when Increasing the Speed using SpeedUP")]
         public IntReference TopIndex;
 
+        [Tooltip("Index Value of the Sprint Speed")]
+        public IntReference m_SprintIndex = new IntReference(10);
+
         [Tooltip("When the Speed is locked this will be the value s")]
         public IntReference m_LockIndex = new IntReference(1);
 
@@ -49,6 +52,7 @@ namespace MalbersAnimations.Controller
 
         /// <summary>Locked Index of a Speed Set</summary>
         public int LockIndex { get => m_LockIndex.Value; set => m_LockIndex.Value = value; }
+        public int SprintIndex { get => m_SprintIndex.Value; set => m_SprintIndex.Value = value; }
 
         /// <summary>Locked Index of a Speed Set</summary>
         public bool LockSpeed

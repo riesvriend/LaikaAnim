@@ -2,6 +2,7 @@
 using MalbersAnimations.Scriptables;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,21 +15,25 @@ namespace MalbersAnimations
     {
         [RequiredField] public MAnimal animal;
 
-        [ContextMenuItem("Attack Mode","AddAttackMode")]
+        [ContextMenuItem("Attack Mode", "AddAttackMode")]
         public List<ModeID> modes = new List<ModeID>();
 
-        [Tooltip("It will search only for Animals on the Radius. If is set to false then it will search for all colliders using the LayerMask")]
-        public bool AnimalsOnly = true;
-        public LayerReference Layer = new LayerReference(-1);
-        [Tooltip("Radius used for the Search")
-            ,UnityEngine.Serialization.FormerlySerializedAs("LookRadius")]
+        [Tooltip("It will search any gameobject that is a Animals on the Radius. ")]
+        [FormerlySerializedAs("AnimalsOnly")]
+        public bool Animals = true;
+        public LayerReference Layer = new LayerReference(0);
+        [Tooltip("Radius used for the Search")]
         [Min(0)] public float SearchRadius = 2f;
         [Tooltip("Radius used push closer/farther the Target when playing the Mode"), UnityEngine.Serialization.FormerlySerializedAs("DistanceRadius")]
         [Min(0)] public float Distance = 0;
+        [Tooltip("Multiplier To apply to AITarget found. Set this to Zero to ignore IAI Targets")]
+        [Min(0)] public float TargetMultiplier = 1;
         [Tooltip("Time needed to complete the Position aligment")]
         [Min(0)] public float AlignTime = 0.3f;
         [Tooltip("Time needed to complete the Rotation aligment")]
         [Min(0)] public float LookAtTime = 0.15f;
+        //[Tooltip("Push the Found Animal/Target instead of this character")]
+        //public bool pushTarget = true;
         public Color debugColor = new Color(1, 0.5f, 0, 0.2f);
 
         void Awake()
@@ -55,14 +60,13 @@ namespace MalbersAnimations
 
             if (modes == null || modes.Count == 0 || modes.Exists(x => x.ID == ModeID))
             {
-                if (AnimalsOnly)
-                    AlignAnimalsOnly();
-                else
-                    Align();
+                 
+               if (!     AlignAnimalsOnly()) //Search first Animals ... if did not find anyone then search for colliders
+                    AlignCollider();
             }
         }
 
-        private void AlignAnimalsOnly()
+        private bool AlignAnimalsOnly()
         {
             MAnimal ClosestAnimal = null;
             float ClosestDistance = float.MaxValue;
@@ -75,6 +79,9 @@ namespace MalbersAnimations
                     || !MTools.Layer_in_LayerMask(a.gameObject.layer, Layer)    //Is not using the correct layer
                     ) continue; //Don't Find yourself or don't find death animals
 
+                if (animal.transform.IsGrandchild(a.transform)) continue; //Meaning that the animal is mounting the other animal.
+
+
                 var animalsDistance = Vector3.Distance(transform.position, a.Center);
 
                 if (SearchRadius >= animalsDistance && ClosestDistance >= animalsDistance)
@@ -85,21 +92,32 @@ namespace MalbersAnimations
             }
 
             if (ClosestAnimal)
-                StartAligning(ClosestAnimal.Center);
+            {
+                var ClosestAI = ClosestAnimal.FindInterface<IAITarget>();
+
+                if (TargetMultiplier == 0) ClosestAI = null;
+                StartAligning(ClosestAnimal.Center, ClosestAI);
+
+                return true;
+            }
+            return false;
         }
 
-        private void Align()
+        private void AlignCollider()
         {
             var pos = animal.Center;
 
             var AllColliders = Physics.OverlapSphere(pos, SearchRadius, Layer.Value);
 
             Collider ClosestCollider = null;
+            IAITarget ClosestAI = null;
             float ClosestDistance = float.MaxValue;
 
             foreach (var col in AllColliders)
             {
                 if (col.transform.root == animal.transform.root) continue; //Don't Find yourself
+
+                var Iai = col.FindInterface<IAITarget>();
 
                 var DistCol = Vector3.Distance(transform.position, col.bounds.center);
 
@@ -107,17 +125,33 @@ namespace MalbersAnimations
                 {
                     ClosestDistance = DistCol;
                     ClosestCollider = col;
+                    ClosestAI = col.FindInterface<IAITarget>();
                 }
             }
-            if (ClosestCollider) StartAligning(ClosestCollider.bounds.center);
+            if (ClosestCollider)
+            {
+                if (TargetMultiplier == 0) ClosestAI = null;
+                StartAligning(ClosestCollider.bounds.center, ClosestAI);
+            }
         }
 
-        private void StartAligning(Vector3 TargetCenter)
+        private void StartAligning(Vector3 TargetCenter, IAITarget isAI)
         {
             TargetCenter.y = animal.transform.position.y;
             Debug.DrawLine(transform.position, TargetCenter, Color.red, 3f);
             StartCoroutine(MTools.AlignLookAtTransform(animal.transform, TargetCenter, LookAtTime));
-            if (Distance > 0) StartCoroutine(MTools.AlignTransformRadius(animal.transform, TargetCenter, AlignTime, Distance * animal.ScaleFactor));  //Align Look At the Zone
+
+            var Dis = Distance * animal.ScaleFactor;
+            if (isAI != null)
+            {
+                Dis = isAI.StopDistance() * TargetMultiplier;
+                TargetCenter = isAI.GetPosition();
+            }
+            //Align Look At the Zone
+            if (Dis > 0)
+            {
+                StartCoroutine(MTools.AlignTransformRadius(animal.transform, TargetCenter, AlignTime, Dis * animal.ScaleFactor));
+            }
         }
 
 
@@ -161,21 +195,23 @@ namespace MalbersAnimations
 
 #if UNITY_EDITOR
 
-    [CustomEditor(typeof(MModeAlign)),CanEditMultipleObjects]
+    [CustomEditor(typeof(MModeAlign)), CanEditMultipleObjects]
     public class MModeAlignEditor : Editor
     {
-        SerializedProperty animal, modes, AnimalsOnly, Layer, LookRadius, DistanceRadius, AlignTime, LookAtTime, debugColor;
+        SerializedProperty animal, modes, AnimalsOnly, Layer, LookRadius, DistanceRadius, AlignTime, LookAtTime, TargetMultiplier, debugColor/*, pushTarget*/;
         private void OnEnable()
-        { 
+        {
             animal = serializedObject.FindProperty("animal");
             modes = serializedObject.FindProperty("modes");
-            AnimalsOnly = serializedObject.FindProperty("AnimalsOnly");
+            AnimalsOnly = serializedObject.FindProperty("Animals");
             Layer = serializedObject.FindProperty("Layer");
             LookRadius = serializedObject.FindProperty("SearchRadius");
             DistanceRadius = serializedObject.FindProperty("Distance");
             AlignTime = serializedObject.FindProperty("AlignTime");
             LookAtTime = serializedObject.FindProperty("LookAtTime");
-            debugColor = serializedObject.FindProperty("debugColor"); 
+            debugColor = serializedObject.FindProperty("debugColor");
+            TargetMultiplier = serializedObject.FindProperty("TargetMultiplier");
+            
         }
 
         public override void OnInspectorGUI()
@@ -184,36 +220,43 @@ namespace MalbersAnimations
 
             MalbersEditor.DrawDescription($"Execute a LookAt towards the closest Animal or GameObject  when is playing a Mode on the list");
 
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            EditorGUILayout.BeginHorizontal();
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+
             {
-                EditorGUILayout.PropertyField(animal);
-                EditorGUILayout.PropertyField(debugColor, GUIContent.none, GUILayout.Width(36));
+                using (new GUILayout.HorizontalScope())
+                {
+                    EditorGUILayout.PropertyField(animal);
+                    EditorGUILayout.PropertyField(debugColor, GUIContent.none, GUILayout.Width(36));
+                }
+
+
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(modes, true);
+                EditorGUI.indentLevel--;
+                EditorGUILayout.PropertyField(AnimalsOnly);
+                EditorGUILayout.PropertyField(Layer);
             }
-            EditorGUILayout.EndHorizontal();
-            EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(modes,true);
-            EditorGUI.indentLevel--;
-            EditorGUILayout.PropertyField(AnimalsOnly);
-            EditorGUILayout.PropertyField(Layer);
-            EditorGUILayout.EndVertical();
 
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
-            EditorGUILayout.PropertyField(LookRadius);
-            if (LookRadius.floatValue > 0)
-                EditorGUILayout.PropertyField(LookAtTime);
-            EditorGUILayout.EndVertical();
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                EditorGUILayout.PropertyField(LookRadius);
+                if (LookRadius.floatValue > 0)
+                    EditorGUILayout.PropertyField(LookAtTime);
+            }
 
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                EditorGUILayout.PropertyField(DistanceRadius);
 
-            EditorGUILayout.PropertyField(DistanceRadius);
-            if (DistanceRadius.floatValue>0)
-                EditorGUILayout.PropertyField(AlignTime);
-            EditorGUILayout.EndVertical();
+                if (DistanceRadius.floatValue > 0)
+                    EditorGUILayout.PropertyField(AlignTime);
+
+                EditorGUILayout.PropertyField(TargetMultiplier);
+
+            }
 
             serializedObject.ApplyModifiedProperties();
-
         }
     }
 #endif

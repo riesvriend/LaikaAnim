@@ -67,7 +67,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 0
-    m_SensorSize: {x: 1.7771261, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 1
     m_InheritPosition: 1
@@ -130,11 +130,11 @@ MonoBehaviour:
   m_BindingMode: 4
   m_SplineCurvature: 0
   m_Orbits:
-  - m_Height: 2
+  - m_Height: 4
     m_Radius: 3
   - m_Height: 0
     m_Radius: 3
-  - m_Height: -2
+  - m_Height: -4
     m_Radius: 3
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
@@ -250,6 +250,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 114866700021556508}
+          m_TargetAssemblyTypeName: 
           m_MethodName: set_LookAt
           m_Mode: 0
           m_Arguments:
@@ -261,6 +262,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
         - m_Target: {fileID: 114866700021556508}
+          m_TargetAssemblyTypeName: 
           m_MethodName: set_Follow
           m_Mode: 0
           m_Arguments:
@@ -296,6 +298,7 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls:
           - m_Target: {fileID: 114866700021556508}
+            m_TargetAssemblyTypeName: 
             m_MethodName: set_Priority
             m_Mode: 3
             m_Arguments:
@@ -318,6 +321,7 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls:
           - m_Target: {fileID: 114866700021556508}
+            m_TargetAssemblyTypeName: 
             m_MethodName: set_Priority
             m_Mode: 3
             m_Arguments:
@@ -331,6 +335,7 @@ MonoBehaviour:
     AdvancedInteger: 1
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
 --- !u!1 &2892550741005760047
 GameObject:
   m_ObjectHideFlags: 3
@@ -398,7 +403,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7748091, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -726,7 +731,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7748091, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -928,7 +933,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7748091, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

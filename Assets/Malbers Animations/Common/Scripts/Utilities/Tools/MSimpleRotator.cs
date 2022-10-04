@@ -18,7 +18,7 @@ namespace MalbersAnimations.Utilities
         public override void Evaluate(float position)
         {
             var curvePosition = m_Curve.Evaluate(position);
-            var q = Quaternion.AngleAxis(Mathf.Lerp(startAngle, endAngle, curvePosition), axis);
+            var q = Quaternion.AngleAxis(Mathf.LerpUnclamped(startAngle, endAngle, curvePosition), axis);
             Object.localRotation = q;
         } 
     }

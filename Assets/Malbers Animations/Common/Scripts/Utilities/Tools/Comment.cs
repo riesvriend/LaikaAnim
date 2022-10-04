@@ -35,13 +35,13 @@ namespace MalbersAnimations.Utilities
             serializedObject.Update();
 
             if (style == null)
-                style = new GUIStyle(MTools.StyleDarkGray)
+                style = new GUIStyle(MTools.StyleGray)
                 {
                     fontSize = 13,
                     fontStyle = FontStyle.Bold,
                     alignment = TextAnchor.MiddleLeft,
                     stretchWidth = true
-                    
+
                 };
             style.normal.textColor = UnityEditor.EditorStyles.boldLabel.normal.textColor;
             // Color.white;
@@ -50,10 +50,9 @@ namespace MalbersAnimations.Utilities
             {
                 UnityEditor.EditorGUILayout.PropertyField(reference, GUIContent.none);
             }
+            using (new GUILayout.VerticalScope(MTools.StyleGray))
+                text.stringValue = UnityEditor.EditorGUILayout.TextArea(text.stringValue, style);
 
-                UnityEditor.EditorGUILayout.BeginVertical(MTools.StyleGray);
-            text.stringValue = UnityEditor.EditorGUILayout.TextArea(text.stringValue, style);
-            UnityEditor.EditorGUILayout.EndVertical();
             serializedObject.ApplyModifiedProperties();
         }
     }

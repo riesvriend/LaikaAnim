@@ -28,7 +28,12 @@ namespace MalbersAnimations.Scriptables
             if (Reference == null) Reference = transform;
         }
 
-        public virtual void UpdateHook() => Hook.Value = Reference;
+        public virtual void UpdateHook()
+        {
+            Hook.Value = Reference;
+         //   Debug.Log("TransformHook = " + Reference,this);
+        }
+
         public virtual void DisableHook() => Hook.Value = null;
         public virtual void RemoveHook() => Hook.Value = null;
         public virtual void RemoveHook(Transform val)

@@ -13,7 +13,7 @@ namespace MalbersAnimations.Controller.AI
         public VarType varType = VarType.Bool;
 
 
-        [CreateScriptableAsset]  public BoolVar Bool;
+        [CreateScriptableAsset] public BoolVar Bool;
         [CreateScriptableAsset] public IntVar Int;
         [CreateScriptableAsset] public FloatVar Float;
 

@@ -13,7 +13,7 @@ namespace MalbersAnimations.Conditions
         [RequiredField] public MAnimalAIControl AI;
         public enum AnimalAICondition { enabled,  HasTarget, HasNextTarget, Arrived, Waiting ,InOffMesh, CurrentTarget, NextTarget }
         public AnimalAICondition Condition;
-        [Hide("showTarg",true,false)]
+        [Hide("Condition",6,7)]
         public Transform Target;
 
         public override bool _Evaluate()

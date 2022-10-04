@@ -121,10 +121,16 @@ namespace MalbersAnimations
         public readonly static int Fly = 6;
         /// <summary>States ID for Climb: 7</summary>
         public readonly static int Climb = 7;
-        /// <summary>States ID for Slide: 8</summary>
-        public readonly static int Slide = 8;
+        /// <summary>States ID for LedgeGrab: 8</summary>
+        public readonly static int LedgeGrab = 8;
+        /// <summary>States ID for Slide: 9</summary>
+        public readonly static int Slide= 9;
         /// <summary>States ID for Death: 10</summary>
         public readonly static int Death = 10;
+        /// <summary>States ID for Glide: 11</summary>
+        public readonly static int Glide = 11;
+        /// <summary>States ID for LockedJump: 12</summary>
+        public readonly static int LockedJump = 12;
     }
 
     public static class StanceEnum

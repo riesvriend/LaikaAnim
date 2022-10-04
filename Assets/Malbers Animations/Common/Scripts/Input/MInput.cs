@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using MalbersAnimations.Scriptables;
 using MalbersAnimations.Events;
+using System.Linq;
 
 namespace MalbersAnimations
 {
@@ -12,11 +13,19 @@ namespace MalbersAnimations
     {
         #region Variables
         public IInputSystem Input_System;
-
-        public List<InputRow> inputs = new List<InputRow>();                                        //Used to convert them to dictionary
-        public Dictionary<string, InputRow> DInputs = new Dictionary<string, InputRow>();        //Shame it cannot be Serialided :(
+       // public Dictionary<string, InputRow> DInputs = new Dictionary<string, InputRow>();        //Shame it cannot be Serialided :(
+        /// <summary>Default Input Row Values </summary>
+        public List<InputRow> inputs = new List<InputRow>();                                     //Used to convert them to dictionary
+        public List<InputRow> AllInputs = new List<InputRow>();
+        public List<MInputMap> actionMaps = new List<MInputMap>();                                     //Used to convert them to dictionary
+        public int ActiveMapIndex;
+        public MInputMap DefaultMap;
+        public MInputMap ActiveMap;
 
         public bool showInputEvents = false;
+
+        [Tooltip("It will reset the Inputs to False if the Game Window Loses Focus")]
+        public bool ResetOnFocusLost = false;
         public UnityEvent OnInputEnabled = new UnityEvent();
         public UnityEvent OnInputDisabled = new UnityEvent();
 
@@ -27,45 +36,128 @@ namespace MalbersAnimations
 
         /// <summary>Send to the Character to Move using the interface ICharacterMove</summary>
         public bool MoveCharacter { set; get; }
-
         #endregion
 
         void Awake()
         {
-            Input_System = DefaultInput.GetInputSystem(PlayerID);                   //Get Which Input System is being used
-
-            foreach (var i in inputs)
-                i.InputSystem = Input_System;                 //Update to all the Inputs the Input System
-
-            DInputs = new Dictionary<string, InputRow>();
-
-            foreach (var item in inputs)
-                DInputs.Add(item.name, item);
+            Initialize();
         }
 
- 
+        public void SetMap(int map)
+        {
+            if (map == 0)
+            {
+                ActiveMap = DefaultMap;
+                ActiveMapIndex = 0;
+            }
+            else
+            {
+                var index = Mathf.Clamp(map - 1, 0, actionMaps.Count);
+                ActiveMap = actionMaps[index];
+                ActiveMapIndex = index+1; 
+            }
+        }
+
+        public virtual void SetMap(string map)
+        {
+            if (DefaultMap.name == map)
+            {
+                ResetMap();
+            }
+            else
+            {
+                var nextMap = actionMaps.FindIndex(x => x.name == map);
+
+                if (nextMap != -1)
+                { 
+                    ActiveMap = actionMaps[nextMap];
+                    ActiveMapIndex = nextMap + 1;
+                }
+                else
+                {
+                    Debug.Log("No Action Map was found with the name: " + map);
+                }
+            }
+        }
+
+        public virtual void ResetMap()
+        {
+            ActiveMap = DefaultMap;
+            ActiveMapIndex = 0;
+        }
+
+        protected virtual void Initialize()
+        {
+            InitializeDefaultMap();
+
+
+            //Store all inputs from all MAPS in a new list
+            AllInputs = new List<InputRow>(inputs);
+            if (actionMaps.Count > 0)
+                foreach (var item in actionMaps)
+                    AllInputs = AllInputs.Concat(item.inputs).ToList();
+
+            Input_System = DefaultInput.GetInputSystem(PlayerID);      //Get Which Input System is being used
+
+            //Update to all the Inputs the Input System
+            foreach (var i in AllInputs)
+                i.InputSystem = Input_System;                           
+
+          //  List_to_Dictionary();
+        }
+
+        public virtual void InitializeDefaultMap() => DefaultMap = new MInputMap() { name = new StringReference("Default"), inputs = this.inputs };
+
+
+        // /// <summary>Convert the List of Inputs into a Dictionary</summary>
+        //protected void List_to_Dictionary()
+        // {
+        //     DInputs = new Dictionary<string, InputRow>();
+        //     foreach (var item in inputs)
+        //         DInputs.Add(item.name, item);
+        // }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            if (!focus && ResetOnFocusLost) ResetInputs();
+        }
+
 
         /// <summary>Enable Disable the Input Script</summary>
         public virtual void Enable(bool val) => enabled = val;
 
         protected virtual void OnEnable() 
         {
-            OnInputEnabled.Invoke(); 
+            OnInputEnabled.Invoke();
+            SetMap(ActiveMapIndex);
         }
 
         protected virtual void OnDisable()
         {
             if (Application.isPlaying && gameObject.activeInHierarchy)
             {
-                OnInputDisabled.Invoke();
-
-                foreach (var input in inputs)
-                {
-                    if (input.ResetOnDisable) input.OnInputChanged.Invoke(input.InputValue = false);  //Sent false to all Input listeners 
-                }
+                OnInputDisabled.Invoke(); 
+                ResetInputs();
             }
         }
 
+        public virtual void ResetInputs()
+        {
+            foreach (var input in inputs)
+            {
+                if (input.ResetOnDisable && input.Active) input.OnInputChanged.Invoke(input.InputValue = false);  //Sent false to all Input listeners 
+            }
+
+
+
+            foreach (var item in actionMaps)
+            {
+                foreach (var input in item.inputs)
+                {
+                    if (input.ResetOnDisable && input.Active) input.OnInputChanged.Invoke(input.InputValue = false);  //Sent false to all Input listeners 
+                }
+            }
+        }
 
         void Update() { SetInput(); }
 
@@ -74,39 +166,69 @@ namespace MalbersAnimations
         {
             if (IgnoreOnPause.Value && Time.timeScale == 0) return;
 
-            foreach (var item in inputs)
+          //   Debug.Log($"activemap [{ActiveMap.name.Value}] [{ActiveMapIndex}]");
+
+
+            foreach (var item in ActiveMap.inputs)
                 _ = item.GetValue;  //This will set the Current Input value to the inputs and Invoke the Values
+
+
+            //foreach (var item in inputs)
+            //    _ = item.GetValue;  //This will set the Current Input value to the inputs and Invoke the Values
         }
 
 
         /// <summary>Enable/Disable an Input Row</summary>
         public virtual void EnableInput(string name, bool value)
         {
-            string[] inputs = name.Split(',');
+           //  Debug.Log($"EnableInput {name} {value}");
 
-            foreach (var inp in inputs)
+            string[] inputsName = name.Split(',');
+
+            foreach (var inp in inputsName)
             {
-                if (DInputs.TryGetValue(inp, out InputRow input)) input.Active = value;
+                for (int i = 0; i < AllInputs.Count; i++)
+                {
+                    if (AllInputs[i].name == inp) AllInputs[i].Active = value;
+                }
+
+                //if (DInputs.TryGetValue(inp, out InputRow input)) input.Active = value;
             }
         }
 
         public virtual void SetInput(string name, bool value)
         {
-            if (DInputs.TryGetValue(name, out InputRow input))
+            for (int i = 0; i < AllInputs.Count; i++)
             {
-                input.InputValue = value;
-                input.ToggleValue = value;
+                if (AllInputs[i].name == name)
+                {
+                    AllInputs[i].InputValue = value;
+                    AllInputs[i].ToggleValue = value;
+                }
             }
+
+            //if (DInputs.TryGetValue(name, out InputRow input))
+            //{
+            //    input.InputValue = value;
+            //    input.ToggleValue = value;
+            //}
         }
 
-        public virtual void ResetToggle(string name, bool value)
+        public virtual void ResetToggle(string name)
         {
-            if (DInputs.TryGetValue(name, out InputRow input))
+            for (int i = 0; i < AllInputs.Count; i++)
             {
-                input.ToggleValue = false;
+                if (AllInputs[i].name == name)
+                {
+                    AllInputs[i].ToggleValue = false;
+                }
             }
-        }
 
+            //if (DInputs.TryGetValue(name, out InputRow input))
+            //{
+            //    input.ToggleValue = false;
+            //}
+        }
 
         /// <summary>Enable an Input Row</summary>
         public virtual void EnableInput(string name) => EnableInput(name, true);
@@ -117,30 +239,40 @@ namespace MalbersAnimations
         /// <summary>Check if an Input Row  is active</summary>
         public virtual bool IsActive(string name)
         {
-            if (DInputs.TryGetValue(name, out InputRow input))
-                return input.Active;
-
+            var i = GetInput(name);
+            if (i != null) return i.Active;
             return false;
         }
 
         /// <summary>Check if an Input Row  exist  and returns it</summary>
-        public virtual InputRow FindInput(string name) => inputs.Find(item => item.name == name);
+        public virtual InputRow FindInput(string name) => ActiveMap.inputs.Find(item => item.name == name);
 
-        public bool GetInputValue(string name)
-        {
-            if (DInputs.TryGetValue(name, out InputRow getInput))
-                return getInput.InputValue;
-
-            return false;
-        }
 
         public IInputAction GetInput(string name)
         {
-            if (DInputs.TryGetValue(name, out InputRow getInput))
-                return getInput;
-
-            return null;
+            return AllInputs.Find(item => item.name == name);
         }
+
+
+        public void ConnectInput(string name, UnityAction<bool> action)
+        {
+            if (string.IsNullOrEmpty(name)) return;
+
+            var inputs = AllInputs.FindAll(item => item.name == name);
+
+            foreach (var item in inputs)
+                item.InputChanged.AddListener(action);
+        }
+
+        public void DisconnectInput(string name, UnityAction<bool> action)
+        {
+            if (string.IsNullOrEmpty(name)) return;
+            var inputs = AllInputs.FindAll(item => item.name == name);
+            
+            foreach (var item in inputs)
+                item.InputChanged.RemoveListener(action);
+        }
+
 
         public virtual bool OnAnimatorBehaviourMessage(string message, object value) => this.InvokeWithParams(message, value);
 
@@ -150,8 +282,18 @@ namespace MalbersAnimations
         [ContextMenu("Disable All", false,2000000)]
         private void DisableAllInputs()
         {
-            foreach (var inp in inputs)
-                inp.active.Value =false;
+            UnityEditor.Undo.RecordObject(this, "DisableAllInputs");
+
+            if (ActiveMapIndex == 0)
+            {
+                foreach (var inp in inputs)
+                    inp.active.Value = false;
+            }
+            else
+            {
+                foreach (var inp in actionMaps[ActiveMapIndex - 1].inputs)
+                    inp.active.Value = false;
+            }
 
             MTools.SetDirty(this);
         }
@@ -159,8 +301,18 @@ namespace MalbersAnimations
         [ContextMenu("Enable All", false, 2000000)]
         private void EnableAllInputs()
         {
-            foreach (var inp in inputs)
-                inp.active.Value = true;
+            UnityEditor.Undo.RecordObject(this, "EnableAllInputs");
+
+            if (ActiveMapIndex == 0)
+            {
+                foreach (var inp in inputs)
+                    inp.active.Value = true;
+            }
+            else
+            {
+                foreach (var inp in actionMaps[ActiveMapIndex - 1].inputs)
+                    inp.active.Value = true;
+            }
 
             MTools.SetDirty(this);
         }
@@ -169,15 +321,36 @@ namespace MalbersAnimations
         [ContextMenu("All Types = [Input]", false, 2000000)]
         private void ChangeToInputs()
         {
+            UnityEditor.Undo.RecordObject(this, "Input Type: Input");
+
+
+            foreach (var item in actionMaps)
+            {
+                foreach (var inp in item.inputs)
+                    inp.type = InputType.Input;
+            }
+
+
             foreach (var inp in inputs)
                 inp.type = InputType.Input;
 
             MTools.SetDirty(this);
         }
 
+        private List<InputRow> TrueInput => ActiveMapIndex == 0 ? this.inputs : actionMaps[ActiveMapIndex - 1].inputs;
+
+
         [ContextMenu("All Types = [Keys]", false, 2000000)]
         private void ChangeToKeys()
         {
+            UnityEditor.Undo.RecordObject(this, "Input Type: Keys");
+
+            foreach (var item in actionMaps)
+            {
+                foreach (var inp in item.inputs)
+                    inp.type = InputType.Key;
+            }
+
             foreach (var inp in inputs)
                 inp.type = InputType.Key;
 
@@ -188,23 +361,23 @@ namespace MalbersAnimations
         [ContextMenu("Create/Jump")]
         private void CreateJumpInput()
         {
-            inputs.Add(new InputRow(true, "Jump", "Jump", KeyCode.Space, InputButton.Press, InputType.Key));
+            TrueInput.Add(new InputRow(true, "Jump", "Jump", KeyCode.Space, InputButton.Press, InputType.Key));
             MTools.SetDirty(this);
         }
 
         [ContextMenu("Create/Fly")]
         private void CreateFlyInput()
         {
-            inputs.Add(new InputRow(true, "Fly", "Fly", KeyCode.Q, InputButton.Toggle, InputType.Key));
+            TrueInput.Add(new InputRow(true, "Fly", "Fly", KeyCode.Q, InputButton.Toggle, InputType.Key));
             MTools.SetDirty(this);
         }
 
         [ContextMenu("Create/Sprint")]
         private void CreateSprintInput()
-        {
+        { 
             var sprint = new InputRow(true, "Sprint", "Sprint", KeyCode.LeftShift, InputButton.Press, InputType.Key);
 
-            inputs.Add(sprint);
+            TrueInput.Add(sprint);
 
             var method = this.GetUnityAction<bool>("MAnimal", "Sprint");
             if (method != null) UnityEditor.Events.UnityEventTools.AddPersistentListener(sprint.OnInputChanged, method);
@@ -213,38 +386,38 @@ namespace MalbersAnimations
 
         [ContextMenu("Create/Main Attack")]
         private void CreateMainAttackInput()
-        {
-            inputs.Add(new InputRow(true, "Attack1", "Fire1", KeyCode.Mouse0, InputButton.Press, InputType.Key));
+        { 
+            TrueInput.Add(new InputRow(true, "MainAttack", "Fire1", KeyCode.Mouse0, InputButton.Press, InputType.Key));
             MTools.SetDirty(this);
         }
 
         [ContextMenu("Create/Secondary Attack")]
         private void Create2ndAttackInput()
-        {
-            inputs.Add(new InputRow(true, "Attack2", "Fire2", KeyCode.Mouse1, InputButton.Press, InputType.Key));
+        { 
+            TrueInput.Add(new InputRow(true, "SecondAttack", "Fire2", KeyCode.Mouse1, InputButton.Press, InputType.Key));
             MTools.SetDirty(this);
         }
 
         [ContextMenu("Create/Action")]
         private void CreateInteraction()
         {
-            inputs.Add(new InputRow(true, "Action", "Action", KeyCode.E, InputButton.Press, InputType.Key));
+            TrueInput.Add(new InputRow(true, "Action", "Action", KeyCode.E, InputButton.Press, InputType.Key));
             MTools.SetDirty(this);
         }
 
         [ContextMenu("Create/Dodge")]
         private void CreateDodge()
         {
-            inputs.Add(new InputRow(true, "Dodge", "Dodge", KeyCode.Q, InputButton.Press, InputType.Key));
+            TrueInput.Add(new InputRow(true, "Dodge", "Dodge", KeyCode.Q, InputButton.Press, InputType.Key));
             MTools.SetDirty(this);
         }
 
         [ContextMenu("Create/Speed Up")]
         private void CreateSpeedUP()
-        {
+        { 
             var inputUp = new InputRow(true, "Speed Up", "Speed Up", KeyCode.Alpha2, InputButton.Down, InputType.Key);
 
-            inputs.Add(inputUp);
+            TrueInput.Add(inputUp);
 
             var method = this.GetUnityAction("MAnimal", "SpeedUp");
             if (method != null) UnityEditor.Events.UnityEventTools.AddPersistentListener(inputUp.OnInputDown, method);
@@ -256,7 +429,7 @@ namespace MalbersAnimations
         private void CreateSpeedDown()
         {
             var SpeedDown = new InputRow(true, "Speed Down", "Speed Down", KeyCode.Alpha1, InputButton.Down, InputType.Key);
-            inputs.Add(SpeedDown);
+            TrueInput.Add(SpeedDown);
 
             var method = this.GetUnityAction("MAnimal", "SpeedDown");
             if (method != null) UnityEditor.Events.UnityEventTools.AddPersistentListener(SpeedDown.OnInputDown, method);
@@ -267,7 +440,7 @@ namespace MalbersAnimations
         [ContextMenu("Create/Damage")]
         private void CreateDamage()
         {
-            inputs.Add(new InputRow(true, "Damage", "Damage", KeyCode.J, InputButton.Down, InputType.Key));
+            TrueInput.Add(new InputRow(true, "Damage", "Damage", KeyCode.J, InputButton.Down, InputType.Key));
             MTools.SetDirty(this);
         }
 
@@ -276,7 +449,7 @@ namespace MalbersAnimations
         {
             var strafe = new InputRow(true, "Strafe", "Strafe", KeyCode.Tab, InputButton.Toggle, InputType.Key);
 
-            inputs.Add(strafe);
+            TrueInput.Add(strafe);
 
             var method = this.GetUnityAction<bool>("MAnimal", "Strafe");
             if (method != null) UnityEditor.Events.UnityEventTools.AddPersistentListener(strafe.OnInputChanged, method);
@@ -287,7 +460,8 @@ namespace MalbersAnimations
         private void CreateSneakInput()
         {
             var sne = new InputRow(true, "Sneak", "Sneak", KeyCode.C, InputButton.Down, InputType.Key);
-            inputs.Add(sne);
+            TrueInput.Add(sne); 
+            MTools.SetDirty(this);
         }
 
 
@@ -296,7 +470,7 @@ namespace MalbersAnimations
         private void CreateLockOnTarget()
         {
             var key = new InputRow(true, "LockTarget", "LockTarget", KeyCode.Mouse2, InputButton.Down, InputType.Key);
-            inputs.Add(key);
+            TrueInput.Add(key);
 
             var method = this.GetUnityAction("MalbersAnimations.Utilities.LockOnTarget", "LockTargetToggle");
             if (method != null) UnityEditor.Events.UnityEventTools.AddPersistentListener(key.OnInputDown, method);
@@ -351,7 +525,10 @@ namespace MalbersAnimations
 
         #region LONG PRESS and Double Tap
         public float DoubleTapTime = 0.3f;                          //Double Tap Time
+        [Tooltip("Time the Input Should be Pressed")]
         public float LongPressTime = 0.5f;
+        [Tooltip("Smooth decrese the acumulated pressed time")]
+        public bool SmoothDecrease;
         //public FloatReference LongPressTime = new FloatReference(0.5f);
         private bool FirstInputPress = false;
         private bool InputCompleted = false;
@@ -421,116 +598,159 @@ namespace MalbersAnimations
 
                         if (oldValue != InputValue) OnInputChanged.Invoke(InputValue); //Just to make sure the Input is Pressed
 
+                        //Debug.Log($"FirstInputPress = {FirstInputPress} | InputCompleted {InputCompleted}");
+
                         if (InputValue)
                         {
-                            if (!InputCompleted)
+                            if (!FirstInputPress && !InputCompleted)
                             {
-                                if (!FirstInputPress)
+                                FirstInputPress = true;
+                                InputStartTime = 0;
+                                OnPressedNormalized.Invoke(0);
+                                OnInputDown.Invoke();
+                            }
+                            else
+                            {
+                                if (!InputCompleted)
                                 {
-                                    InputStartTime = Time.time;
-                                    FirstInputPress = true;
-                                    OnInputDown.Invoke();
-                                }
-                                else
-                                {
-                                    if (MTools.ElapsedTime(InputStartTime, LongPressTime))
+                                    if (InputStartTime >= LongPressTime)
                                     {
                                         OnPressedNormalized.Invoke(1);
                                         OnLongPress.Invoke();
-                                        InputCompleted = true;                     //This will avoid the longpressed being pressed just one time
-                                        return (InputValue = true);
+                                        FirstInputPress = false;
+                                        InputCompleted = true;
+                                        //  return (InputValue = true);
                                     }
                                     else
-                                        OnPressedNormalized.Invoke((Time.time - InputStartTime) / LongPressTime);
+                                    {
+                                        InputStartTime += Time.deltaTime;
+                                        OnPressedNormalized.Invoke(Mathf.Clamp01(InputStartTime / LongPressTime));
+                                    }
                                 }
                             }
                         }
                         else
                         {
-                            //If the Input was released before the LongPress was completed ... take it as Interrupted
-                            if (!InputCompleted && FirstInputPress) OnInputUp.Invoke();
-
-                            FirstInputPress = InputCompleted = false;  //This will reset the Long Press
-                        } 
-                        break;
-                    //-------------------------------------------------------------------------------------------------------
-                    case InputButton.DoubleTap:
-                        InputValue = (type == InputType.Input) ? InputSystem.GetButton(input) : Input.GetKey(key);
-
-                        if (oldValue != InputValue)
-                        {
-                            OnInputChanged.Invoke(InputValue); //Just to make sure the Input is Pressed
-
-                            if (InputValue)
+                            //If the Input was released before the LongPress was completed  
+                            if (FirstInputPress)
                             {
-                                if (InputStartTime != 0 && MTools.ElapsedTime(InputStartTime, DoubleTapTime))
+                                if (SmoothDecrease)
                                 {
-                                    FirstInputPress = false;    //This is in case it was just one Click/Tap this will reset it
-                                }
+                                    InputStartTime -= Time.deltaTime;
 
-                                if (!FirstInputPress)
-                                {
-                                    OnInputDown.Invoke();
-                                    InputStartTime = Time.time;
-                                    FirstInputPress = true;
-                                }
-                                else
-                                {
-                                    if ((Time.time - InputStartTime) <= DoubleTapTime)
+                                    if (InputStartTime > 0)
                                     {
-                                        FirstInputPress = false;
-                                        InputStartTime = 0;
-                                        OnDoubleTap.Invoke();       //Sucesfull Double tap
+                                        OnPressedNormalized.Invoke(Mathf.Clamp01(InputStartTime / LongPressTime));
                                     }
                                     else
                                     {
-                                        FirstInputPress = false;
+                                        ResetLongPress();
+                                    }
+                                }
+                                else
+                                {
+                                    ResetLongPress();
+                                }
+                            }
+                            else
+                            {
+                                InputCompleted = false;
+                            }
+                        }
+                        break;
+                    //-------------------------------------------------------------------------------------------------------
+                    case InputButton.DoubleTap:
+                        {
+                            InputValue = (type == InputType.Input) ? InputSystem.GetButton(input) : Input.GetKey(key);
+
+                            if (oldValue != InputValue)
+                            {
+                                OnInputChanged.Invoke(InputValue); //Just to make sure the Input is Pressed
+
+                                if (InputValue)
+                                {
+                                    if (InputStartTime != 0 && MTools.ElapsedTime(InputStartTime, DoubleTapTime))
+                                    {
+                                        FirstInputPress = false;    //This is in case it was just one Click/Tap this will reset it
+                                    }
+
+                                    if (!FirstInputPress)
+                                    {
+                                        OnInputDown.Invoke();
+                                        InputStartTime = Time.time;
+                                        FirstInputPress = true;
+                                    }
+                                    else
+                                    {
+                                        if ((Time.time - InputStartTime) <= DoubleTapTime)
+                                        {
+                                            FirstInputPress = false;
+                                            InputStartTime = 0;
+                                            OnDoubleTap.Invoke();       //Sucesfull Double tap
+                                        }
+                                        else
+                                        {
+                                            FirstInputPress = false;
+                                        }
                                     }
                                 }
                             }
+                            break;
                         }
-                        break;
                     case InputButton.Toggle:
-
-                        InputValue = (type == InputType.Input) ? InputSystem.GetButtonDown(input) : Input.GetKeyDown(key);
-
-                        if (oldValue != InputValue)
                         {
+
+
+                            InputValue = (type == InputType.Input) ? InputSystem.GetButtonDown(input) : Input.GetKeyDown(key);
+
+                            if (oldValue != InputValue)
+                            {
+                                if (InputValue)
+                                {
+                                    ToggleValue ^= true;
+                                    OnInputToggle.Invoke(ToggleValue);
+
+                                    if (ToggleValue) OnInputDown.Invoke();
+                                    else OnInputUp.Invoke();
+                                }
+                            }
+                            break;
+                        }
+                    case InputButton.Axis:
+                        {
+
+
+                            var axisValue = InputSystem.GetAxis(input);
+                            InputValue = Mathf.Abs(axisValue) > 0;
+
+                            if (oldValue != InputValue)
+                            {
+                                if (InputValue)
+                                    OnInputDown.Invoke();
+                                else
+                                    OnInputUp.Invoke();
+
+                                OnInputChanged.Invoke(InputValue);
+                            }
+
                             if (InputValue)
                             {
-                                ToggleValue ^= true;
-                                OnInputToggle.Invoke(ToggleValue);
-
-                                if (ToggleValue) OnInputDown.Invoke();
-                                else OnInputUp.Invoke();
+                                OnInputPressed.Invoke();
+                                OnPressedNormalized.Invoke(axisValue);
                             }
+                            break;
                         }
-                        break;
-                    case InputButton.Axis:
-
-                        var axisValue = InputSystem.GetAxis(input);
-                        InputValue =  Mathf.Abs(axisValue) > 0;
-
-                        if (oldValue != InputValue)
-                        {
-                            if (InputValue)
-                                OnInputDown.Invoke();
-                            else
-                                OnInputUp.Invoke();
-
-                            OnInputChanged.Invoke(InputValue);
-                        }
-
-                        if (InputValue)
-                        {
-                            OnInputPressed.Invoke();
-                            OnPressedNormalized.Invoke(axisValue);
-                        }
-                        break;
-
                     default: break;
                 }
                 return InputValue;
+
+                void ResetLongPress()
+                {
+                    InputStartTime = 0;
+                    OnInputUp.Invoke();         //Set it as interrupted
+                    FirstInputPress = false;    //This will reset the Long Press
+                    InputCompleted = false;
+                }
             }
         }
 
@@ -541,6 +761,7 @@ namespace MalbersAnimations
             get => active.Value;
             set
             {
+                //Debug.Log($"EnableInput {name} - {value}"); ;
                 active.Value = value;
                 if (value)
                     OnInputEnable.Invoke();
@@ -641,8 +862,6 @@ namespace MalbersAnimations
         public FloatEvent OnAxisValueChanged = new FloatEvent();
         float currentAxisValue = 0;
 
-
-
         /// <summary>Returns the Axis Value</summary>
         public float GetAxis
         {
@@ -694,6 +913,13 @@ namespace MalbersAnimations
         }
 
     }
+    ///──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+    [System.Serializable]
+    public class MInputMap 
+    {
+        public StringReference name = new StringReference( "New Map");
+        public List<InputRow> inputs;
+    } 
     #endregion
 
 

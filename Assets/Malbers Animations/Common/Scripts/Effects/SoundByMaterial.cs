@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using MalbersAnimations.Scriptables;
 
 #if UNITY_EDITOR
 using UnityEditorInternal;
@@ -13,7 +14,7 @@ namespace MalbersAnimations.Utilities
 
     public class SoundByMaterial : MonoBehaviour
     {
-        public AudioClip DefaultSound;
+        public AudioClipReference DefaultSound = new AudioClipReference();
         public List<MaterialSound> materialSounds;
 
         [SerializeField] private AudioSource audioSource;
@@ -69,11 +70,9 @@ namespace MalbersAnimations.Utilities
 
             MaterialSound mat = materialSounds.Find(item => item.material == hitSurface);
 
-            if (!Audio_Source.isPlaying)
+           // if (!Audio_Source.isPlaying)
             {
-
-
-
+                 
                 if (mat != null)
                 {
                     var sound = mat.Sounds[Random.Range(0, mat.Sounds.Length)];
@@ -82,9 +81,9 @@ namespace MalbersAnimations.Utilities
                 }
                 else
                 {
-                    if (DefaultSound && Audio_Source.isActiveAndEnabled)
+                    if (DefaultSound != null && Audio_Source.isActiveAndEnabled)
                     {
-                        Audio_Source.clip = DefaultSound;
+                        Audio_Source.clip = DefaultSound.GetValue();  
                         audioSource.Play();
                     }
                 }
@@ -130,29 +129,23 @@ namespace MalbersAnimations.Utilities
 
             EditorGUI.BeginChangeCheck();
             {
-                EditorGUILayout.BeginVertical(MTools.StyleGray);
+                EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("audioSource"));
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("DefaultSound"));
+                EditorGUILayout.EndVertical();
+
+                list.DoLayoutList();
+
+                if (list.index != -1)
                 {
-                    EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("audioSource"));
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("DefaultSound"));
-                    EditorGUILayout.EndVertical();
-
-                    list.DoLayoutList();
-
-                    if (list.index != -1)
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
                     {
-                        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                        {
-                            SerializedProperty Element = soundbymaterial.GetArrayElementAtIndex(list.index);
-                            SerializedProperty SoundElement = Element.FindPropertyRelative("Sounds");
+                        SerializedProperty Element = soundbymaterial.GetArrayElementAtIndex(list.index);
+                        SerializedProperty SoundElement = Element.FindPropertyRelative("Sounds");
 
-                            MalbersEditor.Arrays(SoundElement);
-                        }
-                        EditorGUILayout.EndVertical();
+                        MalbersEditor.Arrays(SoundElement);
                     }
                 }
-
-                EditorGUILayout.EndVertical();
             }
             if (EditorGUI.EndChangeCheck())
             {

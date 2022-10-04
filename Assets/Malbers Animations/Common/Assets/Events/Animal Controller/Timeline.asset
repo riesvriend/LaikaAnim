@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c084bb85b499301498518868eb44437c, type: 3}
   m_Name: Timeline
   m_EditorClassIdentifier: 
-  Description: "Bool Event\nTrue -> Timeline is Playing involving the Event Listener\n
-    False-> Timeline finish playing"
+  Description: 'Bool Event
+
+    True -> Timeline is Playing involving the Event Listener
+
+    False->
+    Timeline finish playing'
   debug: 0
   m_int:
     UseConstant: 1

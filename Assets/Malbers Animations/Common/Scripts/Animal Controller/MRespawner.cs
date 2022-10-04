@@ -56,6 +56,7 @@ namespace MalbersAnimations.Controller
             if (instance == null)
             {
                 instance = this;
+                transform.parent = null;
                 DontDestroyOnLoad(gameObject);
                 gameObject.name = gameObject.name + " Instance";
                 SceneManager.sceneLoaded += OnLevelFinishedLoading;

@@ -184,18 +184,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 114367147597996800}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: set_fillAmount
-          m_Mode: 4
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
     ResponseNull:
       m_PersistentCalls:
         m_Calls: []
@@ -221,18 +209,6 @@ MonoBehaviour:
           m_TargetAssemblyTypeName: 
           m_MethodName: SetActive
           m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-        - m_Target: {fileID: 114367147597996800}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: set_fillAmount
-          m_Mode: 4
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -464,9 +440,21 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  UseChild:
+    UseConstant: 1
+    ConstantValue: 
+    Variable: {fileID: 0}
   HideOffScreen: {fileID: 0}
   ResetOnDisable: 0
   HideOnNull: 0
+  Offset:
+    UseConstant: 1
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 0}
+  Scale:
+    UseConstant: 1
+    ConstantValue: {x: 1, y: 1, z: 1}
+    Variable: {fileID: 0}
 --- !u!1 &1156288420855200
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,9 +741,21 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  UseChild:
+    UseConstant: 1
+    ConstantValue: 
+    Variable: {fileID: 0}
   HideOffScreen: {fileID: 0}
   ResetOnDisable: 0
   HideOnNull: 0
+  Offset:
+    UseConstant: 1
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 0}
+  Scale:
+    UseConstant: 1
+    ConstantValue: {x: 1, y: 1, z: 1}
+    Variable: {fileID: 0}
 --- !u!114 &114076628387115450
 MonoBehaviour:
   m_ObjectHideFlags: 0

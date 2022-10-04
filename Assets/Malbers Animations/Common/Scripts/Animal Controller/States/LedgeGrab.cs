@@ -10,6 +10,7 @@ using UnityEngine.Serialization;
 
 namespace MalbersAnimations.Controller
 {
+    [HelpURL("https://malbersanimations.gitbook.io/animal-controller/main-components/manimal-controller/states/ledgegrab")]
     public class LedgeGrab : State
     {
         public override string StateName => "Ledge Grab";
@@ -27,6 +28,9 @@ namespace MalbersAnimations.Controller
 
         [Tooltip("Correct Distance from the wall to the character")]
         [Min(0)] public float wallDistance = 0.5f;
+
+        //[Tooltip("Correct Vertical Distance from the wall to the character")]
+        // public float VerticalOffset = -1;
 
 
         [Tooltip("Distance required to check a wall in front of the character")]
@@ -51,7 +55,9 @@ namespace MalbersAnimations.Controller
         private float  AngleDifference;
 
         private Vector3 StartPosition;
+        private Quaternion StartRotation;
         private Vector3 TargetPosition;
+        private Vector3 WallNormal;
 
 
         /// <summary> Store the Current Ledge Profile </summary>
@@ -81,6 +87,7 @@ namespace MalbersAnimations.Controller
                     var LedgeExitDistance = p.LedgeExitDistance * ScaleFactor;
                     var LedgeDownPoint1 = LedgeForwardPoint1 + (Forward * ForwardDistance);
 
+
                     if (animal.debugGizmos)
                     {
                         Debug.DrawRay(LedgeForwardPoint1, (Forward * ForwardDistance), Color.green);
@@ -94,45 +101,77 @@ namespace MalbersAnimations.Controller
                         //Check Ledge Pointing Down the Second First Ray
                         if (Physics.Raycast(LedgeDownPoint1, -Up, out FoundLedgeHit, LedgeExitDistance, LedgeLayer.Value, IgnoreTrigger))
                         {
+                            Debug.DrawRay(FoundLedgeHit.point, FoundLedgeHit.normal, Color.blue, 2);
+
                             //Do not Grab ledge on a Slope Angle
-                            if ((Vector3.Angle(FoundLedgeHit.normal, Up) < animal.maxAngleSlope)               
+                            if (Vector3.Angle(FoundLedgeHit.normal, Up) < animal.maxAngleSlope)
                             //We need to not find wall 
-                            && (Physics.Raycast(WallPoint1, Forward, out FoundWallHit, ForwardDistance, LedgeLayer.Value, IgnoreTrigger)))
                             {
-                                animal.SetPlatform(FoundLedgeHit.transform);
-                                LedgeProfile = p; //Store the current Ledge Profile
+                                if (Physics.Raycast(WallPoint1, Forward, out FoundWallHit, ForwardDistance, LedgeLayer.Value, IgnoreTrigger))
+                                {
+                                    //Debug.DrawRay(FoundWallHit.point, FoundWallHit.normal * 2, Color.white, 2);
 
-                                //var w0 = transform.position - (Up * 10);
-                                //var w1 = transform.position + (Up * 10);
-                                //var point = MTools.ClosestPointOnLine(w0, w1, FoundLedgeHit.point);
-                                //MTools.DrawWireSphere(point, Color.white, 0.01f, 1f);
-                                //MTools.DrawWireSphere(transform.position, Color.white, 0.01f, 1f);
-                                //Debug.DrawLine(w0, w1, Color.red,2);
+                                    var A = Vector3.Cross(FoundLedgeHit.normal, Forward);
+                                    WallNormal = Vector3.Cross(FoundLedgeHit.normal, A).normalized;
+                                    Debug.DrawRay(FoundLedgeHit.point, A, Color.white, 5);
+                                    Debug.DrawRay(FoundLedgeHit.point, WallNormal, Color.green, 5);
 
-                                var LedgeHitDifference = (LedgeExitDistance - (FoundLedgeHit.distance)) * animal.UpVector;
 
-                                var WallHitDifference = (wallDistance - (FoundWallHit.distance)) * -animal.Forward;
 
-                                AlignmentOffset = LedgeHitDifference + (WallHitDifference);
+                                    //Find the Correct Orientation
+                                    var Y_Point = MTools.ClosestPointOnPlane(transform.position, WallNormal, FoundLedgeHit.point);
+
+                                    var CloseEdgePoint = FoundWallHit.collider.ClosestPoint(Y_Point);
+
+                                    var H_Point = MTools.ClosestPointOnPlane(FoundWallHit.point, WallNormal, transform.position);
+
+                                    MTools.DrawWireSphere(CloseEdgePoint, Color.blue, 0.1f, 5f);
+
+
+                                    animal.SetPlatform(FoundLedgeHit.transform);
+                                    LedgeProfile = p; //Store the current Ledge Profile
+
+                                   
+
+                                    MTools.DrawWireSphere(Y_Point, Color.red, 0.1f,5f);
+                                    MTools.DrawWireSphere(FoundLedgeHit.point, Color.yellow, 0.1f,5f);
+
+
+                                    MTools.DrawWireSphere(H_Point, Color.red, 0.1f,5f);
+                                    MTools.DrawWireSphere(transform.position , Color.yellow, 0.1f,5f);
+
+                                    Debug.DrawLine(Y_Point, FoundLedgeHit.point, Color.yellow, 5f);
+                                    Debug.DrawLine(H_Point, transform.position, Color.red, 5f);
+
+                                    var YAxis = Vector3.Distance(Y_Point, transform.position) + LedgeProfile.AlingOffset.y;
+                                    var ZAxis = (wallDistance - Vector3.Distance(H_Point, transform.position)) + LedgeProfile.AlingOffset.x;
+
+
+                                    var UPDifference = YAxis * FoundLedgeHit.normal;
+                                    var HorizontalDifference = ZAxis * WallNormal;
+
+                                    AlignmentOffset = UPDifference + (HorizontalDifference);
+                                    AngleDifference = Vector3.SignedAngle(Forward, -WallNormal, Up); //?????
+
                                   
 
-                                AngleDifference = Vector3.SignedAngle(Forward, -FoundWallHit.normal, Up);
+                                    animal.InertiaPositionSpeed = Vector3.zero; //Remove internia
+                                    animal.AdditivePosition = Vector3.zero; //Remove additive
+                                    CheckKinematic();
+                                    // animal.transform.position += AlignmentOffset;
 
-                                AlignmentOffset += LedgeProfile.AlingOffset;
+                                    StartPosition = animal.transform.position;
+                                    StartRotation = animal.transform.rotation;
 
-                                animal.InertiaPositionSpeed = Vector3.zero; //Remove internia
-                                animal.AdditivePosition = Vector3.zero; //Remove additive
-                                CheckKinematic();
-                                // animal.transform.position += AlignmentOffset;
+                                 
+                                    TargetPosition = animal.transform.position + AlignmentOffset;
 
-                                StartPosition = animal.transform.position;
-                                TargetPosition = animal.transform.position + AlignmentOffset;
+                                    MTools.DrawWireSphere(StartPosition, Color.white, 0.02f, 3f);
+                                    MTools.DrawWireSphere(TargetPosition, Color.green, 0.02f, 3f);
 
-                                MTools.DrawWireSphere(StartPosition, Color.white, 0.01f, 1f);
-                                MTools.DrawWireSphere(TargetPosition, Color.green, 0.01f, 1f);
-
-                                Debugging($"Try [Ledge-Grab] Wall and Ledge found. <B>[{p.name}]</B>. Wall-Hit Difference: [{WallHitDifference}]");
-                                return true;
+                                    Debugging($"Try [Ledge-Grab] Wall and Ledge found. <B>[{p.name}]</B>. Wall-Hit Difference: [{HorizontalDifference}]");
+                                    return true;
+                                }
                             }
                         }
                     }
@@ -154,6 +193,8 @@ namespace MalbersAnimations.Controller
         {
             animal.InertiaPositionSpeed = Vector3.zero;         //Remove internia
             animal.DeltaPos = Vector3.zero;                     //Remove Delta position
+            animal.DeltaRootMotion = Vector3.zero;              //Remove Delta position
+
             if (Kinematic.Value)
             {
                 animal.RB.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative; 
@@ -174,15 +215,16 @@ namespace MalbersAnimations.Controller
                 {
                     var TransTime = Anim.GetAnimatorTransitionInfo(0).normalizedTime;
                     animal.AdditivePosition = Vector3.zero;
- 
-                    //var offset = Vector3.Lerp(Vector3.zero, AlignmentOffset, deltatime * AlignSmoothness);
-                    //animal.AdditivePosition += offset;
-                    //AlignmentOffset -= offset;
+                    animal.AdditiveRotation = Quaternion.identity;
 
+
+                    Quaternion AlignRot = Quaternion.FromToRotation(Forward, -WallNormal) * transform.rotation;  //Calculate the orientation to Terrain 
+                    
                     animal.transform.position = Vector3.Lerp(StartPosition, TargetPosition, TransTime);
+                    animal.transform.rotation = Quaternion.Lerp(StartRotation, AlignRot, TransTime);
                     InTransition = true;
 
-                   // Debug.Log("TransTime = " + TransTime);
+                  //  Debug.Log("TransTime = " + TransTime);
                 }
 
 
@@ -229,9 +271,6 @@ namespace MalbersAnimations.Controller
             }
         }
 
-
-        
-
         public override void ResetStateValues()
         {
             LedgeProfile = null;
@@ -245,6 +284,14 @@ namespace MalbersAnimations.Controller
             FoundLedgeHit = new RaycastHit();
             FoundWallHit = new RaycastHit();
             if (Kinematic.Value && animal) animal.RB.isKinematic = false;
+        }
+
+
+#if UNITY_EDITOR
+
+        public override void SetSpeedSets(MAnimal animal)
+        {
+            //Do nothing... the Ledge Grab does not require a Speed Set
         }
 
 
@@ -283,8 +330,6 @@ namespace MalbersAnimations.Controller
             }
 
         }
-
-#if UNITY_EDITOR
         void Reset()
         {
             //Surface = MTools.GetResource<PhysicMaterial>("Climbable");
@@ -344,8 +389,8 @@ namespace MalbersAnimations.Controller
             " the State will Allow Exit()... so other states can try activate themselves.")]
         [Range(0,1)] public float ExitTime = 0.9f;
 
-        [Tooltip("Offset added to Align to the Ledge")]
-        public Vector3 AlingOffset;
+        [Tooltip("Horizontal(X) and Vertical(Y) values needed to apply offset movement to have better alignment with the Ledge")]
+        public Vector2 AlingOffset;
 
 
         [Tooltip("Align the Animal to the Wall's normal direction")]
@@ -353,17 +398,17 @@ namespace MalbersAnimations.Controller
 
         public bool AdditivePosition = false;
 
-        [Hide("AdditivePosition",true,false)]
+        [Hide("AdditivePosition",false)]
         [Min(0)] public float HeightSpeed = 0.5f;
-        [Hide("AdditivePosition",true,false)]
+        [Hide("AdditivePosition",false)]
         [Min(0)] public float ForwardSpeed = 0.5f;
 
-        [Hide("AdditivePosition",true,false)]
+        [Hide("AdditivePosition",false)]
         public AnimationCurve HeightCurve = new AnimationCurve(
                new Keyframe(0, 1), new Keyframe(0.45f, 1), new Keyframe(0.55f, 0f), new Keyframe(1, 0f)
             );
 
-        [Hide("AdditivePosition",true,false)]
+        [Hide("AdditivePosition",false)]
         public AnimationCurve ForwardCurve = new AnimationCurve(
               new Keyframe(0, 0), new Keyframe(0.45f, 0), new Keyframe(0.55f, 1f), new Keyframe(1, 1f)
            );

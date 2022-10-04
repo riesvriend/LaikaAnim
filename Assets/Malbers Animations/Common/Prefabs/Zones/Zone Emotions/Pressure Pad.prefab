@@ -81,6 +81,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!1 &4619610111387651856
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,6 +94,7 @@ GameObject:
   - component: {fileID: 7579659429479380116}
   - component: {fileID: 3534810131139744141}
   - component: {fileID: 4619610111387651857}
+  - component: {fileID: 3363985072123269975}
   m_Layer: 2
   m_Name: Pressure Pad
   m_TagString: Untagged
@@ -158,10 +160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42b20103f05ec694e9515e126d8eb956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ID:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 0}
   hitLayer:
     UseConstant: 1
     ConstantValue:
@@ -169,34 +167,109 @@ MonoBehaviour:
       m_Bits: 4294967295
     Variable: {fileID: 0}
   triggerInteraction: 1
+  Tags: []
   OnTrigger_Enter:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4239650993139201073}
-        m_MethodName: SetTrigger
-        m_Mode: 5
+      - m_Target: {fileID: 3363985072123269975}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: PressureIn
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
   OnTrigger_Exit:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4239650993139201073}
-        m_MethodName: SetTrigger
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: PressureOut
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  OnTrigger_Stay:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGameObjectEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGameObjectExit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGameObjectStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_debug: 0
+  useOnTriggerStay:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  trigger: {fileID: 0}
+  Editor_Tabs1: 1
+--- !u!114 &3363985072123269975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4619610111387651856}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2717ce063b686d44bc2fa812832bfb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Object: {fileID: 1356518446545910691}
+  loopType: 0
+  StartDelay:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  EndDelay:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  duration:
+    UseConstant: 1
+    ConstantValue: 0.2
+    Variable: {fileID: 0}
+  m_Curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  OnReachStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReachEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  previewPosition: 0
+  start:
+    UseConstant: 1
+    ConstantValue: {x: 0, y: 0, z: 0}
+    Variable: {fileID: 0}
+  end:
+    UseConstant: 1
+    ConstantValue: {x: 0, y: -0.19, z: 0}
+    Variable: {fileID: 0}
 --- !u!1 &7379575179786137171
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +330,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -335,6 +409,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -359,6 +434,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &4239650993139201073
 Animator:
   serializedVersion: 3

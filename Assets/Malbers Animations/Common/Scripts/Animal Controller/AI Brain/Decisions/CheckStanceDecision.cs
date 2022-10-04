@@ -33,7 +33,7 @@ namespace MalbersAnimations.Controller.AI
                 case EEnterExit.Enter:
                     return animal.Stance == stanceID.ID;
                 case EEnterExit.Exit:
-                    return animal.LastStance == stanceID.ID;
+                    return animal.LastStanceID == stanceID.ID;
                 default:
                     return false;
             }

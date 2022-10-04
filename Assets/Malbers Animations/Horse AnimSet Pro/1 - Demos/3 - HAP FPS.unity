@@ -681,12 +681,12 @@ PrefabInstance:
     - target: {fileID: 224036679047831266, guid: fc0ba8caed599c844aea169a458f10e0,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224036679047831266, guid: fc0ba8caed599c844aea169a458f10e0,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224099771466802532, guid: fc0ba8caed599c844aea169a458f10e0,
         type: 3}
@@ -1504,6 +1504,16 @@ PrefabInstance:
     - target: {fileID: 114124973376062712, guid: 426818b3a5de99c4a8a5b78d022ffeab,
         type: 3}
       propertyPath: Parent.ConstantValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114294542018266584, guid: 426818b3a5de99c4a8a5b78d022ffeab,
+        type: 3}
+      propertyPath: LockCursor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114294542018266584, guid: 426818b3a5de99c4a8a5b78d022ffeab,
+        type: 3}
+      propertyPath: lockMovement
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114805268799424476, guid: 426818b3a5de99c4a8a5b78d022ffeab,

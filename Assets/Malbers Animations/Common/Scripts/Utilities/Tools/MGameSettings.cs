@@ -10,7 +10,7 @@ namespace MalbersAnimations
         public bool HideCursor = false;
         public bool ForceFPS = false;
 
-        [Hide("ForceFPS",true,false)]
+        [Hide("ForceFPS")]
         public int GameFPS = 60;
 
 #if UNITY_EDITOR

@@ -87,6 +87,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -111,6 +112,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &2777268835029541398
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,6 +168,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -190,6 +193,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &3616083704450878159
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,6 +441,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 2e6083f125e2f7c409a69b19911d011f, type: 2}
+        m_TargetAssemblyTypeName: 
         m_MethodName: Modify
         m_Mode: 0
         m_Arguments:
@@ -448,6 +453,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 11400000, guid: 9f91ff0d410585649bc851a8d007ba45, type: 2}
+        m_TargetAssemblyTypeName: 
         m_MethodName: LerpMaterial
         m_Mode: 0
         m_Arguments:
@@ -458,9 +464,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 7177122813556889754}
-        m_MethodName: DestroyMe
-        m_Mode: 1
+      - m_Target: {fileID: 8624860055167494257}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

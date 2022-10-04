@@ -163,7 +163,7 @@ namespace MalbersAnimations.HAP
         {
             base.OnInspectorGUI();
 
-            EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+         //   EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             {
                 EditorGUILayout.LabelField("First Person", EditorStyles.boldLabel);
@@ -178,7 +178,7 @@ namespace MalbersAnimations.HAP
                 EditorGUILayout.PropertyField(DismountOffset);
             }
             EditorGUILayout.EndVertical();
-            EditorGUILayout.EndVertical();
+         //   EditorGUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
         }

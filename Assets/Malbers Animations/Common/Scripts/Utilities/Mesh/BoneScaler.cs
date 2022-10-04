@@ -171,7 +171,7 @@ namespace MalbersAnimations.Utilities
 
             MalbersEditor.DrawDescription("Save/Load Bones Transormations into a Preset");
 
-            EditorGUILayout.BeginVertical(MTools.StyleGray);
+           // EditorGUILayout.BeginVertical(MTools.StyleGray);
             {
                // MalbersEditor.DrawScript(script);
 
@@ -232,7 +232,7 @@ namespace MalbersAnimations.Utilities
                 }
                 EditorGUILayout.EndVertical();
             }
-            EditorGUILayout.EndVertical();
+         //   EditorGUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
         }

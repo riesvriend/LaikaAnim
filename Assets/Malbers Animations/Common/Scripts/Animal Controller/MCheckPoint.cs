@@ -60,8 +60,7 @@ namespace MalbersAnimations.Controller
 
             if (animal != MAnimal.MainAnimal) return; //Skip if there's no the Player Animal
 
-            MRespawner.instance.transform.position = transform.position;
-            MRespawner.instance.transform.rotation = transform.rotation;
+            MRespawner.instance.transform.SetPositionAndRotation(transform.position, transform.rotation);
             MRespawner.instance.RespawnState = animal.ActiveStateID;        //Set on the Respawner the Last Animal State
 
             ResetCheckPoint();

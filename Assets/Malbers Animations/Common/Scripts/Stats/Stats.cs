@@ -14,7 +14,7 @@ using UnityEditor;
 namespace MalbersAnimations
 {
     /// <summary> Component managing Stat Logic</summary>
-    [AddComponentMenu("Malbers/Stats/Stats Manager")]
+    [AddComponentMenu("Malbers/Stats/Stats")]
     public class Stats : MonoBehaviour, IAnimatorListener
     {
         //[Tooltip("Track these Stats in a Runtime Set")]

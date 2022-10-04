@@ -203,7 +203,7 @@ namespace MalbersAnimations.Utilities
 
             EditorGUI.BeginChangeCheck();
             {
-                EditorGUILayout.BeginVertical(MTools.StyleGray);
+               // EditorGUILayout.BeginVertical(MTools.StyleGray);
                 { 
                     list.DoLayoutList();
 
@@ -221,15 +221,11 @@ namespace MalbersAnimations.Utilities
                         }
                         EditorGUILayout.EndVertical();
                     }
-
-                    EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                    {
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
                         EditorGUILayout.PropertyField(serializedObject.FindProperty("_audioSource"), new GUIContent("Global Source", "AudioSource"), true);
-                    }
-                    EditorGUILayout.EndVertical();
 
                 }
-                EditorGUILayout.EndVertical();
+              //  EditorGUILayout.EndVertical();
             }
             if (EditorGUI.EndChangeCheck())
             {

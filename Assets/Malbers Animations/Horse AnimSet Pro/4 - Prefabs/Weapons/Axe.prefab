@@ -62,7 +62,7 @@ MonoBehaviour:
       m_Bits: 4294967295
     Variable: {fileID: 0}
   triggerInteraction: 1
-  m_Owner: {fileID: 0}
+  owner: {fileID: 0}
   m_HitEffect:
     UseConstant: 1
     ConstantValue: {fileID: 4218342981094748148}
@@ -76,6 +76,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  CustomReaction: {fileID: 0}
   interact:
     UseConstant: 1
     ConstantValue: 1
@@ -105,13 +106,14 @@ MonoBehaviour:
     Variable: {fileID: 0}
   m_Force:
     UseConstant: 1
-    ConstantValue: 200
+    ConstantValue: 40
     Variable: {fileID: 0}
-  forceMode: 0
+  forceMode: 1
   OnHit:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114849800135903402}
+        m_TargetAssemblyTypeName: 
         m_MethodName: PlayMaterialSound
         m_Mode: 0
         m_Arguments:
@@ -123,6 +125,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 5083021891804452402}
+        m_TargetAssemblyTypeName: 
         m_MethodName: GenerateImpulse
         m_Mode: 1
         m_Arguments:
@@ -149,6 +152,15 @@ MonoBehaviour:
     ConstantValue: 0.2
     Variable: {fileID: 0}
   debug: 0
+  m_UI: {fileID: 0}
+  description:
+    UseConstant: 1
+    ConstantValue: 
+    Variable: {fileID: 0}
+  minForce:
+    UseConstant: 1
+    ConstantValue: 30
+    Variable: {fileID: 0}
   minDamage:
     UseConstant: 1
     ConstantValue: 15
@@ -157,14 +169,13 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 30
     Variable: {fileID: 0}
-  m_UI: {fileID: 0}
-  minForce:
-    UseConstant: 1
-    ConstantValue: 100
-    Variable: {fileID: 0}
   chargeTime:
     UseConstant: 1
     ConstantValue: 0
+    Variable: {fileID: 0}
+  m_MaxCharge:
+    UseConstant: 1
+    ConstantValue: 1
     Variable: {fileID: 0}
   chargeCharMultiplier: 1
   ChargeCurve:
@@ -191,9 +202,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  description:
+  GroundArmPose: 1
+  RidingArmPose: 1
+  GroundCombo: 1
+  RidingCombo: -1
+  m_AimOrigin: {fileID: 0}
+  m_AimSide: 0
+  weaponType: {fileID: 11400000, guid: dc411047be38d924fbfc67128f6957f2, type: 2}
+  holster: {fileID: 11400000, guid: 8be06e7fc27c57c4e82d4a5cafd76296, type: 2}
+  holsterAnim: {fileID: 0}
+  m_holsterIndex: 0
+  rightHand:
     UseConstant: 1
-    ConstantValue: 
+    ConstantValue: 1
     Variable: {fileID: 0}
   m_rate:
     UseConstant: 1
@@ -207,33 +228,21 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  m_AimOrigin: {fileID: 0}
-  m_AimSide: 0
-  weaponType: {fileID: 11400000, guid: dc411047be38d924fbfc67128f6957f2, type: 2}
-  holster: {fileID: 11400000, guid: 8be06e7fc27c57c4e82d4a5cafd76296, type: 2}
-  holsterAnim: {fileID: 0}
-  IKProfile: {fileID: 0}
-  iKProfile: {fileID: 0}
-  rightHand:
+  m_IgnoreStore:
     UseConstant: 1
-    ConstantValue: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
-  positionOffsetR: {x: -0.112, y: 0.018, z: -0.041}
-  rotationOffsetR: {x: 0, y: 0, z: 0}
-  positionOffsetL: {x: -0.117, y: -0.008, z: -0.039}
-  rotationOffsetL: {x: -194, y: 0, z: 0}
-  HolsterOffset:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0}
-    Scale: {x: 1, y: 1, z: 1}
-  positionOffsetIKHand:
+  stance: {fileID: 11400000, guid: 5338df2a5c63c6b4a8049349b3eb0171, type: 2}
+  strafeOnAim:
     UseConstant: 1
-    ConstantValue: {x: 0, y: 0, z: 0}
+    ConstantValue: 0
     Variable: {fileID: 0}
-  rotationOffsetIKHand:
+  UseStrafe:
     UseConstant: 1
-    ConstantValue: {x: 0, y: 0, z: 0}
+    ConstantValue: 0
     Variable: {fileID: 0}
+  AimIKRight: {fileID: 0}
+  AimIKLeft: {fileID: 0}
   TwoHandIK:
     UseConstant: 1
     ConstantValue: 0
@@ -242,62 +251,43 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  HolsterOffset:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 1, y: 1, z: 1}
+  LeftHandOffset:
+    Position: {x: -0.125, y: 0.038, z: -0.01}
+    Rotation: {x: 0, y: 179.99997, z: 179.99995}
+    Scale: {x: 1, y: 1, z: 1}
+  RightHandOffset:
+    Position: {x: -0.119, y: 0.024, z: 0.001}
+    Rotation: {x: -3, y: 0, z: 0}
+    Scale: {x: 1, y: 1, z: 1}
   Sounds:
   - {fileID: 8300000, guid: 6f45d27fd173aef4ba40357906e28656, type: 3}
   - {fileID: 8300000, guid: 5d57cd60566a34d429591148beecc370, type: 3}
   - {fileID: 8300000, guid: 68c1c6ee9ddcd0341a672e9f7ecbbef0, type: 3}
   - {fileID: 0}
-  WeaponSound: {fileID: 0}
+  WeaponSound: {fileID: 82825216281244628}
   OnEquiped:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: cee5f7ae493b11e4d829fda47704796b, type: 2}
+      - m_Target: {fileID: 11400000, guid: e17859a94bd39ea4e97dd3b8c699424a, type: 2}
+        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, Assembly-CSharp
         m_MethodName: Invoke
-        m_Mode: 5
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 21300000, guid: 4f16af4c2951d2d4e871708dd632c84a,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Sprite, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Left Swing
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: eb38210b7bfa18d468125b92760c8382, type: 2}
-        m_MethodName: Invoke
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Right Swing
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   OnUnequiped:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11400000, guid: cee5f7ae493b11e4d829fda47704796b, type: 2}
-        m_MethodName: Invoke
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Attack1
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: eb38210b7bfa18d468125b92760c8382, type: 2}
-        m_MethodName: Invoke
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Attack2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnCharged:
     m_PersistentCalls:
       m_Calls: []
@@ -307,16 +297,24 @@ MonoBehaviour:
   OnAiming:
     m_PersistentCalls:
       m_Calls: []
+  OnUseFreeHand:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReleaseFreeHand:
+    m_PersistentCalls:
+      m_Calls: []
   Editor_Tabs1: 4
   Editor_Tabs2: 2
   meleeTrigger: {fileID: 9207878466321987045}
+  ignoreStaticObjects: 1
   OnCauseDamage:
     m_PersistentCalls:
       m_Calls: []
   DebugColor: {r: 1, g: 0.25, b: 0, a: 0.5}
   UseCameraSide: 1
   InvertCameraSide: 0
-  Attacks: 2
+  GroundAttackAbilities: 010000000200000003000000040000000500000006000000
+  RidingAttackAbilities: 6500000066000000
 --- !u!114 &114849800135903402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +327,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf937292b3486349be03b213ec1bb67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultSound: {fileID: 8300000, guid: a8010093efff97f4dbadb67921c7f4b9, type: 3}
+  DefaultSound:
+    UseConstant: 1
+    ConstantValue: {fileID: 8300000, guid: a8010093efff97f4dbadb67921c7f4b9, type: 3}
+    Variable: {fileID: 0}
   materialSounds:
   - Sounds:
     - {fileID: 8300000, guid: 74123cd0d58cf434ba3a5be785d5505a, type: 3}
@@ -512,7 +513,7 @@ Transform:
   m_GameObject: {fileID: 1000010177216588}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3306812, y: 0.3306812, z: 0.3306812}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children: []
   m_Father: {fileID: 4000011323151436}
   m_RootOrder: 0
@@ -524,7 +525,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010177216588}
-  m_Mesh: {fileID: 4300000, guid: c160772856436f4418a29e03faa16e3e, type: 3}
+  m_Mesh: {fileID: -8287839383430266118, guid: 3db10fee0a1262c468001d30230d8577, type: 3}
 --- !u!23 &23000010656678200
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -540,10 +541,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 29534d89a52192c4aa7c674daa188102, type: 2}
+  - {fileID: 2100000, guid: 84146ccda7f89b24b8349e8d06e85451, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -564,6 +566,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1000011154356612
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,14 +590,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000011154356612}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.001, z: 0.228}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0.007, y: 0, z: -0.025}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011772398634}
   m_Father: {fileID: 4000010068590236}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!1 &4236595600180845406
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,7 +623,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4236595600180845406}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.009, y: 0.002, z: 0.087}
+  m_LocalPosition: {x: 0.011, y: 0.002, z: -0.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000010068590236}
@@ -639,8 +642,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UseColliders: 0
-  gizmoType: 1
-  debugSize: 0.03
+  gizmoType: 0
+  debugSize: 0.02
   DebugColor: {r: 0, g: 1, b: 0.06844115, a: 1}
   DrawAxis: 0
   AxisSize: 0.65
@@ -669,7 +672,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7877510679624815203}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.031, y: 0, z: 0.544}
+  m_LocalPosition: {x: -0.14, y: 0, z: 0.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000010068590236}
@@ -686,8 +689,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 0.27269146, y: 0.12, z: 0.30742154}
-  m_Center: {x: -0.114909306, y: -0.00007942319, z: -0.02963899}
+  m_Size: {x: 0.46525186, y: 0.28, z: 0.57740194}
+  m_Center: {x: -0.07616505, y: 0, z: -0.08372714}
 --- !u!1001 &4218026021010526044
 PrefabInstance:
   m_ObjectHideFlags: 0

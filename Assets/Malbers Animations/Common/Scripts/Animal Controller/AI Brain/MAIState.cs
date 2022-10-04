@@ -17,6 +17,12 @@ namespace MalbersAnimations.Controller.AI
     {
         [Tooltip("ID of the AI State. This is used on the AI Brain On AIStateChanged Event")]
         public IntReference ID = new IntReference();
+        
+        public MTask this[int index]
+        {
+            get => tasks[index];
+            set => tasks[index] = value;
+        }
 
         //[Tooltip("Creates the Decisions and Tasks inside this AI State")]
         //public bool internalData = true;
@@ -96,18 +102,21 @@ namespace MalbersAnimations.Controller.AI
                 return;
             };
 
-            if (brain.TasksStarted[i]) return; //DO NOT START AN ALREADY STARTED TASK 
-
-            if (i == 0 || !tasks[i].WaitForPreviousTask)
+            if (tasks[i].active)
             {
-                // Debug.Log($"<B>{brain.Animal.name}:</B> Start Task: [{name}] [{i}]-[{tasks[i].name }]");
-                //Prepare the Task
-                brain.TasksStarted[i] = true;
-                brain.SetTaskStartTime(i);
-                tasks[i].StartTask(brain, i); //Start the Task after it has being prepared.
-                if (tasks[i].MessageID != 0)
-                    brain.OnTaskStarted.Invoke(tasks[i].MessageID); //Send Events after the Task has started
-            }
+                if (brain.TasksStarted[i]) return; //DO NOT START AN ALREADY STARTED TASK 
+
+                if (i == 0 || !tasks[i].WaitForPreviousTask)
+                {
+                    // Debug.Log($"<B>{brain.Animal.name}:</B> Start Task: [{name}] [{i}]-[{tasks[i].name }]");
+                    //Prepare the Task
+                    brain.TasksStarted[i] = true;
+                    brain.SetTaskStartTime(i);
+                    tasks[i].StartTask(brain, i); //Start the Task after it has being prepared.
+                    if (tasks[i].MessageID != 0)
+                        brain.OnTaskStarted.Invoke(tasks[i].MessageID); //Send Events after the Task has started
+                }
+            };
         }
 
         internal void StartWaitforPreviusTask(MAnimalBrain brain, int i)
@@ -839,9 +848,7 @@ namespace MalbersAnimations.Controller.AI
                                     AssetDatabase.RenameAsset(taskPath, asset.name);
 
                                 AssetDatabase.SaveAssets();
-                                EditorGUIUtility
-                                    .PingObject(
-                                        asset); //Final way of changing the name of the asset... dirty but it works
+                                EditorGUIUtility.PingObject(asset); //Final way of changing the name of the asset... dirty but it works
                             }
 
                             if (GUILayout.Button(new GUIContent("E", "Extract the decision into its own file"),

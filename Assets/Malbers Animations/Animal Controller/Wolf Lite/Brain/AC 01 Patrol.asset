@@ -42,6 +42,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9176d65901bdc7c4bbcc36cf5d310741, type: 3}
   m_Name: Stance to Default
   m_EditorClassIdentifier: 
+  active: 1
   Description: Stance to Default
   MessageID:
     UseConstant: 1
@@ -63,6 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f52ecadff7d8914eae97320934863d1, type: 3}
   m_Name: Patrol
   m_EditorClassIdentifier: 
+  active: 1
   Description: Simple Patrol Logic using the Default AiAnimal Control Movement System
   MessageID:
     UseConstant: 1
@@ -94,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b00a63bfc37e3794ea3b0af5a3c6381e, type: 3}
   m_Name: Look for Player
   m_EditorClassIdentifier: 
+  active: 1
   Description: Look for the Animal Player and set it as the Target
   DecisionID:
     UseConstant: 1
@@ -104,6 +107,9 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0.2
     Variable: {fileID: 0}
+  WaitForAllTasks: 0
+  waitForTask: -1
+  LookMultiplier: 0.9
   LookRange:
     UseConstant: 1
     ConstantValue: 15
@@ -119,6 +125,7 @@ MonoBehaviour:
   AssignTarget: 1
   MoveToTarget: 0
   RemoveTarget: 0
+  ChooseRandomly: 0
   UnityTag: 
   GameObjectName: 
   transform: {fileID: 0}
@@ -142,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d55f5af15654a1848a5d62c35156dfe9, type: 3}
   m_Name: Speed to Walk
   m_EditorClassIdentifier: 
+  active: 1
   Description: Change the Speed on the Animal
   MessageID:
     UseConstant: 1
@@ -167,6 +175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a307bf2814ef6d742b57b5b280dd5d46, type: 3}
   m_Name: Am I Hurt
   m_EditorClassIdentifier: 
+  active: 1
   Description: 'Am I on the Damage Mode??
 
     If true then Someone Hit me'
@@ -179,6 +188,8 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0.2
     Variable: {fileID: 0}
+  WaitForAllTasks: 0
+  waitForTask: -1
   checkOn: 0
   ModeState: 1
   ModeID: {fileID: 11400000, guid: b04409080ae7e3c4fa645d8c67b40424, type: 2}

@@ -539,7 +539,7 @@ PrefabInstance:
     - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
         type: 3}
@@ -656,6 +656,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
         type: 3}
+      propertyPath: speedSets.Array.data[2].m_LockIndex.UseConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
+        type: 3}
+      propertyPath: speedSets.Array.data[2].m_LockSpeed.UseConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
+        type: 3}
       propertyPath: speedSets.Array.data[2].PitchLerpOff.UseConstant
       value: 1
       objectReference: {fileID: 0}
@@ -667,7 +677,7 @@ PrefabInstance:
     - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
         type: 3}
       propertyPath: speedSets.Array.data[2].PitchLerpOn.ConstantValue
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
         type: 3}
@@ -681,8 +691,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
         type: 3}
+      propertyPath: speedSets.Array.data[2].m_LockIndex.ConstantValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
+        type: 3}
+      propertyPath: speedSets.Array.data[2].m_SprintIndex.UseConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
+        type: 3}
       propertyPath: speedSets.Array.data[2].PitchLerpOff.ConstantValue
-      value: 10
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
+        type: 3}
+      propertyPath: speedSets.Array.data[2].BackSpeedMult.ConstantValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
+        type: 3}
+      propertyPath: speedSets.Array.data[2].m_SprintIndex.ConstantValue
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7155565977642425220, guid: d3aa6de16e8fb9a4ca8d48506859e701,
         type: 3}

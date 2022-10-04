@@ -25,7 +25,7 @@ namespace MalbersAnimations.Conditions
                     case StanceCondition.CurrentStance:
                         return Target.Stance == Value;
                     case StanceCondition.DefaultStance:
-                        return Target.DefaultStance == Value;
+                        return Target.DefaultStanceID == Value;
                 }
             }
             return false;

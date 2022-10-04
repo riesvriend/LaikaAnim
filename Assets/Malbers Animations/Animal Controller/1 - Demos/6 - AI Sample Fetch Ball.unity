@@ -2163,6 +2163,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
 --- !u!114 &8151603082768698230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2588,7 +2589,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnItem:
+  OnItemPicked:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8266565128476971168}
@@ -2629,6 +2630,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnItemDrop:
+    m_PersistentCalls:
+      m_Calls: []
   OnFocusedItem:
     m_PersistentCalls:
       m_Calls: []
@@ -2668,7 +2672,7 @@ MonoBehaviour:
   Proxy: {fileID: 0}
   item: {fileID: 0}
   focusedItem: {fileID: 0}
-  Editor_Tabs1: 0
+  Editor_Tabs1: 1
 --- !u!1 &8268005465544613025
 GameObject:
   m_ObjectHideFlags: 0
@@ -2791,13 +2795,30 @@ MonoBehaviour:
         m_Calls: []
     DoubleTapTime: 0.3
     LongPressTime: 0.5
+    SmoothDecrease: 0
     OnInputPressed:
       m_PersistentCalls:
         m_Calls: []
     OnPressedNormalized:
       m_PersistentCalls:
         m_Calls: []
+  AllInputs: []
+  actionMaps: []
+  ActiveMapIndex: 0
+  DefaultMap:
+    name:
+      UseConstant: 1
+      ConstantValue: New Map
+      Variable: {fileID: 0}
+    inputs: []
+  ActiveMap:
+    name:
+      UseConstant: 1
+      ConstantValue: New Map
+      Variable: {fileID: 0}
+    inputs: []
   showInputEvents: 0
+  ResetOnFocusLost: 0
   OnInputEnabled:
     m_PersistentCalls:
       m_Calls: []
@@ -2939,6 +2960,7 @@ MonoBehaviour:
           m_Calls: []
       DoubleTapTime: 0.3
       LongPressTime: 0.5
+      SmoothDecrease: 0
       OnInputPressed:
         m_PersistentCalls:
           m_Calls: []
@@ -3296,7 +3318,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   rb: {fileID: 0}
-  m_collider: {fileID: 4062292018540874366}
+  m_colliders: []
   EditorTabs: 0
 --- !u!54 &8942318350600416920
 Rigidbody:

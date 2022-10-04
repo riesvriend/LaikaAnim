@@ -20,7 +20,7 @@ namespace MalbersAnimations
 
         public static implicit operator int(IDs reference) => reference != null ? reference.ID : 0; //  =>  reference.ID;
 
-        private void OnValidate()
+        public void OnValidate()
         {
             if (string.IsNullOrEmpty(DisplayName)) DisplayName = name;
         }
@@ -52,8 +52,15 @@ namespace MalbersAnimations
             if (property.objectReferenceValue)
             {
                 label.tooltip += $"\n ID Value: [{(property.objectReferenceValue as IDs).ID}]";
-                if (label.text.Contains("Element")) label.text = property.objectReferenceValue.GetType().Name;
+              //  if (label.text.Contains("Element")) label.text = property.objectReferenceValue.name;
             }
+
+            if (label.text.Contains("Element"))
+            {
+                position.x += 12;
+                position.width -= 12;
+            }
+            else
             position = EditorGUI.PrefixLabel(position, label);
 
             EditorGUI.BeginChangeCheck();
@@ -124,8 +131,7 @@ namespace MalbersAnimations
             {
                 result = Instances.FindIndex(i => i.name == PropertyValue.name) + 1; //Plus 1 because 0 is None
             }
-
-         
+             
 
             result = EditorGUI.Popup(buttonRect, result, popupOptions.ToArray(), popupStyle);
 
@@ -143,7 +149,21 @@ namespace MalbersAnimations
             position.height = EditorGUIUtility.singleLineHeight;
 
 
+            //if (property.objectReferenceValue != null)
+            //{
+            //    var id = (property.objectReferenceValue as IDs).ID;
+
+            //    position.width-=50;
+            //    var IntRect = new Rect(position);
+            //    IntRect.x = position.width+80;
+            //    IntRect.width = 50;
+
+            //    using (new EditorGUI.DisabledGroupScope(true))
+            //        EditorGUI.IntField(IntRect, GUIContent.none, id);
+            //}
+
             EditorGUI.PropertyField(position, property, GUIContent.none, false);
+
 
             if (EditorGUI.EndChangeCheck())
                 property.serializedObject.ApplyModifiedProperties();

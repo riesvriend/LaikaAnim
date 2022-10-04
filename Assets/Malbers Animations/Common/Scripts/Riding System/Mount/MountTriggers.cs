@@ -32,7 +32,8 @@ namespace MalbersAnimations.HAP
         /// <summary>The Local Direction of the Mount Trigger compared with the animal</summary>
         public Vector3Reference Direction;
 
-        [CreateScriptableAsset] public TransformAnimation Adjustment;
+        [ExposeScriptableAsset] 
+        public TransformAnimation Adjustment;
 
         /// <summary>Rider that is inside the Trigger</summary>
         public  MRider NearbyRider

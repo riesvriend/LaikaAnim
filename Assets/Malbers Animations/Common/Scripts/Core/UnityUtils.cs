@@ -30,6 +30,9 @@ namespace MalbersAnimations
             }
         }
 
+        public virtual void Toggle_Enable(Behaviour component) => component.enabled = !component.enabled;
+
+
         public virtual void Time_Freeze(bool value) => Time_Scale( value ? 0 : 1);
         public virtual void Time_Scale(float value) => Time.timeScale = value;
         public virtual void Freeze_Time(bool value) => Time_Freeze(value);

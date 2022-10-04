@@ -10,10 +10,8 @@ namespace MalbersAnimations
         void Enable(bool val);
 
         /// <summary>Allows the Input to move the Character (Use Axis)</summary>
-       bool MoveCharacter { get; set; }
-
-
-
+        bool MoveCharacter { get; set; }
+         
         /// <summary>Returns the Input Action by its name</summary>
         IInputAction GetInput(string input);
         void EnableInput(string input);
@@ -21,6 +19,12 @@ namespace MalbersAnimations
 
         /// <summary>Changes the value of an Input using its name</summary>
         void SetInput(string input, bool value);
+
+        /// <summary>Connects an input to a Bool Method</summary>
+        void ConnectInput(string name, UnityAction<bool> action);
+
+        /// <summary>Disconnect an input to a Bool Method</summary>
+        void DisconnectInput(string name, UnityAction<bool> action);
     }
 
     public interface IInputAction
@@ -87,7 +91,6 @@ namespace MalbersAnimations
                 Input_System = new RewiredInput(player);
             else
                 Debug.LogError("NO REWIRED PLAYER WITH THE ID:" + PlayerID + " was found");
-            return Input_System;
 #endif
 #if OOTII_EI
             Input_System = new EasyInput();
@@ -95,36 +98,6 @@ namespace MalbersAnimations
             return Input_System;
         }
     }
-
-//#if CROSS_PLATFORM_INPUT
-//    public class CrossPlatform : IInputSystem
-//    {
-//        public float GetAxis(string Axis)
-//        {
-//            return UnityStandardAssets.CrossPlatformInput.CrossPlatformInputManager.GetAxis(Axis);
-//        }
-
-//        public float GetAxisRaw(string Axis)
-//        {
-//            return UnityStandardAssets.CrossPlatformInput.CrossPlatformInputManager.GetAxisRaw(Axis);
-//        }
-
-//        public bool GetButton(string button)
-//        {
-//            return UnityStandardAssets.CrossPlatformInput.CrossPlatformInputManager.GetButton(button);
-//        }
-
-//        public bool GetButtonDown(string button)
-//        {
-//            return UnityStandardAssets.CrossPlatformInput.CrossPlatformInputManager.GetButtonDown(button);
-//        }
-
-//        public bool GetButtonUp(string button)
-//        {
-//            return UnityStandardAssets.CrossPlatformInput.CrossPlatformInputManager.GetButtonUp(button);
-//        }
-//    }
-//#endif
 
 #if REWIRED
     public class RewiredInput : IInputSystem

@@ -46,7 +46,6 @@ namespace MalbersAnimations.Utilities
 
         private void OnEnable()
         {
-            StopAllCoroutines();
             Restart();
             SetStartWait(StartDelay);
             SetEndWait(EndDelay);
@@ -65,6 +64,7 @@ namespace MalbersAnimations.Utilities
             lasPos = 0f;
             forward = true;
             Evaluate(position);
+            StopAllCoroutines();
         }
 
         private IEnumerator C_WaitStart()
@@ -118,9 +118,19 @@ namespace MalbersAnimations.Utilities
         }
 
 
-        public void Activate() => enabled = true;
+        public void Activate()
+        {
+            if (enabled)
+            {
+                OnEnable(); //Meaning it has not finished the last animation so start over
+            }
+            else
+            {
+                enabled = true;
+            }
+        }
 
-        public void FixedUpdate()
+        private void FixedUpdate()
         {
             if (!Waiting)
             {

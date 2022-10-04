@@ -49,6 +49,7 @@ namespace MalbersAnimations
         private void Reset()
         {
             if (_Collider) UseColliders = true;
+            DebugColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         }
 
         void OnDrawGizmos()
@@ -120,21 +121,20 @@ namespace MalbersAnimations
             {
                 BoxCollider _C = _Collider as BoxCollider;
                 if (!_C.enabled) return;
-                var sizeX = transform.lossyScale.x * _C.size.x;
-                var sizeY = transform.lossyScale.y * _C.size.y;
-                var sizeZ = transform.lossyScale.z * _C.size.z;
 
-                Matrix4x4 rotationMatrix = Matrix4x4.TRS(_C.bounds.center, transform.rotation, new Vector3(sizeX, sizeY, sizeZ));
+                Gizmos.matrix = transform.localToWorldMatrix;
 
-                Gizmos.matrix = rotationMatrix;
+                var pos = _C.center;
+                var sca = _C.size;
+
                 Gizmos.color = DebugColorWire;
 
-                Gizmos.DrawWireCube(Vector3.zero, Vector3.one);
-               
+                Gizmos.DrawWireCube(pos, sca);
+
                 if (!sel)
                 {
                     Gizmos.color = DebugColor;
-                    Gizmos.DrawCube(Vector3.zero, Vector3.one);
+                    Gizmos.DrawCube(pos, sca);
                 }
 
             }
@@ -147,12 +147,12 @@ namespace MalbersAnimations
                 Gizmos.matrix = transform.localToWorldMatrix;
 
                 Gizmos.color = DebugColorWire;
-                Gizmos.DrawWireSphere(Vector3.zero + _C.center, _C.radius);
+                Gizmos.DrawWireSphere( _C.center, _C.radius);
 
                 if (!sel)
                 {
                     Gizmos.color = DebugColor;
-                    Gizmos.DrawSphere(Vector3.zero + _C.center, _C.radius);
+                    Gizmos.DrawSphere(_C.center, _C.radius);
                 }
             }
         }

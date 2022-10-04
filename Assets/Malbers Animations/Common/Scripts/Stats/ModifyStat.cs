@@ -118,6 +118,61 @@ namespace MalbersAnimations
         /// <summary>Modify the Stats on an animal </summary>
         public void ModifyStat(Stat s) => s?.Modify(Value, modify);
     }
+
+    [System.Serializable]
+    public class StatModifierPlus
+    {
+        //public bool active = true;
+        public StatID ID;
+        public StatOption modify = StatOption.None;
+        public FloatReference MinValue = new FloatReference(0);
+        public FloatReference MaxValue = new FloatReference(0);
+
+
+        public StatModifierPlus()
+        {
+            ID = null;
+            modify = StatOption.None;
+            MinValue = new FloatReference(0);
+            MinValue = new FloatReference(0);
+        }
+
+        public StatModifierPlus(StatModifier mod)
+        {
+            ID = mod.ID;
+            modify = mod.modify;
+            MinValue = new FloatReference(mod.Value.Value);
+            MaxValue = new FloatReference(mod.Value.Value);
+        }
+        public StatModifierPlus(StatModifierPlus mod)
+        {
+            ID = mod.ID;
+            modify = mod.modify;
+            MinValue = new FloatReference(mod.MinValue.Value);
+            MaxValue = new FloatReference(mod.MaxValue.Value);
+        }
+
+        /// <summary>There's No ID stat</summary>
+        public bool IsNull => ID == null;
+
+
+        /// <summary>Modify the Stats on an animal </summary>
+        public void ModifyStat(Stats stats)
+        {
+            if (stats && !IsNull) ModifyStat(stats.Stat_Get(ID));
+        }
+
+        /// <summary>Modify the Stats on an animal, use Normalized Value from 0 to one to select a value from Min to Max</summary>
+        public void ModifyStat(Stats stats, float Normalized)
+        {
+            if (stats && !IsNull) ModifyStat(stats.Stat_Get(ID),Normalized);
+        }
+
+        /// <summary>Modify the Stats on an animal </summary>
+        public void ModifyStat(Stat s) => s?.Modify(Random.Range(MinValue, MaxValue), modify);
+
+        public void ModifyStat(Stat s, float Normalized) => s?.Modify(Mathf.Lerp(MinValue, MaxValue,Normalized), modify);
+    }
 }
 
 //--------------------EDITOR----------------
@@ -130,7 +185,6 @@ public class ModifyStatEditor : Editor
 
     SerializedProperty modifiers,stats;
     private ModifyStat m;
-    private MonoScript script;
     public static GUIStyle StyleBlue => MTools.Style(new Color(0, 0.5f, 1f, 0.3f));
 
 
@@ -139,7 +193,6 @@ public class ModifyStatEditor : Editor
         modifiers = serializedObject.FindProperty("modifiers");
         stats = serializedObject.FindProperty("stats");
         m = (ModifyStat)target;
-        script = MonoScript.FromMonoBehaviour(target as MonoBehaviour);
 
         RList_modifiers = new UnityEditorInternal.ReorderableList(serializedObject, modifiers, true, true, true , true)
         {
@@ -281,9 +334,6 @@ public class StatModifierDrawer : PropertyDrawer
         line.y += height;
         line.height = height;
 
-
-
-
         line.x += 5;
         line.width = position.width / 3 + 5;
         EditorGUI.PropertyField(line, ID, new GUIContent(string.Empty, "ID for the Stat to modify"));
@@ -319,5 +369,80 @@ public class StatModifierDrawer : PropertyDrawer
     }
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)   { return 16 * 2 + 6; }
  
+}
+
+
+[CustomPropertyDrawer(typeof(StatModifierPlus))]
+public class StatModifierDrawerPlus : PropertyDrawer
+{
+    private readonly string[] Tooltips = {
+          "[None] Skips the stat modification",
+          "Adds to the stat Value",
+          "Sets the stat value",
+          "Substracts from the stat value",
+          "Modifies the Stat maximum Value (Adds or Remove)",
+          "Set the Stat maximum Value",
+          "Enables the Degeneration and sets the Degen Rate Value. If the value is 0, the rate wont be changed",
+          "Stops the Degeneration",
+          "Enables the Regeneration and sets the Regen Rate Value.  If the value is 0, the rate wont be changed",
+          "Stops the Regeneration",
+          "Reset the Stat to the Default Min or Max Value",
+          "Reduce the Value of the Stat by a percent",
+          "Increase the Value of the Stat by a percent",
+          "Sets the multiplier value of the stat",
+          "Reset the Stat to the maximun Value",
+          "Reset the Stat to the minimun Value",
+    };
+
+
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        EditorGUI.BeginProperty(position, label, property);
+        var indent = EditorGUI.indentLevel;
+        var height = EditorGUIUtility.singleLineHeight;
+
+        EditorGUI.indentLevel = 0;
+
+        var ID = property.FindPropertyRelative("ID");
+        var MaxValue = property.FindPropertyRelative("MaxValue");
+        var MinValue = property.FindPropertyRelative("MinValue");
+        var modify = property.FindPropertyRelative("modify");
+
+        var line = new Rect(position);
+
+        line.width = position.width / 3 * 2;
+        line.height = height;
+
+        EditorGUIUtility.labelWidth = 40;
+        EditorGUI.PropertyField(line, ID, new GUIContent("Stat", "Stat ID to modify"));
+        EditorGUIUtility.labelWidth = 0;
+
+        line.x += position.width / 3 * 2 +5;
+        line.width = position.width / 3 - 5;
+        EditorGUI.PropertyField(line, modify, new GUIContent(string.Empty, Tooltips[modify.intValue]));
+        EditorGUI.LabelField(line, new GUIContent("             ", Tooltips[modify.intValue]));
+
+        var line2 = new Rect(position);
+        line2.y += height+2;
+
+        line2.width = position.width / 2;
+        EditorGUIUtility.labelWidth = 40;
+
+
+        EditorGUI.PropertyField(line2, MinValue, new GUIContent("Min", "Minimun Value"));
+
+        line2.x += position.width / 2 + 5;
+        line2.width -=5;
+        EditorGUI.PropertyField(line2, MaxValue, new GUIContent("Max", "Maximum Value"));
+
+
+        EditorGUIUtility.labelWidth = 0;
+        property.serializedObject.ApplyModifiedProperties();
+        EditorGUI.indentLevel = indent;
+
+        EditorGUI.EndProperty();
+    }
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label) { return 18 * 2+2; }
+
 }
 #endif

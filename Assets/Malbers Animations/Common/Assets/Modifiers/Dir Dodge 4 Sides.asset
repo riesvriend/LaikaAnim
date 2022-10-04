@@ -14,24 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Desc: 'The Dodge will be done with Horizontal and Vertical Sides
 
-    Ability 1: Dodge Front
+    Ability 1:
+    Dodge Front
 
-    Ability 2: Dodge Left
+    Ability 2: Dodge Right
 
     Ability 3: Dodge Back
 
-    Ability 4: Dodge Right
+    Ability
+    4: Dodge Left
 
 '
   direction: 1
-  horizontal:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
-  MoveDodge:
-    UseConstant: 1
-    ConstantValue: 1
-    Variable: {fileID: 0}
+  MoveDodge: 1
   DodgeDistance:
     UseConstant: 1
     ConstantValue: 2

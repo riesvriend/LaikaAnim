@@ -67,8 +67,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1937387353640186010, guid: 238dc76ab828908478b5dc344d09ee8d,
         type: 3}
+      propertyPath: debug
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1937387353640186010, guid: 238dc76ab828908478b5dc344d09ee8d,
+        type: 3}
       propertyPath: Editor_Tabs1
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1937387353640186010, guid: 238dc76ab828908478b5dc344d09ee8d,
         type: 3}
@@ -80,5 +85,11 @@ PrefabInstance:
       propertyPath: interactorID.ConstantValue
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4165977891884374878, guid: 238dc76ab828908478b5dc344d09ee8d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c4976ecf03899a04a8d5faa68fcc1a02, type: 2}
+    m_RemovedComponents:
+    - {fileID: 54129463802585006, guid: 238dc76ab828908478b5dc344d09ee8d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 238dc76ab828908478b5dc344d09ee8d, type: 3}

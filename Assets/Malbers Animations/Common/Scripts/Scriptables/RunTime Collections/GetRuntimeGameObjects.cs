@@ -12,24 +12,21 @@ namespace MalbersAnimations.Scriptables
         public FloatReference delay = new FloatReference();
         public enum RuntimeSetTypeGameObject {First, Random, Index, ByName , Closest }
         public RuntimeSetTypeGameObject type = RuntimeSetTypeGameObject.Random; 
-        [Hide("showIndex",true,false)]
+        [Hide("showIndex",false)]
         public int Index = 0;
        
-        [Hide("showName", true, false)]
+        [Hide("showName", false)]
         public string m_name;
         public GameObjectEvent Raise = new GameObjectEvent();
 
         public void SetCollection(RuntimeGameObjects col) => Collection = col;
 
-        private void Start()
+        private void OnEnable()
         {
-            if (Collection != null && Collection.items != null && Collection.items.Count > 0)
-            {
-                if (delay > 0)
-                    Invoke(nameof(GetSet), delay);
-                else
-                    GetSet();
-            }
+            if (delay > 0)
+                Invoke(nameof(GetSet), delay);
+            else
+                this.Delay_Action(() => GetSet());
         }
 
 

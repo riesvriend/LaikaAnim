@@ -107,6 +107,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 410859314147607806, guid: f973176897d258f4bafcd8155d6125bf,
         type: 3}
+      propertyPath: m_WaitTime.minValue
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 410859314147607806, guid: f973176897d258f4bafcd8155d6125bf,
+        type: 3}
       propertyPath: OnTargetArrived.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 5313448224699946342}

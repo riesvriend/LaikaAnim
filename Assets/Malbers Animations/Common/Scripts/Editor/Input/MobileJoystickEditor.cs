@@ -52,7 +52,7 @@ namespace MalbersAnimations
 
             MalbersEditor.DrawDescription("Mobile Joystick Logic");
 
-            EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+          //  EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
             {
                 MalbersEditor.DrawScript(script);
 
@@ -112,7 +112,7 @@ namespace MalbersAnimations
                 }
                 EditorGUILayout.EndVertical();
             }
-            EditorGUILayout.EndVertical();
+        //    EditorGUILayout.EndVertical();
             serializedObject.ApplyModifiedProperties();
         }
     }

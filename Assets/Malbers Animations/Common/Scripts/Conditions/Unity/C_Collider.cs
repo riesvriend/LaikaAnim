@@ -16,11 +16,11 @@ namespace MalbersAnimations.Conditions
         [Tooltip("Conditions types")]
         public ColCondition Condition;
         [Tooltip("Transform Value to compare with")]
-        [Hide("showValue", true,false)]
+        [Hide("Condition", 1)]
         public Collider Value;
-        [Hide("showMat", true,false)]
+        [Hide("Condition", 3)]
         public PhysicMaterial Material;
-        [Hide("showMask", true, false)]
+        [Hide("Condition",  8)]
         public LayerMask Mask;
          
 
@@ -51,18 +51,7 @@ namespace MalbersAnimations.Conditions
         {
             if (target is Collider) this.Target = target as Collider;
         }
-
-
-        [HideInInspector, SerializeField] private bool showMat, showValue, showMask;
-        protected override void OnValidate()
-        {
-            base.OnValidate();
-
-            showMat = Condition == ColCondition.PhysicMaterial;
-            showValue = Condition == ColCondition.Equal;
-            showMask = Condition == ColCondition.Layer;
-        }
-
+         
         private void Reset() => Name = "New Collider Condition";
     }
 

@@ -7,7 +7,7 @@ namespace MalbersAnimations.Controller.Reactions
     public class StanceReaction : MReaction
     {
         public Stance_Reaction type = Stance_Reaction.Set;
-        [Hide("ShowID",true,false)]
+        [Hide("type", true, (int)Stance_Reaction.Reset)]
         public StanceID ID;
 
         protected override void _React(MAnimal animal)
@@ -24,7 +24,7 @@ namespace MalbersAnimations.Controller.Reactions
                     animal.Stance_Toggle(ID);
                     break;
                 case Stance_Reaction.SetDefault:
-                    animal.DefaultStance = ID;
+                    animal.DefaultStanceID = ID;
                     break;
             }     
         }
@@ -47,11 +47,6 @@ namespace MalbersAnimations.Controller.Reactions
             SetDefault,
         }
 
-
-
-
-
-
         /// 
         /// VALIDATIONS
         /// 
@@ -60,13 +55,11 @@ namespace MalbersAnimations.Controller.Reactions
 
         private void OnValidate() { Validation(); }
 
-        [HideInInspector] public bool ShowID;
         private const string reactionName = "Stance → ";
 
         void Validation()
         {
             fullName = reactionName + type.ToString() + " [" + (ID != null ? ID.name : "None") + "]";
-            ShowID = true;
 
             switch (type)
             {
@@ -75,7 +68,6 @@ namespace MalbersAnimations.Controller.Reactions
                     break;
                 case Stance_Reaction.Reset:
                     description = "Reset a Stance on an Animal. (Changes the Stance Valueto the Animal Default Value)";
-                    ShowID = false;
                     break;
                 case Stance_Reaction.Toggle:
                     description = "Toggle the Stance of an Animal (Between active and default)";

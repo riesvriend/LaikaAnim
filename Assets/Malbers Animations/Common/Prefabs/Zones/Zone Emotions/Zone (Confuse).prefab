@@ -13,15 +13,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e628fa2084d69064b86470e026e6a045,
         type: 2}
+    - target: {fileID: 154870105767742554, guid: 320f7143d21a9d644ab539d1793ecc31,
+        type: 3}
+      propertyPath: ZoneCollider
+      value: 
+      objectReference: {fileID: 5214936254271609807}
     - target: {fileID: 2964979702823761902, guid: 320f7143d21a9d644ab539d1793ecc31,
         type: 3}
       propertyPath: onEnable.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
       value: Confuse
-      objectReference: {fileID: 0}
-    - target: {fileID: 2975542786330490569, guid: 320f7143d21a9d644ab539d1793ecc31,
-        type: 3}
-      propertyPath: OnEnableEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: CONFUSE
       objectReference: {fileID: 0}
     - target: {fileID: 2975542786330490569, guid: 320f7143d21a9d644ab539d1793ecc31,
         type: 3}
@@ -43,6 +43,16 @@ PrefabInstance:
       propertyPath: onEnable.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: CONFUSE
       objectReference: {fileID: 0}
+    - target: {fileID: 2975542786330490569, guid: 320f7143d21a9d644ab539d1793ecc31,
+        type: 3}
+      propertyPath: OnEnableEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: CONFUSE
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688741844718585980, guid: 320f7143d21a9d644ab539d1793ecc31,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3688741844718585980, guid: 320f7143d21a9d644ab539d1793ecc31,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -60,6 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3688741844718585980, guid: 320f7143d21a9d644ab539d1793ecc31,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3688741844718585980, guid: 320f7143d21a9d644ab539d1793ecc31,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -71,16 +86,6 @@ PrefabInstance:
     - target: {fileID: 3688741844718585980, guid: 320f7143d21a9d644ab539d1793ecc31,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3688741844718585980, guid: 320f7143d21a9d644ab539d1793ecc31,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3688741844718585980, guid: 320f7143d21a9d644ab539d1793ecc31,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3688741844718585980, guid: 320f7143d21a9d644ab539d1793ecc31,
@@ -105,6 +110,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 320f7143d21a9d644ab539d1793ecc31, type: 3}
+--- !u!65 &5214936254271609807 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 6045545981984184782, guid: 320f7143d21a9d644ab539d1793ecc31,
+    type: 3}
+  m_PrefabInstance: {fileID: 1997686108860662273}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8855713204401646122 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7015733918423312427, guid: 320f7143d21a9d644ab539d1793ecc31,

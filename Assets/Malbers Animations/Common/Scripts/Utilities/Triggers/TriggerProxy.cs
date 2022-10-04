@@ -15,7 +15,7 @@ namespace MalbersAnimations.Utilities
     /// Create this component at runtime and subscribe to the UnityEvents
     /// </summary>
     [AddComponentMenu("Malbers/Utilities/Colliders/Trigger Proxy")]
-    public class TriggerProxy : MonoBehaviour, IMLayer
+    public class TriggerProxy : MonoBehaviour
     {
         //[Tooltip("Proxy ID, can be used to Identify which is the Proxy Trigger used")]
         //[SerializeField] private IntReference m_ID = new IntReference(0);
@@ -47,7 +47,6 @@ namespace MalbersAnimations.Utilities
         internal List<Collider> m_colliders = new List<Collider>();
         /// <summary>All the Gameobjects using the Proxy</summary>
         internal List<GameObject> EnteringGameObjects = new List<GameObject>();
-        internal List<TriggerTarget> TriggerTargets= new List<TriggerTarget>();
 
         public Action<GameObject, Collider> EnterTriggerInteraction = delegate { };
         public Action<GameObject, Collider> ExitTriggerInteraction = delegate { };
@@ -147,26 +146,25 @@ namespace MalbersAnimations.Utilities
         {
             for (var i = m_colliders.Count - 1; i > -1; i--)
             {
-                if (m_colliders[i] == null) m_colliders.RemoveAt(i);
+                if (m_colliders[i] == null || !m_colliders[i].enabled) m_colliders.RemoveAt(i);
             }
 
             if (m_colliders.Count == 0)
             {
                 EnteringGameObjects = new List<GameObject>();
-                TriggerTargets = new List<TriggerTarget>();
             }
-        } 
+        }
         /// <summary>Add a Trigger Target to every new Collider found</summary>
         private void AddTarget(Collider other)
         {
-            if (!TriggerTargets.Exists(x => x.m_collider == other))
-            {
-                var hasTarget = other.GetComponent<TriggerTarget>();
-                if (hasTarget == null) hasTarget = other.gameObject.AddComponent<TriggerTarget>();
+            if (TriggerTarget.set == null) TriggerTarget.set = new List<TriggerTarget>();
 
-                TriggerTargets.Add(hasTarget);
-                hasTarget.AddProxy(this,other);
-            }
+            var TT = TriggerTarget.set.Find(x => x.m_collider == other);
+
+            if (TT == null)
+                TT = other.gameObject.AddComponent<TriggerTarget>();
+
+            TT.AddProxy(this, other);
         }
 
         public void OnTriggerExit(Collider other) => TriggerExit(other, true);
@@ -207,12 +205,12 @@ namespace MalbersAnimations.Utilities
 
         internal void RemoveTarget(Collider other, bool remove)
         {
-            var HasTarget = TriggerTargets.Find(x => x.m_collider == other);
+            var TT = TriggerTarget.set.Find(x => x.m_collider == other);
 
-            if (HasTarget)
+            if (TT)
             {
-                if (remove) HasTarget.RemoveProxy(this);
-                TriggerTargets.Remove(HasTarget);
+                if (remove)
+                    TT.RemoveProxy(this);
             }
         }
   
@@ -221,7 +219,6 @@ namespace MalbersAnimations.Utilities
         {
             m_colliders = new List<Collider>();
             EnteringGameObjects = new List<GameObject>();
-            TriggerTargets = new List<TriggerTarget>(); 
         }
 
         private void OnDisable()
@@ -308,7 +305,7 @@ namespace MalbersAnimations.Utilities
                 {
                     Proxy = trigger.gameObject.AddComponent<TriggerProxy>();
                     Proxy.SetLayer(Layer, TriggerInteraction, Owner);
-                    Proxy.hideFlags = HideFlags.HideInInspector;
+                   // Proxy.hideFlags = HideFlags.HideInInspector;
                 }
                 else
                 {
@@ -393,12 +390,12 @@ namespace MalbersAnimations.Utilities
                     if (item != null)   EditorGUILayout.ObjectField(item.name, item, typeof(Collider), false);
                 }
 
-                EditorGUILayout.LabelField("Targets (" + m.TriggerTargets.Count + ")", EditorStyles.boldLabel);
+                //EditorGUILayout.LabelField("Targets (" + m.TriggerTargets.Count + ")", EditorStyles.boldLabel);
 
-                foreach (var item in m.TriggerTargets)
-                {
-                    if (item != null) EditorGUILayout.ObjectField(item.name, item, typeof(Collider), false);
-                }
+                //foreach (var item in m.TriggerTargets)
+                //{
+                //    if (item != null) EditorGUILayout.ObjectField(item.name, item, typeof(Collider), false);
+                //}
 
                 EditorGUILayout.EndVertical();
                 Repaint();

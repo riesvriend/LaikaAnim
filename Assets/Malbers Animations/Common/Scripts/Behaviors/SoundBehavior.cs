@@ -12,9 +12,9 @@ namespace MalbersAnimations
         public bool playOnEnter = true;
         public bool Loop = false;
         public bool stopOnExit;
-        [Hide("playOnEnter", true, true)]
+        [Hide("playOnEnter",  true)]
         public bool playOnTime;
-        [Hide("playOnEnter", true, true)]
+        [Hide("playOnEnter",  true)]
         [Range(0, 1)]
         public float NormalizedTime = 0.5f;
         [Space]

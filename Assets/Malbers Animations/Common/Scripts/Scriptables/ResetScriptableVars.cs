@@ -109,7 +109,7 @@ namespace MalbersAnimations.Scriptables
             serializedObject.Update();
             MalbersEditor.DrawDescription("Reset Scriptable Variables");
 
-            EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+          //  EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
             {
                // MalbersEditor.DrawScript(script);
 
@@ -125,7 +125,7 @@ namespace MalbersAnimations.Scriptables
                 EditorGUILayout.EndHorizontal();
                     Reo_ScriptVars.DoLayoutList();
             }
-            EditorGUILayout.EndVertical();
+           // EditorGUILayout.EndVertical();
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -150,6 +150,7 @@ namespace MalbersAnimations.Scriptables
 
         private void DrawElement_Pivots(Rect rect, int index, bool isActive, bool isFocused)
         {
+            rect.y += 2;
             var height = EditorGUIUtility.singleLineHeight;
             var RectVar = new Rect(rect.x, rect.y, rect.width / 2, height);
             var RectValue = new Rect(rect.width / 2 + 65, rect.y, rect.width / 2 - 23, height);

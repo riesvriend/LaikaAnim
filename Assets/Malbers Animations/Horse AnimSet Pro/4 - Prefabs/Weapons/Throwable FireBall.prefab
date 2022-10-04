@@ -60,7 +60,12 @@ MonoBehaviour:
       m_Bits: 3499098417
     Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
   triggerInteraction: 1
-  m_Owner: {fileID: 0}
+  owner: {fileID: 0}
+  m_HitEffect:
+    UseConstant: 1
+    ConstantValue: {fileID: 0}
+    Variable: {fileID: 0}
+  DestroyHitEffect: 0
   interactorID:
     UseConstant: 1
     ConstantValue: 0
@@ -69,6 +74,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  CustomReaction: {fileID: 0}
   interact:
     UseConstant: 1
     ConstantValue: 1
@@ -104,9 +110,31 @@ MonoBehaviour:
   OnHit:
     m_PersistentCalls:
       m_Calls: []
+  OnHitPosition:
+    m_PersistentCalls:
+      m_Calls: []
   OnHitInteractable:
     m_PersistentCalls:
       m_Calls: []
+  animator: {fileID: 0}
+  AnimatorSpeed:
+    UseConstant: 1
+    ConstantValue: 0.1
+    Variable: {fileID: 0}
+  AnimatorStopTime:
+    UseConstant: 1
+    ConstantValue: 0.2
+    Variable: {fileID: 0}
+  debug: 0
+  m_UI: {fileID: 0}
+  description:
+    UseConstant: 1
+    ConstantValue: 
+    Variable: {fileID: 0}
+  minForce:
+    UseConstant: 1
+    ConstantValue: 10
+    Variable: {fileID: 0}
   minDamage:
     UseConstant: 1
     ConstantValue: 20
@@ -115,14 +143,13 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 25
     Variable: {fileID: 0}
-  m_UI: {fileID: 0}
-  minForce:
-    UseConstant: 1
-    ConstantValue: 10
-    Variable: {fileID: 0}
   chargeTime:
     UseConstant: 1
     ConstantValue: 0.5
+    Variable: {fileID: 0}
+  m_MaxCharge:
+    UseConstant: 1
+    ConstantValue: 1
     Variable: {fileID: 0}
   chargeCharMultiplier: 1
   ChargeCurve:
@@ -149,9 +176,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  description:
+  GroundArmPose: 1
+  RidingArmPose: 1
+  GroundCombo: -1
+  RidingCombo: -1
+  m_AimOrigin: {fileID: 4000011008835940}
+  m_AimSide: 2
+  weaponType: {fileID: 11400000, guid: e9eaa24ae7382eb4f97d3484ea3e6e57, type: 2}
+  holster: {fileID: 11400000, guid: d255c533616b51e45a47b4cd57f1ac7a, type: 2}
+  holsterAnim: {fileID: 0}
+  m_holsterIndex: 0
+  rightHand:
     UseConstant: 1
-    ConstantValue: 
+    ConstantValue: 1
     Variable: {fileID: 0}
   m_rate:
     UseConstant: 1
@@ -165,29 +202,41 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  m_AimOrigin: {fileID: 4000011008835940}
-  m_AimSide: 2
-  weaponType: {fileID: 11400000, guid: e9eaa24ae7382eb4f97d3484ea3e6e57, type: 2}
-  holster: {fileID: 11400000, guid: d255c533616b51e45a47b4cd57f1ac7a, type: 2}
-  holsterAnim: {fileID: 0}
-  IKProfile: {fileID: 0}
-  iKProfile: {fileID: 11400000, guid: 4fd94c1920c197849b8938c181d53a5c, type: 2}
-  rightHand:
+  m_IgnoreStore:
     UseConstant: 1
-    ConstantValue: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
-  positionOffsetR: {x: -0.114, y: 0.066, z: -0.037}
-  rotationOffsetR: {x: -32.324, y: -2.754, z: -3.761}
-  positionOffsetL: {x: -0.121, y: 0.024, z: -0.057}
-  rotationOffsetL: {x: 180, y: 0, z: 0}
+  stance: {fileID: 0}
+  strafeOnAim:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  UseStrafe:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  AimIKRight: {fileID: 11400000, guid: 4fd94c1920c197849b8938c181d53a5c, type: 2}
+  AimIKLeft: {fileID: 0}
+  TwoHandIK:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  IKHandPoint:
+    UseConstant: 1
+    ConstantValue: {fileID: 0}
+    Variable: {fileID: 0}
   HolsterOffset:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0}
     Scale: {x: 1, y: 1, z: 1}
-  positionOffsetIKHand: {x: 0, y: 0, z: 0}
-  rotationOffsetIKHand: {x: 0, y: 0, z: 0}
-  TwoHandIK: 0
-  IKHandPoint: {fileID: 0}
+  LeftHandOffset:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 1, y: 1, z: 1}
+  RightHandOffset:
+    Position: {x: -0.119, y: 0.005, z: 0.033}
+    Rotation: {x: 305.7976, y: 180.00012, z: 179.99988}
+    Scale: {x: 1, y: 1, z: 1}
   Sounds:
   - {fileID: 8300000, guid: 6f45d27fd173aef4ba40357906e28656, type: 3}
   - {fileID: 8300000, guid: 5d57cd60566a34d429591148beecc370, type: 3}
@@ -196,7 +245,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ffd92ab4f3e30af49a072507a09bd4a3, type: 3}
   - {fileID: 0}
   WeaponSound: {fileID: 82784942622768678}
-  debug: 0
   OnEquiped:
     m_PersistentCalls:
       m_Calls: []
@@ -212,10 +260,16 @@ MonoBehaviour:
   OnAiming:
     m_PersistentCalls:
       m_Calls: []
+  OnUseFreeHand:
+    m_PersistentCalls:
+      m_Calls: []
+  OnReleaseFreeHand:
+    m_PersistentCalls:
+      m_Calls: []
   Editor_Tabs1: 0
   Editor_Tabs2: 3
-  releaseProjectile: 1
-  CancelAim: 0
+  releaseProjectile: 3
+  CancelAim: 1
   m_Projectile:
     UseConstant: 1
     ConstantValue: {fileID: 2500509063572550999, guid: 036870d00a2a8084e93b15f161bc2064,
@@ -239,56 +293,8 @@ MonoBehaviour:
     ConstantValue: 15
     Variable: {fileID: 0}
   AimLimit:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: -0.75
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+    minValue: -180
+    maxValue: 180
   m_Ammo:
     UseConstant: 1
     ConstantValue: 30
@@ -314,7 +320,7 @@ MonoBehaviour:
   OnReload:
     m_PersistentCalls:
       m_Calls: []
-  InstantiateProjectileOfFire: 1
+  InstantiateProjectileOfFire: 0
 --- !u!82 &82784942622768678
 AudioSource:
   m_ObjectHideFlags: 0
@@ -446,6 +452,7 @@ LineRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -590,6 +597,7 @@ MeshRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -614,6 +622,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &740940906502422623
 GameObject:
   m_ObjectHideFlags: 0

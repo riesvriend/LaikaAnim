@@ -12,37 +12,46 @@ using UnityEditor;
 namespace MalbersAnimations.Weapons
 {
     [AddComponentMenu("Malbers/Weapons/Melee Weapon")]
-    public class MMelee : MWeapon 
+    public class MMelee : MWeapon
     {
-        [RequiredField] public Collider meleeTrigger;  
-
-
+        [RequiredField] public Collider meleeTrigger;
+        [Tooltip("Do not interact with Static Objects")]
+        public bool ignoreStaticObjects = true;
         public BoolEvent OnCauseDamage = new BoolEvent();
         public Color DebugColor = new Color(1, 0.25f, 0, 0.5f);
 
         public bool UseCameraSide;
         public bool InvertCameraSide;
-        public int Attacks = 1;
+
+
+
+        [Tooltip("What Abilities to apply to the meleee weapons if they are not using any Combo")]
+        public int[] GroundAttackAbilities;
+
+        [Tooltip("What Abilities to apply to the meleee weapons if they are not using any Combo")]
+        public int[] RidingAttackAbilities;
 
         protected bool canCauseDamage;                      //The moment in the Animation the weapon can cause Damage 
         public bool CanCauseDamage
         {
-            get =>  canCauseDamage; 
+            get => canCauseDamage;
             set
             {
-                Debugging($"Can cause Damage [{value}]",this);
+                Debugging($"Can cause Damage [{value}]", this);
                 canCauseDamage = value;
-                proxy.Active = value;
+                if (proxy) proxy.Active = value;
                 meleeTrigger.enabled = value;         //Enable/Disable the Trigger
             }
         }
 
         protected TriggerProxy proxy { get; private set; }
 
-       
+
         /// <summary>Damager from the Attack Triger Behaviour</summary>
-        public override void ActivateDamager(int value)
+        public override void ActivateDamager(int value, float multiplier)
         {
+            base.ActivateDamager(value, multiplier);
+
             if (value == 0)
             {
                 CanCauseDamage = false;
@@ -53,11 +62,6 @@ namespace MalbersAnimations.Weapons
                 CanCauseDamage = true;
                 OnCauseDamage.Invoke(CanCauseDamage);
             }
-        }
-
-        public override void DoDamage(bool value)
-        {
-            ActivateDamager(value ? -1 : 0);
         }
 
         private void Awake()
@@ -80,7 +84,7 @@ namespace MalbersAnimations.Weapons
             if (proxy)
             {
                 proxy.EnterTriggerInteraction += AttackTriggerEnter;
-                proxy.ExitTriggerInteraction += AttackTriggerExit;
+                // proxy.ExitTriggerInteraction += AttackTriggerExit;
             }
             CanCauseDamage = false;
         }
@@ -91,57 +95,52 @@ namespace MalbersAnimations.Weapons
             if (proxy)
             {
                 proxy.EnterTriggerInteraction -= AttackTriggerEnter;
-                proxy.ExitTriggerInteraction -= AttackTriggerExit;
+                //proxy.ExitTriggerInteraction -= AttackTriggerExit;
             }
         }
+
+        //void AttackTriggerExit(GameObject root, Collider other)
+        //{
+        //    //???
+        //}
 
 
         #region Main Attack 
         internal override void MainAttack_Start(IMWeaponOwner RC)
         {
             base.MainAttack_Start(RC);
+
             if (CanAttack)
             {
-                ResetCharge();
-                var Side = UseCameraSide && (InvertCameraSide ? RC.AimingSide : !RC.AimingSide);
-                RiderMeleeAttack(Side);
+                WeaponAction.Invoke((int)Weapon_Action.Attack);
             }
         }
 
+        //Super Uggly!!
+        //internal override void MainAttack_Released(IMWeaponOwner RC)
+        //{
+        //    if (RC.IsRiding && RidingCombo != -1)
+        //    {
+        //        WeaponAction.Invoke((int)Weapon_Action.Idle);
+        //        CanAttack = false;
+        //    }
+        //}
+        #endregion
 
-        internal override void SecondaryAttack_Start(IMWeaponOwner RC)
-        {
-            MainInput = false;
-            SecondInput = true;
-            if (CanAttack)
-            {
-                DoDamage(false);
-                ResetCharge();
-                if (!UseCameraSide) RiderMeleeAttack(true);                 //Attack with Left Hand
-            }
-        } 
-
- 
-
-        /// <summary>Set all parameters for Melee Attack </summary>
-        /// <param name="rightSide">true = Right Side of the ount.. false = Left Side of the ount</param>
-        protected virtual void RiderMeleeAttack(bool rightSide)
-        {
-            int attackID = Random.Range(1, Attacks + 1) * (rightSide ? 1 : -1);           // Set the Attacks for the RIGHT Side with the 'Right Hand' 1 2
-            WeaponAction?.Invoke(attackID); //Convert into Left attack if the weapon is Left Handed
-            CanAttack = false;
-        }
-        #endregion 
- 
 
         void AttackTriggerEnter(GameObject root, Collider other)
         {
-           // if (IsInvalid(other)) return;                                               //Check Layers and Don't hit yourself
+            if (IsInvalid(other)) return;                                               //Check Layers and Don't hit yourself
             if (other.transform.root == IgnoreTransform) return;                        //Check an Extra transform that you cannot hit...e.g your mount
+            if (ignoreStaticObjects && other.transform.gameObject.isStatic) return;     //Ignore Static Objects
 
             var damagee = other.GetComponentInParent<IMDamage>();                      //Get the Animal on the Other collider
+
             var center = meleeTrigger.bounds.center;
+
             Direction = (other.bounds.center - center).normalized;                      //Calculate the direction of the attack
+
+            Debugging($"Hit [{other.name}]", this);
 
             TryInteract(other.gameObject);                                              //Get the interactable on the Other collider
             TryPhysics(other.attachedRigidbody, other, center, Direction, Force);       //If the other has a riggid body and it can be pushed
@@ -149,18 +148,13 @@ namespace MalbersAnimations.Weapons
             TryHit(other, meleeTrigger.bounds.center);
 
             var Damage = new StatModifier(statModifier)
-            { Value = Mathf.Lerp(MinDamage, MaxDamage, ChargedNormalized) }; //Do the Damage depending the charge
+            { Value = Mathf.Lerp(MinDamage, MaxDamage, ChargedNormalized) };            //Do the Damage depending the charge
 
             TryDamage(damagee, Damage); //if the other does'nt have the Damagable Interface dont send the Damagable stuff 
         }
 
 
-        void AttackTriggerExit(GameObject root, Collider other)
-        {
-            //???
-        }
 
- 
         public override void ResetWeapon()
         {
             meleeTrigger.enabled = false;
@@ -186,13 +180,20 @@ namespace MalbersAnimations.Weapons
             }
         }
 
+        #region Gizmos
+
 #if UNITY_EDITOR
         void OnDrawGizmos()
         {
-            if (meleeTrigger)
-            {
-                MTools.DrawTriggers(meleeTrigger.transform, meleeTrigger, DebugColor);
-            }
+            if (meleeTrigger != null)
+                DrawTriggers(meleeTrigger.transform, meleeTrigger, DebugColor, false);
+        }
+
+        void OnDrawGizmosSelected()
+        {
+            if (!Application.isPlaying)
+                if (meleeTrigger != null)
+                    DrawTriggers(meleeTrigger.transform, meleeTrigger, DebugColor, true);
         }
 
 
@@ -204,44 +205,34 @@ namespace MalbersAnimations.Weapons
             m_rate.Value = 0.5f;
             m_Automatic.Value = true;
         }
-
-        //[ContextMenu("Create Cinemachine Impulse")]
-        //void CreateCinemachinePulse()
-        //{
-        //    var cinemachinePulse = GetComponent<Cinemachine.CinemachineImpulseSource>();
-        //    if (cinemachinePulse == null)
-        //    {
-        //        cinemachinePulse = gameObject.AddComponent<Cinemachine.CinemachineImpulseSource>();
-        //        MTools.SetDirty(gameObject);
-        //    }
-
-        //    cinemachinePulse.m_DefaultVelocity = Vector3.up * 0.1f;
-        //    cinemachinePulse.m_ImpulseDefinition.m_ImpulseType = Cinemachine.CinemachineImpulseDefinition.ImpulseTypes.Uniform;
-        //    cinemachinePulse.m_ImpulseDefinition.m_ImpulseShape = Cinemachine.CinemachineImpulseDefinition.ImpulseShapes.Bump;
-        //    cinemachinePulse.m_ImpulseDefinition.m_ImpulseDuration = 0.2f;
-        //    UnityEditor.Events.UnityEventTools.AddVoidPersistentListener(OnHit, cinemachinePulse.GenerateImpulse);
-        //    MTools.SetDirty(cinemachinePulse);
-        //}
-
 #endif
+        #endregion
     }
+    #region Inspector
 
 
 #if UNITY_EDITOR
     [CanEditMultipleObjects, CustomEditor(typeof(MMelee))]
     public class MMeleeEditor : MWeaponEditor
     {
-        SerializedProperty meleeCollider, OnCauseDamage, UseCameraSide, InvertCameraSide, Attacks;
+        SerializedProperty meleeCollider, OnCauseDamage, UseCameraSide, InvertCameraSide,
+            GroundCombo, GroundAttackAbilities, RidingCombo,
+            RidingAttackAbilities, ignoreStaticObjects;
 
         void OnEnable()
         {
             WeaponTab = "Melee";
             SetOnEnable();
             meleeCollider = serializedObject.FindProperty("meleeTrigger");
+            ignoreStaticObjects = serializedObject.FindProperty("ignoreStaticObjects");
             OnCauseDamage = serializedObject.FindProperty("OnCauseDamage");
             InvertCameraSide = serializedObject.FindProperty("InvertCameraSide");
             UseCameraSide = serializedObject.FindProperty("UseCameraSide");
-            Attacks = serializedObject.FindProperty("Attacks");
+            //  Attacks = serializedObject.FindProperty("Attacks");
+            RidingAttackAbilities = serializedObject.FindProperty("RidingAttackAbilities");
+            GroundAttackAbilities = serializedObject.FindProperty("GroundAttackAbilities");
+            GroundCombo = serializedObject.FindProperty("GroundCombo");
+            RidingCombo = serializedObject.FindProperty("RidingCombo");
         }
 
         public override void OnInspectorGUI()
@@ -252,7 +243,7 @@ namespace MalbersAnimations.Weapons
                 EditorGUILayout.HelpBox("Weapon needs a collider. Check [Melee] Tab", MessageType.Error);
 
             WeaponInspector();
-           
+
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -268,18 +259,49 @@ namespace MalbersAnimations.Weapons
 
         protected override void DrawAdvancedWeapon()
         {
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            EditorGUILayout.PropertyField(meleeCollider, new GUIContent("Melee Trigger", "Gets the reference of where is the Melee Collider of this weapon (Not Always is in the same gameobject level)"));
-            EditorGUILayout.EndVertical();
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-            EditorGUILayout.LabelField("Riding Behaviour", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(Attacks, new GUIContent("Attacks", "Amount of Attack Animations can do on both sides while mounting"));
-            EditorGUILayout.PropertyField(UseCameraSide, new GUIContent("Use Camera Side", "The Attacks are Activated by the Main Attack and It uses the Side of the Camera to Attack on the Right or the Left side of the Mount"));
-            
-            if (UseCameraSide.boolValue)
-            EditorGUILayout.PropertyField(InvertCameraSide, new GUIContent("Invert Camera Side", "Inverts the camera side value"));
-            EditorGUILayout.EndVertical();
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                EditorGUILayout.PropertyField(ignoreStaticObjects);
+                EditorGUILayout.PropertyField(meleeCollider,
+                    new GUIContent("Melee Trigger", "Gets the reference of where is the Melee Collider of this weapon (Not Always is in the same gameobject level)"));
+            }
+            if (DescSTyle == null) DescSTyle = MalbersEditor.DescriptionStyle;
+            EditorGUILayout.LabelField("Set Combos Values to -1 to ignore doing combos", DescSTyle);
+
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                EditorGUILayout.LabelField("Ground Attacks", EditorStyles.boldLabel);
+                EditorGUILayout.PropertyField(GroundCombo);
+
+                if (GroundCombo.intValue == -1)
+                {
+                    EditorGUI.indentLevel++;
+                    EditorGUILayout.PropertyField(GroundAttackAbilities);
+                    EditorGUI.indentLevel--;
+                }
+            }
+
+
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+            {
+                EditorGUILayout.LabelField("Riding Attacks", EditorStyles.boldLabel);
+
+                EditorGUILayout.PropertyField(RidingCombo);
+
+                if (RidingCombo.intValue == -1)
+                {
+                    EditorGUI.indentLevel++;
+                    EditorGUILayout.PropertyField(RidingAttackAbilities);
+                    EditorGUI.indentLevel--;
+
+                    EditorGUILayout.PropertyField(UseCameraSide, new GUIContent("Use Camera Side", "The Attacks are Activated by the Main Attack and It uses the Side of the Camera to Attack on the Right or the Left side of the Mount"));
+
+                    if (UseCameraSide.boolValue)
+                        EditorGUILayout.PropertyField(InvertCameraSide, new GUIContent("Invert Camera Side", "Inverts the camera side value"));
+                }
+            }
         }
     }
 #endif
+    #endregion
 }

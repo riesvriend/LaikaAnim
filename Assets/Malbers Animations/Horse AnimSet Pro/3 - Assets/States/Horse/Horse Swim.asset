@@ -18,7 +18,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 
     Variable: {fileID: 0}
-  Priority: 6
+  Priority: 5
   General:
     modify: 7295
     RootMotion: 1
@@ -60,11 +60,16 @@ MonoBehaviour:
   SleepFromState: []
   SleepFromMode: []
   QueueFrom: []
+  ResetFrom: []
   SleepFromStance: []
   stances: []
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  Duration:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1
@@ -85,10 +90,11 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   CanStrafe: 0
+  StrafeAnimations: 1
   MovementStrafe: 1
   IdleStrafe: 1
   debug: 1
-  Editor_Tabs1: 0
+  Editor_Tabs1: 3
   ID: {fileID: 11400000, guid: 7e364e53b77644c47aa3abdaa2e2c08c, type: 2}
   WaterLayer:
     serializedVersion: 2

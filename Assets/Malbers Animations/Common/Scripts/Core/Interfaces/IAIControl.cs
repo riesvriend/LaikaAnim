@@ -98,6 +98,9 @@ namespace MalbersAnimations
     /// <summary>Interface used to know if Target used on the AI Movement is and AI Target</summary>
     public interface IAITarget
     {
+        /// <summary> Reference for the Target's Transform</summary>
+        Transform transform { get; }
+
         /// <summary> Stopping Distance Radius used for the AI</summary>
         float StopDistance();
 

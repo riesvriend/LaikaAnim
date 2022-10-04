@@ -2,7 +2,18 @@
 
 namespace MalbersAnimations.Weapons
 {
-    public interface IMWeapon : IMDamager
+    public interface IWeaponManager
+    {
+        void Equip_Weapon();
+        void Unequip_Weapon();
+        void CheckAim();
+        void FreeHandUse();
+        void FreeHandRelease();
+        
+        MWeapon Weapon { get; }
+    }
+
+    public interface IMWeapon : IMDamager, IObjectCore
     {
         /// <summary>Gets the Weapon ID Value</summary>
         WeaponID WeaponType { get; }
@@ -12,10 +23,7 @@ namespace MalbersAnimations.Weapons
         int HolsterID { get; }
         /// <summary>Description to use on the UI for every weapon</summary>
         string Description { get; }
-        /// <summary>Offset Position to place the Weapon on the Characters hand</summary>
-        Vector3 PositionOffset { get; }
-        /// <summary>Offset Rotation to place the Weapon on the Characters hand</summary>
-        Vector3 RotationOffset { get; }
+        
         /// <summary>Is the Weapon Right-Handed or Left-Handed</summary>
         bool IsRightHanded { get; }
 
@@ -33,9 +41,8 @@ namespace MalbersAnimations.Weapons
         /// <summary> Is the Weapon Equiped </summary>
         bool IsEquiped { get; set; }
         /// <summary>Enables the Main Attack</summary>
-        bool MainInput { get; set; }
-        /// <summary>Enables the Secondary Attack or Aiming</summary>
-        bool SecondInput { get; set; }
+        bool Input { get; set; }
+        
         /// <summary>Reset all the Weapons Properties</summary>
         void ResetWeapon();
         /// <summary>Which Side the Weapon can Aim</summary>
@@ -44,7 +51,7 @@ namespace MalbersAnimations.Weapons
         /// <summary>Transform to Set the Aim Origin</summary>
         Transform AimOrigin { get; }
         /// <summary>Owner of the Weapon</summary>
-        IMWeaponOwner WeaponOwner { get; set; }
+        IMWeaponOwner CurrentOwner { get; set; }
         /// <summary>Play the sounds clips</summary>
         /// <param name="ID">ID is the index on the list of clips</param>
         void PlaySound(int ID);
@@ -53,7 +60,7 @@ namespace MalbersAnimations.Weapons
 
         /// <summary> Make all the Calcultations to Restore ammo in the Chamber</summary>
         /// <returns>True = if it can reload</returns>
-        bool Reload();
+        bool TryReload();
     }
 
     public interface IShootableWeapon : IMWeapon
@@ -83,6 +90,18 @@ namespace MalbersAnimations.Weapons
         /// <summary>is the Character aiming</summary>
         bool Aim { get; }
 
+        /// <summary>is the Character Riding?</summary>
+        bool IsRiding { get;}
+
+        /// <summary>is the Character Reloading a weapon</summary>
+        bool IsReloading { get; }
+
+        /// <summary>is the Character Attacking or firing a projectile?</summary>
+        bool IsAttacking { get; }
+
+        /// <summary>is the Character an Animal Controller?</summary>
+        bool HasAnimal { get; }
+
         /// <summary>Aim Horizontal angle regarding the camera</summary>
         float HorizontalAngle { get; }
 
@@ -92,14 +111,11 @@ namespace MalbersAnimations.Weapons
         /// <summary>Direction the weapon is Aiming</summary>
         Vector3 AimDirection { get; }
 
-        /// <summary>Set the Active Weapon Action</summary>
-        int WeaponAction { get; }
-
         /// <summary> Returns where is the Camera regarding the player, False: Right; True: Left</summary>
         bool AimingSide { get; }
 
         /// <summary>IK Weight for IK Modifications</summary>
-        float WeaponIKW { get; set; }
+        float IKAimWeight { get; set; }
 
         GameObject Owner { get; }
 
@@ -116,5 +132,9 @@ namespace MalbersAnimations.Weapons
 
         /// <summary>External Transform to be use so the Rider does not hurt the Mount</summary>
         Transform IgnoreTransform { get; set; }
+
+
+        void UnEquip();
     }
+
 }

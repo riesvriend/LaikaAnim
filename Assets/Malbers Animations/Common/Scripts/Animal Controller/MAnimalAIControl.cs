@@ -121,7 +121,7 @@ namespace MalbersAnimations.Controller.AI
             {
                 agent.enabled = value;
                 if (agent.isOnNavMesh)   agent.isStopped = !value;
-               //  Debug.Log($"<B>{(agent.enabled? "[•]": "[  ]" )}</B> Agent Enable");
+               // Debug.Log($"<B>{(agent.enabled? "[•]": "[  ]" )}</B> Agent Enable");
             }
         }
 
@@ -185,9 +185,9 @@ namespace MalbersAnimations.Controller.AI
         [Min(0)] public float OffMeshAlignment = 0.15f;
 
 
-        [Tooltip("If the difference between the current direction and the desired direction is greater than this value; the animal will stop to turn around.")]
-        [Range(0, 180)]
-        public float TurnAngle = 90f;
+        //[Tooltip("If the difference between the current direction and the desired direction is greater than this value; the animal will stop to turn around.")]
+        //[Range(0, 180)]
+        //public float TurnAngle = 90f;
 
         [Tooltip("Distance from the Animals Root to apply LookAt Target Logic when the Animal arrives to a target.")]
         [Min(0)] public float LookAtOffset = 1;
@@ -312,6 +312,7 @@ namespace MalbersAnimations.Controller.AI
         #endregion
         public virtual void SetActive(bool value)
         {
+           // Debug.Log("value = " + value);
             if (gameObject.activeInHierarchy)
                 enabled = value;
         }
@@ -371,9 +372,14 @@ namespace MalbersAnimations.Controller.AI
             animal.OnModeEnd.AddListener(OnModeEnd);
 
             IsWaiting = true; //The AI Has not Started yet
-             
-            this.Delay_Action(1,() => StartAI());//Start AI a Frame later; 
-            //Invoke(nameof(StartAI), 0.01f); 
+
+            FreeMove = (animal.ActiveState.General.FreeMovement);
+            if (FreeMove) ActiveAgent = false;
+            if (Agent && !Agent.isOnNavMesh) ActiveAgent = false;
+            HasArrived = false;
+            TargetIsMoving = false;
+
+            this.Delay_Action(() => StartAI());//Start AI a Frame later; 
 
             //Disable any Input Source in case it was active
             if (InputSource != null)
@@ -445,7 +451,7 @@ namespace MalbersAnimations.Controller.AI
             if (IsWaiting) return; //Do nothing if the Agent is waiting
 
             FreeMove = (animal.ActiveState.General.FreeMovement); //Recheck if the current State is a FreeState
-            CheckAirTarget(); //Everytime a State Changes Check again in case it failed by mistake
+            if ( CheckAirTarget()) return; //Everytime a State Changes Check again in case it failed by mistake
 
             StateIsBlockingAgent = animal.ActiveStateID != 0 && StopAgentOn != null && StopAgentOn.Contains(animal.ActiveStateID); //Store the Active State Blocking
 
@@ -469,18 +475,12 @@ namespace MalbersAnimations.Controller.AI
 
         public virtual void StartAI()
         {
-            FreeMove = (animal.ActiveState.General.FreeMovement);
-            if (FreeMove) ActiveAgent = false;
-            if (Agent && !Agent.isOnNavMesh) ActiveAgent = false;
-
-
-            HasArrived = false;
-            TargetIsMoving = false;
+          
             var targ = target; target = null;
             SetTarget(targ);                                                  //Set the first Target (IMPORTANT)  it also set the next future targets
 
             if (AgentTransform == animal.transform)
-                Debug.LogError("The Nav Mesh Agent needs to be attached to a child Gameobject, not in the same gameObject as the Animal Component");
+                Debug.LogWarning("The Nav Mesh Agent needs to be attached to a child Gameobject, not in the same gameObject as the Animal Component");
         }
 
         public virtual void Updating()
@@ -493,6 +493,12 @@ namespace MalbersAnimations.Controller.AI
 
             if (FreeMove)
             {
+                if (IsAirDestination && animal.ActiveStateID.ID != StateEnum.Fly)
+                {
+                    animal.State_Activate(StateEnum.Fly); //Forcing Fly if the animal was not flying
+                    Debuging("Force! Flying!");
+                }
+
                 FreeMovement();
             }
             else
@@ -671,7 +677,7 @@ namespace MalbersAnimations.Controller.AI
 
         public virtual void Move()
         {
-            animal.ForwardMultiplier = Mathf.Abs(animal.DeltaAngle) > TurnAngle ? 0 : 1; //Slow Down if the Animal can arrive to the target.
+           //  animal.ForwardMultiplier = Mathf.Abs(animal.DeltaAngle) > TurnAngle ? 0 : 1; //Slow Down if the Animal can arrive to the target.
             animal.Move(AIDirection * SlowMultiplier);      //Move the Animal using the Agent Direction and the Slow Multiplier
         }
 
@@ -727,6 +733,33 @@ namespace MalbersAnimations.Controller.AI
             HasArrived = false;
         }
 
+        /// <summary>
+        /// Find the Closest
+        /// </summary>
+        /// <param name="targets"></param>
+        /// <returns></returns>
+        private IAITarget ClosestTarget(IAITarget[] targets)
+        {
+            IAITarget result = null;
+
+            if (targets != null)
+            {
+                float closeDist = float.PositiveInfinity;
+                foreach (var t in targets)
+                {
+                    var Dist = (transform.position - t.GetPosition()).sqrMagnitude;
+
+                    if (closeDist > Dist)
+                    {
+                        result = t;
+                        closeDist = Dist;
+                    }
+                }
+            }
+
+            return result;
+        }
+
         /// <summary>Set the next Target</summary>   
         public virtual void SetTarget(Transform newTarget, bool move)
         {
@@ -740,7 +773,12 @@ namespace MalbersAnimations.Controller.AI
                 TargetLastPosition = newTarget.position;                   //Since is a new Target "Reset the Target last position"
                 DestinationPosition = newTarget.position;                  //Update the Target Position 
 
-                IsAITarget = newTarget.gameObject.FindInterface<IAITarget>();
+
+                var  AITargets = newTarget.FindInterfaces<IAITarget>(); //Find allthe AI Targets and find the closest one (Dragon Feet)
+                IsAITarget = ClosestTarget(AITargets);
+
+               // Debug.Log("isait = " + AITargets.Length);
+
                 IsTargetInteractable = newTarget.FindInterface<IInteractable>();
                 IsWayPoint = newTarget.FindInterface<IWayPoint>();
 
@@ -1240,7 +1278,8 @@ namespace MalbersAnimations.Controller.AI
             stoppingDistance, SlowingDistance, LookAtOffset,targett, UpdateAI, slowingLimit,
             agent, animal, PointStoppingDistance, OnEnabled,OnTargetPositionArrived, OnTargetArrived,
             OnTargetSet, debugGizmos, debugStatus, debug, Editor_Tabs1, nextTarget, OnDisabled, AgentTransform, OffMeshAlignment,
-            StopAgentOn, TurnAngle;
+            StopAgentOn//, TurnAngle
+            ;
 
         protected virtual void OnEnable()
         {
@@ -1251,7 +1290,7 @@ namespace MalbersAnimations.Controller.AI
             GetAgentProperty();
 
             slowingLimit = serializedObject.FindProperty("slowingLimit");
-            TurnAngle = serializedObject.FindProperty("TurnAngle");
+           // TurnAngle = serializedObject.FindProperty("TurnAngle");
 
             OnEnabled = serializedObject.FindProperty("OnEnabled");
             OnDisabled = serializedObject.FindProperty("OnDisabled");
@@ -1298,7 +1337,7 @@ namespace MalbersAnimations.Controller.AI
 
             EditorGUI.BeginChangeCheck();
             {
-                EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+               // EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
 
                 Editor_Tabs1.intValue = GUILayout.Toolbar(Editor_Tabs1.intValue, new string[] { "General", "Events", "Debug" });
 
@@ -1321,7 +1360,7 @@ namespace MalbersAnimations.Controller.AI
                     "It cannot be in the same gameObject as the Animal Component", MessageType.Error);
             }
 
-            EditorGUILayout.EndVertical();
+         //   EditorGUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -1352,7 +1391,7 @@ namespace MalbersAnimations.Controller.AI
                         EditorGUILayout.PropertyField(SlowingDistance, new GUIContent("Slowing Distance", "Distance to Start slowing the animal before arriving to the destination"));
                         EditorGUILayout.PropertyField(LookAtOffset);
                         EditorGUILayout.PropertyField(PointStoppingDistance, new GUIContent("Point Stop Distance", "Stop Distance used on the SetDestination method. No Target Assigned"));
-                        EditorGUILayout.PropertyField(TurnAngle);
+                       // EditorGUILayout.PropertyField(TurnAngle);
                         EditorGUILayout.PropertyField(slowingLimit);
                         EditorGUILayout.PropertyField(OffMeshAlignment);
                     }

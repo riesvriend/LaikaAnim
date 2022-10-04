@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aaefcc8cb0c31046bdac1700fd93837, type: 3}
   m_Name: Look at the Targets Head
   m_EditorClassIdentifier: 
+  active: 1
   Description: Set on the Look At and Aim Component the Head of the Target as ForceTarget
     to Look At
   MessageID:
@@ -20,7 +21,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   UpdateInterval: 0.2
   WaitForPreviousTask: 0
-  SetLookAtOn: 0
+  SetAimOn: 0
   LookAtTargetS: 1
   LookAtTargetT: 0
   TargetVar: {fileID: 11400000, guid: 0c45a2c5e368c004eb9efaa6152aa0ea, type: 2}
@@ -29,4 +30,3 @@ MonoBehaviour:
   tag: {fileID: 11400000, guid: 2025081d3dc8152468d62dd382634a53, type: 2}
   DisableOnExit: 1
   showTransformVar: 1
-  ShowOption1: 1

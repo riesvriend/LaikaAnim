@@ -21,7 +21,9 @@ MonoBehaviour:
     - Transform: Updates the Position of the
     Stamina UI
 
-    - Bool: Sprint is Enabled/Disabled on the Animal'
+    - Bool: Show the UI
+
+    - Void: Hide the UI'
   debug: 0
   m_int:
     UseConstant: 1

@@ -1,4 +1,5 @@
-﻿using MalbersAnimations.Utilities;
+﻿using MalbersAnimations.Scriptables;
+using MalbersAnimations.Utilities;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -89,14 +90,18 @@ namespace MalbersAnimations.Controller
         }
         public override void Activate()
         {
-            base.Activate();
+            CheckWater();
+            if (IsInWater)
+            {
+                base.Activate();
 
-            HorizontalInertia = Vector3.ProjectOnPlane(animal.DeltaPos, animal.UpVector);
-            UpImpulse = Vector3.Project(animal.DeltaPos, animal.UpVector);          //Clean the Vector from Forward and Horizontal Influence    
-            IgnoreLowerStates = true;                                               //Ignore Falling, Idle and Locomotion while swimming 
-            animal.UseGravity = false; //IMPORTANT
-            animal.InertiaPositionSpeed = Vector3.zero;                             //THIS MOTHER F!#$ER was messing with the water entering
-            animal.Force_Reset();
+                HorizontalInertia = Vector3.ProjectOnPlane(animal.DeltaPos, animal.UpVector);
+                UpImpulse = Vector3.Project(animal.DeltaPos, animal.UpVector);          //Clean the Vector from Forward and Horizontal Influence    
+                IgnoreLowerStates = true;                                               //Ignore Falling, Idle and Locomotion while swimming 
+                animal.UseGravity = false; //IMPORTANT
+                animal.InertiaPositionSpeed = Vector3.zero;                             //THIS MOTHER F!#$ER was messing with the water entering
+                animal.Force_Reset();
+            }
         }
 
 
@@ -219,6 +224,26 @@ namespace MalbersAnimations.Controller
         }
 
 #if UNITY_EDITOR
+
+        public override void SetSpeedSets(MAnimal animal)
+        {
+            var setName = "Swim";
+
+            if (animal.SpeedSet_Get(setName) == null)
+            {
+                animal.speedSets.Add(
+                    new MSpeedSet()
+                    {
+                        name = setName,
+                        StartVerticalIndex = new IntReference(1),
+                        TopIndex = new IntReference(2),
+                        states = new List<StateID>(1) { ID },
+                        Speeds = new List<MSpeed>() { new MSpeed(setName), new MSpeed(setName + " Fast", 2, 4, 4) { animator = new FloatReference(1.33f) } }
+                    }
+                    );
+            }
+        }
+
 
         void Reset()
         {

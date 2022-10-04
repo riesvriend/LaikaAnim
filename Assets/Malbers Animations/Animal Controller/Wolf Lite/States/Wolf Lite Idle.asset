@@ -38,14 +38,21 @@ MonoBehaviour:
   TagModifiers: []
   UseSendMessage: 0
   IncludeChildren: 1
+  AllowExitFromAnim: 0
+  IncludeSleepState: 1
   SleepFromState: []
   SleepFromMode: []
   QueueFrom: []
+  ResetFrom: []
   SleepFromStance: []
   stances: []
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  Duration:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1

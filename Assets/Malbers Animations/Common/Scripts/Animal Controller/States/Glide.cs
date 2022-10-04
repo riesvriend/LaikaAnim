@@ -1,4 +1,5 @@
 ﻿using MalbersAnimations.Scriptables;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,6 +13,10 @@ namespace MalbersAnimations.Controller
         [Header("Glide Parameters")]
         public FloatReference GravityDrag = new FloatReference(3);
 
+        [Tooltip("Minimun Height required to activate the glide")]
+        public FloatReference StartHeight = new FloatReference(0);
+
+        [Header("Free Movement Parameters")]
         [Range(0, 90),Tooltip("Bank amount used when turning")]
         public float Bank = 30;
 
@@ -19,15 +24,16 @@ namespace MalbersAnimations.Controller
         public float PitchLimit = 0;
 
 
+
         [Range(0, 90), Tooltip("Bank amount used when turning while straffing")]
         public float BankStrafe = 0;
         [Range(0, 90), Tooltip("Limit to go Up and Down while straffing")]
         public float PitchStrafe = 0;
 
-        [Tooltip("When Entering the Fly State... The animal will keep the Velocity from the last State if this value is greater than zero")]
+        [Tooltip("When Entering the Glide State... The animal will keep the Velocity from the last State if this value is greater than zero")]
         public FloatReference InertiaLerp = new FloatReference(1);
          
-        [Tooltip("The animal will move forward while flying, without the need to push the W Key, or Move forward Input")]
+        [Tooltip("The animal will move forward while Gliding, without the need to push the W Key, or Move forward Input")]
         public BoolReference AlwaysForward = new BoolReference(false);
         private bool LastAlwaysForward;
 
@@ -36,14 +42,14 @@ namespace MalbersAnimations.Controller
         private bool LastUseCameraInput;
 
 
-        [Tooltip("If the Animal has a force applied to it Remove the Force with this acceleration")]
-        public FloatReference RemoveForce = new FloatReference(5);
+        //[Tooltip("If the Animal has a force applied to it Remove the Force with this acceleration")]
+        //public FloatReference RemoveForce = new FloatReference(5);
 
 
         [Header("Landing")]
         [Tooltip("Layers to Land on")]
         public LayerMask LandOn = (1);
-        [Tooltip("Ray Length multiplier to check for ground and automatically land (increases or decreases the MainPivot Lenght for the Fall Ray")]
+        [Tooltip("Ray Length multiplier to check for ground near")]
         public FloatReference CheckLandDistance = new FloatReference(3f);
         [Tooltip("Ray Length multiplier to check for ground and automatically land (increases or decreases the MainPivot Lenght for the Fall Ray")]
         public FloatReference LandDistance = new FloatReference(1f);
@@ -54,19 +60,31 @@ namespace MalbersAnimations.Controller
         protected Vector3 verticalInertia;
         protected Vector3 DownPush;
 
-         
+        private bool CheckStartHeight()
+        {
+            if (StartHeight <= 0) return true; //if there's no height skip checking Start Height
+            
+            //if we touch any ground send False. Meaning the Glide cannot play.
+            return !Physics.Raycast(animal.Main_Pivot_Point, animal.Gravity, out _, animal.Height + StartHeight * ScaleFactor, animal.GroundLayer) ;
+               
+        }
+
+        public override bool TryActivate()
+        {
+            return base.TryActivate() && CheckStartHeight();
+        }
 
         public override void Activate()
         {
             base.Activate();
-            LastAlwaysForward = animal.AlwaysForward;
-            animal.AlwaysForward = AlwaysForward;
-            LastUseCameraInput = animal.UseCameraInput;
-            animal.useGUILayout = LastUseCameraInput;
+            LastAlwaysForward = animal.AlwaysForward; //Store the last AlwaysFoward the animal had
+            animal.AlwaysForward = AlwaysForward; //Set the new Always forward
+            LastUseCameraInput = animal.UseCameraInput; //Cache the Last Use Camera Inptu
+            animal.UseCameraInput = LastUseCameraInput; 
             InputValue = true; //Make sure the Input is set to True when the flying is not being activated by an input player
 
 
-            if (animal.ExternalForceAcel == 0) animal.Force_Remove(RemoveForce);
+            if (animal.ExternalForceAcel == 0) animal.Force_Remove(0);
         } 
 
         public override void EnterCoreAnimation()
@@ -76,12 +94,10 @@ namespace MalbersAnimations.Controller
             animal.InertiaPositionSpeed = animal.HorizontalVelocity * animal.DeltaTime; //Calculate the current Inertia!!
         } 
        
-
         public override void OnStateMove(float deltaTime)
         {
             if (InCoreAnimation) //While is flying
             {
-
                 var value = animal.ExternalForce != Vector3.zero ? Vector3.zero : (GravityDrag * animal.ScaleFactor) * deltaTime * Gravity;
                     DownPush = Vector3.Lerp(DownPush, value, deltaTime*InertiaLerp);
                     animal.AdditivePosition += DownPush; //Glide Push Down
@@ -108,7 +124,6 @@ namespace MalbersAnimations.Controller
                 if (InertiaLerp.Value > 0) animal.AddInertia(ref verticalInertia, InertiaLerp);
             }
         }
-
 
         public override void TryExitState(float DeltaTime)
         {
@@ -184,6 +199,29 @@ namespace MalbersAnimations.Controller
         }
 
 #if UNITY_EDITOR
+
+        public override void SetSpeedSets(MAnimal animal)
+        {
+            var setName = "Glide";
+
+            if (animal.SpeedSet_Get(setName) == null)
+            {
+                animal.speedSets.Add(
+                    new MSpeedSet()
+                    {
+                        name = setName,
+                        StartVerticalIndex = new IntReference(1),
+                        PitchLerpOn = new FloatReference(3),
+                        PitchLerpOff = new FloatReference(3),
+                        TopIndex = new IntReference(2),
+                        states = new List<StateID>(1) { ID },
+                        Speeds = new List<MSpeed>() { new MSpeed(setName), new MSpeed(setName + " Fast", 2, 4, 4) { animator = new FloatReference(1.33f) } }
+                    }
+                    );
+            }
+        }
+
+
         void Reset()
         {
             ID = MTools.GetInstance<StateID>("Glide");

@@ -77,12 +77,17 @@ MonoBehaviour:
   SleepFromState: []
   SleepFromMode: []
   QueueFrom: []
+  ResetFrom: []
   SleepFromStance: []
   stances:
   - {fileID: 11400000, guid: 87ae38bfe93fc3f449ecd25863e2a6fe, type: 2}
   TryLoop:
     UseConstant: 1
-    ConstantValue: 6
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  Duration:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1
@@ -103,13 +108,14 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 0}
   CanStrafe: 1
+  StrafeAnimations: 1
   MovementStrafe: 1
   IdleStrafe: 1
   debug: 1
-  Editor_Tabs1: 0
+  Editor_Tabs1: 3
   ID: {fileID: 11400000, guid: 8078fbdb01991b44b9c1351f444b5efe, type: 2}
   AirControl:
-    UseConstant: 1
+    UseConstant: 0
     ConstantValue: 1
     Variable: {fileID: 11400000, guid: f39bbadf72c684c4d804bfe47b409b80, type: 2}
   AirRotation:
@@ -134,7 +140,7 @@ MonoBehaviour:
     Variable: {fileID: 0}
   lengthMultiplier:
     UseConstant: 1
-    ConstantValue: 1
+    ConstantValue: 0.999
     Variable: {fileID: 0}
   RayHits:
     UseConstant: 1
@@ -158,7 +164,7 @@ MonoBehaviour:
   landStatus:
   - {x: 1, y: 301}
   - {x: 3, y: 302}
-  StuckAnimal: 0
+  StuckAnimal: 1
   PushForward:
     UseConstant: 1
     ConstantValue: 2

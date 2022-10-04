@@ -646,7 +646,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Action
+  m_Text: Interact
 --- !u!114 &114919826805028034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -834,9 +834,11 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Atk 2
+  m_Text: 'Atk 2
+
+    Aim'
 --- !u!114 &114776044283146924
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -180,7 +180,7 @@ namespace MalbersAnimations.Utilities
                     break;
             }
 
-            if (debug && succesful) Debug.Log($"<b>[AnimMsg: {message}->{val}] [{typeM}]</b> T:{Time.time:F3}");  //Debug
+            if (debug && succesful) Debug.Log($"<b>Anim Message: [<color=yellow>{message}->{val}</color>]</b> T:{Time.time:F2}");  //Debug
         }
 
 
@@ -366,7 +366,7 @@ namespace MalbersAnimations.Utilities
             MalbersEditor.DrawDescription("Send messages to scripts with the [IAnimatorListener] interface. " +
                 "Enable [SendMessage] to use Component.SendMessage() instead.");
 
-            EditorGUILayout.BeginVertical(MTools.StyleGray);
+           // EditorGUILayout.BeginVertical(MTools.StyleGray);
             {
                 list.DoLayoutList();
 
@@ -395,8 +395,7 @@ namespace MalbersAnimations.Utilities
 
                 EditorGUILayout.EndHorizontal();
             }
-
-            EditorGUILayout.EndVertical();
+        //    EditorGUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
         }

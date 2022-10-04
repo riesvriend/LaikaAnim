@@ -192,7 +192,7 @@ namespace MalbersAnimations
                     var description = element.FindPropertyRelative("description");
 
                     if (styleDesc == null)
-                        styleDesc = new GUIStyle(MalbersEditor.StyleGray)
+                        styleDesc = new GUIStyle(MTools.StyleGray)
                         {
                             fontSize = 14,
                             fontStyle = FontStyle.Normal,

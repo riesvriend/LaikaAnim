@@ -7,11 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 757188068706720547, guid: 3713da0b703b90c46965625018868bfd,
-        type: 3}
-      propertyPath: Events.Array.data[3].useFloat
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 794286157042513271, guid: 3713da0b703b90c46965625018868bfd,
         type: 3}
       propertyPath: m_RootOrder
@@ -20,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 794286157042513271, guid: 3713da0b703b90c46965625018868bfd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.87
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 794286157042513271, guid: 3713da0b703b90c46965625018868bfd,
         type: 3}
@@ -30,7 +25,7 @@ PrefabInstance:
     - target: {fileID: 794286157042513271, guid: 3713da0b703b90c46965625018868bfd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.16
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 794286157042513271, guid: 3713da0b703b90c46965625018868bfd,
         type: 3}
@@ -70,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 797631423224758285, guid: 3713da0b703b90c46965625018868bfd,
         type: 3}
       propertyPath: m_Name
-      value: Rider AC Combat Mobile
+      value: Rider Mobile
       objectReference: {fileID: 0}
     - target: {fileID: 8562375454960519716, guid: 3713da0b703b90c46965625018868bfd,
         type: 3}

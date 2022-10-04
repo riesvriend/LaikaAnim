@@ -50,12 +50,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 1
-  automatic: 1
+  automatic:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 135
   Weight: 1
   DoubleSide: 1
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 0
   stateAction: 0
@@ -106,6 +114,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -185,6 +194,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 1968653434677285496}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.1
   AngleOffset: 0
   AlignCurve:
@@ -215,8 +225,6 @@ MonoBehaviour:
   AlignRot: 1
   DoubleSided: 1
   AlignLookAt: 0
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.7176559, b: 0.18396229, a: 1}
 --- !u!1 &1968653434677285497
 GameObject:
@@ -241,13 +249,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1968653434677285497}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -2.5, y: 0.1, z: 0.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1968653433842188470}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1968653435339463572
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,13 +279,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1968653435339463572}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 2.5, y: 0.1, z: 0.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1968653433842188470}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1968653435351113246
 GameObject:
   m_ObjectHideFlags: 0

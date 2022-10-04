@@ -21,6 +21,9 @@ namespace MalbersAnimations.Controller.AI
         [Obsolete("Use AIControl Instead")]
         public IAIControl AIMovement => AIControl;
 
+        //[Tooltip("Use a temporal Brain from another animal (MOUNTING)")]
+        //public MAnimalBrain TemporalBrain;
+        //public MAnimalBrain Brain => TemporalBrain != null ? TemporalBrain : this;
 
         /// <summary>Transform used to raycast Rays to interact with the world</summary>
         [RequiredField, Tooltip("Transform used to raycast Rays to interact with the world")]
@@ -40,6 +43,7 @@ namespace MalbersAnimations.Controller.AI
 
 
         public IntEvent OnTaskStarted = new IntEvent();
+        public IntEvent OnTaskDone = new IntEvent();
         public IntEvent OnDecisionSucceeded = new IntEvent();
         public IntEvent OnAIStateChanged = new IntEvent();
 
@@ -59,6 +63,22 @@ namespace MalbersAnimations.Controller.AI
                 if (!done) return false;
             }
             return true;
+        }
+
+        /// <summary>Check if an Specific Task is Done..</summary>
+        public void TaskDone(MTask task)
+        {
+            if (currentState != null)
+            {
+                for (int i = 0; i < currentState.tasks.Length; i++)
+                {
+                    if (currentState.tasks[i] == task)
+                    {
+                        TaskDone(i);
+                        break;
+                    }
+                }
+            }
         }
 
 
@@ -140,11 +160,11 @@ namespace MalbersAnimations.Controller.AI
             if (AnimalStatscomponent) AnimalStats = AnimalStatscomponent.stats_D;
 
             Animal.isPlayer.Value = false; //If is using a brain... disable that he is the main player
-            ResetVarsOnNewState();
+           // ResetVarsOnNewState();
         }
 
 
-        void OnEnable()
+        public void OnEnable()
         {
             //AIMovement.OnTargetArrived.AddListener(OnTargetArrived);
             //AIMovement.OnTargetPositionArrived.AddListener(OnPositionArrived);
@@ -156,10 +176,12 @@ namespace MalbersAnimations.Controller.AI
             Animal.OnModeStart.AddListener(OnAnimalModeStart);
             Animal.OnModeEnd.AddListener(OnAnimalModeEnd);
 
+
+
             Invoke(nameof(StartBrain), 0.1f); //Start AI a Frame later; 
         }
 
-        void OnDisable()
+        public void OnDisable()
         {
             //AIMovement.OnTargetArrived.RemoveListener(OnTargetArrived);
             //AIMovement.OnTargetPositionArrived.RemoveListener(OnPositionArrived);
@@ -193,6 +215,8 @@ namespace MalbersAnimations.Controller.AI
 
         public void StartBrain()
         {
+            AIControl.SetActive(true);
+
             if (currentState)
             {
                 for (int i = 0; i < currentState.tasks.Length; i++)
@@ -315,7 +339,9 @@ namespace MalbersAnimations.Controller.AI
         public void TaskDone(int TaskIndex, bool value = true) //If the first task is done then go and do the next one
         {
             TasksDone[TaskIndex] = value;
-           
+            OnTaskDone.Invoke(currentState[TaskIndex].MessageID.Value); //Invoke when a task is done!!!
+
+
             if (TaskIndex + 1 < currentState.tasks.Length && currentState.tasks[TaskIndex + 1].WaitForPreviousTask) //Start the next task that needs to wait for the previus one
             {
              // Debug.Log($"*Task DONE!!!!: [{name}] [{TaskIndex}]-[{currentState.tasks[TaskIndex].name }]");
@@ -359,12 +385,13 @@ namespace MalbersAnimations.Controller.AI
                 for (int i = 0; i < currentState.tasks.Length; i++)         //Exit the Current Tasks
                     currentState.tasks[i].ExitAIState(this, i);
 
+                StopAllCoroutines();
+                BrainInitialize = false;
                 enabled = false;
 
                 if (DisableAIOnDeath)
                 {
                     AIControl.SetActive(false);
-                    enabled = false;
                 }
             }
         }
@@ -495,11 +522,13 @@ namespace MalbersAnimations.Controller.AI
         public bool boolValue;
         public Vector3 vector3; 
         public Component[] Components;
+        public MonoBehaviour mono;
         public GameObject[] gameobjects;
 
         public Dictionary<int,int> ints;
         public Dictionary<int, float> floats;
         public Dictionary<int, bool> bools;
+       // public Dictionary<int, Component> D_components;
 
         public void SetVar(int key, bool value) => bools[key] = value;
         public void SetVar(int key, int value) => ints[key] = value;
@@ -557,7 +586,7 @@ namespace MalbersAnimations.Controller.AI
     [CustomEditor(typeof(MAnimalBrain)), CanEditMultipleObjects]
     public class MAnimalBrainEditor : Editor
     {
-        SerializedProperty  Eyes, debug, TransitionCoolDown, DisableAIOnDeath, Editor_Tabs1, debugAIStates,
+        SerializedProperty  Eyes, debug, TransitionCoolDown, DisableAIOnDeath, Editor_Tabs1, debugAIStates, OnTaskDone,
             currentState, OnTaskStarted, OnDecisionSucceded, OnAIStateChanged;
 
         protected string[] Tabs1 = new string[] { "AI States" , "Events" ,"Debug"};
@@ -574,6 +603,7 @@ namespace MalbersAnimations.Controller.AI
             currentState = serializedObject.FindProperty("currentState");
 
             OnTaskStarted = serializedObject.FindProperty("OnTaskStarted");
+            OnTaskDone = serializedObject.FindProperty("OnTaskDone");
             OnDecisionSucceded = serializedObject.FindProperty("OnDecisionSucceeded");
             OnAIStateChanged = serializedObject.FindProperty("OnAIStateChanged");
             Editor_Tabs1 = serializedObject.FindProperty("Editor_Tabs1");
@@ -586,7 +616,7 @@ namespace MalbersAnimations.Controller.AI
         {
             serializedObject.Update();
             MalbersEditor.DrawDescription("Brain Logic for the Animal");
-            EditorGUILayout.BeginVertical(MTools.StyleGray);
+           // EditorGUILayout.BeginVertical(MTools.StyleGray);
             {
 
                 Editor_Tabs1.intValue = GUILayout.Toolbar(Editor_Tabs1.intValue, Tabs1);
@@ -600,7 +630,7 @@ namespace MalbersAnimations.Controller.AI
                 if (Eyes.objectReferenceValue == null) EditorGUILayout.HelpBox("The AI Eyes [Reference] is missing. Please add a transform the AI Eyes parameters", MessageType.Error);
 
             }
-            EditorGUILayout.EndVertical();
+         //   EditorGUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -713,6 +743,7 @@ namespace MalbersAnimations.Controller.AI
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
             EditorGUILayout.PropertyField(OnAIStateChanged);
             EditorGUILayout.PropertyField(OnTaskStarted);
+            EditorGUILayout.PropertyField(OnTaskDone);
             EditorGUILayout.PropertyField(OnDecisionSucceded);
             EditorGUILayout.EndVertical();
         }

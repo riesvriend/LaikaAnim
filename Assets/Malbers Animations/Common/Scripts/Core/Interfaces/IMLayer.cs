@@ -11,13 +11,4 @@ namespace MalbersAnimations
         /// <summary>What to do with the Triggers ... Ignore them? Use them?</summary>
         QueryTriggerInteraction TriggerInteraction { get; set; }
     }
-
-    ///// <summary>Used to find components with OnTrigerEnter OnTrigger Exit </summary>
-    //public interface ITriggerInteract
-    //{
-    //    /// <summary>Same as OnTrigger Enter</summary>
-    //    void EnterTrigger(Collider trigger, int TriggerID);
-    //    /// <summary>Same as OnTrigger Exit</summary>
-    //    void ExitTrigger(Collider trigger, int TriggerID);
-    //}
 }

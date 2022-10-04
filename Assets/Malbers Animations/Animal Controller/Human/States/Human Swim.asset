@@ -18,7 +18,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 
     Variable: {fileID: 0}
-  Priority: 6
+  Priority: 7
   General:
     modify: -1
     RootMotion: 1
@@ -43,12 +43,17 @@ MonoBehaviour:
   SleepFromState: []
   SleepFromMode: []
   QueueFrom: []
+  ResetFrom: []
   SleepFromStance: []
   stances:
   - {fileID: 11400000, guid: 87ae38bfe93fc3f449ecd25863e2a6fe, type: 2}
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  Duration:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1

@@ -10,7 +10,7 @@ namespace MalbersAnimations
 {
     [HelpURL("https://malbersanimations.gitbook.io/animal-controller/secondary-components/scriptables/tags")]
     [AddComponentMenu("Malbers/Utilities/Tools/Tags")]
-    public class Tags : MonoBehaviour, ITag
+    public class Tags : MonoBehaviour//, ITag
     {
         /// <summary>Keep a Track of the game objects that has this component</summary>
         public static List<Tags> TagsHolders;
@@ -64,6 +64,24 @@ namespace MalbersAnimations
             foreach (var item in TagsHolders)
             {
                 if (item.HasTag(tag))
+                {
+                    go.Add(item.gameObject);
+                }
+            }
+
+            if (go.Count == 0) return null;
+            return go;
+        }
+
+        public static List<GameObject> GambeObjectbyTag(Tag[] tags)
+        {
+            var go = new List<GameObject>();
+
+            if (Tags.TagsHolders == null || TagsHolders.Count == 0) return null;
+
+            foreach (var item in TagsHolders)
+            {
+                if (item.HasTag(tags))
                 {
                     go.Add(item.gameObject);
                 }
@@ -135,10 +153,10 @@ namespace MalbersAnimations
             }
         }
 
-        /// <summary>Add a new Tag</summary>
+        /// <summary>Remove an existing Tag</summary>
         public void RemoveTag(Tag t)
         {
-            if (!tags_Dic.ContainsValue(t))
+            if (tags_Dic.ContainsValue(t))
             {
                 tags.Remove(t);
                 tags_Dic.Remove(t.ID);

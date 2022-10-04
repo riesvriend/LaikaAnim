@@ -149,7 +149,8 @@ namespace MalbersAnimations.Weapons
         }
 
         public virtual void SetDamageMultiplier(float m) => DamageMultiplier = m;
-        public virtual void ScaleProjectileMultiplier(float m) => ScaleMultiplier = m;
+        public virtual void SetScaleMultiplier(float m) => ScaleMultiplier = m;
+        public virtual void SetPowerMultiplier(float m) => PowerMultiplier = m;
 
         public virtual void CalculateVelocity()
         {

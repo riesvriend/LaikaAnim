@@ -61,6 +61,11 @@ namespace MalbersAnimations.Controller
                 modify = (modifier)(-1),
             };
         }
+
+        public override void SetSpeedSets(MAnimal animal)
+        {
+          //Do nothing... the Animal Controller already does it on Start
+        }
 #endif
     }
 }

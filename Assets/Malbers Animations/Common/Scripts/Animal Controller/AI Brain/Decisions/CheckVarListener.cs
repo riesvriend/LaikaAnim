@@ -46,64 +46,23 @@ namespace MalbersAnimations.Controller.AI
             "-Parent: \nany of the parents of the gameobject(s) in the [CheckOn] Option\n" +
             "-Children: \nany of the children of the gameobject(s) in the [CheckOn] Option")]
         public ComponentPlace PlacedOn = ComponentPlace.SameHierarchy;
-        [Hide("showTag", true, false)] public Tag tag;
-        [Hide("showTrans", true, false)] public TransformVar Transform;
-        [Hide("showGO", true, false)] public GameObjectVar GameObject;
-        [Hide("showGOSet", true, false)] public RuntimeGameObjects GameObjectSet;
+        [Hide("checkOn",  (int)Affect.Tag)] public Tag tag;
+        [Hide("checkOn", (int) Affect.TransformHook)] public TransformVar Transform;
+        [Hide("checkOn", (int)Affect.GameObjectHook)] public GameObjectVar GameObject;
+        [Hide("checkOn", (int)Affect.RuntimeGameObjectSet)] public RuntimeGameObjects GameObjectSet;
 
 
         [Space,
             Tooltip("Check on the Target or Self if it has a Listener Variable Component <Int><Bool><Float> and compares it with the local variable)")]
         public VarType varType = VarType.Bool;
 
+        [Hide("varType",  (int)VarType.Int, (int) VarType.Float)] public ComparerInt comparer;
+        [Hide("varType", (int)VarType.Bool)] public bool boolValue = true;
+        [Hide("varType", (int)VarType.Int)] public int intValue = 0;
+        [Hide("varType", (int)VarType.Float)] public float floatValue = 0f;
 
-        [Hide("showBoolValue", true, true)] public ComparerInt comparer;
-
-        [Hide("showBoolValue", true)] public bool boolValue = true;
-        [Hide("showIntValue", true)] public int intValue = 0;
-        [Hide("showFloatValue", true)] public float floatValue = 0f;
-
-
-      
         public bool debug = false;
 
-        [HideInInspector] public bool showFloatValue;
-        [HideInInspector] public bool showBoolValue = true;
-        [HideInInspector] public bool showIntValue;
-        [HideInInspector] public bool showTag;
-        [HideInInspector] public bool showTrans;
-        [HideInInspector] public bool showGO;
-        [HideInInspector] public bool showGOSet;
-
-
-        private void OnValidate()
-        {
-            showTag = checkOn == Affect.Tag;
-            showTrans = checkOn == Affect.TransformHook;
-            showGO = checkOn == Affect.GameObjectHook;
-            showGOSet = checkOn == Affect.RuntimeGameObjectSet;
-
-            switch (varType)
-            {
-                case VarType.Bool:
-                    showFloatValue = false;
-                    showBoolValue = true;
-                    showIntValue = false;
-                    break;
-                case VarType.Int:
-                    showFloatValue = false;
-                    showBoolValue = false;
-                    showIntValue = true;
-                    break;
-                case VarType.Float:
-                    showFloatValue = true;
-                    showBoolValue = false;
-                    showIntValue = false;
-                    break;
-                default:
-                    break;
-            }
-        }
 
 
         public override void PrepareDecision(MAnimalBrain brain, int Index)

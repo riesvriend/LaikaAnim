@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+#if UNITY_EDITOR
+using UnityEditorInternal;
+using UnityEditor;
+#endif
 namespace MalbersAnimations.Utilities
 {
     [AddComponentMenu("Malbers/Utilities/Effects - Audio/Effect Manager")]
@@ -14,6 +18,8 @@ namespace MalbersAnimations.Utilities
         public Transform Owner;
 
         public List<Effect> Effects;
+
+        public int SelectedEffect = -1;
 
         private void Awake()
         {
@@ -40,6 +46,14 @@ namespace MalbersAnimations.Utilities
 
             if (effects != null)
                 foreach (var effect in effects) Play(effect);
+        }
+
+        /// <summary>Stops an Effect using its ID value</summary>
+        public virtual void StopEffect(string name)
+        {
+            var effects = Effects.FindAll(effect => effect.Name == name && effect.active == true);
+
+            Stop_Effects(effects);
         }
 
         /// <summary>Stops an Effect using its ID value</summary>
@@ -143,8 +157,7 @@ namespace MalbersAnimations.Utilities
                         if (e.Instance)
                         {
                             e.Instance.gameObject.SetActive(true);
-                            e.Instance.transform.localScale = Vector3.Scale(e.Instance.transform.localScale, e.ScaleMultiplier); //Scale the Effect
-
+                         
 
                             //Apply Offsets
                             if (e.root)
@@ -154,17 +167,19 @@ namespace MalbersAnimations.Utilities
                                 if (e.isChild)
                                 {
                                     e.Instance.transform.parent = e.root;
-
-                                    e.Instance.transform.localPosition += e.PositionOffset;
-                                    e.Instance.transform.localRotation *= Quaternion.Euler(e.RotationOffset);
+                                    e.Instance.transform.localPosition = e.Offset.Position;
+                                    e.Instance.transform.localRotation = Quaternion.Euler(e.Offset.Rotation);
+                                    e.Instance.transform.localScale = e.Offset.Scale; //Scale the Effect
                                 }
                                 else
                                 {
-                                    e.Instance.transform.position = e.root.TransformPoint(e.PositionOffset);
+                                    e.Instance.transform.position = e.root.TransformPoint(e.Offset.Position);
                                 }
 
-                                if (e.useRootRotation) e.Instance.transform.rotation = e.root.rotation;     //Orient to the root rotation
-
+                                if (e.useRootRotation)
+                                {
+                                    e.Instance.transform.rotation = e.root.rotation* Quaternion.Euler(e.Offset.Rotation);     //Orient to the root rotation
+                                }
                             }
 
 
@@ -324,9 +339,7 @@ namespace MalbersAnimations.Utilities
         public bool disableOnStop = true;
         public bool useRootRotation = true;
         public GameObject effect;
-        public Vector3 RotationOffset;
-        public Vector3 PositionOffset;
-        public Vector3 ScaleMultiplier = Vector3.one;
+        public TransformOffset Offset = new TransformOffset(1);
         public AudioSource audioSource;
         public AudioClipReference Clip;
 
@@ -365,4 +378,221 @@ namespace MalbersAnimations.Utilities
             }
         }
     }
+
+    /// ---------------------------------------------------
+
+    #region INSPECTOR
+#if UNITY_EDITOR
+
+    [CustomEditor(typeof(EffectManager))]
+    public class EffectManagerEditor : Editor
+    {
+        private ReorderableList list;
+        private SerializedProperty EffectList, Owner, SelectedEffect;
+        private EffectManager M;
+
+        private void OnEnable()
+        {
+            M = ((EffectManager)target);
+            //script = MonoScript.FromMonoBehaviour(target as MonoBehaviour);
+
+            Owner = serializedObject.FindProperty("Owner");
+            EffectList = serializedObject.FindProperty("Effects");
+            SelectedEffect = serializedObject.FindProperty("SelectedEffect");
+
+            list = new ReorderableList(serializedObject, EffectList, true, true, true, true)
+            {
+                drawElementCallback = DrawElementCallback,
+                drawHeaderCallback = HeaderCallbackDelegate,
+                onAddCallback = OnAddCallBack,
+                onSelectCallback = (list) =>
+                {
+                    SelectedEffect.intValue = list.index;
+                }
+            };
+
+            list.index = SelectedEffect.intValue;
+        }
+
+        public override void OnInspectorGUI()
+        {
+            serializedObject.Update();
+
+            MalbersEditor.DrawDescription("Manage all the Effects using the function (PlayEffect(int ID))");
+
+
+            EditorGUILayout.PropertyField(Owner);
+            list.DoLayoutList();
+
+            if (list.index != -1)
+            {
+                Effect effect = M.Effects[list.index];
+
+                EditorGUILayout.Space(-16);
+                SerializedProperty Element = EffectList.GetArrayElementAtIndex(list.index);
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(Element, new GUIContent($"[{effect.Name}]"), false);
+                EditorGUI.indentLevel--;
+
+                if (Element.isExpanded)
+                {
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+                        var eff = Element.FindPropertyRelative("effect");
+                        eff.isExpanded = MalbersEditor.Foldout(eff.isExpanded, "General");
+                        if (eff.isExpanded)
+                        {
+
+                            string isPrefab = "";
+
+                            if (eff.objectReferenceValue != null && (eff.objectReferenceValue as GameObject).IsPrefab())
+                                isPrefab = "[Prefab]";
+
+                            EditorGUILayout.PropertyField(Element.FindPropertyRelative("effect"), new GUIContent("Effect " + isPrefab, "The Prefab or gameobject which holds the Effect(Particles, transforms)"));
+
+
+                            if (effect.effect != null)
+                                EditorGUILayout.PropertyField(Element.FindPropertyRelative("life"), new GUIContent("Life", "Duration of the Effect. The Effect will be destroyed after the Life time has passed"));
+
+                            EditorGUILayout.PropertyField(Element.FindPropertyRelative("delay"), new GUIContent("Delay", "Time before playing the Effect"));
+
+                            if (eff.objectReferenceValue != null && !(eff.objectReferenceValue as GameObject).IsPrefab())
+                                EditorGUILayout.PropertyField(Element.FindPropertyRelative("disableOnStop"), new GUIContent("Disable On Stop", "if the Effect is not a prefab the gameOBject will be disabled"));
+
+                            if (Element.FindPropertyRelative("life").floatValue <= 0)
+                            {
+                                EditorGUILayout.HelpBox("Life = 0  the effect will not be destroyed by this Script", MessageType.Info);
+                            }
+                        }
+
+                    }
+
+
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+                        var audio = Element.FindPropertyRelative("audioSource");
+                        audio.isExpanded = MalbersEditor.Foldout(audio.isExpanded, "Audio");
+
+                        if (audio.isExpanded)
+                        {
+                            EditorGUILayout.PropertyField(audio,
+                                new GUIContent("Source", "Where the audio for the Effect will be player"));
+                            EditorGUILayout.PropertyField(Element.FindPropertyRelative("Clip"),
+                               new GUIContent("Clip", "What audio will be played"));
+                        }
+                    }
+
+
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+                        var root = Element.FindPropertyRelative("root");
+                        root.isExpanded = MalbersEditor.Foldout(root.isExpanded, "Parent");
+
+                        if (root.isExpanded)
+                        {
+                            EditorGUILayout.PropertyField(root, new GUIContent("Root", "Uses this transform to position the Effect"));
+
+                            if (root.objectReferenceValue != null)
+                            {
+                                var isChild = Element.FindPropertyRelative("isChild");
+                                var useRootRotation = Element.FindPropertyRelative("useRootRotation");
+
+                                EditorGUILayout.PropertyField(isChild, new GUIContent("is Child", "Set the Effect as a child of the Root transform"));
+
+                                if (isChild.boolValue)
+                                {
+                                    var Offset = Element.FindPropertyRelative("Offset");
+                                    EditorGUI.indentLevel++;
+                                    EditorGUILayout.PropertyField(Offset, true);
+                                    EditorGUI.indentLevel--;
+                                }
+
+                                EditorGUILayout.PropertyField(useRootRotation, new GUIContent("Use Root Rotation", "Orient the Effect using the root rotation."));
+                            }
+                        }
+                    }
+
+
+                 
+
+
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+                        var mod = Element.FindPropertyRelative("Modifier");
+                        mod.isExpanded = MalbersEditor.Foldout(mod.isExpanded, "Modifier");
+
+                        if (mod.isExpanded)
+                        {
+
+                            EditorGUILayout.PropertyField(mod, new GUIContent("Modifier", ""));
+
+                            if (effect.Modifier != null)
+                            {
+                                if (effect.Modifier.Description != string.Empty)
+                                    EditorGUILayout.HelpBox(effect.Modifier.Description, MessageType.None);
+
+                                MTools.DrawScriptableObject(effect.Modifier, false, 1);
+                            }
+                        }
+                    }
+
+
+                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    {
+                        var OnPlay = Element.FindPropertyRelative("OnPlay");
+                        OnPlay.isExpanded = MalbersEditor.Foldout(OnPlay.isExpanded, "Events");
+
+                        if (OnPlay.isExpanded)
+                        {
+                            var OnStop = Element.FindPropertyRelative("OnStop");
+
+                            EditorGUILayout.PropertyField(OnPlay);
+                            EditorGUILayout.PropertyField(OnStop);
+                        }
+                    }
+                }
+            } 
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        void HeaderCallbackDelegate(Rect rect)
+        {
+            Rect R_1 = new Rect(rect.x + 14, rect.y, (rect.width - 10) / 2, EditorGUIUtility.singleLineHeight);
+            Rect R_2 = new Rect(rect.x + 14 + ((rect.width - 30) / 2), rect.y, rect.width - ((rect.width) / 2), EditorGUIUtility.singleLineHeight);
+
+            EditorGUI.LabelField(R_1, "Effect List", EditorStyles.miniLabel);
+            EditorGUI.LabelField(R_2, "ID", EditorStyles.centeredGreyMiniLabel);
+        }
+
+        void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
+        {
+            var element = EffectList.GetArrayElementAtIndex(index);
+
+            var e_active = element.FindPropertyRelative("active");
+            var e_Name = element.FindPropertyRelative("Name");
+            var e_ID = element.FindPropertyRelative("ID");
+
+            rect.y += 2;
+
+            Rect R_0 = new Rect(rect.x, rect.y, 15, EditorGUIUtility.singleLineHeight);
+            Rect R_1 = new Rect(rect.x + 16, rect.y, (rect.width - 10) / 2, EditorGUIUtility.singleLineHeight);
+            Rect R_2 = new Rect(rect.x + 16 + ((rect.width - 30) / 2), rect.y, rect.width - ((rect.width) / 2), EditorGUIUtility.singleLineHeight);
+
+            e_active.boolValue = EditorGUI.Toggle(R_0, e_active.boolValue);
+            e_Name.stringValue = EditorGUI.TextField(R_1, e_Name.stringValue, EditorStyles.label);
+            e_ID.intValue = EditorGUI.IntField(R_2, e_ID.intValue);
+        }
+
+        void OnAddCallBack(ReorderableList list)
+        {
+            if (M.Effects == null)
+            {
+                M.Effects = new System.Collections.Generic.List<Effect>();
+            }
+            M.Effects.Add(new Effect());
+        }
+    }
+#endif
+    #endregion
 }

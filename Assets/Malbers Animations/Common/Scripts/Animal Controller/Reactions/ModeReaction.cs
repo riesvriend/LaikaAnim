@@ -9,26 +9,29 @@ namespace MalbersAnimations.Controller.Reactions
         public Mode_Reaction type = Mode_Reaction.Activate;
         public ModeID ID;
         
-        [Hide("ShowAction", true,false)]
+        [Hide("ShowAction")]
         public MAction action;
 
-        [Hide("ShowAbilityIndex", true,false), Tooltip("If set to -99 it will do a random ability from the Mode")]
+        [Hide("ShowAbilityIndex"), Tooltip("If set to -99 it will do a random ability from the Mode")]
         public int ModeAbility = -99;
 
-        [Hide("ShowCooldown", true,false)]
+        [Hide("ShowCooldown")]
         public float coolDown = 0;
 
-       [Hide("ShowStatus", true, false)]
+        public float ModePower = 0;
+
+        [Hide("ShowStatus")]
         public AbilityStatus abilityStatus = AbilityStatus.PlayOneTime;
 
 
-       [Hide("ShowAbilityTime", true, true)]
+       [Hide("ShowAbilityTime",  true)]
         public float AbilityTime = 3f;
 
         int AbilityIndex => ID.ID == 4 ? (action != null ? action.ID : -1) : ModeAbility;
 
         protected override void _React(MAnimal animal)
         {
+            if (!animal.enabled || animal.Sleep) return;
             var mode = animal.Mode_Get(ID);
             if (mode == null || ID == null) return;
             _TryReact(animal);
@@ -38,6 +41,9 @@ namespace MalbersAnimations.Controller.Reactions
         {
             var mode = animal.Mode_Get(ID);
             if (mode == null || ID == null) return false;
+
+
+            animal.Mode_SetPower(ModePower);
 
             switch (type)
             {

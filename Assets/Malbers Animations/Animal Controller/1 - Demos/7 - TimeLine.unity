@@ -709,7 +709,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7761194, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -725,7 +725,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 343029976}
-  m_LocalRotation: {x: -0.09276837, y: -0.1936095, z: 0.050642937, w: 0.97536904}
+  m_LocalRotation: {x: -0.005638603, y: 0.7227473, z: -0.25718892, w: 0.6414502}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1042,7 +1042,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7761194, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1058,8 +1058,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 450890127}
-  m_LocalRotation: {x: -0.11044772, y: -0.19449647, z: 0.047122236, w: 0.9735255}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.1854339, y: -0.93231905, z: 0.30375528}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1240990089}
@@ -1551,7 +1551,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7768817, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1568,7 +1568,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 904609320}
   m_LocalRotation: {x: 0.11829869, y: 0.7236308, z: -0.12819274, w: 0.6677803}
-  m_LocalPosition: {x: -26.659323, y: 15.476176, z: -22.66784}
+  m_LocalPosition: {x: -23.304544, y: 15.476176, z: -20.415476}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 590291751}
@@ -1849,7 +1849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 1, z: -5}
+  m_FollowOffset: {x: 0, y: 1.9751061, z: -5.014496}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -1869,7 +1869,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: 71.50883
+    Value: -165.70557
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -1963,6 +1963,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114222225517902476, guid: a578de702f2191b4fa9cdcec1ad493c5,
+        type: 3}
+      propertyPath: Editor_Tabs1
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114222225517902476, guid: a578de702f2191b4fa9cdcec1ad493c5,
+        type: 3}
+      propertyPath: Editor_Tabs2
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1485951915348890352, guid: a578de702f2191b4fa9cdcec1ad493c5,
         type: 3}
       propertyPath: m_IsActive
@@ -1971,6 +1981,21 @@ PrefabInstance:
     - target: {fileID: 3074961683572237844, guid: a578de702f2191b4fa9cdcec1ad493c5,
         type: 3}
       propertyPath: internalComponents.Array.data[4].active
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703914396982549835, guid: a578de702f2191b4fa9cdcec1ad493c5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730991500237083327, guid: a578de702f2191b4fa9cdcec1ad493c5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5032622300912490308, guid: a578de702f2191b4fa9cdcec1ad493c5,
+        type: 3}
+      propertyPath: SelectedEffect
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2135,7 +2160,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7768817, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -2151,8 +2176,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556330461}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.2041602, y: 0.7669178, z: 2.110691}
+  m_LocalRotation: {x: 0.0060299793, y: 0.7179496, z: -0.2702928, w: 0.6414467}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1891142079}
@@ -2820,7 +2845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 1, z: -5}
+  m_FollowOffset: {x: 0, y: 1.9751061, z: -5.014496}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -2840,7 +2865,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: 71.50883
+    Value: -165.70557
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -3129,7 +3154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 1, z: -5}
+  m_FollowOffset: {x: 0, y: 1.9751061, z: -5.014496}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -3149,7 +3174,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: 71.50883
+    Value: -165.70557
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -5254,6 +5279,7 @@ MonoBehaviour:
         m_Calls: []
     DoubleTapTime: 0.3
     LongPressTime: 0.5
+    SmoothDecrease: 0
     OnInputPressed:
       m_PersistentCalls:
         m_Calls: []
@@ -5307,6 +5333,7 @@ MonoBehaviour:
         m_Calls: []
     DoubleTapTime: 0.3
     LongPressTime: 0.5
+    SmoothDecrease: 0
     OnInputPressed:
       m_PersistentCalls:
         m_Calls: []
@@ -5360,13 +5387,30 @@ MonoBehaviour:
         m_Calls: []
     DoubleTapTime: 0.3
     LongPressTime: 0.5
+    SmoothDecrease: 0
     OnInputPressed:
       m_PersistentCalls:
         m_Calls: []
     OnPressedNormalized:
       m_PersistentCalls:
         m_Calls: []
+  AllInputs: []
+  actionMaps: []
+  ActiveMapIndex: 0
+  DefaultMap:
+    name:
+      UseConstant: 1
+      ConstantValue: New Map
+      Variable: {fileID: 0}
+    inputs: []
+  ActiveMap:
+    name:
+      UseConstant: 1
+      ConstantValue: New Map
+      Variable: {fileID: 0}
+    inputs: []
   showInputEvents: 0
+  ResetOnFocusLost: 0
   OnInputEnabled:
     m_PersistentCalls:
       m_Calls: []
@@ -7117,7 +7161,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955935241592286}
   m_LocalRotation: {x: 0.11829869, y: 0.7236308, z: -0.12819274, w: 0.6677803}
-  m_LocalPosition: {x: -28.994308, y: 15.481001, z: -23.688133}
+  m_LocalPosition: {x: -23.014341, y: 16.456106, z: -17.243095}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1556330463}
@@ -7147,8 +7191,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1086986872898853}
-  m_LocalRotation: {x: 0.06526346, y: 0.5824197, z: -0.04699059, w: 0.8089004}
-  m_LocalPosition: {x: -28.994308, y: 15.481001, z: -23.688133}
+  m_LocalRotation: {x: -0.02181812, y: 0.97733325, z: -0.16806617, w: -0.1268761}
+  m_LocalPosition: {x: -23.142044, y: 16.16508, z: -17.897676}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -12131,12 +12175,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 0
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 1
   stateAction: 0
@@ -12187,6 +12239,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -12250,6 +12303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimAssist: 1
+  UseOnTriggerEnter: 1
   m_AimPoint: {fileID: 4790059844178601}
   OnAimEnter:
     m_PersistentCalls:
@@ -12257,6 +12311,7 @@ MonoBehaviour:
   OnAimExit:
     m_PersistentCalls:
       m_Calls: []
+  debug: 0
 --- !u!114 &114415747708143745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12444,7 +12499,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7761194, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 1
     m_InheritPosition: 1
@@ -12453,7 +12508,7 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_YAxis:
-    Value: 0.5
+    Value: 0.6032262
     m_SpeedMode: 0
     m_MaxSpeed: 2
     m_AccelTime: 0.2
@@ -12477,7 +12532,7 @@ MonoBehaviour:
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
   m_XAxis:
-    Value: 71.50883
+    Value: -165.70557
     m_SpeedMode: 0
     m_MaxSpeed: 300
     m_AccelTime: 0.1
@@ -12613,6 +12668,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
 --- !u!114 &114695446139424139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12626,12 +12682,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 1
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 1
   stateAction: 0
@@ -12682,6 +12746,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -13425,12 +13490,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 0
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 0
   stateAction: 0
@@ -13481,6 +13554,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 1
   OnEnter:
@@ -13546,12 +13620,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 0
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 0
   stateAction: 0
@@ -13602,6 +13684,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 1
   OnEnter:
@@ -13823,12 +13906,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 0
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 0
   stateAction: 0
@@ -13879,6 +13970,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -13985,6 +14077,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.25
   AngleOffset: 0
   AlignCurve:
@@ -14015,8 +14108,6 @@ MonoBehaviour:
   AlignRot: 0
   DoubleSided: 1
   AlignLookAt: 0
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
 --- !u!65 &366094716819321175
 BoxCollider:
@@ -15156,12 +15247,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 0
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 1
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 0
   stateAction: 0
@@ -15212,6 +15311,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -15462,6 +15562,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.25
   AngleOffset: 0
   AlignCurve:
@@ -15492,8 +15593,6 @@ MonoBehaviour:
   AlignRot: 1
   DoubleSided: 0
   AlignLookAt: 0
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
 --- !u!114 &1159437390832174848
 MonoBehaviour:
@@ -15515,6 +15614,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.25
   AngleOffset: 0
   AlignCurve:
@@ -15545,8 +15645,6 @@ MonoBehaviour:
   AlignRot: 1
   DoubleSided: 0
   AlignLookAt: 0
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
 --- !u!114 &1170427626051241725
 MonoBehaviour:
@@ -15568,6 +15666,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.25
   AngleOffset: 0
   AlignCurve:
@@ -15598,8 +15697,6 @@ MonoBehaviour:
   AlignRot: 0
   DoubleSided: 1
   AlignLookAt: 0
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
 --- !u!1 &1187005603261399400
 GameObject:
@@ -15682,12 +15779,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 0
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 0
   stateAction: 0
@@ -15738,6 +15843,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -16016,6 +16122,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.25
   AngleOffset: 0
   AlignCurve:
@@ -16046,8 +16153,6 @@ MonoBehaviour:
   AlignRot: 1
   DoubleSided: 1
   AlignLookAt: 0
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
 --- !u!65 &1276448684186270188
 BoxCollider:
@@ -16229,6 +16334,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.25
   AngleOffset: 0
   AlignCurve:
@@ -16259,8 +16365,6 @@ MonoBehaviour:
   AlignRot: 0
   DoubleSided: 1
   AlignLookAt: 1
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
 --- !u!114 &2956803666004345102
 MonoBehaviour:
@@ -16581,12 +16685,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 0
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 0
   stateAction: 0
@@ -16637,6 +16749,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -16869,6 +16982,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.25
   AngleOffset: 0
   AlignCurve:
@@ -16899,8 +17013,6 @@ MonoBehaviour:
   AlignRot: 0
   DoubleSided: 1
   AlignLookAt: 0
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
 --- !u!114 &5418697439170681327
 MonoBehaviour:
@@ -16922,6 +17034,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.25
   AngleOffset: 0
   AlignCurve:
@@ -16952,8 +17065,6 @@ MonoBehaviour:
   AlignRot: 0
   DoubleSided: 1
   AlignLookAt: 1
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
 --- !u!114 &5460154105739879652
 MonoBehaviour:
@@ -17367,12 +17478,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 0
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 0
   stateAction: 0
@@ -17423,6 +17542,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -17974,12 +18094,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 0
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 1
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 0
   stateAction: 0
@@ -18030,6 +18158,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -18120,6 +18249,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.25
   AngleOffset: 0
   AlignCurve:
@@ -18150,8 +18280,6 @@ MonoBehaviour:
   AlignRot: 0
   DoubleSided: 1
   AlignLookAt: 0
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
 --- !u!114 &7399482259784793103
 MonoBehaviour:
@@ -18173,6 +18301,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.25
   AngleOffset: 0
   AlignCurve:
@@ -18203,8 +18332,6 @@ MonoBehaviour:
   AlignRot: 0
   DoubleSided: 1
   AlignLookAt: 1
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
 --- !u!114 &7489904128123708640
 MonoBehaviour:
@@ -18226,6 +18353,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: {fileID: 0}
     Variable: {fileID: 0}
+  LookAtRadius: 0
   AlignTime: 0.25
   AngleOffset: 0
   AlignCurve:
@@ -18256,8 +18384,6 @@ MonoBehaviour:
   AlignRot: 0
   DoubleSided: 1
   AlignLookAt: 1
-  LookAtRadius: 0
-  LookAtRadiusTime: 0.25
   DebugColor: {r: 1, g: 0.23, b: 0, a: 1}
 --- !u!222 &8099152437019492405
 CanvasRenderer:
@@ -18748,12 +18874,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 0
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 1
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 0
   stateAction: 0
@@ -18804,6 +18938,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -19241,12 +19376,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 0
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 0
   stateAction: 0
@@ -19297,6 +19440,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:
@@ -19633,12 +19777,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
-  automatic: 0
+  automatic:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  DisableAfterUsed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   BoneOnly: 0
   Angle: 360
   Weight: 1
   DoubleSide: 0
   Flip: 0
+  ShowActionID: 1
   BoneName: Head
   zoneType: 0
   stateAction: 0
@@ -19689,6 +19841,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
+  JustExitAnimal: {fileID: 0}
   ModeFloat: 0
   RemoveAnimalOnActive: 0
   OnEnter:

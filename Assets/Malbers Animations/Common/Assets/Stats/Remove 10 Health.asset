@@ -15,7 +15,11 @@ MonoBehaviour:
   modifier:
     ID: {fileID: 11400000, guid: d6b3e636d59a6c547a2cad40b69f4432, type: 2}
     modify: 3
-    Value:
+    MinValue:
+      UseConstant: 1
+      ConstantValue: 10
+      Variable: {fileID: 0}
+    MaxValue:
       UseConstant: 1
       ConstantValue: 10
       Variable: {fileID: 0}

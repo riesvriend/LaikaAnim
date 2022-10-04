@@ -7,7 +7,7 @@ using UnityEngine.Events;
 namespace MalbersAnimations
 {
     [DefaultExecutionOrder(750)]
-    [AddComponentMenu("Malbers/Variables/Bool Listener")]
+    [AddComponentMenu("Malbers/Variables/Bool Listener (Local Bool)")]
     [HelpURL("https://malbersanimations.gitbook.io/animal-controller/secondary-components/variable-listeners-and-comparers")]
     public class BoolVarListener : VarListener
     {

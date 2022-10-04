@@ -27,44 +27,40 @@ namespace MalbersAnimations
 
             MalbersEditor.DrawDescription("Inputs connected to component functions via UnityEvents");
 
-            EditorGUILayout.BeginVertical(MalbersEditor.StyleGray);
+            if (Application.isPlaying)
             {
-                EditorGUI.BeginChangeCheck();
+                showOnPlayMode =
+                    GUILayout.Toggle(showOnPlayMode,
+                    new GUIContent("Show Buttons on Play Mode", "This makes the Inspector bit faster"), EditorStyles.miniButton);
+            }
+
+            if (!Application.isPlaying || (showOnPlayMode && Application.isPlaying))
+            {
+
+                using (new GUILayout.VerticalScope(EditorStyles.helpBox))
                 {
-                    EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                     EditorGUILayout.PropertyField(IgnoreOnPause);
-                    EditorGUILayout.EndVertical();
+                    EditorGUILayout.PropertyField(ResetOnFocusLost);
+                }
 
-                    DrawRewired();
+                DrawRewired();
 
-                    EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                {
+                    EditorGUILayout.PropertyField(Horizontal, new GUIContent("Horizontal", "Axis for the Horizontal Movement"));
+                    EditorGUILayout.PropertyField(Vertical, new GUIContent("Vertical", "Axis for the Forward/Backward Movement"));
+                    using (new GUILayout.HorizontalScope())
                     {
-                        EditorGUILayout.PropertyField(Horizontal, new GUIContent("Horizontal", "Axis for the Horizontal Movement"));
-                        EditorGUILayout.PropertyField(Vertical, new GUIContent("Vertical", "Axis for the Forward/Backward Movement"));
-
-                        EditorGUILayout.BeginHorizontal();
                         EditorGUILayout.PropertyField(UpDown, new GUIContent("UpDown", "Axis for the Up and Down Movement"));
 
                         if (GUILayout.Button(new GUIContent("Create", "Creates 'UpDown' on the Input Manager"), GUILayout.Width(55)))
                             CreateInputAxe();
-
-                        EditorGUILayout.EndHorizontal();
                     }
-                    EditorGUILayout.EndVertical();
-
-                    DrawListAnEvents();
-                }
-                if (EditorGUI.EndChangeCheck())
-                {
-                    Undo.RecordObject(target, "Malbers Input Inspector");
-                    EditorUtility.SetDirty(target);
                 }
 
-
-
-                serializedObject.ApplyModifiedProperties();
+                DrawListAnEvents();
             }
-            EditorGUILayout.EndVertical();
+            serializedObject.ApplyModifiedProperties();
         }
 
 

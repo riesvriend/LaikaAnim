@@ -14292,7 +14292,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue:
       serializedVersion: 2
-      m_Bits: 3499098385
+      m_Bits: 0
     Variable: {fileID: 11400000, guid: f489db1856e43dc47b175dd125135bdc, type: 2}
   triggerInteraction: 0
   owner: {fileID: 0}
@@ -14360,7 +14360,7 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  debug: 0
+  debug: 1
   impactBehaviour: 2
   rotation: 1
   Penetration: 0.1
@@ -14370,11 +14370,15 @@ MonoBehaviour:
     Variable: {fileID: 0}
   gravity:
     UseConstant: 1
-    ConstantValue: {x: 0, y: 0, z: 0}
+    ConstantValue: {x: 0, y: -9.81, z: 0}
     Variable: {fileID: 0}
   Life:
     UseConstant: 1
     ConstantValue: 10
+    Variable: {fileID: 0}
+  LifeImpact:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   PushMultiplier:
     UseConstant: 1
@@ -14416,7 +14420,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  Editor_Tabs1: 2
+  rb: {fileID: 54129463802585006}
+  m_collider: {fileID: 135405681865087232}
+  Editor_Tabs1: 0
 --- !u!82 &82662544559373652
 AudioSource:
   m_ObjectHideFlags: 0

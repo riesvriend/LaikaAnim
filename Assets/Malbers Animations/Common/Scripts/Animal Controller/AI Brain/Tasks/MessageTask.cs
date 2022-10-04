@@ -15,6 +15,8 @@ namespace MalbersAnimations.Controller.AI
         public ExecuteTask when = ExecuteTask.OnStart;
         public bool UseSendMessage = false;
         public bool SendToChildren = false;
+        [Tooltip("Send the message only when the AI is near the target")]
+        public bool NearTarget = true;
         [Tooltip("The message will be send to the Root of the Hierarchy")]
         public bool SendToRoot = true;
         public MesssageItem[] messages;                                     //Store messages to send it when Enter the animation State
@@ -24,8 +26,11 @@ namespace MalbersAnimations.Controller.AI
         {
             if (when == ExecuteTask.OnStart)
             {
-                Execute_Task(brain);
-                brain.TaskDone(index); //Set Done to this task
+                if (!NearTarget || NearTarget && brain.AIControl.HasArrived)
+                {
+                    Execute_Task(brain);
+                    brain.TaskDone(index); //Set Done to this task
+                }
             }
         }
 
@@ -33,7 +38,8 @@ namespace MalbersAnimations.Controller.AI
         {
             if (when == ExecuteTask.OnUpdate)
             {
-                Execute_Task(brain);
+                if (!NearTarget || NearTarget && brain.AIControl.HasArrived)
+                    Execute_Task(brain);
             }
         }
 
@@ -41,9 +47,12 @@ namespace MalbersAnimations.Controller.AI
         {
             if (when == ExecuteTask.OnExit)
             {
-                Execute_Task(brain);
+                if (!NearTarget || NearTarget && brain.AIControl.HasArrived)
+                {
+                    Execute_Task(brain);
+                    brain.TaskDone(index); //Set Done to this task
+                }
             }
-            brain.TaskDone(index); //Set Done to this task
         }
 
         private void Execute_Task(MAnimalBrain brain)

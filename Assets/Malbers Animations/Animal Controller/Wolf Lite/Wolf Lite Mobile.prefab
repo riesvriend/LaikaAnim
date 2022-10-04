@@ -135,21 +135,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114392047167580918, guid: a578de702f2191b4fa9cdcec1ad493c5,
-        type: 3}
-      propertyPath: inputs.Array.data[1].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5880047466453590465}
-    - target: {fileID: 114392047167580918, guid: a578de702f2191b4fa9cdcec1ad493c5,
-        type: 3}
-      propertyPath: inputs.Array.data[2].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5880047466453590465}
-    - target: {fileID: 114392047167580918, guid: a578de702f2191b4fa9cdcec1ad493c5,
-        type: 3}
-      propertyPath: inputs.Array.data[0].OnInputChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5880047466453590465}
     - target: {fileID: 114494947166302794, guid: a578de702f2191b4fa9cdcec1ad493c5,
         type: 3}
       propertyPath: OnEnableEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument

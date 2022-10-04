@@ -22,7 +22,7 @@ namespace MalbersAnimations
         public float upwardsModifier = 0;
         [Tooltip("Radius of the Explosion")]
         public float radius = 10;
-        [Tooltip("Life of the explosion, after ")]
+        [Tooltip("Life of the explosion, after this time has elapsed the Explosion gameobject will be destroyed ")]
         public float life = 10f;
         [HideInInspector] public int Editor_Tabs1;
 
@@ -38,21 +38,28 @@ namespace MalbersAnimations
             {
                 if (dontHitOwner && Owner && nearbyObj.transform.IsChildOf(Owner.transform)) continue;                              //Don't hit yourself
 
-                nearbyObj.attachedRigidbody?.AddExplosionForce(Force, transform.position, radius, upwardsModifier, forceMode);
+                var rb = nearbyObj.attachedRigidbody;
 
-                var Distance = Vector3.Distance(transform.position, nearbyObj.transform.position);                              //Distance of the collider and the Explosion
+                if (rb != null && rb.useGravity)
+                {
+                    nearbyObj.attachedRigidbody.AddExplosionForce(Force, transform.position, radius, upwardsModifier, forceMode);
+                }
+
+                //Distance of the collider and the Explosion
+                var Distance = Vector3.Distance(transform.position, nearbyObj.bounds.center);     
 
                 if (statModifier.ID != null)
                 {
                     var modif = new StatModifier(statModifier)
                     {
-                        Value = statModifier.Value * (1 - (Distance / radius))                                                   //Do Damage depending the distance from the explosion
+                        Value = statModifier.Value * (1 - (Distance / radius))     //Do Damage depending the distance from the explosion
                     };
 
                     TryDamage(nearbyObj.gameObject, modif);
                     TryInteract(nearbyObj.gameObject);
 
-                    modif.ModifyStat(nearbyObj.GetComponentInParent<Stats>());                              //Use the Damageable comonent instead!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    //Use the Damageable comonent instead!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    modif.ModifyStat(nearbyObj.GetComponentInParent<Stats>());                   
                 }
             }
             Destroy(gameObject, life);

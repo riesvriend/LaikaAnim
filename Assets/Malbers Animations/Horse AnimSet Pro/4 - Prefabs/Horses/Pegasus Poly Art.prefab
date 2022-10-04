@@ -106,7 +106,7 @@ PrefabInstance:
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
@@ -218,6 +218,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
+      propertyPath: speedSets.Array.data[2].m_LockIndex.UseConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
+        type: 3}
+      propertyPath: speedSets.Array.data[2].m_LockSpeed.UseConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
+        type: 3}
       propertyPath: speedSets.Array.data[2].PitchLerpOff.UseConstant
       value: 1
       objectReference: {fileID: 0}
@@ -229,7 +239,7 @@ PrefabInstance:
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
       propertyPath: speedSets.Array.data[2].PitchLerpOn.ConstantValue
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
@@ -243,8 +253,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
+      propertyPath: speedSets.Array.data[2].m_LockIndex.ConstantValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
+        type: 3}
+      propertyPath: speedSets.Array.data[2].m_SprintIndex.UseConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
+        type: 3}
       propertyPath: speedSets.Array.data[2].PitchLerpOff.ConstantValue
-      value: 10
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
+        type: 3}
+      propertyPath: speedSets.Array.data[2].BackSpeedMult.ConstantValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
+        type: 3}
+      propertyPath: speedSets.Array.data[2].m_SprintIndex.ConstantValue
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
@@ -454,17 +484,17 @@ PrefabInstance:
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
       propertyPath: speedSets.Array.data[2].Speeds.Array.data[1].strafeSpeed.ConstantValue
-      value: 7.5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
       propertyPath: speedSets.Array.data[2].Speeds.Array.data[0].lerpAnimator.ConstantValue
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
       propertyPath: speedSets.Array.data[2].Speeds.Array.data[0].lerpPosition.ConstantValue
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
@@ -474,12 +504,12 @@ PrefabInstance:
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
       propertyPath: speedSets.Array.data[2].Speeds.Array.data[1].lerpAnimator.ConstantValue
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}
       propertyPath: speedSets.Array.data[2].Speeds.Array.data[1].lerpPosition.ConstantValue
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3733572446583450217, guid: 6865107d925eac74eb4e4f6fa0aea5bb,
         type: 3}

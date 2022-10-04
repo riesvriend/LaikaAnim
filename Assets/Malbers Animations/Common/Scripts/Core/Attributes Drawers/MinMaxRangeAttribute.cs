@@ -59,7 +59,7 @@ namespace MalbersAnimations
             {
                 float rangeMin = ranges[0].Min;
                 float rangeMax = ranges[0].Max;
-                const float rangeBoundsLabelWidth = 50;
+                const float rangeBoundsLabelWidth = 35;
 
                 var minRect = new Rect(position);
                 minRect.width = rangeBoundsLabelWidth;

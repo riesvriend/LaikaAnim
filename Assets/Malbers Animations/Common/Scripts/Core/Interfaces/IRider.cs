@@ -24,6 +24,27 @@
 
         /// <summary>Animal Input Script</summary>
         IInputSource MountInput { get; }
+
+        /// <summary>Notify everyone listening what the rider has been doing</summary>
+        System.Action<RiderAction> RiderStatus { get; set; }
+
+        /// <summary>Set the Rein to the Right Hand. True: Rein in Hand, False: Rein is not in Hand (Using a Weapon)</summary>
+        void ReinRightHand(bool value);
+
+        /// <summary>Set the Rein to the Left Hand. True: Rein in Hand, False: Rein is not in Hand (Using a Weapon)</summary>
+        void ReinLeftHand(bool value);
+    }
+
+    public enum RiderAction 
+    {
+        StartMount,
+        EndMount,
+        StartDismount,
+        EndDismount,
+        InMountTrigger,
+        OutMountTrigger,
+        CallMount,
+        CallMountStop
     }
 }
 

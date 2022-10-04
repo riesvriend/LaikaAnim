@@ -64,13 +64,13 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Close
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -138,7 +138,7 @@ AnimatorStateTransition:
   m_CanTransitionToSelf: 1
 --- !u!1102 &1102273478158692810
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -164,7 +164,7 @@ AnimatorState:
   m_TimeParameter: 
 --- !u!1102 &1102486285686746556
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -190,7 +190,7 @@ AnimatorState:
   m_TimeParameter: 
 --- !u!1102 &1102845000978510110
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -216,7 +216,7 @@ AnimatorState:
   m_TimeParameter: 
 --- !u!1107 &1107918781110021588
 AnimatorStateMachine:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -228,7 +228,7 @@ AnimatorStateMachine:
     m_Position: {x: 370, y: 70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102845000978510110}
-    m_Position: {x: 370, y: 130, z: 0}
+    m_Position: {x: 370, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102486285686746556}
     m_Position: {x: 360, y: 180, z: 0}

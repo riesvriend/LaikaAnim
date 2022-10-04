@@ -11,10 +11,10 @@ namespace MalbersAnimations.Controller.Reactions
         public StateID ID;
 
         [Tooltip("This will change the value of the Exit Status parameter on the Animator. Useful to use different animations when Exiting a State")]
-        [Hide("ShowExitStatus",true,false)]
+        [Hide("ShowExitStatus",false)]
         public int ExitStatus;
 
-        [Hide("ShowEnterStatus", true, false)]
+        [Hide("ShowEnterStatus",  false)]
         [Tooltip("This will change the value of the Enter Status parameter on the Animator. Useful to use different animations when Activating a State")]
         public int EnterStatus;
 

@@ -37,15 +37,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4827664309722362, guid: 2b520dabbaa6948488599e7446228b8a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4827664309722362, guid: 2b520dabbaa6948488599e7446228b8a, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4827664309722362, guid: 2b520dabbaa6948488599e7446228b8a, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4827664309722362, guid: 2b520dabbaa6948488599e7446228b8a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -92,6 +92,26 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.3
       objectReference: {fileID: 0}
+    - target: {fileID: 108367078376698630, guid: 2b520dabbaa6948488599e7446228b8a,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.w
+      value: 4.040529e-19
+      objectReference: {fileID: 0}
+    - target: {fileID: 108367078376698630, guid: 2b520dabbaa6948488599e7446228b8a,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.x
+      value: 7.7742696e-25
+      objectReference: {fileID: 0}
+    - target: {fileID: 108367078376698630, guid: 2b520dabbaa6948488599e7446228b8a,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.y
+      value: NaN
+      objectReference: {fileID: 0}
+    - target: {fileID: 108367078376698630, guid: 2b520dabbaa6948488599e7446228b8a,
+        type: 3}
+      propertyPath: m_BoundingSphereOverride.z
+      value: 39032810
+      objectReference: {fileID: 0}
     - target: {fileID: 199025635967851352, guid: 2b520dabbaa6948488599e7446228b8a,
         type: 3}
       propertyPath: m_Materials.Array.size
@@ -110,12 +130,12 @@ PrefabInstance:
     - target: {fileID: 6567566901272244016, guid: 2b520dabbaa6948488599e7446228b8a,
         type: 3}
       propertyPath: debug
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6567566901272244016, guid: 2b520dabbaa6948488599e7446228b8a,
         type: 3}
       propertyPath: Editor_Tabs1
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b520dabbaa6948488599e7446228b8a, type: 3}

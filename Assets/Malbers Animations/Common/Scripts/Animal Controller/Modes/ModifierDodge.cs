@@ -13,9 +13,8 @@ namespace MalbersAnimations.Controller
 
         public DirectionDodge direction = DirectionDodge.EightSides;
 
-        /// <summary>Apply Extra movement to the Dodge</summary>
         [Tooltip("Apply Extra movement to the Dodge")]
-        public BoolReference MoveDodge = new BoolReference(true);
+        public bool MoveDodge = new BoolReference(true);
 
         /// <summary>How Much it will mode if Move Dodge is enabled</summary>
         [Tooltip("How Much it will mode if Move Dodge is enabled")]
@@ -36,11 +35,11 @@ namespace MalbersAnimations.Controller
             DodgeDirection = DodgeDirection.normalized;
 
             mode.AbilityIndex = Ability; //Sent to the Mode which ability to play
-
-
             //Debug.Log("Ability"+Ability);
             //Debug.Log("MovementAxis" + MovementAxis);
         }
+
+      
 
         private int MovewithDirection(Mode mode)
         {
@@ -50,6 +49,8 @@ namespace MalbersAnimations.Controller
             float angle = Vector3.Angle(mode.Animal.Forward, AxisRaw);          //Get The angle
             bool left = Vector3.Dot(mode.Animal.Right, AxisRaw) < 0;            //Calculate which directions comes the hit Left or right
 
+
+            
 
             angle = !left ? angle : angle * -1;
 

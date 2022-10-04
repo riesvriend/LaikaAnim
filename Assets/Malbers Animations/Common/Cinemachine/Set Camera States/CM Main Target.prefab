@@ -44,13 +44,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c40057955ac3324f9b900fad19f1651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Delayed: 0
-  RepeatTime: 0
+  Delayed:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
+  RepeatTime:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   Repeat: 0
   onEnable:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 774c7acaf3bb1304fb314cd4bd618fcb, type: 2}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: Invoke
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 5907813687048982312}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: 1eadc0ff250263642ad75526ef2b828e, type: 2}
+        m_TargetAssemblyTypeName: MalbersAnimations.Events.MEvent, Assembly-CSharp
         m_MethodName: Invoke
         m_Mode: 2
         m_Arguments:

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Debug
   m_EditorClassIdentifier: 
   Description: This is used for Some Quick Debug.Log
-  debug: 1
+  debug: 0
   m_int:
     UseConstant: 1
     ConstantValue: 0

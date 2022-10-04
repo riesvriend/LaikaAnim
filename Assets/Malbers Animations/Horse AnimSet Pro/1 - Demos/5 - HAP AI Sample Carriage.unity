@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.48499686, g: 0.5915705, b: 0.65521884, a: 1}
+  m_IndirectSpecularColor: {r: 0.4849924, g: 0.5915705, b: 0.65520734, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -720,7 +720,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7772021, y: 1}
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -744,6 +744,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &977561005 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114928957757300884, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1753305382}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98f218fe00a28db408b293bc322d5dd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1029658337
 GameObject:
   m_ObjectHideFlags: 0
@@ -1248,6 +1260,273 @@ Transform:
   m_Father: {fileID: 1605542494}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
+--- !u!1001 &1753305382
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1336854007389648, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
+      propertyPath: m_Name
+      value: Game Settings
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320339486710510, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320339486710510, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.890954
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320339486710510, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.4709313
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320339486710510, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.2205677
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320339486710510, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320339486710510, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320339486710510, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320339486710510, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320339486710510, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320339486710510, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4320339486710510, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[0].key
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[1].key
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].key
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].key
+      value: 325
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[0].name
+      value: Freeze
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[1].name
+      value: Freeze
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].name
+      value: Freeze
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].name
+      value: SlowMo
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[0].input
+      value: Freeze
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[1].input
+      value: Freeze
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].input
+      value: Freeze
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].input
+      value: SlowMo
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].GetPressed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].GetPressed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].DoubleTapTime
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].LongPressTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].DoubleTapTime
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].LongPressTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].ResetOnDisable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].ResetOnDisable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].active.UseConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].active.UseConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].active.ConstantValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].active.ConstantValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].OnInputDown.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].OnInputDown.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 977561005}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 977561005}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[0].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Freeze_Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[1].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Freeze_Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Freeze_Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Slow_Motion
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[0].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MalbersAnimations.SlowMotion, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[1].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MalbersAnimations.SlowMotion, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[2].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MalbersAnimations.SlowMotion, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8866504723087273877, guid: ebb6ec3cc71da1644a3501639b83f4a9,
+        type: 3}
+      propertyPath: inputs.Array.data[3].OnInputDown.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MalbersAnimations.SlowMotion, Assembly-CSharp
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ebb6ec3cc71da1644a3501639b83f4a9, type: 3}
 --- !u!1 &1823805983
 GameObject:
   m_ObjectHideFlags: 0
@@ -9555,6 +9834,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Meshes:
   - Name: Fabric
+    Active: 1
     meshes:
     - {fileID: 4217503740401199}
     - {fileID: 0}
@@ -9563,6 +9843,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - Name: Stear
+    Active: 1
     meshes:
     - {fileID: 4894298807709717}
     - {fileID: 4547061021200121}
@@ -9571,6 +9852,14 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   showMeshesList: 1
+  Pinned:
+    Name: NameHere
+    Active: 1
+    meshes: []
+    Current: 0
+    OnActiveMesh:
+      m_PersistentCalls:
+        m_Calls: []
   random: 0
 --- !u!114 &114232223728158907
 MonoBehaviour:
@@ -10257,6 +10546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Meshes:
   - Name: Saddle
+    Active: 1
     meshes:
     - {fileID: 4553201268095089}
     - {fileID: 0}
@@ -10265,6 +10555,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - Name: Armor
+    Active: 1
     meshes:
     - {fileID: 4274141771731609}
     - {fileID: 0}
@@ -10273,6 +10564,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - Name: Mane
+    Active: 1
     meshes:
     - {fileID: 4809278383065171}
     - {fileID: 0}
@@ -10281,6 +10573,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - Name: Carriage Saddle
+    Active: 1
     meshes:
     - {fileID: 4051794066539627}
     - {fileID: 0}
@@ -10289,6 +10582,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - Name: Reins
+    Active: 1
     meshes:
     - {fileID: 4289947430693341}
     - {fileID: 0}
@@ -10297,6 +10591,14 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   showMeshesList: 1
+  Pinned:
+    Name: NameHere
+    Active: 1
+    meshes: []
+    Current: 0
+    OnActiveMesh:
+      m_PersistentCalls:
+        m_Calls: []
   random: 0
 --- !u!114 &114474845547817663
 MonoBehaviour:
@@ -10328,37 +10630,1017 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ee1fbf4dd84c7d4faf7900812b348a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showPivots: 1
   PivotPosDir: 0
-  showStates: 1
-  ModeShowEvents: 0
-  Editor_Tabs1: 4
-  Editor_Tabs2: 0
-  Editor_EventTabs: 0
   SelectedMode: 0
   SelectedState: 0
+  SelectedStance: 0
+  ShowStateInInspector: 0
+  Editor_Tabs1: 4
+  Mode_Tabs1: 0
+  Editor_Tabs2: 0
+  Ability_Tabs: 0
+  Editor_EventTabs: 0
+  showPivots: 1
   debugStates: 0
   debugStances: 0
   debugModes: 0
-  ShowAnimParametersOptional: 1
-  ShowAnimParameters: 1
-  ShowLockInputs: 0
-  ShowMisc: 0
-  ShowStateInInspector: 0
   debugGizmos: 0
-  ShowMovement: 0
-  ShowGround: 1
-  showGeneral: 1
-  showExposedVariables: 0
-  showReferences: 1
-  showGravity: 1
-  CloneStates: 1
-  NoParent: 1
   states:
   - {fileID: 11400000, guid: 376f4ba2e1c978545b3ac17f142a79e9, type: 2}
   - {fileID: 11400000, guid: 03950c42a6999484db7adc01ce0fe499, type: 2}
   - {fileID: 11400000, guid: d023954a521cc314a919fa6897466a81, type: 2}
   - {fileID: 11400000, guid: 03069903821e2404aa8d8fd4bfb6aa4b, type: 2}
+  Stances: []
+  modes:
+  - active: 1
+    ignoreLowerModes: 0
+    hasCoolDown: 0
+    Input: Attack1
+    ID: {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
+    modifier: {fileID: 0}
+    CoolDown:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    Abilities:
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Front Legs
+      Index:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Back Legs
+      Index:
+        UseConstant: 1
+        ConstantValue: 2
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Back Leg
+      Index:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    m_AbilityIndex:
+      UseConstant: 1
+      ConstantValue: -99
+      Variable: {fileID: 0}
+    DefaultIndex:
+      UseConstant: 1
+      ConstantValue: -99
+      Variable: {fileID: 0}
+    OnAbilityIndex:
+      m_PersistentCalls:
+        m_Calls: []
+    ResetToDefault: 0
+    allowRotation: 0
+    allowMovement: 0
+    OnEnterMode:
+      m_PersistentCalls:
+        m_Calls: []
+    OnExitMode:
+      m_PersistentCalls:
+        m_Calls: []
+    m_Source: {fileID: 0}
+    ActivationTime: 0
+  - active: 1
+    ignoreLowerModes: 0
+    hasCoolDown: 0
+    Input: 
+    ID: {fileID: 11400000, guid: b04409080ae7e3c4fa645d8c67b40424, type: 2}
+    modifier: {fileID: 11400000, guid: 6f757d5c1f4fbb941906a3f77727e4bd, type: 2}
+    CoolDown:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    Abilities:
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Front Right
+      Index:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Right
+      Index:
+        UseConstant: 1
+        ConstantValue: 2
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Back Right
+      Index:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Front Left
+      Index:
+        UseConstant: 1
+        ConstantValue: 4
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Left
+      Index:
+        UseConstant: 1
+        ConstantValue: 5
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Back Left
+      Index:
+        UseConstant: 1
+        ConstantValue: 6
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    m_AbilityIndex:
+      UseConstant: 1
+      ConstantValue: -99
+      Variable: {fileID: 0}
+    DefaultIndex:
+      UseConstant: 1
+      ConstantValue: -99
+      Variable: {fileID: 0}
+    OnAbilityIndex:
+      m_PersistentCalls:
+        m_Calls: []
+    ResetToDefault: 0
+    allowRotation: 0
+    allowMovement: 0
+    OnEnterMode:
+      m_PersistentCalls:
+        m_Calls: []
+    OnExitMode:
+      m_PersistentCalls:
+        m_Calls: []
+    m_Source: {fileID: 0}
+    ActivationTime: 0
+  - active: 1
+    ignoreLowerModes: 0
+    hasCoolDown: 0
+    Input: Action
+    ID: {fileID: 11400000, guid: 4dc5ca673dc60d346a62529c8a9bd8ff, type: 2}
+    modifier: {fileID: 0}
+    CoolDown:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    Abilities:
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Eat
+      Index:
+        UseConstant: 1
+        ConstantValue: 2
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Drink
+      Index:
+        UseConstant: 1
+        ConstantValue: 7
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Sleep
+      Index:
+        UseConstant: 1
+        ConstantValue: 6
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    m_AbilityIndex:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    DefaultIndex:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    OnAbilityIndex:
+      m_PersistentCalls:
+        m_Calls: []
+    ResetToDefault: 0
+    allowRotation: 0
+    allowMovement: 0
+    OnEnterMode:
+      m_PersistentCalls:
+        m_Calls: []
+    OnExitMode:
+      m_PersistentCalls:
+        m_Calls: []
+    m_Source: {fileID: 0}
+    ActivationTime: 0
+  CloneStates: 1
+  NoParent: 1
   OverrideStartState: {fileID: 0}
   groundLayer:
     UseConstant: 1
@@ -10373,6 +11655,10 @@ MonoBehaviour:
   AnimatorSpeed:
     UseConstant: 1
     ConstantValue: 1.05
+    Variable: {fileID: 0}
+  m_TimeMultiplier:
+    UseConstant: 1
+    ConstantValue: 1
     Variable: {fileID: 0}
   alwaysForward:
     UseConstant: 1
@@ -10462,967 +11748,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  modes:
-  - active: 1
-    ignoreLowerModes: 0
-    Input: Attack1
-    ID: {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
-    modifier: {fileID: 0}
-    CoolDown:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    Abilities:
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Front Legs
-      Index:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Back Legs
-      Index:
-        UseConstant: 1
-        ConstantValue: 2
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Back Leg
-      Index:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    m_AbilityIndex:
-      UseConstant: 1
-      ConstantValue: -99
-      Variable: {fileID: 0}
-    DefaultIndex:
-      UseConstant: 1
-      ConstantValue: -99
-      Variable: {fileID: 0}
-    OnAbilityIndex:
-      m_PersistentCalls:
-        m_Calls: []
-    ResetToDefault: 0
-    allowRotation: 0
-    allowMovement: 0
-    OnEnterMode:
-      m_PersistentCalls:
-        m_Calls: []
-    OnExitMode:
-      m_PersistentCalls:
-        m_Calls: []
-    m_Source: {fileID: 0}
-    ActivationTime: 0
-  - active: 1
-    ignoreLowerModes: 0
-    Input: 
-    ID: {fileID: 11400000, guid: b04409080ae7e3c4fa645d8c67b40424, type: 2}
-    modifier: {fileID: 11400000, guid: 6f757d5c1f4fbb941906a3f77727e4bd, type: 2}
-    CoolDown:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    Abilities:
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Front Right
-      Index:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Right
-      Index:
-        UseConstant: 1
-        ConstantValue: 2
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Back Right
-      Index:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Front Left
-      Index:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Left
-      Index:
-        UseConstant: 1
-        ConstantValue: 5
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Back Left
-      Index:
-        UseConstant: 1
-        ConstantValue: 6
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    m_AbilityIndex:
-      UseConstant: 1
-      ConstantValue: -99
-      Variable: {fileID: 0}
-    DefaultIndex:
-      UseConstant: 1
-      ConstantValue: -99
-      Variable: {fileID: 0}
-    OnAbilityIndex:
-      m_PersistentCalls:
-        m_Calls: []
-    ResetToDefault: 0
-    allowRotation: 0
-    allowMovement: 0
-    OnEnterMode:
-      m_PersistentCalls:
-        m_Calls: []
-    OnExitMode:
-      m_PersistentCalls:
-        m_Calls: []
-    m_Source: {fileID: 0}
-    ActivationTime: 0
-  - active: 1
-    ignoreLowerModes: 0
-    Input: Action
-    ID: {fileID: 11400000, guid: 4dc5ca673dc60d346a62529c8a9bd8ff, type: 2}
-    modifier: {fileID: 0}
-    CoolDown:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    Abilities:
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Eat
-      Index:
-        UseConstant: 1
-        ConstantValue: 2
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Drink
-      Index:
-        UseConstant: 1
-        ConstantValue: 7
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Sleep
-      Index:
-        UseConstant: 1
-        ConstantValue: 6
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    m_AbilityIndex:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    DefaultIndex:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    OnAbilityIndex:
-      m_PersistentCalls:
-        m_Calls: []
-    ResetToDefault: 0
-    allowRotation: 0
-    allowMovement: 0
-    OnEnterMode:
-      m_PersistentCalls:
-        m_Calls: []
-    OnExitMode:
-      m_PersistentCalls:
-        m_Calls: []
-    m_Source: {fileID: 0}
-    ActivationTime: 0
   sleep:
     UseConstant: 1
     ConstantValue: 0
@@ -11505,6 +11830,18 @@ MonoBehaviour:
     TopIndex:
       UseConstant: 1
       ConstantValue: 4
+      Variable: {fileID: 0}
+    m_SprintIndex:
+      UseConstant: 1
+      ConstantValue: 10
+      Variable: {fileID: 0}
+    m_LockIndex:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    m_LockSpeed:
+      UseConstant: 1
+      ConstantValue: 0
       Variable: {fileID: 0}
     BackSpeedMult:
       UseConstant: 1
@@ -11850,6 +12187,9 @@ MonoBehaviour:
   OnAnimationChange:
     m_PersistentCalls:
       m_Calls: []
+  OnMaxSlopeReached:
+    m_PersistentCalls:
+      m_Calls: []
   OnInputLocked:
     m_PersistentCalls:
       m_Calls: []
@@ -11940,7 +12280,6 @@ MonoBehaviour:
   m_Random: Random
   m_DeltaAngle: DeltaAngle
   m_Strafe: Strafe
-  m_strafeAngle: StrafeAngle
 --- !u!114 &114494854042689723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12141,37 +12480,1017 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ee1fbf4dd84c7d4faf7900812b348a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showPivots: 1
   PivotPosDir: 0
-  showStates: 1
-  ModeShowEvents: 0
-  Editor_Tabs1: 4
-  Editor_Tabs2: 0
-  Editor_EventTabs: 0
   SelectedMode: 0
   SelectedState: 0
+  SelectedStance: 0
+  ShowStateInInspector: 0
+  Editor_Tabs1: 4
+  Mode_Tabs1: 0
+  Editor_Tabs2: 0
+  Ability_Tabs: 0
+  Editor_EventTabs: 0
+  showPivots: 1
   debugStates: 0
   debugStances: 0
   debugModes: 0
-  ShowAnimParametersOptional: 1
-  ShowAnimParameters: 1
-  ShowLockInputs: 0
-  ShowMisc: 0
-  ShowStateInInspector: 0
   debugGizmos: 0
-  ShowMovement: 0
-  ShowGround: 1
-  showGeneral: 1
-  showExposedVariables: 0
-  showReferences: 1
-  showGravity: 1
-  CloneStates: 1
-  NoParent: 1
   states:
   - {fileID: 11400000, guid: 376f4ba2e1c978545b3ac17f142a79e9, type: 2}
   - {fileID: 11400000, guid: 03950c42a6999484db7adc01ce0fe499, type: 2}
   - {fileID: 11400000, guid: d023954a521cc314a919fa6897466a81, type: 2}
   - {fileID: 11400000, guid: 03069903821e2404aa8d8fd4bfb6aa4b, type: 2}
+  Stances: []
+  modes:
+  - active: 1
+    ignoreLowerModes: 0
+    hasCoolDown: 0
+    Input: Attack1
+    ID: {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
+    modifier: {fileID: 0}
+    CoolDown:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    Abilities:
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Front Legs
+      Index:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Back Legs
+      Index:
+        UseConstant: 1
+        ConstantValue: 2
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Back Leg
+      Index:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    m_AbilityIndex:
+      UseConstant: 1
+      ConstantValue: -99
+      Variable: {fileID: 0}
+    DefaultIndex:
+      UseConstant: 1
+      ConstantValue: -1
+      Variable: {fileID: 0}
+    OnAbilityIndex:
+      m_PersistentCalls:
+        m_Calls: []
+    ResetToDefault: 0
+    allowRotation: 0
+    allowMovement: 0
+    OnEnterMode:
+      m_PersistentCalls:
+        m_Calls: []
+    OnExitMode:
+      m_PersistentCalls:
+        m_Calls: []
+    m_Source: {fileID: 0}
+    ActivationTime: 0
+  - active: 1
+    ignoreLowerModes: 0
+    hasCoolDown: 0
+    Input: 
+    ID: {fileID: 11400000, guid: b04409080ae7e3c4fa645d8c67b40424, type: 2}
+    modifier: {fileID: 11400000, guid: 6f757d5c1f4fbb941906a3f77727e4bd, type: 2}
+    CoolDown:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    Abilities:
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Front Right
+      Index:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Right
+      Index:
+        UseConstant: 1
+        ConstantValue: 2
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Back Right
+      Index:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Front Left
+      Index:
+        UseConstant: 1
+        ConstantValue: 4
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Left
+      Index:
+        UseConstant: 1
+        ConstantValue: 5
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Back Left
+      Index:
+        UseConstant: 1
+        ConstantValue: 6
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    m_AbilityIndex:
+      UseConstant: 1
+      ConstantValue: -99
+      Variable: {fileID: 0}
+    DefaultIndex:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    OnAbilityIndex:
+      m_PersistentCalls:
+        m_Calls: []
+    ResetToDefault: 0
+    allowRotation: 0
+    allowMovement: 0
+    OnEnterMode:
+      m_PersistentCalls:
+        m_Calls: []
+    OnExitMode:
+      m_PersistentCalls:
+        m_Calls: []
+    m_Source: {fileID: 0}
+    ActivationTime: 0
+  - active: 1
+    ignoreLowerModes: 0
+    hasCoolDown: 0
+    Input: Action
+    ID: {fileID: 11400000, guid: 4dc5ca673dc60d346a62529c8a9bd8ff, type: 2}
+    modifier: {fileID: 0}
+    CoolDown:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    Abilities:
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Eat
+      Index:
+        UseConstant: 1
+        ConstantValue: 2
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Drink
+      Index:
+        UseConstant: 1
+        ConstantValue: 7
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    - active:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Name: Sleep
+      Index:
+        UseConstant: 1
+        ConstantValue: 6
+        Variable: {fileID: 0}
+      Input:
+        UseConstant: 1
+        ConstantValue: 
+        Variable: {fileID: 0}
+      audioClip:
+        UseConstant: 1
+        ConstantValue: {fileID: 0}
+        Variable: {fileID: 0}
+      ClipDelay:
+        UseConstant: 1
+        ConstantValue: 0
+        Variable: {fileID: 0}
+      audioSource: {fileID: 0}
+      m_stopAudio: 1
+      modifier: {fileID: 0}
+      Limits:
+        affect: 0
+        affectStates: []
+        affect_Stance: 0
+        Stances: []
+        TransitionFrom: 
+      Status: 0
+      abilityTime:
+        UseConstant: 1
+        ConstantValue: 3
+        Variable: {fileID: 0}
+      ChargeCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      ChargeValue:
+        UseConstant: 1
+        ConstantValue: 1
+        Variable: {fileID: 0}
+      Release: 0
+      AdditivePosition: 1
+      OnEnter:
+        m_PersistentCalls:
+          m_Calls: []
+      OnExit:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCharged:
+        m_PersistentCalls:
+          m_Calls: []
+    m_AbilityIndex:
+      UseConstant: 1
+      ConstantValue: -99
+      Variable: {fileID: 0}
+    DefaultIndex:
+      UseConstant: 1
+      ConstantValue: 0
+      Variable: {fileID: 0}
+    OnAbilityIndex:
+      m_PersistentCalls:
+        m_Calls: []
+    ResetToDefault: 0
+    allowRotation: 0
+    allowMovement: 0
+    OnEnterMode:
+      m_PersistentCalls:
+        m_Calls: []
+    OnExitMode:
+      m_PersistentCalls:
+        m_Calls: []
+    m_Source: {fileID: 0}
+    ActivationTime: 0
+  CloneStates: 1
+  NoParent: 1
   OverrideStartState: {fileID: 0}
   groundLayer:
     UseConstant: 1
@@ -12184,6 +13503,10 @@ MonoBehaviour:
   currentStance: {fileID: 0}
   defaultStance: {fileID: 0}
   AnimatorSpeed:
+    UseConstant: 1
+    ConstantValue: 1
+    Variable: {fileID: 0}
+  m_TimeMultiplier:
     UseConstant: 1
     ConstantValue: 1
     Variable: {fileID: 0}
@@ -12275,967 +13598,6 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
-  modes:
-  - active: 1
-    ignoreLowerModes: 0
-    Input: Attack1
-    ID: {fileID: 11400000, guid: 1286867ad3c4cdd4baacac3373aff92c, type: 2}
-    modifier: {fileID: 0}
-    CoolDown:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    Abilities:
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Front Legs
-      Index:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Back Legs
-      Index:
-        UseConstant: 1
-        ConstantValue: 2
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Back Leg
-      Index:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    m_AbilityIndex:
-      UseConstant: 1
-      ConstantValue: -99
-      Variable: {fileID: 0}
-    DefaultIndex:
-      UseConstant: 1
-      ConstantValue: -1
-      Variable: {fileID: 0}
-    OnAbilityIndex:
-      m_PersistentCalls:
-        m_Calls: []
-    ResetToDefault: 0
-    allowRotation: 0
-    allowMovement: 0
-    OnEnterMode:
-      m_PersistentCalls:
-        m_Calls: []
-    OnExitMode:
-      m_PersistentCalls:
-        m_Calls: []
-    m_Source: {fileID: 0}
-    ActivationTime: 0
-  - active: 1
-    ignoreLowerModes: 0
-    Input: 
-    ID: {fileID: 11400000, guid: b04409080ae7e3c4fa645d8c67b40424, type: 2}
-    modifier: {fileID: 11400000, guid: 6f757d5c1f4fbb941906a3f77727e4bd, type: 2}
-    CoolDown:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    Abilities:
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Front Right
-      Index:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Right
-      Index:
-        UseConstant: 1
-        ConstantValue: 2
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Back Right
-      Index:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Front Left
-      Index:
-        UseConstant: 1
-        ConstantValue: 4
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Left
-      Index:
-        UseConstant: 1
-        ConstantValue: 5
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Back Left
-      Index:
-        UseConstant: 1
-        ConstantValue: 6
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    m_AbilityIndex:
-      UseConstant: 1
-      ConstantValue: -99
-      Variable: {fileID: 0}
-    DefaultIndex:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    OnAbilityIndex:
-      m_PersistentCalls:
-        m_Calls: []
-    ResetToDefault: 0
-    allowRotation: 0
-    allowMovement: 0
-    OnEnterMode:
-      m_PersistentCalls:
-        m_Calls: []
-    OnExitMode:
-      m_PersistentCalls:
-        m_Calls: []
-    m_Source: {fileID: 0}
-    ActivationTime: 0
-  - active: 1
-    ignoreLowerModes: 0
-    Input: Action
-    ID: {fileID: 11400000, guid: 4dc5ca673dc60d346a62529c8a9bd8ff, type: 2}
-    modifier: {fileID: 0}
-    CoolDown:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    Abilities:
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Eat
-      Index:
-        UseConstant: 1
-        ConstantValue: 2
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Drink
-      Index:
-        UseConstant: 1
-        ConstantValue: 7
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    - active:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      Name: Sleep
-      Index:
-        UseConstant: 1
-        ConstantValue: 6
-        Variable: {fileID: 0}
-      Input:
-        UseConstant: 1
-        ConstantValue: 
-        Variable: {fileID: 0}
-      audioClip:
-        UseConstant: 1
-        ConstantValue: {fileID: 0}
-        Variable: {fileID: 0}
-      ClipDelay:
-        UseConstant: 1
-        ConstantValue: 0
-        Variable: {fileID: 0}
-      audioSource: {fileID: 0}
-      m_stopAudio: 1
-      modifier: {fileID: 0}
-      Limits:
-        affect: 0
-        affectStates: []
-        affect_Stance: 0
-        Stances: []
-        TransitionFrom: 
-      Status: 0
-      abilityTime:
-        UseConstant: 1
-        ConstantValue: 3
-        Variable: {fileID: 0}
-      ChargeCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      ChargeValue:
-        UseConstant: 1
-        ConstantValue: 1
-        Variable: {fileID: 0}
-      OnEnter:
-        m_PersistentCalls:
-          m_Calls: []
-      OnExit:
-        m_PersistentCalls:
-          m_Calls: []
-      OnCharged:
-        m_PersistentCalls:
-          m_Calls: []
-    m_AbilityIndex:
-      UseConstant: 1
-      ConstantValue: -99
-      Variable: {fileID: 0}
-    DefaultIndex:
-      UseConstant: 1
-      ConstantValue: 0
-      Variable: {fileID: 0}
-    OnAbilityIndex:
-      m_PersistentCalls:
-        m_Calls: []
-    ResetToDefault: 0
-    allowRotation: 0
-    allowMovement: 0
-    OnEnterMode:
-      m_PersistentCalls:
-        m_Calls: []
-    OnExitMode:
-      m_PersistentCalls:
-        m_Calls: []
-    m_Source: {fileID: 0}
-    ActivationTime: 0
   sleep:
     UseConstant: 1
     ConstantValue: 0
@@ -13318,6 +13680,18 @@ MonoBehaviour:
     TopIndex:
       UseConstant: 1
       ConstantValue: 4
+      Variable: {fileID: 0}
+    m_SprintIndex:
+      UseConstant: 1
+      ConstantValue: 10
+      Variable: {fileID: 0}
+    m_LockIndex:
+      UseConstant: 1
+      ConstantValue: 1
+      Variable: {fileID: 0}
+    m_LockSpeed:
+      UseConstant: 1
+      ConstantValue: 0
       Variable: {fileID: 0}
     BackSpeedMult:
       UseConstant: 1
@@ -13663,6 +14037,9 @@ MonoBehaviour:
   OnAnimationChange:
     m_PersistentCalls:
       m_Calls: []
+  OnMaxSlopeReached:
+    m_PersistentCalls:
+      m_Calls: []
   OnInputLocked:
     m_PersistentCalls:
       m_Calls: []
@@ -13728,7 +14105,6 @@ MonoBehaviour:
   m_Random: Random
   m_DeltaAngle: DeltaAngle
   m_Strafe: Strafe
-  m_strafeAngle: StrafeAngle
 --- !u!114 &114625207396105283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13839,6 +14215,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: 13aebbaec2ec2004290a70fdf90eb6a6, type: 2}
     useInt: 1
     useFloat: 0
@@ -13934,6 +14311,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: 6a983ea4cab3ed347a77e3a1ec51a4ef, type: 2}
     useInt: 1
     useFloat: 0
@@ -14054,6 +14432,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: e0d2989fc8db01d41b4c1ae79bba109c, type: 2}
     useInt: 0
     useFloat: 0
@@ -14137,6 +14516,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: 8e5a46a73f5b5b54294d476418b3c09f, type: 2}
     useInt: 0
     useFloat: 0
@@ -14207,6 +14587,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: 6db0a93f790768f4abb1ada45c5ea4ca, type: 2}
     useInt: 0
     useFloat: 0
@@ -14289,6 +14670,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: 7103f9e29505e9e43bf1027b033f56b2, type: 2}
     useInt: 0
     useFloat: 0
@@ -14359,6 +14741,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
 --- !u!114 &114686292089595235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14799,6 +15182,7 @@ MonoBehaviour:
         m_Calls: []
     DoubleTapTime: 0.3
     LongPressTime: 0.5
+    SmoothDecrease: 0
     OnInputPressed:
       m_PersistentCalls:
         m_Calls: []
@@ -14852,6 +15236,7 @@ MonoBehaviour:
         m_Calls: []
     DoubleTapTime: 0.3
     LongPressTime: 0.5
+    SmoothDecrease: 0
     OnInputPressed:
       m_PersistentCalls:
         m_Calls: []
@@ -14893,6 +15278,7 @@ MonoBehaviour:
         m_Calls: []
     DoubleTapTime: 0.3
     LongPressTime: 0.5
+    SmoothDecrease: 0
     OnInputPressed:
       m_PersistentCalls:
         m_Calls: []
@@ -14946,6 +15332,7 @@ MonoBehaviour:
         m_Calls: []
     DoubleTapTime: 0.3
     LongPressTime: 0.5
+    SmoothDecrease: 0
     OnInputPressed:
       m_PersistentCalls:
         m_Calls: []
@@ -14999,13 +15386,30 @@ MonoBehaviour:
         m_Calls: []
     DoubleTapTime: 0.3
     LongPressTime: 0.5
+    SmoothDecrease: 0
     OnInputPressed:
       m_PersistentCalls:
         m_Calls: []
     OnPressedNormalized:
       m_PersistentCalls:
         m_Calls: []
+  AllInputs: []
+  actionMaps: []
+  ActiveMapIndex: 0
+  DefaultMap:
+    name:
+      UseConstant: 1
+      ConstantValue: New Map
+      Variable: {fileID: 0}
+    inputs: []
+  ActiveMap:
+    name:
+      UseConstant: 1
+      ConstantValue: New Map
+      Variable: {fileID: 0}
+    inputs: []
   showInputEvents: 0
+  ResetOnFocusLost: 0
   OnInputEnabled:
     m_PersistentCalls:
       m_Calls: []
@@ -15312,6 +15716,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Meshes:
   - Name: Saddle
+    Active: 1
     meshes:
     - {fileID: 4019303001685837}
     - {fileID: 0}
@@ -15320,6 +15725,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - Name: Armor
+    Active: 1
     meshes:
     - {fileID: 4422228215492799}
     - {fileID: 0}
@@ -15328,6 +15734,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - Name: Mane
+    Active: 1
     meshes:
     - {fileID: 4971804555978963}
     - {fileID: 0}
@@ -15336,6 +15743,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - Name: Carriage Saddle
+    Active: 1
     meshes:
     - {fileID: 4394996690810935}
     - {fileID: 0}
@@ -15344,6 +15752,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - Name: Reins
+    Active: 1
     meshes:
     - {fileID: 4741784198791909}
     - {fileID: 0}
@@ -15352,6 +15761,14 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   showMeshesList: 1
+  Pinned:
+    Name: NameHere
+    Active: 1
+    meshes: []
+    Current: 0
+    OnActiveMesh:
+      m_PersistentCalls:
+        m_Calls: []
   random: 0
 --- !u!114 &114806912789025795
 MonoBehaviour:
@@ -15794,6 +16211,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: 13aebbaec2ec2004290a70fdf90eb6a6, type: 2}
     useInt: 1
     useFloat: 0
@@ -15889,6 +16307,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: 6a983ea4cab3ed347a77e3a1ec51a4ef, type: 2}
     useInt: 1
     useFloat: 0
@@ -16009,6 +16428,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: e0d2989fc8db01d41b4c1ae79bba109c, type: 2}
     useInt: 0
     useFloat: 0
@@ -16092,6 +16512,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: 8e5a46a73f5b5b54294d476418b3c09f, type: 2}
     useInt: 0
     useFloat: 0
@@ -16162,6 +16583,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: 6db0a93f790768f4abb1ada45c5ea4ca, type: 2}
     useInt: 0
     useFloat: 0
@@ -16244,6 +16666,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
   - Event: {fileID: 11400000, guid: 7103f9e29505e9e43bf1027b033f56b2, type: 2}
     useInt: 0
     useFloat: 0
@@ -16314,6 +16737,7 @@ MonoBehaviour:
     AdvancedInteger: 0
     AdvancedBool: 0
     InvertBool: 0
+    multiplier: 1
 --- !u!114 &114999342251827913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19531,7 +19955,6 @@ MonoBehaviour:
   PointStoppingDistance: 0.6
   slowingDistance: 0
   OffMeshAlignment: 0.15
-  TurnAngle: 90
   LookAtOffset: 1
   slowingLimit: 0.3
   target: {fileID: 281703985}

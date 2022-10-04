@@ -27,30 +27,28 @@ namespace MalbersAnimations.Events
 
         public virtual void Invoke()
         {
-            for (int i = eventListeners.Count - 1; i >= 0; i--)
-                eventListeners[i].OnEventInvoked();
-
 #if UNITY_EDITOR
             if (debug) Debug.Log($"<B>{name}</B> - Invoke()", this);
 #endif
+            for (int i = eventListeners.Count - 1; i >= 0; i--)
+                eventListeners[i].OnEventInvoked();
+
         }
 
         public virtual void Invoke(float value)
         {
+            DebugEvent(value);
+
             for (int i = eventListeners.Count - 1; i >= 0; i--)
                 eventListeners[i].OnEventInvoked(value);
 
-            DebugEvent(value);
         }
         public virtual void Invoke(FloatVar value)
         {
-            float val = value;
-
-            for (int i = eventListeners.Count - 1; i >= 0; i--)
-                eventListeners[i].OnEventInvoked(val);
-
             DebugEvent(value);
 
+            for (int i = eventListeners.Count - 1; i >= 0; i--)
+                eventListeners[i].OnEventInvoked(value.Value);
         }
         public virtual void Invoke(bool value)
         {
@@ -161,18 +159,30 @@ namespace MalbersAnimations.Events
             if (eventListeners.Contains(listener)) eventListeners.Remove(listener);
         }
 
-
         public virtual void InvokeAsGameObject(Transform value) => Invoke(value.gameObject);
         public virtual void InvokeAsGameObject(Component value) => Invoke(value.gameObject);
-
         public virtual void InvokeAsTransform(GameObject value) => Invoke(value.transform);
         public virtual void InvokeAsTransform(Component value) => Invoke(value.transform);
+        public virtual void InvokeAsString(Object value) => Invoke(value.name);
+        public virtual void InvokeAsBool(Object value) => Invoke(value != null);
+        public virtual void InvokeAsBool(int value) => Invoke(value > 0);
+        public virtual void InvokeAsInt(Object value) => Invoke(value != null ? value.GetInstanceID() : -1);
 
 
         private void DebugEvent(object value)
         {
 #if UNITY_EDITOR
             if (debug) Debug.Log($"<B>{name}</B> - Invoke({value})",this);
+#endif
+        }
+
+
+        public void LogDeb(int value, int value2) => LogDeb((object)value, value2);
+
+        public void LogDeb(object value, object value2)
+        {
+#if UNITY_EDITOR
+            if (debug) Debug.Log($"<B>{name}</B> - Invoke({value},{value2})", this);
 #endif
         }
 

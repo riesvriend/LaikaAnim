@@ -20,7 +20,7 @@ namespace MalbersAnimations.Controller
         [Space]
         public bool disableAnimal = true;
         
-        [Hide("disableAnimal",true,false)] 
+        [Hide("disableAnimal")] 
         public float disableAnimalTime = 5f;
 
 
@@ -78,7 +78,13 @@ namespace MalbersAnimations.Controller
         }
 
 
-#if UNITY_EDITOR        
+#if UNITY_EDITOR
+
+        public override void SetSpeedSets(MAnimal animal)
+        {
+            //Do nothing... Death does not need a Speed Set
+        }
+
         void Reset()
         {
            

@@ -7,7 +7,7 @@ namespace MalbersAnimations
 
     public class PlayTransformAnimation : MonoBehaviour
     {
-        [CreateScriptableAsset]
+        [ExposeScriptableAsset]
         public TransformAnimation anim;
         public Transform m_transform;
 

@@ -10,6 +10,10 @@ namespace MalbersAnimations.Utilities
     [HelpURL("https://malbersanimations.gitbook.io/animal-controller/utilities/lock-on-target")]
     public class LockOnTarget : MonoBehaviour
     {
+        [Tooltip("The Lock On Target will activate automatically if any target is stored on the list")]
+        public BoolReference Auto =  new BoolReference(false);
+
+
         [Tooltip("The Lock On Target requires an Aim Component")]
         [RequiredField] public Aim aim;
 
@@ -30,16 +34,17 @@ namespace MalbersAnimations.Utilities
         public Transform LockedTarget
         { get => locketTarget;
 
-            private set 
-            { 
-                locketTarget  = value;
-
-              
-                OnTargetChanged.Invoke(value);
+            private set
+            {
+                locketTarget = value;
                 aim.SetTarget(value);
+                OnTargetChanged.Invoke(value);
             }
         }
         private Transform locketTarget;
+
+
+      //  private Transform DefaultAimTarget;
 
         public bool LockingOn { get; private set; }
         
@@ -51,12 +56,16 @@ namespace MalbersAnimations.Utilities
         private void Awake()
         {
             Targets.Clear();
+
+            //DefaultAimTarget = null;
+            //if (aim != null) DefaultAimTarget = aim.AimTarget;
         }
 
         private void OnEnable()
         {
             if (Targets != null)
             {
+                Targets.OnItemAdded.AddListener(OnItemAdded);
                 Targets.OnItemRemoved.AddListener(OnItemRemoved);
             }
 
@@ -70,11 +79,20 @@ namespace MalbersAnimations.Utilities
         {
             if (Targets != null)
             {
+                Targets.OnItemAdded.RemoveListener(OnItemAdded);
+
                 Targets.OnItemRemoved.RemoveListener(OnItemRemoved);
             }
             ResetLockOn();
         }
 
+        private void OnItemAdded(GameObject arg0)
+        {
+            if (Auto.Value && !LockingOn)
+            {
+                LockTarget(true);
+            }
+        }
 
         public void LockTargetToggle()
         {
@@ -94,7 +112,6 @@ namespace MalbersAnimations.Utilities
 
         private void LookingTarget() 
         {
-
             if (LockingOn)
             {
                 if (Targets != null && Targets.Count > 0) //if we have a focused Item
@@ -112,8 +129,6 @@ namespace MalbersAnimations.Utilities
        //Reset the values when the Lock Target is off
         private void ResetLockOn()
         {
-            if (LockedTarget != null) //Avoid calling it several times
-            {
                 CurrentTargetIndex = -1;
                 LockedTarget = null;
                 OnLockingTarget.Invoke( LockingOn = false);
@@ -124,7 +139,6 @@ namespace MalbersAnimations.Utilities
                 //    IsAimTarget.IsBeenAimed(false, Owner);
                 //    IsAimTarget = null;
                 //}
-            }
         }
 
         private void FindNearestTarget()

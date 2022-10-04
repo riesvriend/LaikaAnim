@@ -10,7 +10,7 @@ using UnityEditor;
 namespace MalbersAnimations.Controller
 {
     [AddComponentMenu("Malbers/Interaction/Pickable")]
-
+    [SelectionBase]
     public class Pickable : MonoBehaviour, ICollectable
     {
         //  public enum CollectType { Collectable, Hold, OneUse } //For different types of collectable items? FOR ANOTHER UPDATE
@@ -20,9 +20,13 @@ namespace MalbersAnimations.Controller
         public float AlignTime = 0.15f;
         public float AlignDistance = 1f;
 
+        [Tooltip("Delay time after Calling the Pick Action")]
         public FloatReference PickDelay = new FloatReference(0);
+        [Tooltip("Delay time after Calling the Drop Action")]
         public FloatReference DropDelay = new FloatReference(0);
+        [Tooltip("Cooldown needed to pick or drop again the collectable")]
         public FloatReference coolDown = new FloatReference(0f);
+        [Tooltip("When an Object is Collectable it means that the Picker can still pick objects, the item was collected by other compoent (E.g. Weapons or Inventory)")]
         public BoolReference m_Collectable = new BoolReference(false);
         public BoolReference m_ByAnimation = new BoolReference(false);
         public BoolReference m_DestroyOnPick = new BoolReference(false);
@@ -44,7 +48,7 @@ namespace MalbersAnimations.Controller
         public GameObjectEvent OnPreDropped = new GameObjectEvent();
 
         [SerializeField] private Rigidbody rb;
-        [RequiredField] public Collider m_collider;
+        [RequiredField] public Collider[] m_colliders;
 
         private float currentPickTime;
 
@@ -65,6 +69,8 @@ namespace MalbersAnimations.Controller
         public bool InCoolDown => !MTools.ElapsedTime(CurrentPickTime, coolDown);
         public int ID { get => m_ID.Value; set => m_ID.Value = value; }
 
+        private Vector3 DefaultScale;
+
 
         private bool focused;
         public bool Focused 
@@ -76,6 +82,11 @@ namespace MalbersAnimations.Controller
         /// <summary>Game Time the Pickable was Picked</summary>
         public float CurrentPickTime { get => currentPickTime; set => currentPickTime = value; }
 
+        private void OnEnable()
+        {
+            if (SceneRoot.Value) transform.parent = null;
+        }
+
         private void OnDisable()
         {
             Focused = false;
@@ -84,11 +95,39 @@ namespace MalbersAnimations.Controller
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
+
+            if (m_colliders == null || m_colliders.Length == 0) m_colliders = GetComponents<Collider>();
+
             CurrentPickTime = -coolDown; 
-            if (SceneRoot.Value) transform.parent = null;
+          
+            DefaultScale = transform.localScale;
         }
 
         public virtual void Pick()
+        {
+            DisablePhysics();                       //Disable all physics when the item is picked
+            IsPicked = Collectable ? false : true;  //Check if the Item is collectable 
+            Focused = false;                        //Unfocus the Item
+            OnPicked.Invoke(Picker);                //Call the Event
+            CurrentPickTime = Time.time;            //Store the time it was picked
+
+            if (Collectable) enabled = false;
+        }   
+
+        public virtual void Drop()
+        {
+            EnablePhysics();
+            IsPicked = false;
+            enabled = true;
+
+            transform.parent = null;                //UnParent
+            transform.localScale = DefaultScale;    //Restore the Scale
+            OnDropped.Invoke(Picker);
+            Picker = null;                          //Reset who did the picking
+            CurrentPickTime = Time.time;
+        }
+
+        public void DisablePhysics()
         {
             if (RigidBody)
             {
@@ -98,33 +137,28 @@ namespace MalbersAnimations.Controller
                 RigidBody.isKinematic = true;
             }
 
-            m_collider.enabled = false;
-            IsPicked = true;
-            OnPicked.Invoke(Picker);
-            CurrentPickTime = Time.time;
+            foreach (var c in m_colliders)  c.enabled = false; //Disable all colliders
+
         }
 
-        public virtual void Drop()
+        public void EnablePhysics()
         {
-            IsPicked = false;
-
             if (RigidBody)
             {
                 RigidBody.useGravity = true;
                 RigidBody.isKinematic = false;
                 RigidBody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+             
+                //THIS CAUSES ISSUES WITH THROWNING OBJECTS ... (CHECK THE WEAPON PROBLEM)
+                //this.Delay_Action(() =>
+                //{
+                //    RigidBody.angularVelocity = Vector3.zero;
+                //    RigidBody.velocity = Vector3.zero;
+                //}
+                //);
             }
-            m_collider.enabled = true;
 
-            var localScale = transform.localScale;
-            transform.parent = null;
-            transform.localScale = localScale;
-
-            OnDropped.Invoke(Picker);
-
-            Picker = null; //Reset who did the picking
-
-            CurrentPickTime = Time.time;
+            foreach (var c in m_colliders)   c.enabled = true; //Enable all colliders
         }
 
         [HideInInspector] public int EditorTabs = 0;
@@ -132,22 +166,16 @@ namespace MalbersAnimations.Controller
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {
-            UnityEditor.Handles.color = Color.yellow;
-            UnityEditor.Handles.DrawWireDisc(transform.position, transform.up, AlignDistance);
+            if (Align)
+            {
+                UnityEditor.Handles.color = Color.yellow;
+                UnityEditor.Handles.DrawWireDisc(transform.position, transform.up, AlignDistance);
+            }
         }
 
-        private void Reset()
+        public void SetEnable(bool enable)
         {
-            m_collider = GetComponent<Collider>();
-            rb = GetComponent<Rigidbody>();
-            var EInteract = MTools.GetInstance<MEvent>("Interact UI");
-
-            if (EInteract)
-            {
-                UnityEditor.Events.UnityEventTools.AddObjectPersistentListener<Transform>(OnFocused, EInteract.Invoke, transform);
-                UnityEditor.Events.UnityEventTools.AddPersistentListener(OnFocused, EInteract.Invoke);
-                UnityEditor.Events.UnityEventTools.AddBoolPersistentListener(OnPicked, EInteract.Invoke, false);
-            }
+            this.enabled = enable;
         }
 #endif
     }
@@ -192,7 +220,7 @@ namespace MalbersAnimations.Controller
             //ShowEvents = serializedObject.FindProperty("ShowEvents");
             FloatID = serializedObject.FindProperty("m_Value");
             IntID = serializedObject.FindProperty("m_ID");
-            m_collider = serializedObject.FindProperty("m_collider");
+            m_collider = serializedObject.FindProperty("m_colliders");
             AlignPos = serializedObject.FindProperty("AlignPos");
             //Collectable = serializedObject.FindProperty("Collectable");
             m_AutoPick = serializedObject.FindProperty("m_AutoPick");
@@ -203,26 +231,21 @@ namespace MalbersAnimations.Controller
         {
             serializedObject.Update();
             MalbersEditor.DrawDescription("Pickable - Collectable object");
-            EditorGUILayout.BeginVertical(MTools.StyleGray);
+            EditorTabs.intValue = GUILayout.Toolbar(EditorTabs.intValue, Tabs1);
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
-
-                EditorTabs.intValue = GUILayout.Toolbar(EditorTabs.intValue, Tabs1);
-
-                EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+                if (Application.isPlaying)
                 {
-                    if (Application.isPlaying)
+                    using (new EditorGUI.DisabledGroupScope(true))
                     {
-                        EditorGUI.BeginDisabledGroup(true);
                         EditorGUILayout.ToggleLeft("Is Picked", m.IsPicked);
-                        EditorGUI.EndDisabledGroup();
+                    EditorGUILayout.ToggleLeft("Is Focused", m.Focused);
                     }
-
-                    if (EditorTabs.intValue == 0) DrawGeneral();
-                    else DrawEvents();
                 }
-                EditorGUILayout.EndVertical();
+
+                if (EditorTabs.intValue == 0) DrawGeneral();
+                else DrawEvents();
             }
-            EditorGUILayout.EndVertical();
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -259,55 +282,54 @@ namespace MalbersAnimations.Controller
                 if (m.Collectable)
                     EditorGUILayout.PropertyField(m_DestroyOnPick, new GUIContent("Destroy Collectable", "The Item will be destroyed after is picked"));
             }
-            //EditorGUILayout.EndVertical();
 
-            // EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            rb.isExpanded = MalbersEditor.Foldout(rb.isExpanded, "References");
+            if (rb.isExpanded)
             {
-                m_collider.isExpanded = MalbersEditor.Foldout(m_collider.isExpanded, "References");
-                if (m_collider.isExpanded)
-                {
-                    EditorGUILayout.PropertyField(m_collider);
-                    EditorGUILayout.PropertyField(rb, new GUIContent("Rigid Body"));
-                }
+                EditorGUILayout.PropertyField(rb, new GUIContent("Rigid Body"));
+                EditorGUI.indentLevel++;
+                EditorGUILayout.PropertyField(m_collider);
+                EditorGUI.indentLevel--;
             }
-            //EditorGUILayout.EndVertical();
 
 
 
-            // EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+
+            CoolDown.isExpanded = MalbersEditor.Foldout(CoolDown.isExpanded, "Delays");
+
+            if (CoolDown.isExpanded)
             {
-                CoolDown.isExpanded = MalbersEditor.Foldout(CoolDown.isExpanded, "Delays");
-
-                if (CoolDown.isExpanded)
-                {
-                    EditorGUILayout.PropertyField(CoolDown);
-                    EditorGUILayout.PropertyField(PickDelay, new GUIContent("Pick Delay", "Delay time after Calling the Pick Action"));
-                    EditorGUILayout.PropertyField(DropDelay, new GUIContent("Drop Delay", "Delay time after Calling the Drop Action"));
-                }
+                EditorGUILayout.PropertyField(CoolDown);
+                EditorGUILayout.PropertyField(PickDelay);
+                EditorGUILayout.PropertyField(DropDelay);
             }
-            // EditorGUILayout.EndVertical();
 
-            //  EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+            Align.isExpanded = MalbersEditor.Foldout(Align.isExpanded, "Alignment");
+
+            if (Align.isExpanded)
             {
-                Align.isExpanded = MalbersEditor.Foldout(Align.isExpanded, "Alignment");
+                EditorGUILayout.PropertyField(Align, new GUIContent("Align On Pick", "Align the character to the Item"));
 
-                if (Align.isExpanded)
+                if (Align.boolValue)
                 {
-                    EditorGUILayout.PropertyField(Align, new GUIContent("Align On Pick", "Align the character to the Item"));
 
-                    if (Align.boolValue)
+                    using (new GUILayout.HorizontalScope(EditorStyles.helpBox))
                     {
-                        EditorGUILayout.BeginHorizontal();
+
                         EditorGUILayout.PropertyField(AlignPos, new GUIContent("Align Pos", "align the Position"));
+                        
                         EditorGUIUtility.labelWidth = 60;
-                        EditorGUILayout.PropertyField(AlignDistance, new GUIContent("Distance", "Distance to move the Animal towards the Item"), GUILayout.MinWidth(50));
+                        EditorGUILayout.PropertyField
+                            (AlignDistance, new GUIContent("Distance", "Distance to move the Animal towards the Item"), GUILayout.MinWidth(50));
                         EditorGUIUtility.labelWidth = 0;
-                        EditorGUILayout.EndHorizontal();
-                        EditorGUILayout.PropertyField(AlignTime, new GUIContent("Time", "Time required to do the alignment"));
                     }
+                    EditorGUILayout.PropertyField(AlignTime, new GUIContent("Time", "Time required to do the alignment"));
                 }
             }
-            // EditorGUILayout.EndVertical();
+
+
         }
     }
 #endif

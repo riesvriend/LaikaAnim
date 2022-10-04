@@ -24,9 +24,9 @@ namespace MalbersAnimations
         public int Layer = 0;
         [Tooltip("When the Animator is playing a blendtree or a loopable animation. it will check if both Animator times are in sync. If not it will force a synchronization")] 
         public bool Resynchronize = true;
-        [Hide("Resynchronize", true,false),Tooltip("Threshold to check if the slave animator is unsync")]
+        [Hide("Resynchronize"),Tooltip("Threshold to check if the slave animator is unsync")]
         public float Threshold = 0.1f;
-        [Hide("Resynchronize", true, false), Tooltip("Which State will be synced again")]
+        [Hide("Resynchronize"), Tooltip("Which State will be synced again")]
         public List<int> StateCheck = new List<int>();
 
         [Space]
@@ -34,10 +34,10 @@ namespace MalbersAnimations
         public bool useTransformOffset = false;
         [Tooltip("Offset the position relative to the Master Animator.\nRIGHT CLICK to Calculate the current offest")]
         [ContextMenuItem("Calculate Current Position Offset", "CalculateCurrentOffset")] 
-        [Hide("useTransformOffset",true,false)] 
+        [Hide("useTransformOffset")] 
         public Vector3 PosOffset;
         [Tooltip("Offset the rotation relative to the Master Animator.")]
-        [Hide("useTransformOffset", true, false)]
+        [Hide("useTransformOffset")]
         public Vector3 RotOffset;
 
         private IMAnimator listenTo;

@@ -1987,6 +1987,56 @@ PrefabInstance:
       propertyPath: RightHand
       value: 
       objectReference: {fileID: 2393291648682289777}
+    - target: {fileID: 1224977343424481242, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: Editor_Tabs1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224977343424481242, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: m_CanMount.UseConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224977343424481242, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: m_CanDismount.UseConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224977343424481242, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: m_CanCallAnimal.UseConstant
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224977343424481242, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: LeftReinOffset.ConstantValue.x
+      value: -0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224977343424481242, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: LeftReinOffset.ConstantValue.y
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224977343424481242, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: LeftReinOffset.ConstantValue.z
+      value: 0.015
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224977343424481242, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: RightReinOffset.ConstantValue.x
+      value: -0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224977343424481242, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: RightReinOffset.ConstantValue.y
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224977343424481242, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: RightReinOffset.ConstantValue.z
+      value: 0.015
+      objectReference: {fileID: 0}
     - target: {fileID: 2265850902372005965, guid: 0580b7605afecd446ad04336b26b5228,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2107,16 +2157,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rider AC Riding Only
       objectReference: {fileID: 0}
+    - target: {fileID: 5977809812067931243, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: RootBone
+      value: 
+      objectReference: {fileID: 5023568810281304609}
+    - target: {fileID: 5977809812067931243, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: Editor_Tabs1
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5977809812067931243, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: Editor_Tabs2
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6027477666872758536, guid: 0580b7605afecd446ad04336b26b5228,
         type: 3}
       propertyPath: m_Avatar
       value: 
       objectReference: {fileID: 9000000, guid: ad864157c60001248a43a5bce72ae69e, type: 3}
-    - target: {fileID: 6027477666872758536, guid: 0580b7605afecd446ad04336b26b5228,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 3e10ae12b77dc634c800aa92a8ee4e09, type: 2}
     - target: {fileID: 6065967953179589893, guid: 0580b7605afecd446ad04336b26b5228,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2137,6 +2197,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera Aim States
       objectReference: {fileID: 0}
+    - target: {fileID: 8639041722378369897, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: Editor_Tabs1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8639041722378369897, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: LeftHandEquipPoint
+      value: 
+      objectReference: {fileID: 1872300329042519628}
+    - target: {fileID: 8639041722378369897, guid: 0580b7605afecd446ad04336b26b5228,
+        type: 3}
+      propertyPath: RightHandEquipPoint
+      value: 
+      objectReference: {fileID: 2393291648682289777}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0580b7605afecd446ad04336b26b5228, type: 3}
 --- !u!4 &5267161910301593425 stripped

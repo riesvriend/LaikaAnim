@@ -18,22 +18,22 @@ namespace MalbersAnimations.Controller
 
         [Space(10), Tooltip("Makes the Animal Stop Moving when is near a Wall")]
         public bool WallStop = false;
-        [Hide("WallStop", true, false)] public float WallRayLength = 1f;
-        [Hide("WallStop", true, false)] public LayerMask StopLayer = 1;
-        [Hide("WallStop", true, false)] public QueryTriggerInteraction trigger =  QueryTriggerInteraction.UseGlobal;
+        [Hide("WallStop")] public float WallRayLength = 1f;
+        [Hide("WallStop")] public LayerMask StopLayer = 1;
+        [Hide("WallStop")] public QueryTriggerInteraction trigger =  QueryTriggerInteraction.UseGlobal;
 
 
         [Space(10), Tooltip("Makes the Animal avoid ledges, Useful when the Animal without a Fall State, like the Elephant")]
         public bool AntiFall = false;
 
-        [Hide("AntiFall", true, false)] public float frontDistance = 0.5f;
-        [Hide("AntiFall", true, false)] public float frontSpace = 0.2f;
+        [Hide("AntiFall")] public float frontDistance = 0.5f;
+        [Hide("AntiFall")] public float frontSpace = 0.2f;
         [Space]
-        [Hide("AntiFall", true, false)] public float BackDistance = 0.5f;
-        [Hide("AntiFall", true, false)] public float BackSpace = 0.2f;
+        [Hide("AntiFall")] public float BackDistance = 0.5f;
+        [Hide("AntiFall")] public float BackSpace = 0.2f;
         [Space]
-        [Hide("AntiFall", true, false)] public float FallMultiplier = 1f;
-        [Hide("AntiFall", true, false)] public Color DebugColor = Color.yellow;
+        [Hide("AntiFall")] public float FallMultiplier = 1f;
+        [Hide("AntiFall")] public Color DebugColor = Color.yellow;
 
         /// <summary> The Locomotion also works as the Idle Animation </summary>
         public bool HasIdle { get; private set; }
@@ -66,7 +66,7 @@ namespace MalbersAnimations.Controller
             var speed = (int)animal.CurrentSpeedModifier.Vertical.Value;
            // if (animal.Sprint) speed++;
             SetEnterStatus(speed); //When entering Locomotion the State set the Status the current Speed Modifier.
-
+           // animal.AlignPosition(animal.DeltaTime);
         }
 
 
@@ -96,6 +96,17 @@ namespace MalbersAnimations.Controller
         public override void OnStateMove(float deltatime)
         {
             SetFloatSmooth(0, deltatime * CurrentSpeed.lerpPosition);
+
+            //Hack to use gravity with no Fall State
+            if (General.Gravity)
+            {
+                if (!animal.Grounded) 
+                {
+                    animal.CheckIfGrounded(); 
+                }
+               else if (!animal.FrontRay && !animal.MainRay)
+                    animal.Grounded = false; 
+            }
         }
 
 
@@ -214,6 +225,8 @@ namespace MalbersAnimations.Controller
             }
         }
 
+
+#if UNITY_EDITOR
         public override void StateGizmos(MAnimal animal)
         {
             if (AntiFall) PaintRays(animal);
@@ -249,8 +262,12 @@ namespace MalbersAnimations.Controller
             Debug.DrawRay(BackRight, Dir * RayMultiplier, DebugColor);
         }
 
+        public override void SetSpeedSets(MAnimal animal)
+        {
+            //Do nothing... the Animal Controller already does it on Start
+        }
 
-#if UNITY_EDITOR
+
         void Reset()
         {
             ID = MTools.GetInstance<StateID>("Locomotion");

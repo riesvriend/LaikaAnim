@@ -36,7 +36,7 @@ namespace MalbersAnimations.Scriptables
         public virtual void SetValue(Component var) => Value = var.transform;
     }
 
-    [System.Serializable]
+    [Serializable]
     public class TransformReference : ReferenceVar
     {
         public Transform ConstantValue;
@@ -86,10 +86,14 @@ namespace MalbersAnimations.Scriptables
         {
             serializedObject.Update();
 
-            UnityEditor.EditorGUILayout.BeginHorizontal();
-            MalbersEditor.DrawDescription("Runtime Transform Reference");
-            MalbersEditor.DrawDebugIcon(debug);
-            UnityEditor.EditorGUILayout.EndHorizontal();
+            using (new GUILayout.HorizontalScope())
+            {
+                MalbersEditor.DrawDescription("Runtime Transform Reference");
+                MalbersEditor.DrawDebugIcon(debug);
+            }
+
+            UnityEditor.EditorGUILayout.Space();
+
             var go = value.objectReferenceValue as Transform;
 
             if (Application.isPlaying)

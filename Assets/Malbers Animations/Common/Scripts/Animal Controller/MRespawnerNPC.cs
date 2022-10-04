@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using MalbersAnimations.Events;
 
-namespace MalbersAnimations.Controller
+namespace MalbersAnimations.Controller.AI
 {
     /// <summary>Use this Script's Transform as the Respawn Point</summary>
     [AddComponentMenu("Malbers/Animal Controller/Respawner NPC")]
@@ -30,6 +30,7 @@ namespace MalbersAnimations.Controller
         public GameObjectEvent OnRespawned = new GameObjectEvent();
 
         private bool Respawned;
+        private MAnimalBrain NPCBrain;
 
 
         void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
@@ -87,6 +88,7 @@ namespace MalbersAnimations.Controller
 
         private void SceneAnimal()
         {
+
             ActiveAnimal.OverrideStartState = RespawnState;
             ActiveAnimal.ResetController();
             ActiveAnimal.enabled = true;
@@ -95,6 +97,10 @@ namespace MalbersAnimations.Controller
             ActiveAnimal.transform.rotation = (transform.rotation);         //Move the Animal to is Start Position
             ActiveAnimal.isPlayer.Value = false;
             Respawned = true;
+
+            NPCBrain = ActiveAnimal.GetComponentInChildren<MAnimalBrain>();
+            if (NPCBrain != null)
+                NPCBrain.enabled = true;
            // Debug.Log("Placed");
         }
 

@@ -7,7 +7,6 @@ namespace MalbersAnimations
     [InitializeOnLoad]
     public class MalbersSettings : Editor
     {
-
         static MalbersSettings()
         {
             CreateLayer("Animal", 20);
@@ -15,6 +14,7 @@ namespace MalbersAnimations
             CreateLayer("Item", 30);
             CreateTag("Fly");
             CreateTag("Climb");
+            CreateTag("WallRun");
             CreateTag("Stair");
             CreateInputAxe();
         }

@@ -26,7 +26,7 @@ namespace MalbersAnimations
             {
                 Coroutine.Add(component, ICoroutine);
                 MScriptableCoroutine.PlayCoroutine(this, ICoroutine);
-               // Debug.Log($"Coroutine Started {component.name}");
+               // Debug.Log($"Coroutine Started: [{component.name}]");
             }
         }
 
@@ -41,7 +41,7 @@ namespace MalbersAnimations
                 MScriptableCoroutine.Stop_Coroutine(CurrentCoro);
 
                 Coroutine.Remove(component); //Remove the Coroutine since its already Finished
-               // Debug.Log($"Coroutine Stopped {component.name}");
+              //  Debug.Log($"Coroutine Stopped {component.name}");
             }
         }
 

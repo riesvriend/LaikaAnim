@@ -1,5 +1,6 @@
 ﻿using MalbersAnimations.Scriptables;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 using MalbersAnimations.Utilities;
@@ -24,12 +25,9 @@ namespace MalbersAnimations.Controller
         /// <summary>Height from the ground to the hip multiplied for the Scale Factor</summary>
         protected float Height =>animal.Height;
 
-       
-
         #region Animal Shortcuts
         /// <summary>(Z), horizontal (X) and Vertical (Y) Raw Movement Input</summary>
-        internal Vector3 MovementRaw => animal.MovementAxisRaw;
-
+        internal Vector3 MovementRaw => animal.MovementAxisRaw; 
 
         /// <summary>Forward (Z), horizontal (X) and Vertical (Y) Smoothed Movement Input AFTER aplied Speeds Multipliers (THIS GOES TO THE ANIMATOR)</summary>
         internal Vector3 MovementSmooth => animal.MovementAxisSmoothed;
@@ -55,9 +53,6 @@ namespace MalbersAnimations.Controller
         protected float ScaleFactor => animal.ScaleFactor;
         #endregion
 
-
-
-
         [Space, Tooltip("Input to Activate the State, leave empty for automatic states")]
         /// <summary>Input to Activate the State</summary>
         public string Input;
@@ -69,6 +64,10 @@ namespace MalbersAnimations.Controller
         [Tooltip("Priority of the State. Higher value -> more priority to be activated")]
         /// <summary>Priority of the State.  Higher value more priority</summary>
         public int Priority;
+
+        [Tooltip("If the State is trying to be activated by an Input, and it failed... then Reset the Input Value")]
+        public bool ResetInputOnFailed = true;
+
 
         [Tooltip("Main/Core Modifier. When the Animal enters the Main Animation, it will change the core parameters of the Animal")]
         public AnimalModifier General;
@@ -83,7 +82,7 @@ namespace MalbersAnimations.Controller
         /// <summary> Override to multiply on the Movement Axis when this state is active (By default is 1,1,1)</summary>
         internal Vector3 MovementAxisMult;
 
-        [Tooltip("[Experimental*] To Allow to Exit the state, the Animations need to use the [Allow Exit Behaviour] on the Animator.")]
+        [Tooltip(" To Allow to Exit the state, the Animations need to use the [Allow Exit Behaviour] on the Animator.")]
         public bool AllowExitFromAnim = false;
 
         [Tooltip("Sleep from state check if the Active State is on this list. Set this value to false to invert the list")]
@@ -103,6 +102,15 @@ namespace MalbersAnimations.Controller
             "the State will be queued until the Active State is not inlcuded on the queue list")]
         public List<StateID> QueueFrom = new List<StateID>();
 
+        [Tooltip("If the State exit, it cannot be used again until one of these states on this list gets activated.\n" +
+            "E.g. You can disable fly and not using it again until the animal uses Idle or Locomotion.")]
+        public List<StateID> ResetFrom = new List<StateID>();
+
+        /// <summary>If True, the State will be on hold until some of the ResetFrom states are activated</summary>
+        public bool OnHoldByReset { get; set; }
+
+        public bool HasResetFrom => ResetFrom.Count > 0;
+
 
         [Tooltip(" If A Stance is active, and is one of one on the List ...the state cannot be activated")]
         public List<StanceID> SleepFromStance = new List<StanceID>();
@@ -116,6 +124,10 @@ namespace MalbersAnimations.Controller
         //[Space]
         [Tooltip("Try States will try to activate every X frames")]
         public IntReference TryLoop = new IntReference(1);
+
+        
+        [Tooltip("Keeps the state enabled for x seconds. It executes internally the AllowExit() state method. If is set to zero this will be ignored.")]
+        public FloatReference Duration = new FloatReference();
 
         //[Space]
         [Tooltip("Tag to Identify Entering Animations on a State.\nE.g. (TakeOff) in Fly, EnterWater on Swim")]
@@ -134,6 +146,8 @@ namespace MalbersAnimations.Controller
         //[Space]
         [Tooltip("Can straffing be used with this State?")]
         public bool CanStrafe;
+        [Tooltip("This state has new  strafe animations")]
+        public bool StrafeAnimations = true;
         [Tooltip("Strafe Multiplier when movement is detected. This will make the Character be aligned to the Strafe Direction Quickly")]
         [Range(0, 1)]
         public float MovementStrafe = 1f;
@@ -172,11 +186,11 @@ namespace MalbersAnimations.Controller
         {
             get
             {
-                //Debug.Log($"CurrentActiveState != Null [{(CurrentActiveState == null)}]" +
-                //    $"animal.JustActivateState [{animal.JustActivateState}]" +
-                //    $"IsSleep [{IsSleep}]" +
-                //    $"IsActiveState [{IsActiveState}]" +
-                //    $"OnEnterCoolDown [{OnEnterCoolDown}]");
+                //Debug.Log($"{ID.name}; CurrentActiveSt != Null [{(CurrentActiveState == null)}]. " +
+                //    $"JustActivateSt [{animal.JustActivateState}]. " +
+                //    $"IsSleep [{IsSleep}]. " +
+                //    $"IsActiveState [{IsActiveState}]. " +
+                //    $"EnterCoolDown [{OnEnterCoolDown}]. ");
 
 
                 if ((CurrentActiveState == null)         //Means there's no active State (First Creation)
@@ -187,7 +201,8 @@ namespace MalbersAnimations.Controller
                 || (CurrentActiveState.Priority > Priority && CurrentActiveState.IgnoreLowerStates) //if the Active state is set to ignoring  lower States skip
                 || (CurrentActiveState.IsPersistent)                                                //if the Active state is persitent: Ignore the Activation
                 || IsActiveState                                                                    //We are already on this state: Ignore the Activation
-                || OnEnterCoolDown          //This state is still in cooldown
+                || OnEnterCoolDown                                      //This state is still in cooldown
+                || OnHoldByReset            //The State is wainting for other state to be be used.
                 ) return false;           
 
                 return true;
@@ -235,12 +250,30 @@ namespace MalbersAnimations.Controller
 
         /// <summary>Input Value for a State (Some states can by activated by inputs</summary>
         public virtual bool InputValue { get; set; }
+        //{
+        //    get => m_InputValue;
+        //    set
+        //    {
+        //        m_InputValue = value;
+        //        Debug.Log($"[STATE {name}] InputValue: {m_InputValue} ");
+        //    }
+        //}
+        //bool m_InputValue;
 
         /// <summary>Exit Input Value for a State</summary>
         public virtual bool ExitInputValue { get; set; }
 
         /// <summary>Put a state to sleep it works with the Avoid States list</summary>
-        public virtual bool IsSleepFromState { get; internal set; }
+        public virtual bool IsSleepFromState  { get; internal set; }
+        //{
+        //    get => isSleepFromState;
+        //    set
+        //    {
+        //        isSleepFromState = value;
+        //        Debug.Log($"[STATE {name}]isSleepFromState: {isSleepFromState} ");
+        //    }
+        //}
+        //bool isSleepFromState;
 
         /// <summary>Put a state to sleep When Certaing Mode is Enable</summary>
         public virtual bool IsSleepFromMode { get; internal set; }
@@ -273,7 +306,7 @@ namespace MalbersAnimations.Controller
         /// <summary>If True this state cannot be interrupted by other States</summary>
         public bool IsPersistent { get; set; }
         /// <summary>If true the states below it will not try to Activate themselves</summary>
-        public bool IgnoreLowerStates { get; set; }
+        public bool IgnoreLowerStates  { get; set; }
         //{
         //    get => ignoreLowerStates;
         //    set
@@ -294,6 +327,9 @@ namespace MalbersAnimations.Controller
 
         /// <summary>Speed Sets this State may has... Locomotion, Sneak etc</summary>
         public List<MSpeedSet> SpeedSets { get; internal set; }
+
+        /// <summary>Gravity Power Multiplier for each state</summary>
+        public virtual float GravityMultiplier => 1f;
         #endregion
 
         [Tooltip("ID to Identify the State. The name of the ID is the Core Tag used on the Animator")]
@@ -347,6 +383,8 @@ namespace MalbersAnimations.Controller
 
             InputValue = false;
             ExitInputValue = false;
+            OnHoldByReset = false;
+
             ResetState();
             ResetStateValues();
 
@@ -392,38 +430,25 @@ namespace MalbersAnimations.Controller
         /// <summary>Connects the State with the External Inputs Source</summary>
         internal void ConnectInput(IInputSource InputSource, bool connect)
         {
-            if (!string.IsNullOrEmpty(Input)) //If a State has an Input 
-            {
-                var input = InputSource.GetInput(Input);
+            //EntryInput
+            if (connect)
+                InputSource.ConnectInput(Input, ActivatebyInput);
+            else
+                InputSource.DisconnectInput(Input, ActivatebyInput);
 
-                if (input != null)
-                {
-                    if (connect)
-                        input.InputChanged.AddListener(ActivatebyInput);
-                    else
-                        input.InputChanged.RemoveListener(ActivatebyInput);
-                }
-            }
-
-            if (!string.IsNullOrEmpty(ExitInput.Value)) //If a State has an Input 
-            {
-                var exitInput = InputSource.GetInput(ExitInput.Value);
-
-                if (exitInput != null)
-                {
-                    if (connect)
-                        exitInput.InputChanged.AddListener(ExitByInput);
-                    else
-                        exitInput.InputChanged.RemoveListener(ExitByInput);
-                }
-            }
+           
+            //ExitInput
+            if (connect)
+                InputSource.ConnectInput(ExitInput, ExitByInput);
+            else
+                InputSource.DisconnectInput(ExitInput, ExitByInput);
 
             ExtraInputs(InputSource, connect);
         }
 
         /// <summary> Use this to connect extra inputs the State may have</summary>
         public virtual void ExtraInputs(IInputSource inputSource, bool connect) {}
-       
+
         /// <summary>Activate the State. Code is Applied on base.Activate()</summary>
         public virtual void Activate()
         {
@@ -439,19 +464,17 @@ namespace MalbersAnimations.Controller
                 animal.QueueState.ActivateQueued();
                 return;
             }
-            if (animal.JustActivateState) { return; } //Do not activate any state if a new state has being activated already.
 
-         
-
-
-            //animal.LastState.IsActiveState = false;
+            if (animal.JustActivateState) { return; } //Do not activate any state if a new state has being activated in the same frame.
 
             Debugging("Activated");
             animal.ActiveState = this;                  //Update to the Current State
+            animal.LastState?.PostExitState();           //Exectute the Exit State code on the Last State.
             SetSpeed(); //Set the Speed on the New State
             MovementAxisMult = Vector3.one;
 
-          //  IsActiveState = true;                       //Set this state as the Active State
+
+            //IsActiveState = true;                       //Set this state as the Active State
             CanExit = false;
             CurrentEnterTime = Time.time;
 
@@ -462,6 +485,22 @@ namespace MalbersAnimations.Controller
                 PendingExit = true;
             }
             EnterExitEvent?.OnEnter.Invoke();
+
+            //Execute the Allow Exit Time Feature here if the State has Duration
+            if (Duration > 0)
+            {
+                //if (C_Duration != null) { animal.StopCoroutine(C_Duration); C_Duration = null; }//Make sure the Duration is interrutped
+                C_Duration = IDuration();
+                animal.StartCoroutine(C_Duration);
+            }
+        }
+
+       System.Collections.IEnumerator C_Duration;
+       private System.Collections.IEnumerator IDuration()
+        {
+            yield return new WaitForSeconds(Duration.Value);
+            Debugging($"[Allow Exit] by Duration [{Duration.Value:F2} seg]");
+            AllowExit();
         }
 
         public virtual void ForceActivate()
@@ -509,12 +548,6 @@ namespace MalbersAnimations.Controller
             animal.CurrentSpeedModifier = speedSet[0]; //Use Default instead
         }
 
-
-        //internal MSpeedSet defaultSpeedSet = new MSpeedSet()
-        //{ name = "Default Set", Speeds = new List<MSpeed>(1) { new MSpeed("Default", 1, 4, 4) } }; //Create a Default Speed at Awake
-        ///// <summary>Set a Default </summary>
-        //public abstract void InternalSpeedSet();
-
         /// <summary> Reset a State values to its first Awakening </summary>
         public virtual void ResetState()
         {
@@ -535,11 +568,20 @@ namespace MalbersAnimations.Controller
         /// <summary>Restore some of the Animal Parameters when the State exits</summary>
         public virtual void RestoreAnimalOnExit() { }
 
+
+        /// <summary>Execute the Final Code After the new active state is played</summary>
+        public virtual void PostExitState() { }
         public virtual void ExitState()
         {
             ResetStateValues();
             ResetState();
             RestoreAnimalOnExit();
+
+            if (C_Duration != null) { animal.StopCoroutine(C_Duration); C_Duration = null; }//Make sure the Duration is interrutped
+
+            //Check that if it has reset from. then activate it
+            if (HasResetFrom) OnHoldByReset = true;
+
            // Debugging("Exit State");
         }
 
@@ -646,9 +688,7 @@ namespace MalbersAnimations.Controller
             }
         }
 
-        /// <summary>
-        /// Used on Pending States from the Last State exiting
-        /// </summary>
+        /// <summary> Used on Pending States from the Last State exiting </summary>
         private void CheckPendingExit()
         {
             if (IsPending && PendingExit)
@@ -668,19 +708,21 @@ namespace MalbersAnimations.Controller
         internal void ActivatebyInput(bool InputValue)
         {
             this.InputValue = InputValue;
+            //Debug.Log($"[{ID.name}] ActivatebyInput = {InputValue}");
 
-          //  Debug.Log("InputValue = " + InputValue);
 
-            if (IsSleep)
+            if (IsSleep ||                      //If the State is sleep 
+                OnHoldByReset ||                //Or is hold by reset
+                animal.LockInput ||             //Oth the animal has locked the inputs
+                animal.JustActivateState)       //Or the Animal has just activated a state
             {
-                this.InputValue = false;
-                animal.InputSource?.SetInput(Input, false); //Hack to reset the toggle when it exit on Grounded
+                {  //Reset the input //Needed if the Input  was toggle (Glide)... but causes issues with  
+                if (ResetInputOnFailed)
+                    this.InputValue = false;
+                    animal.InputSource?.SetInput(Input, false); //Hack to reset the toggle when it exit on Grounded
+                }
             }
-
-            if (animal.LockInput) return;               //All Inputs are locked so Ignore Activation by input
-            if (animal.JustActivateState) return;       //Do Not Enable if a state was activated
-           
-            if (CanBeActivated)
+            else if (CanBeActivated)
             {
                 StatebyInput();
             }
@@ -714,6 +756,16 @@ namespace MalbersAnimations.Controller
             }
         }
 
+        /// <summary> A new State has been activated</summary>
+        internal void NewStateActivated(StateID stateID)
+        {
+            //Release the State from the Reset From list
+            if (OnHoldByReset && ResetFrom.Contains(stateID)) 
+                OnHoldByReset = false;
+           
+            NewActiveState(stateID);
+        }
+
         /// <summary> Notifies all the  States that a new state has started</summary>
         public virtual void NewActiveState(StateID newState) { }
 
@@ -731,7 +783,8 @@ namespace MalbersAnimations.Controller
                 IgnoreLowerStates = false;
                 IsPersistent = false;
                 AllowStateExit();
-               // Debugging("[Allow Exit]");
+                // Debugging("[Allow Exit]");
+              //  if (C_Duration != null) { animal.StopCoroutine(C_Duration); C_Duration = null; }//Make sure the Duration is interrutped
             }
             return CanExit;
         }
@@ -791,20 +844,21 @@ namespace MalbersAnimations.Controller
         public virtual void TryExitState(float DeltaTime) { }
 
 
-        ///// <summary>Called when Sleep is false</summary>
-        //public virtual void JustWakeUp() { }
-
+        /// <summary>When creating the states for the first time, it will add to the Animal a new Speed Set</summary>
+        public virtual void SetSpeedSets(MAnimal animal) { }
+         
 
         /// <summary>Logic Needed to Try to Activate the State, By Default is the Input Value for the State </summary>
         public virtual bool TryActivate() => InputValue && CanBeActivated;
 
         public virtual void StatebyInput()
         {
-            if (IsSleep) InputValue = false;
-
-            //Debug.Log($"InputValue = {name}" + InputValue);
-            if (InputValue && TryActivate())                       //Enable the State if is not already active
+            if (IsSleep)
+            { return; }      //Reset input if the State is sleep
+            else if (TryActivate())        //Enable the State if is not already active
                 Activate();
+            //else
+            //    InputValue = false;
         }
         
         
@@ -951,8 +1005,10 @@ namespace MalbersAnimations.Controller
     {
         SerializedProperty
            ID, Input, ExitInput,  Priority, General, GeneralMessage, TryLoop, EnterTag, ExitTag, ExitFrame, ExitOnMain, ExitCooldown, EnterCooldown,
-            CanStrafe, MovementStrafe, IdleStrafe, debug, UseSendMessage, IncludeChildren, AllowExitAnimation, IncludeSleepState,
-           SleepFromState, SleepFromMode, TagModifiers, QueueFrom, Editor_Tabs1, stances, SleepFromStance;
+           
+            CanStrafe, MovementStrafe, IdleStrafe, StrafeAnimations, ResetInputOnFailed,
+            debug, UseSendMessage, IncludeChildren, AllowExitAnimation, IncludeSleepState, Duration,
+           SleepFromState, SleepFromMode, TagModifiers, QueueFrom, ResetFrom, Editor_Tabs1, stances, SleepFromStance;
           
         State M;
 
@@ -978,6 +1034,7 @@ namespace MalbersAnimations.Controller
             EnterTag = serializedObject.FindProperty("EnterTag");
             ExitTag = serializedObject.FindProperty("ExitTag");
             TagModifiers = serializedObject.FindProperty("TagModifiers");
+            ResetInputOnFailed = serializedObject.FindProperty("ResetInputOnFailed");
 
             General = serializedObject.FindProperty("General");
             GeneralMessage = serializedObject.FindProperty("GeneralMessage");
@@ -993,6 +1050,7 @@ namespace MalbersAnimations.Controller
             CanStrafe = serializedObject.FindProperty("CanStrafe");
             MovementStrafe = serializedObject.FindProperty("MovementStrafe");
             IdleStrafe = serializedObject.FindProperty("IdleStrafe");
+            StrafeAnimations = serializedObject.FindProperty("StrafeAnimations");
 
 
             debug = serializedObject.FindProperty("debug");
@@ -1002,8 +1060,10 @@ namespace MalbersAnimations.Controller
             SleepFromState = serializedObject.FindProperty("SleepFromState");
             SleepFromMode = serializedObject.FindProperty("SleepFromMode");
             QueueFrom = serializedObject.FindProperty("QueueFrom");
+            ResetFrom = serializedObject.FindProperty("ResetFrom");
             stances = serializedObject.FindProperty("stances");
             SleepFromStance = serializedObject.FindProperty("SleepFromStance");
+            Duration = serializedObject.FindProperty("Duration");
         }
 
         public GUIContent Deb;
@@ -1034,72 +1094,59 @@ namespace MalbersAnimations.Controller
 
         private void ShowGeneral()
         {
-            MalbersEditor.DrawDescription($"Common parameters of the State");
+            MalbersEditor.DrawDescription($"Global State parameters");
 
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.PropertyField(ID);
 
-                // MTools.DrawDebugIcon(debug);
-                var currentGUIColor = GUI.color;
-                GUI.color = debug.boolValue ? Color.red : currentGUIColor;
-
-                if (Deb == null)
-                    Deb = new GUIContent((Texture)
-                        (AssetDatabase.LoadAssetAtPath("Assets/Malbers Animations/Common/Scripts/Editor/Icons/Debug_Icon.png", typeof(Texture))), "Debug");
-
-                debug.boolValue = GUILayout.Toggle(debug.boolValue, Deb, EditorStyles.miniButton, GUILayout.Width(25));
-                GUI.color = currentGUIColor;
-                EditorGUILayout.EndHorizontal();
+                using (new GUILayout.HorizontalScope())
+                {
+                    EditorGUILayout.PropertyField(ID);
+                    MalbersEditor.DrawDebugIcon(debug);
+                }
+              
 
                 EditorGUILayout.PropertyField(Input, new GUIContent("Enter Input"));
                 EditorGUILayout.PropertyField(ExitInput);
+                EditorGUILayout.PropertyField(ResetInputOnFailed);
                 EditorGUILayout.PropertyField(Priority);
                 EditorGUILayout.PropertyField(AllowExitAnimation);
             }
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
                 EditorGUILayout.PropertyField(ExitFrame);
                 EditorGUILayout.PropertyField(ExitOnMain);
                 EditorGUILayout.PropertyField(EnterCooldown);
                 EditorGUILayout.PropertyField(ExitCooldown);
                 EditorGUILayout.PropertyField(TryLoop);
+                EditorGUILayout.PropertyField(Duration);
             }
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
                 EditorGUILayout.PropertyField(CanStrafe);
                 if (M.CanStrafe)
                 {
+                    EditorGUILayout.PropertyField(StrafeAnimations);
                     EditorGUILayout.PropertyField(MovementStrafe);
                     EditorGUILayout.PropertyField(IdleStrafe);
                 }
             }
-            EditorGUILayout.EndVertical();
-
-
             ShowDebug();
-
         }
 
         private void ShowTags()
         {
             MalbersEditor.DrawDescription($"Animator Tags will modify the core parameters on the Animal.\nThe core tag value is the name of the ID - [{Tabs[3]}]");
-             
 
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
                 EditorGUILayout.PropertyField(EnterTag);
                 EditorGUILayout.PropertyField(ExitTag);
             }
-            EditorGUILayout.EndVertical();
 
 
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            using (new GUILayout.VerticalScope(EditorStyles.helpBox))
             {
                 EditorGUILayout.PropertyField(General, new GUIContent("Tag [" + Tabs[3] + "]"), true);
 
@@ -1126,7 +1173,6 @@ namespace MalbersAnimations.Controller
                 EditorGUILayout.PropertyField(TagModifiers, new GUIContent(TagModifiers.displayName + " [" + TagModifiers.arraySize + "]"), true);
                 EditorGUI.indentLevel--;
             }
-            EditorGUILayout.EndVertical();
         }
 
 
@@ -1136,23 +1182,34 @@ namespace MalbersAnimations.Controller
             {
                 using (new EditorGUI.DisabledGroupScope(true))
                 {
-                    using (new GUILayout.VerticalScope(EditorStyles.helpBox))
+                    using (new GUILayout.HorizontalScope(EditorStyles.helpBox))
                     {
-                        EditorGUILayout.Toggle("Enabled", M.Active);
-                        EditorGUILayout.Toggle("Is Active State", M.IsActiveState);
-                        EditorGUILayout.Toggle("Can Exit", M.CanExit);
-                        EditorGUILayout.Toggle("OnQueue", M.OnQueue);
-                        EditorGUILayout.Toggle("On Active Queue", M.OnActiveQueue);
-                        EditorGUILayout.Toggle("Pending", M.IsPending);
-                        EditorGUILayout.Toggle("Pending Exit", M.PendingExit);
-                        EditorGUILayout.Toggle("Sleep From State", M.IsSleepFromState);
-                        EditorGUILayout.Toggle("Sleep From Mode", M.IsSleepFromMode);
-                        EditorGUILayout.Toggle("Sleep From Stance", M.IsSleepFromStance);
-                        EditorGUILayout.Toggle("In Core Animation", M.InCoreAnimation);
-                        EditorGUILayout.Toggle("Ignore Lower States", M.IgnoreLowerStates);
-                        EditorGUILayout.Toggle("Is Persistent", M.IsPersistent);
+                        EditorGUIUtility.labelWidth = 50;
+                        using (new GUILayout.VerticalScope())
+                        {
+                            EditorGUILayout.ToggleLeft("Enabled", M.Active);
+                            EditorGUILayout.ToggleLeft("Is Active State", M.IsActiveState);
+                            EditorGUILayout.ToggleLeft("Can Exit", M.CanExit);
+                            EditorGUILayout.ToggleLeft("OnQueue", M.OnQueue);
+                            EditorGUILayout.ToggleLeft("On Active Queue", M.OnActiveQueue);
+                            EditorGUILayout.ToggleLeft("Pending", M.IsPending);
+                            EditorGUILayout.ToggleLeft("Pending Exit", M.PendingExit);
+                            EditorGUILayout.ToggleLeft("Sleep From State", M.IsSleepFromState);
+                        }
+                        using (new GUILayout.VerticalScope())
+                        {
+                            EditorGUILayout.ToggleLeft("Sleep From Mode", M.IsSleepFromMode);
+                            EditorGUILayout.ToggleLeft("Sleep From Stance", M.IsSleepFromStance);
+                            EditorGUILayout.ToggleLeft("In Core Animation", M.InCoreAnimation);
+                            EditorGUILayout.ToggleLeft("Ignore Lower States", M.IgnoreLowerStates);
+                            EditorGUILayout.ToggleLeft("Is Persistent", M.IsPersistent);
+                            EditorGUILayout.ToggleLeft("On Hold by Reset", M.OnHoldByReset);
+                            EditorGUILayout.ToggleLeft("Input Value", M.InputValue);
+                        }
+                        EditorGUIUtility.labelWidth = 0;
+
+                        Repaint();
                     }
-                    Repaint();
                 }
             }
         }
@@ -1181,6 +1238,7 @@ namespace MalbersAnimations.Controller
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(SleepFromState, new GUIContent($"Sleep from States {AcSleepList}"), true);
                 EditorGUILayout.PropertyField(QueueFrom, true);
+                EditorGUILayout.PropertyField(ResetFrom, true);
                 EditorGUI.indentLevel--;
             }
            
@@ -1202,7 +1260,7 @@ namespace MalbersAnimations.Controller
                 EditorGUILayout.Space();
                 EditorGUI.indentLevel++;
                 EditorGUILayout.PropertyField(SleepFromStance, true);
-                EditorGUILayout.PropertyField(stances, true);
+                EditorGUILayout.PropertyField(stances, new GUIContent("Allowed Stances", stances.tooltip), true);
                 EditorGUI.indentLevel--;
             } 
         }
@@ -1213,7 +1271,7 @@ namespace MalbersAnimations.Controller
 
             if (!M.CustomStateInspector())
             {
-                var skip = 27;
+                var skip = 32;
                 var property = serializedObject.GetIterator();
                 property.NextVisible(true);
 

@@ -80,7 +80,7 @@ namespace MalbersAnimations
 
             MalbersEditor.DrawDescription("Modify the Rigidbody Constraints attached to this Animator");
 
-            EditorGUILayout.BeginVertical(MTools.StyleGray);
+          //  EditorGUILayout.BeginVertical(MTools.StyleGray);
             {
                 EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 {
@@ -137,7 +137,7 @@ namespace MalbersAnimations
                 }
                 EditorGUILayout.EndVertical();
             }
-            EditorGUILayout.EndVertical();
+          //  EditorGUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
         }

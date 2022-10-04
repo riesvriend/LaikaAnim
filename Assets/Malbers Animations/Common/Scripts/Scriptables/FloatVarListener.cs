@@ -1,6 +1,7 @@
 ﻿using MalbersAnimations.Scriptables;
 using MalbersAnimations.Events;
 using UnityEngine;
+using System.Collections;
 
 namespace MalbersAnimations
 {
@@ -38,6 +39,91 @@ namespace MalbersAnimations
         public virtual void InvokeFloat(float value) => Invoke(value);
 
         public virtual void Invoke() => Invoke(Value);
+
+
+        /// <summary> Set the Value to Zero in x Seconds </summary>
+        public virtual void Time_ValueToZero(float time)
+        {
+            if (Value == 0) return;
+
+            StopAllCoroutines();
+
+            StartCoroutine(I_FloatInTime(Value,0,time));
+        }
+
+
+        /// <summary> Set the Value to Zero in x Seconds </summary>
+        public virtual void Time_ZeroToValue(float time)
+        {
+            if (Value == 0) return;
+
+            StopAllCoroutines();
+
+            StartCoroutine(I_FloatInTime(0,Value, time));
+        }
+
+
+        /// <summary> Set the Value to Zero in x Seconds </summary>
+        public virtual void Time_ValueToZero_FixedUpdate(float time)
+        {
+            if (Value == 0) return;
+
+            StopAllCoroutines();
+
+            StartCoroutine(I_FloatInTime_FixedUpdate(Value, 0, time));
+        }
+
+
+        /// <summary> Set the Value to Zero in x Seconds </summary>
+        public virtual void Time_ZeroToValue_FixedUpdate(float time)
+        {
+            if (Value == 0) return;
+
+            StopAllCoroutines();
+
+            StartCoroutine(I_FloatInTime_FixedUpdate(0, Value, time));
+        }
+
+
+        IEnumerator I_FloatInTime(float start,float end,float time)
+        {
+           
+            float currentTime = 0;
+
+            while (currentTime <= time)
+            {
+                Value = Mathf.Lerp(start,end, currentTime / time);
+
+                Debug.Log("Value = " + Value);
+
+
+                currentTime += Time.deltaTime;
+
+                yield return null;
+            }
+
+            Value = end;
+            yield return null;
+        }
+
+
+        IEnumerator I_FloatInTime_FixedUpdate(float start, float end, float time)
+        {
+            var wait = new WaitForFixedUpdate();
+
+            float currentTime = 0;
+
+            while (currentTime <= time)
+            {
+                Value = Mathf.Lerp(start, end, currentTime / time);
+                currentTime += Time.fixedDeltaTime;
+
+                yield return wait;
+            }
+
+            Value = end;
+            yield return null;
+        }
     }
 
 

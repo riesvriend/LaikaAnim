@@ -37,6 +37,19 @@ namespace MalbersAnimations
             Time.fixedDeltaTime = 0.02F * Time.timeScale;
         }
 
+        public void Slow_MotionOn()
+        {
+            SlowTime_C = SlowTime();
+            StartCoroutine(SlowTime_C);
+        }
+
+        public void Slow_MotionOFF()
+        {
+            SlowTime_C = RestartTime();
+            StartCoroutine(SlowTime_C);
+        }
+
+
         public virtual void Freeze_Game()
         {
             PauseGame ^= true;

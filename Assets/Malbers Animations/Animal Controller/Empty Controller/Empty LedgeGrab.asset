@@ -39,6 +39,7 @@ MonoBehaviour:
   UseSendMessage: 0
   IncludeChildren: 1
   AllowExitFromAnim: 0
+  IncludeSleepState: 1
   SleepFromState:
   - {fileID: 11400000, guid: 7370df9c769c2764381ad7c76eb3d949, type: 2}
   - {fileID: 11400000, guid: 3787b6d94d5454740bf36d57436185b0, type: 2}
@@ -49,6 +50,10 @@ MonoBehaviour:
   TryLoop:
     UseConstant: 1
     ConstantValue: 1
+    Variable: {fileID: 0}
+  AllowExitTime:
+    UseConstant: 1
+    ConstantValue: 0
     Variable: {fileID: 0}
   EnterTag:
     UseConstant: 1
@@ -90,15 +95,18 @@ MonoBehaviour:
     Variable: {fileID: 0}
   wallDistance: 0.5
   ForwardLength: 1
-  DownLength: 1
-  WallCheckerMultiplier: 0.7
+  WallChecker: 0.1
   AlignSmoothness: 10
   profiles:
   - name: Ledge Grab
     EnterStatus: 0
+    MaxVSpeed: 0
+    ForwardMultiplier: 1
     Height: 1.7
     LedgeExitDistance: 0.3
     ExitTime: 0.9
+    AlingOffset: {x: 0, y: 0, z: 0}
+    Orient: 1
     AdditivePosition: 1
     HeightSpeed: 4
     ForwardSpeed: 2

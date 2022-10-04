@@ -9,7 +9,7 @@ namespace MalbersAnimations.Controller.Reactions
     public class GravityReaction : MReaction
     {
         public Gravity_Reaction type = Gravity_Reaction.Enable;
-        [Hide("showValue", true, false)]
+        [Hide("type", (int)Gravity_Reaction.Enable, (int)Gravity_Reaction.GroundChangesGravity)]
         public bool Value;
 
         protected override void _React(MAnimal animal)
@@ -52,25 +52,19 @@ namespace MalbersAnimations.Controller.Reactions
         /// 
         /// VALIDATIONS
         /// 
-
-
         private void OnEnable() { Validation(); }
         private void OnValidate() { Validation(); }
 
-        [HideInInspector] public bool showValue;
         private const string reactionName = "Gravity → ";
 
         void Validation()
         {
             fullName = reactionName + type.ToString(); 
-            showValue = false;
-
             switch (type)
             {
                 case Gravity_Reaction.Enable:
                     description = (Value ? "Enable" : "Disable") + " the gravity on the Animal";
                     fullName += " [" + Value + "]";
-                    showValue = true;
                     break;
                 case Gravity_Reaction.Reset:
                     description = "Resets the gravity on the Animal to Vector3.Down";
@@ -78,7 +72,6 @@ namespace MalbersAnimations.Controller.Reactions
                 case Gravity_Reaction.GroundChangesGravity:
                     description = "The Gravity Direction is set by the Ground Normal";
                     fullName += " [" + Value + "]";
-                    showValue = true;
                     break;
                 case Gravity_Reaction.SnapAlignment:
                     description = "Align the Animal to the Gravity direction with no smoothness";

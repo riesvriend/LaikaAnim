@@ -15,6 +15,8 @@ namespace MalbersAnimations.Utilities
 
         public int Count => Meshes.Count;
 
+        public ActiveSMesh Pinned;
+
         /// <summary> All Active Meshes Index stored on a string separated by a space ' '  </summary>
         public string AllIndex
         {
@@ -139,6 +141,12 @@ namespace MalbersAnimations.Utilities
             return Meshes[index];
         }
 
+        public virtual void Pin_Mesh(int index) => Pinned = GetActiveMesh(index);
+        public virtual void Pin_Mesh(string name) => Pinned = GetActiveMesh(name);
+        public virtual void Pin_SetMesh(int index) => Pinned.ChangeMesh(index-1);
+
+
+
 
 
 #if UNITY_EDITOR
@@ -172,18 +180,16 @@ namespace MalbersAnimations.Utilities
                 MTools.SetDirty(listener);
             }
         }
-#endif
-
+#endif 
     }
-
-
-
+     
 
     [Serializable]
     public class ActiveSMesh
     {
         [HideInInspector]
         public string Name = "NameHere";
+        public bool Active = true;
         public Transform[] meshes;
         [HideInInspector,SerializeField] public int Current;
 
@@ -222,6 +228,7 @@ namespace MalbersAnimations.Utilities
         /// <summary> Set a mesh by Index </summary>
         public virtual void ChangeMesh(int Index)
         {
+            if (!Active) return;
             Current = Index-1;
             ChangeMesh();
         }

@@ -20,50 +20,61 @@ MonoBehaviour:
       I hope you make awesome games with it!
     linkText: 
     url: 
+    reference: {fileID: 0}
   - heading: Malbers Animal Controller
     text: 'All the Animals & Creatures use the [Animal Controller] to take advantage
       of all the animations my little guys have. You can find it on the AssetStore
       here:'
     linkText: "\u25BA\u25BADOWNLOAD ANIMAL CONTROLLER\u25C4\u25C4"
     url: https://assetstore.unity.com/packages/slug/148877?aid=1100lHT6
+    reference: {fileID: 0}
   - heading: DOCUMENTATION | MANUAL
     text: Here is a detailed documentation that explores all the available prefabs,
       scripts and components that make up the mechanics of the Animal Controller.
     linkText: '[DOCUMENTATION]'
     url: https://malbersanimations.gitbook.io/animal-controller/
+    reference: {fileID: 0}
   - heading: Render Piplelines
     text: Go to Tools -> Malbers Animations -> Upgrade Malbers Shaders to URP
     linkText: 
     url: 
+    reference: {fileID: 0}
   - heading: 
     text: Go to Tools -> Malbers Animations -> Upgrade Malbers Shaders to HDRP
     linkText: 
     url: 
+    reference: {fileID: 0}
   - heading: Integrations
     text: All Malbers' Assets have integrations with the most popular Assets on the
       Store. More are being added constantly
     linkText: Official Integrations
     url: https://malbersanimations.gitbook.io/animal-controller/annex/integrations
+    reference: {fileID: 0}
   - heading: Got Feedback?
     text: 'Let us know what you think or ask any questions you might have in the
       FORUM. '
     linkText: Forum Thread (Animals)
     url: https://forum.unity.com/threads/440812/
+    reference: {fileID: 0}
   - heading: Discord
     text: We have Discord now! This is the best way to chat with me and help you
       out with any issues you may have
     linkText: DISCORD
-    url: https://discord.gg/aWRmZjTR
+    url: https://discord.gg/EzZGTxD3zZ
+    reference: {fileID: 0}
   - heading: Social
     text: Follow me to stay tuned for new Assets and Updates
     linkText: Facebook
     url: https://www.facebook.com/MalberSAnimations
+    reference: {fileID: 0}
   - heading: 
     text: 
     linkText: Twitter
     url: https://twitter.com/MalberShark
+    reference: {fileID: 0}
   - heading: 
     text: 
     linkText: Reddit
     url: https://www.reddit.com/user/Malbers_Animations
+    reference: {fileID: 0}
   packages: []

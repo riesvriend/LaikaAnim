@@ -35,7 +35,7 @@ namespace MalbersAnimations.Controller.Reactions
         {
             if (reactor != null && active)
             {
-                if (delay > 0 && (reactor is MonoBehaviour))
+                if (delay > 0 && (reactor is MonoBehaviour) && (reactor as MonoBehaviour).isActiveAndEnabled)
                     (reactor as MonoBehaviour).StartCoroutine(DelayedReaction(reactor));
                 else
                     _React(reactor);

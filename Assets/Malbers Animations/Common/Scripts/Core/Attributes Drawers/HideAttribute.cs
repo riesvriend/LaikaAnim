@@ -9,68 +9,56 @@ using UnityEditor;
 
 namespace MalbersAnimations
 {
-
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property |
         AttributeTargets.Class | AttributeTargets.Struct, Inherited = true)]
     public sealed class HideAttribute : PropertyAttribute
     {
-        public string ConditionalSourceField = "";
-        public string ConditionalSourceField2 = "";
-        public string[] ConditionalSourceFields = new string[] { };
-        public bool[] ConditionalSourceFieldInverseBools = new bool[] { };
-        public bool HideInInspector = false;
+        public string Variable = "";
         public bool Inverse = false;
-        public bool UseOrLogic = false;
+        public int[] EnumValue;
+       // public bool useOR = false; //Todo: Do thissss lateer?!?!
 
-        public bool InverseCondition1 = false;
-
-
-        // Use this for initialization
         public HideAttribute(string conditionalSourceField)
         {
-            this.ConditionalSourceField = conditionalSourceField;
-            this.HideInInspector = false;
+            this.Variable = conditionalSourceField;
             this.Inverse = false;
         }
 
-        public HideAttribute(string conditionalSourceField, bool hideInInspector)
+        public HideAttribute(string conditionalSourceField, bool inverse)
         {
-            this.ConditionalSourceField = conditionalSourceField;
-            this.HideInInspector = hideInInspector;
-            this.Inverse = false;
-        }
-
-        public HideAttribute(string conditionalSourceField, bool hideInInspector, bool inverse)
-        {
-            this.ConditionalSourceField = conditionalSourceField;
-            this.HideInInspector = hideInInspector;
+            this.Variable = conditionalSourceField;
             this.Inverse = inverse;
+        }
+
+        public HideAttribute(string conditionalSourceField, bool inverse, params int[] EnumValue)
+        {
+            this.Variable = conditionalSourceField;
+            this.Inverse = inverse;
+            this.EnumValue = EnumValue;
+        }
+
+        public HideAttribute(string conditionalSourceField,   params int[] EnumValue)
+        {
+            this.Variable = conditionalSourceField;
+            this.Inverse = false;
+            this.EnumValue = EnumValue;
         }
     }
 
 #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(HideAttribute))]
     public class HidePropertyDrawer : PropertyDrawer
-    {
-       
-
+    { 
+        private bool enabled;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             HideAttribute condHAtt = (HideAttribute)attribute;
 
-            bool enabled = GetConditionalHideAttributeResult(condHAtt, property);
+            enabled = GetConditionalHideAttributeResult(condHAtt, property);
 
-            bool wasEnabled = GUI.enabled;
-
-            GUI.enabled = enabled;
-            if (!condHAtt.HideInInspector || enabled)
-            {
-               // base.OnGUI(position, property, label);
+            if (enabled)
                 EditorGUI.PropertyField(position, property, label, true);
-            }
-
-            GUI.enabled = wasEnabled;
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
@@ -78,7 +66,7 @@ namespace MalbersAnimations
             HideAttribute condHAtt = (HideAttribute)attribute;
             bool enabled = GetConditionalHideAttributeResult(condHAtt, property);
 
-            if (!condHAtt.HideInInspector || enabled)
+            if (enabled)
             {
                 return EditorGUI.GetPropertyHeight(property, label);
             }
@@ -92,130 +80,47 @@ namespace MalbersAnimations
 
         private bool GetConditionalHideAttributeResult(HideAttribute condHAtt, SerializedProperty property)
         {
-            bool enabled = (condHAtt.UseOrLogic) ? false : true;
+            bool enabled =  true;
 
             //Handle primary property
-            SerializedProperty sourcePropertyValue = null;
+            SerializedProperty sourcePropertyValue;
             //Get the full relative property path of the sourcefield so we can have nested hiding.Use old method when dealing with arrays
 
             if (!property.isArray)
             {
-                string propertyPath = property.propertyPath; //returns the property path of the property we want to apply the attribute to
-                string conditionPath = propertyPath.Replace(property.name, condHAtt.ConditionalSourceField); //changes the path to the conditionalsource property path
+                //returns the property path of the property we want to apply the attribute to
+                string propertyPath = property.propertyPath; 
+                
+                //changes the path to the conditionalsource property path
+                string conditionPath = propertyPath.Replace(property.name, condHAtt.Variable); 
+                
                 sourcePropertyValue = property.serializedObject.FindProperty(conditionPath);
 
                 //if the find failed->fall back to the old system
                 if (sourcePropertyValue == null)
                 {
                     //original implementation (doens't work with nested serializedObjects)
-                    sourcePropertyValue = property.serializedObject.FindProperty(condHAtt.ConditionalSourceField);
+                    sourcePropertyValue = property.serializedObject.FindProperty(condHAtt.Variable);
                 }
             }
             else
             {
                 //original implementation (doens't work with nested serializedObjects)
-                sourcePropertyValue = property.serializedObject.FindProperty(condHAtt.ConditionalSourceField);
+                sourcePropertyValue = property.serializedObject.FindProperty(condHAtt.Variable);
             }
 
 
             if (sourcePropertyValue != null)
             {
-                enabled = CheckPropertyType(sourcePropertyValue);
-              //  if (condHAtt.InverseCondition1) enabled = !enabled;
+                enabled = CheckPropertyType(sourcePropertyValue, condHAtt.EnumValue);
             }
-            //else
-            //{
-            //    //Debug.LogWarning("Attempting to use a ConditionalHideAttribute but no matching SourcePropertyValue found in object: " + condHAtt.ConditionalSourceField);
-            //}
-
-
-            ////handle secondary property
-            //SerializedProperty sourcePropertyValue2 = null;
-            //if (!property.isArray)
-            //{
-            //    string propertyPath = property.propertyPath; //returns the property path of the property we want to apply the attribute to
-            //    string conditionPath = propertyPath.Replace(property.name, condHAtt.ConditionalSourceField2); //changes the path to the conditionalsource property path
-            //    sourcePropertyValue2 = property.serializedObject.FindProperty(conditionPath);
-
-            //    //if the find failed->fall back to the old system
-            //    if (sourcePropertyValue2 == null)
-            //    {
-            //        //original implementation (doens't work with nested serializedObjects)
-            //        sourcePropertyValue2 = property.serializedObject.FindProperty(condHAtt.ConditionalSourceField2);
-            //    }
-            //}
-            //else
-            //{
-            //    // original implementation(doens't work with nested serializedObjects) 
-            //    sourcePropertyValue2 = property.serializedObject.FindProperty(condHAtt.ConditionalSourceField2);
-            //}
-
-            ////Combine the results
-            //if (sourcePropertyValue2 != null)
-            //{
-            //    bool prop2Enabled = CheckPropertyType(sourcePropertyValue2);
-            //    if (condHAtt.InverseCondition2) prop2Enabled = !prop2Enabled;
-
-            //    if (condHAtt.UseOrLogic)
-            //        enabled = enabled || prop2Enabled;
-            //    else
-            //        enabled = enabled && prop2Enabled;
-            //}
-            //else
-            //{
-            //    //Debug.LogWarning("Attempting to use a ConditionalHideAttribute but no matching SourcePropertyValue found in object: " + condHAtt.ConditionalSourceField);
-            //}
-
-            ////Handle the unlimited property array
-            //string[] conditionalSourceFieldArray = condHAtt.ConditionalSourceFields;
-            //bool[] conditionalSourceFieldInverseArray = condHAtt.ConditionalSourceFieldInverseBools;
-            //for (int index = 0; index < conditionalSourceFieldArray.Length; ++index)
-            //{
-            //    SerializedProperty sourcePropertyValueFromArray = null;
-            //    if (!property.isArray)
-            //    {
-            //        string propertyPath = property.propertyPath; //returns the property path of the property we want to apply the attribute to
-            //        string conditionPath = propertyPath.Replace(property.name, conditionalSourceFieldArray[index]); //changes the path to the conditionalsource property path
-            //        sourcePropertyValueFromArray = property.serializedObject.FindProperty(conditionPath);
-
-            //        //if the find failed->fall back to the old system
-            //        if (sourcePropertyValueFromArray == null)
-            //        {
-            //            //original implementation (doens't work with nested serializedObjects)
-            //            sourcePropertyValueFromArray = property.serializedObject.FindProperty(conditionalSourceFieldArray[index]);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        // original implementation(doens't work with nested serializedObjects) 
-            //        sourcePropertyValueFromArray = property.serializedObject.FindProperty(conditionalSourceFieldArray[index]);
-            //    }
-
-            //    //Combine the results
-            //    if (sourcePropertyValueFromArray != null)
-            //    {
-            //        bool propertyEnabled = CheckPropertyType(sourcePropertyValueFromArray);                
-            //        if (conditionalSourceFieldInverseArray.Length>= (index+1) && conditionalSourceFieldInverseArray[index]) propertyEnabled = !propertyEnabled;
-
-            //        if (condHAtt.UseOrLogic)
-            //            enabled = enabled || propertyEnabled;
-            //        else
-            //            enabled = enabled && propertyEnabled;
-            //    }
-            //    else
-            //    {
-            //        //Debug.LogWarning("Attempting to use a ConditionalHideAttribute but no matching SourcePropertyValue found in object: " + condHAtt.ConditionalSourceField);
-            //    }
-            //}
-
-
+            
             //wrap it all up
             if (condHAtt.Inverse) enabled = !enabled;
-
             return enabled;
         }
 
-        private bool CheckPropertyType(SerializedProperty sourcePropertyValue)
+        private bool CheckPropertyType(SerializedProperty sourcePropertyValue, int[] EnumValue)
         {
             //Note: add others for custom handling if desired
             switch (sourcePropertyValue.propertyType)
@@ -224,6 +129,13 @@ namespace MalbersAnimations
                     return sourcePropertyValue.boolValue;
                 case SerializedPropertyType.ObjectReference:
                     return sourcePropertyValue.objectReferenceValue != null;
+                case SerializedPropertyType.Enum:
+                    for (int i = 0; i < EnumValue.Length; i++)
+                    {
+                        if (sourcePropertyValue.enumValueIndex == EnumValue[i]) 
+                            return true;
+                    }
+                    return false;
                 default:
                     Debug.LogError("Data type of the property used for conditional hiding [" + sourcePropertyValue.propertyType + "] is currently not supported");
                     return true;

@@ -26,6 +26,19 @@ MonoBehaviour:
     time: 0
     sent: 0
     Active: 1
+  - message: ResetGravityDirection
+    typeM: 4
+    boolValue: 0
+    intValue: 0
+    floatValue: 0
+    stringValue: 
+    intVarValue: {fileID: 0}
+    transformValue: {fileID: 0}
+    GoValue: {fileID: 0}
+    ComponentValue: {fileID: 0}
+    time: 0
+    sent: 0
+    Active: 1
   UseSendMessage: 0
-  SendToChildren: 1
+  SendToChildren: 0
   debug: 0
