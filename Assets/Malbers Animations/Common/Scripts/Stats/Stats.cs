@@ -367,6 +367,7 @@ namespace MalbersAnimations
             if (stats == null) stats = new List<Stat>();
 
             CreateHealth();
+            MTools.SetDirty(this);
         }
 #endif
     }

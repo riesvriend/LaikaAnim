@@ -1041,11 +1041,13 @@ namespace MalbersAnimations.Controller
             {
                 FrontRay = true;
 
+                #region debug
                 if (debugGizmos)
                 {
                     Debug.DrawRay(hit_Chest.point, hit_Chest.normal * ScaleFactor * 0.2f, Color.green);
                     MTools.DrawWireSphere(Main_Pivot_Point + Direction * (hit_Chest.distance - RayCastRadius), Color.green, RayCastRadius * ScaleFactor);
                 }
+                #endregion
 
                 //Calculate current Ground Angle
                 MainPivotSlope = Vector3.SignedAngle(hit_Chest.normal, UpVector, Right);
@@ -1066,7 +1068,7 @@ namespace MalbersAnimations.Controller
                         }
                     }
                 }
-                else if (MainPivotSlope < -maxAngleSlope) //Meaning it has touched the ground but the angle too deep
+                else if (MainPivotSlope < NegativeMaxSlope) //Meaning it has touched the ground but the angle too deep
                 {
                     FrontRay = false;
                     HasReachedMaxSlope = false;
@@ -1096,7 +1098,7 @@ namespace MalbersAnimations.Controller
 
                     var MainPivotSlope = Vector3.SignedAngle(hit_Hip.normal, UpVector, Right);
 
-                    if (MainPivotSlope < -maxAngleSlope) //Meaning it has touched the ground but the angle too deep
+                    if (MainPivotSlope < NegativeMaxSlope) //Meaning it has touched the ground but the angle too deep
                     {
                         MainRay = false; //meaning the Slope is too deep
                     }
@@ -1193,7 +1195,7 @@ namespace MalbersAnimations.Controller
                         }
                     }
                 }
-                else if (MainPivotSlope < -maxAngleSlope) //Meaning it has touched the ground but the angle too deep
+                else if (MainPivotSlope < NegativeMaxSlope) //Meaning it has touched the ground but the angle too deep
                 {
                     FrontRay = false;
                     HasReachedMaxSlope = false;
@@ -1222,8 +1224,8 @@ namespace MalbersAnimations.Controller
                 {
 
                     var MainPivotSlope = Vector3.SignedAngle(hit_Hip.normal, UpVector, Right);
-
-                    if (MainPivotSlope < -maxAngleSlope) //Meaning it has touched the ground but the angle too deep
+                    
+                    if (MainPivotSlope < NegativeMaxSlope) //Meaning it has touched the ground but the angle too deep
                     {
                         MainRay = false; //meaning the Slope is too deep
                     }
@@ -1562,7 +1564,7 @@ namespace MalbersAnimations.Controller
 
                 var GTime = DeltaTime * GravityTime;
                 
-                GravityStoredVelocity = Gravity * GravityPower * (GTime * GTime / 2)*  TimeMultiplier;
+                GravityStoredVelocity = Gravity * GravityPower * (GTime * GTime / 2) *  TimeMultiplier * ScaleFactor;
                 AdditivePosition += GravityStoredVelocity * DeltaTime;                                         //Add Gravity if is in use
                 GravityTime++;
 

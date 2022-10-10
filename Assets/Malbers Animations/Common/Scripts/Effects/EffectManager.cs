@@ -20,7 +20,7 @@ namespace MalbersAnimations.Utilities
         public List<Effect> Effects;
 
         public int SelectedEffect = -1;
-
+        public bool debug;
         private void Awake()
         {
             foreach (var e in Effects)
@@ -88,6 +88,10 @@ namespace MalbersAnimations.Utilities
                     }
                     else
                         Destroy(e.Instance);
+
+
+                    if (debug)
+                        Debug.Log($"{Owner}. Stop Effect [{e.Name}]",this);
                 }
             }
         }
@@ -197,6 +201,10 @@ namespace MalbersAnimations.Utilities
                             StartCoroutine(Life(e));
                         }
                     }
+
+                    if (debug)
+                        Debug.Log($"{Owner}.Play Effect [{e.Name}]");
+
                     e.OnPlay.Invoke();                                      //Invoke the Play Event
                 }
             ); 
@@ -388,7 +396,7 @@ namespace MalbersAnimations.Utilities
     public class EffectManagerEditor : Editor
     {
         private ReorderableList list;
-        private SerializedProperty EffectList, Owner, SelectedEffect;
+        private SerializedProperty EffectList, Owner, SelectedEffect, debug;
         private EffectManager M;
 
         private void OnEnable()
@@ -397,6 +405,7 @@ namespace MalbersAnimations.Utilities
             //script = MonoScript.FromMonoBehaviour(target as MonoBehaviour);
 
             Owner = serializedObject.FindProperty("Owner");
+            debug = serializedObject.FindProperty("debug");
             EffectList = serializedObject.FindProperty("Effects");
             SelectedEffect = serializedObject.FindProperty("SelectedEffect");
 
@@ -420,8 +429,13 @@ namespace MalbersAnimations.Utilities
 
             MalbersEditor.DrawDescription("Manage all the Effects using the function (PlayEffect(int ID))");
 
+            using (new GUILayout.HorizontalScope())
+            {
+                EditorGUILayout.PropertyField(Owner);
+                MalbersEditor.DrawDebugIcon(debug);
+            }
 
-            EditorGUILayout.PropertyField(Owner);
+
             list.DoLayoutList();
 
             if (list.index != -1)

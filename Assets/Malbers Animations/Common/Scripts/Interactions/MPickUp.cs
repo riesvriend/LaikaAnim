@@ -275,7 +275,7 @@ namespace MalbersAnimations.Controller
                 OnItemDrop.Invoke(Item.gameObject);
                 OnDropping.Invoke(Item.ID);                     //Invoke the method
                 
-                OnItemPicked.Invoke(null);
+               // OnItemPicked.Invoke(null);
                 Item = null;                                    //Remove the Item
 
                 if (m_HidePickArea.Value)

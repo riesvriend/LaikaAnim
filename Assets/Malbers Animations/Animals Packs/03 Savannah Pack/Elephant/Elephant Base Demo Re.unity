@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.75, g: 0.96896553, b: 1, a: 1}
   m_FogMode: 2
   m_FogDensity: 0.015
@@ -38,12 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2105222733}
-  m_IndirectSpecularColor: {r: 0.73045343, g: 0.79851073, b: 0.8354537, a: 1}
+  m_IndirectSpecularColor: {r: 0.4849924, g: 0.5915705, b: 0.65520734, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 12
   m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
@@ -98,7 +98,8 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 57f915fed0caa5e4db938b0e1606073e,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -118,6 +119,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -168,6 +171,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -192,6 +196,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &144704990
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -286,6 +291,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &461399916
 Canvas:
   m_ObjectHideFlags: 0
@@ -379,6 +385,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -629,6 +636,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &2105222732
@@ -707,6 +715,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!4 &2105222734
@@ -4860,6 +4869,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4947,6 +4957,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5031,6 +5042,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5114,6 +5126,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5201,6 +5214,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5302,6 +5316,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5457,6 +5472,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5544,6 +5560,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5613,6 +5630,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5680,6 +5698,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5784,6 +5803,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5854,6 +5874,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5940,7 +5961,22 @@ SkinnedMeshRenderer:
   - {fileID: 7701166874743160383}
   - {fileID: 7701166875429970747}
   - {fileID: 7701166874975219720}
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
+  - 0
+  - 0
+  - 100
+  - 100
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   m_RootBone: {fileID: 7701166874402716408}
   m_AABB:
     m_Center: {x: -1.6102669, y: 0.0109725, z: -0.2841773}
@@ -6025,6 +6061,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6112,6 +6149,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6210,6 +6248,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6262,6 +6301,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6380,6 +6420,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6436,6 +6477,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6605,6 +6647,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6712,6 +6755,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6813,6 +6857,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6900,6 +6945,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6970,6 +7016,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7067,6 +7114,7 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -7180,7 +7228,7 @@ Transform:
   m_GameObject: {fileID: 7701166873328787015}
   m_LocalRotation: {x: -0.03294909, y: 0.33442718, z: 0.01648798, w: 0.9417011}
   m_LocalPosition: {x: -0.4003018, y: -0.09818542, z: 0.4900064}
-  m_LocalScale: {x: 0.73172, y: 0.73172, z: 0.73172}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children: []
   m_Father: {fileID: 7701166873950423299}
   m_RootOrder: 1
@@ -7305,7 +7353,7 @@ Transform:
   m_GameObject: {fileID: 7701166873465313355}
   m_LocalRotation: {x: 0.00000067545676, y: 0.00000039024272, z: -0.83820117, w: 0.54536116}
   m_LocalPosition: {x: 0.14871795, y: 0.91054976, z: -0.0000015631856}
-  m_LocalScale: {x: 0.97, y: 0.97, z: 0.97}
+  m_LocalScale: {x: 0.95, y: 0.95, z: 0.95}
   m_Children:
   - {fileID: 7701166874385585764}
   - {fileID: 7701166875234470409}
@@ -7491,7 +7539,7 @@ Transform:
   m_GameObject: {fileID: 7701166873617264797}
   m_LocalRotation: {x: 0.03451533, y: 0.047730844, z: -0.025944179, w: 0.99792653}
   m_LocalPosition: {x: -0.5284383, y: -0.11266998, z: -0.0030526733}
-  m_LocalScale: {x: 1.1841, y: 1.1841, z: 1.1841}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_Children: []
   m_Father: {fileID: 7701166873950423299}
   m_RootOrder: 0
@@ -7675,7 +7723,7 @@ Transform:
   m_GameObject: {fileID: 7701166873924353220}
   m_LocalRotation: {x: -0.17764457, y: 0.6803533, z: 0.12927555, w: 0.69917786}
   m_LocalPosition: {x: -0.16138121, y: 0.030536193, z: 0.762214}
-  m_LocalScale: {x: 0.80479, y: 0.80479, z: 0.80479}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children: []
   m_Father: {fileID: 7701166873950423299}
   m_RootOrder: 2
@@ -7735,7 +7783,7 @@ Transform:
   m_GameObject: {fileID: 7701166873950423298}
   m_LocalRotation: {x: 0.57471675, y: 0.41190943, z: 0.70456374, w: 0.060176942}
   m_LocalPosition: {x: -0.13319916, y: 0.08651748, z: -0.42616123}
-  m_LocalScale: {x: 1.002482, y: 0.9891288, z: 0.9891288}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7701166873617264798}
   - {fileID: 7701166873328787008}
@@ -7798,7 +7846,7 @@ Transform:
   m_GameObject: {fileID: 7701166873972439918}
   m_LocalRotation: {x: 0.000000071387674, y: 0.0000001064922, z: -0.14258048, w: 0.9897832}
   m_LocalPosition: {x: -0.31586823, y: -0.00023864745, z: -7.1944667e-10}
-  m_LocalScale: {x: 0.86480004, y: 0.86480004, z: 0.86480004}
+  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
   m_Children:
   - {fileID: 7701166873627958395}
   m_Father: {fileID: 7701166874385585764}
@@ -7922,7 +7970,7 @@ Transform:
   m_GameObject: {fileID: 7701166874084996051}
   m_LocalRotation: {x: 0.0000008764527, y: -0.00000062859806, z: 0.3870647, w: 0.92205256}
   m_LocalPosition: {x: -0.5475513, y: -0.32385802, z: -0.0000007565151}
-  m_LocalScale: {x: 1.0841, y: 1.0841, z: 1.0841}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_Children:
   - {fileID: 7701166873911501690}
   - {fileID: 7701166874911320087}
@@ -8086,7 +8134,7 @@ Transform:
   m_GameObject: {fileID: 7701166874257123528}
   m_LocalRotation: {x: -0.035006795, y: -0.0047565494, z: 0.0054866783, w: 0.9993607}
   m_LocalPosition: {x: -0.36150128, y: 0, z: 0}
-  m_LocalScale: {x: 1.1052779, y: 1.2324, z: 1.2324}
+  m_LocalScale: {x: 1.1, y: 1.2, z: 1.2}
   m_Children: []
   m_Father: {fileID: 7701166875136465435}
   m_RootOrder: 0
@@ -8134,7 +8182,7 @@ Transform:
   m_GameObject: {fileID: 7701166874385585787}
   m_LocalRotation: {x: 0.0000020730383, y: -0.00000075719834, z: -0.10637313, w: 0.9943263}
   m_LocalPosition: {x: -0.39965498, y: -0.00024536133, z: -0.0000000017747516}
-  m_LocalScale: {x: 0.89586, y: 0.89586, z: 0.89586}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_Children:
   - {fileID: 7701166873972439919}
   m_Father: {fileID: 7701166873465313332}
@@ -8181,7 +8229,7 @@ Transform:
   m_GameObject: {fileID: 7701166874391558084}
   m_LocalRotation: {x: 0.17764457, y: -0.680354, z: 0.12927175, w: 0.69917786}
   m_LocalPosition: {x: -0.16138138, y: 0.030540466, z: -0.7622131}
-  m_LocalScale: {x: 0.80479, y: 0.80479, z: 0.80479}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children: []
   m_Father: {fileID: 7701166875153621776}
   m_RootOrder: 2
@@ -8371,7 +8419,7 @@ Transform:
   m_GameObject: {fileID: 7701166874491761674}
   m_LocalRotation: {x: -0.005909432, y: 0.00078499445, z: -0.06000672, w: 0.99818015}
   m_LocalPosition: {x: -0.77350456, y: -0.0000002169609, z: -0.000000038146972}
-  m_LocalScale: {x: 1.0935948, y: 1.2183, z: 1.2183}
+  m_LocalScale: {x: 1.1, y: 1.2, z: 1.2}
   m_Children: []
   m_Father: {fileID: 7701166875375165155}
   m_RootOrder: 0
@@ -8555,7 +8603,7 @@ Transform:
   m_GameObject: {fileID: 7701166874671963260}
   m_LocalRotation: {x: -0.034515332, y: -0.0477307, z: -0.025944488, w: 0.99792653}
   m_LocalPosition: {x: -0.528438, y: -0.11267029, z: 0.0030520628}
-  m_LocalScale: {x: 1.1841, y: 1.1841, z: 1.1841}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
   m_Children: []
   m_Father: {fileID: 7701166875153621776}
   m_RootOrder: 0
@@ -8616,7 +8664,7 @@ Transform:
   m_GameObject: {fileID: 7701166874743160382}
   m_LocalRotation: {x: 0.0059094275, y: -0.00078508176, z: -0.060006723, w: 0.99818015}
   m_LocalPosition: {x: -0.7735046, y: -0.00000008106232, z: -0.000000076293944}
-  m_LocalScale: {x: 1.0935948, y: 1.2183, z: 1.2183}
+  m_LocalScale: {x: 1.1, y: 1.2, z: 1.2}
   m_Children: []
   m_Father: {fileID: 7701166875242253620}
   m_RootOrder: 0
@@ -8706,7 +8754,7 @@ Transform:
   m_GameObject: {fileID: 7701166875068382512}
   m_LocalRotation: {x: 0.03500679, y: 0.0047565494, z: 0.0054866793, w: 0.9993607}
   m_LocalPosition: {x: -0.36150137, y: 0, z: 0.000000038146972}
-  m_LocalScale: {x: 1.1052779, y: 1.2324, z: 1.2324}
+  m_LocalScale: {x: 1.1, y: 1.2, z: 1.2}
   m_Children: []
   m_Father: {fileID: 7701166873641546968}
   m_RootOrder: 0
@@ -8736,7 +8784,7 @@ Transform:
   m_GameObject: {fileID: 7701166875069885225}
   m_LocalRotation: {x: 0.03294913, y: -0.3344344, z: 0.01648612, w: 0.9416986}
   m_LocalPosition: {x: -0.4003021, y: -0.09818298, z: -0.4900064}
-  m_LocalScale: {x: 0.73172, y: 0.73172, z: 0.73172}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children: []
   m_Father: {fileID: 7701166875153621776}
   m_RootOrder: 1
@@ -8811,7 +8859,7 @@ Transform:
   m_GameObject: {fileID: 7701166875153621783}
   m_LocalRotation: {x: -0.57471675, y: -0.41191342, z: 0.7045615, w: 0.06017677}
   m_LocalPosition: {x: -0.13319884, y: 0.08651581, z: 0.4261618}
-  m_LocalScale: {x: 1.002482, y: 0.9891288, z: 0.9891288}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7701166874671963261}
   - {fileID: 7701166875069885226}

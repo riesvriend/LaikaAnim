@@ -1195,9 +1195,9 @@ namespace MalbersAnimations.HAP
             ReinRightHand(true);
             ReinLeftHand(true);
         }
- #endregion
+        #endregion
 
-
+        #region Inspector Stuffs
 #if UNITY_EDITOR
         private void OnValidate()
         {
@@ -1436,7 +1436,7 @@ namespace MalbersAnimations.HAP
             if (animator != null && animator.avatar.isHuman)
             {
                 RightHand = animator.GetBoneTransform(HumanBodyBones.RightHand);
-                SetDirty();
+                MTools.SetDirty(this);
             }
         }
         private void FindLHand()
@@ -1444,17 +1444,12 @@ namespace MalbersAnimations.HAP
             if (animator != null && animator.avatar.isHuman)
             {
                 LeftHand = animator.GetBoneTransform(HumanBodyBones.LeftHand);
-                SetDirty();
+                MTools.SetDirty(this);
             }
         }
 
 
-        void SetDirty()
-        {
-#if UNITY_EDITOR
-            EditorUtility.SetDirty(this);
-#endif
-        }
+ 
 
 
         void OnDrawGizmos()
@@ -1476,6 +1471,8 @@ namespace MalbersAnimations.HAP
             }
         }
 #endif
+
+        #endregion
     }
 
     #region INSPECTOR
@@ -1483,7 +1480,7 @@ namespace MalbersAnimations.HAP
     [CustomEditor(typeof(MRider), true)]
     public class MRiderEd : Editor
     {
-        public readonly string version = "Riding System - HAP [v4.4.0]";
+        public readonly string version = "Riding System - HAP [v4.4.0a]";
 
         protected MRider M;
        

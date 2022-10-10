@@ -93,12 +93,6 @@ namespace MalbersAnimations.Weapons
            if(!m_collider) m_collider = GetComponentInChildren<Collider>();  
         }
 
-        protected override void Reset()
-        {
-            base.Reset();
-            rb = GetComponent<Rigidbody>();
-            m_collider = GetComponentInChildren<Collider>();  
-        }
 
 
         /// <summary> Initialize the Projectile main references and parameters</summary>
@@ -405,6 +399,18 @@ namespace MalbersAnimations.Weapons
         }
 
         public void DamageMultiplier(float multiplier) => statModifier.Value *= multiplier;
+
+
+#if UNITY_EDITOR
+        protected override void Reset()
+        {
+            base.Reset();
+            rb = GetComponent<Rigidbody>();
+            m_collider = GetComponentInChildren<Collider>();
+        }
+#endif
+
+
     }
 
 

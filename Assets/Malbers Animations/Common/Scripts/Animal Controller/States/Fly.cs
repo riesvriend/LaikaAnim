@@ -214,7 +214,7 @@ namespace MalbersAnimations.Controller
                     limit = PitchStrafe;
                     bank = BankStrafe;
                 }
- 
+
                 if (AutoGlide && !GlideOnly.Value)
                     AutoGliding();
 
@@ -244,14 +244,18 @@ namespace MalbersAnimations.Controller
             }
 
 
-            //Takeoff Impulse Logic
+
             if (Impulse > 0 && ImpulseTime > 0)
+            //Takeoff Impulse Logic
             {
-                if (elapsedImpulseTime <= ImpulseTime)
+                if (animal.LastState.ID <= 1) //Do it only if the last states were Idle or Locomotion
                 {
-                    var takeOffImp = Impulse * ImpulseCurve.Evaluate(elapsedImpulseTime / ImpulseTime);
-                    animal.AdditivePosition +=  animal.UpVector  * takeOffImp  * deltatime;
-                    elapsedImpulseTime += deltatime;
+                    if (elapsedImpulseTime <= ImpulseTime)
+                    {
+                        var takeOffImp = Impulse * ImpulseCurve.Evaluate(elapsedImpulseTime / ImpulseTime);
+                        animal.AdditivePosition += animal.UpVector * takeOffImp * deltatime;
+                        elapsedImpulseTime += deltatime;
+                    }
                 }
             }
         }

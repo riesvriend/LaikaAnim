@@ -58,8 +58,8 @@ namespace MalbersAnimations
         public virtual void ReceiveDamage(Vector3 Direction, GameObject Damager, StatModifier modifier,
             bool isCritical, bool react, MReaction customReaction, bool pureDamage)
         {
-            if (!enabled) return; //This makes the Animal Immortal.
-
+            if (!enabled) return;       //This makes the Animal Immortal.
+            HitDirection = Direction;   //IMPORTANT!!! to React
 
             if (customReaction) customReaction.React(character);        //Custom reaction
             else if (react && reaction)

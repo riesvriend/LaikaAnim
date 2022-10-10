@@ -149,8 +149,10 @@ namespace MalbersAnimations.Controller
             Trigger = this.FindComponent<Collider>();
             if (!Trigger) Trigger = gameObject.AddComponent<BoxCollider>();
             Trigger.isTrigger = true;
+            Trigger.enabled = false;
             enabled = false;
             m_Active.Value = false;
+            gameObject.SetLayer(2); //Force ignore Raycast
         }
 
 

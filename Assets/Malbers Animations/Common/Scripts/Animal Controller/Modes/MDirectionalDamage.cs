@@ -7,24 +7,24 @@ namespace MalbersAnimations.Controller
     {
         public enum HitDirection { TwoSides, FourSides, SixSides }
 
+       
         [Header("Damage Abilities")]
         public HitDirection hitDirection = HitDirection.SixSides;
-       
-        [Hide("show6Sides",true)]
-        public int FrontRight = 4;
-        public int Right  = 2;
-        [Hide("show6Sides",true)]
-        public int BackRight = 5;
-        [Hide("show6Sides",true)]
-        public int FrontLeft = 3;
-        public int Left  = 1;
-        [Hide("show6Sides",true)]
-        public int BackLeft = 6;
-        [Hide("show4Sides",true)]
-        public int Front = 3;
-        [Hide("show4Sides",true)]
-        public int Back = 4;
 
+        [Hide("hitDirection", (int)HitDirection.SixSides)]
+        public int FrontRight = 4;
+        public int Right = 2;
+        [Hide("hitDirection", (int)HitDirection.SixSides)]
+        public int BackRight = 5;
+        [Hide("hitDirection", (int)HitDirection.SixSides)]
+        public int FrontLeft = 3;
+        public int Left = 1;
+        [Hide("hitDirection", (int)HitDirection.SixSides)]
+        public int BackLeft = 6;
+        [Hide("hitDirection", (int)HitDirection.FourSides)]
+        public int Front = 3;
+        [Hide("hitDirection", (int)HitDirection.FourSides)]
+        public int Back = 4;
 
         public bool debug = false;
 
@@ -34,17 +34,20 @@ namespace MalbersAnimations.Controller
 
             Vector3 HitDirection = animal.GetComponent<IMDamage>().HitDirection;
 
-            if (HitDirection == Vector3.zero)  return; //Set it to random if there's no hit direction
-          
+            if (HitDirection == Vector3.zero) return; //Set it to random if there's no hit direction
 
-            HitDirection = Vector3.ProjectOnPlane(HitDirection, animal.UpVector);  //Remove the Y on the Direction
+
+            HitDirection = -Vector3.ProjectOnPlane(HitDirection, animal.UpVector);  //Remove the Y on the Direction
             float Angle = Vector3.Angle(animal.Forward, HitDirection);             //Get The angle
             bool left = Vector3.Dot(animal.Right, HitDirection) < 0;                //Calculate which directions comes the hit Left or right
 
             var Colordeb = Color.blue;
-            float mult = 3;
+            float mult = 2;
 
             int Side = -99;
+
+            float Dtime = 3f;
+          
 
             switch (hitDirection)
             {
@@ -53,13 +56,14 @@ namespace MalbersAnimations.Controller
 
                     if (debug)
                     {
-                        Debug.DrawRay(animal.transform.position,  animal.transform.forward * mult, Colordeb, 3f);
-                        Debug.DrawRay(animal.transform.position,  -animal.transform.forward * mult, Colordeb, 3f);
-                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, Angle * (left ? -1 : 1), 0) * animal.transform.forward * mult, Color.red, 3f);
+                        Debug.DrawRay(animal.transform.position, animal.transform.forward * mult, Colordeb, Dtime);
+                        Debug.DrawRay(animal.transform.position, -animal.transform.forward * mult, Colordeb, Dtime);
+                        Debug.DrawRay(animal.transform.position,
+                            Quaternion.Euler(0, Angle * (left ? -1 : 1), 0) * animal.transform.forward * mult, Color.red, Dtime);
                     }
                     break;
                 case MDirectionalDamage.HitDirection.FourSides:
-                        
+
                     if (Angle <= 45)
                     {
                         Side = Front;
@@ -76,11 +80,12 @@ namespace MalbersAnimations.Controller
 
                     if (debug)
                     {
-                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, 45, 0) * animal.transform.forward * mult, Colordeb, 3f);
-                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, -45, 0) * animal.transform.forward * mult, Colordeb, 3f);
-                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, 135, 0) * animal.transform.forward * mult, Colordeb, 3f);
-                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, -135, 0) * animal.transform.forward * mult, Colordeb, 3f);
-                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, Angle * (left ? -1 : 1), 0) * animal.transform.forward * mult, Color.red, 3f);
+                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, 45, 0) * animal.transform.forward * mult, Colordeb, Dtime);
+                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, -45, 0) * animal.transform.forward * mult, Colordeb, Dtime);
+                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, 135, 0) * animal.transform.forward * mult, Colordeb, Dtime);
+                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, -135, 0) * animal.transform.forward * mult, Colordeb, Dtime);
+                        Debug.DrawRay(animal.transform.position,
+                            Quaternion.Euler(0, Angle * (left ? -1 : 1), 0) * animal.transform.forward * mult, Color.red, Dtime);
                     }
 
 
@@ -89,13 +94,13 @@ namespace MalbersAnimations.Controller
 
                     if (debug)
                     {
-                        Debug.DrawRay(animal.transform.position , animal.transform.forward* mult, Colordeb, 3f);
-                        Debug.DrawRay(animal.transform.position, -animal.transform.forward* mult, Colordeb, 3f);
-                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, 60, 0) * animal.transform.forward * mult, Colordeb, 3f);
-                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, -60, 0) * animal.transform.forward * mult, Colordeb, 3f);
-                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, 120, 0) * animal.transform.forward * mult, Colordeb, 3f);
-                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, -120, 0) * animal.transform.forward * mult, Colordeb, 3f);
-                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, Angle * (left ? -1 : 1), 0) * animal.transform.forward * mult, Color.red, 3f);
+                        Debug.DrawRay(animal.transform.position, animal.transform.forward * mult, Colordeb, Dtime);
+                        Debug.DrawRay(animal.transform.position, -animal.transform.forward * mult, Colordeb, Dtime);
+                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, 60, 0) * animal.transform.forward * mult, Colordeb, Dtime);
+                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, -60, 0) * animal.transform.forward * mult, Colordeb, Dtime);
+                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, 120, 0) * animal.transform.forward * mult, Colordeb, Dtime);
+                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, -120, 0) * animal.transform.forward * mult, Colordeb, Dtime);
+                        Debug.DrawRay(animal.transform.position, Quaternion.Euler(0, Angle * (left ? -1 : 1), 0) * animal.transform.forward * mult, Color.red, Dtime);
                     }
 
                     if (!left)
@@ -115,29 +120,6 @@ namespace MalbersAnimations.Controller
                     break;
             }
             mode.AbilityIndex = Side;
-        }
-
-        [HideInInspector] public bool show4Sides;
-        [HideInInspector] public bool show6Sides;
-        private void OnValidate()
-        {
-            switch (hitDirection)
-            {
-                case HitDirection.TwoSides:
-                    show4Sides = false;
-                    show6Sides = false;
-                    break;
-                case HitDirection.FourSides:
-                    show4Sides = true;
-                    show6Sides = false;
-                    break;
-                case HitDirection.SixSides:
-                    show4Sides = false;
-                    show6Sides = true;
-                    break;
-                default:
-                    break;
-            }
         }
     }
 }

@@ -666,6 +666,8 @@ namespace MalbersAnimations.Controller
         /// <summary>Maximun angle on the terrain the animal can walk </summary>
         [Range(1f, 90f), Tooltip("Maximun angle on the terrain the animal can walk")]
         public float maxAngleSlope = 45f;
+        [Tooltip("Additional Angle to calculate Down Slope Limits")]
+        public float m_deepSlope = 5f;
 
         /// <summary>Main Pivot Slope Angle</summary>
         public float MainPivotSlope { get; private set; }
@@ -675,10 +677,12 @@ namespace MalbersAnimations.Controller
         public Transform RootBone;
 
         /// <summary>Check if can Fall on slope while on the ground "Decline Slope"</summary>
-        public bool DeepSlope => TerrainSlope < -maxAngleSlope;
+        public bool DeepSlope => TerrainSlope < NegativeMaxSlope;
+        public float NegativeMaxSlope =>  -(maxAngleSlope + m_deepSlope);
+        public float PositiveMaxSlope => maxAngleSlope;
 
-        /// <summary>Check if the Animal is on any Slope</summary>
-        public bool isinSlope => Mathf.Abs(TerrainSlope) > maxAngleSlope;
+        ///// <summary>Check if the Animal is on any Slope</summary>
+        //public bool isinSlope => Mathf.Abs(TerrainSlope) > maxAngleSlope;
 
         /// <summary>Speed of the Animal used on the Rigid Body (Used on Custom Speed Modifiers)</summary>
         public float HorizontalSpeed { get; private set; }

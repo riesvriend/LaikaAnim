@@ -1133,18 +1133,32 @@ namespace MalbersAnimations.Controller
         /// <summary> If the Animal has touched the ground then Grounded will be set to true  </summary>
         public bool CheckIfGrounded()
         {
-            //AlignRayCasting();
-            AlignIfGrounded();
+             AlignRayCasting();
             if (MainRay && FrontRay && !DeepSlope)
             {
-                hit_Hip.distance = Height * 2f;
+                hit_Hip.distance = Height * 2f; //?!??!?
                 return Grounded = true;   //Activate the Grounded Parameter so the Idle and the Locomotion State can be activated
             }
             
             return false;
         }
 
-       public void Always_Forward(bool value) => AlwaysForward = value;
+        /// <summary>
+        /// Use the height for aligning to the ground not the Pivots 
+        /// </summary>
+        public bool CheckIfGrounded_Height()
+        {
+            AlignIfGrounded();
+            if (MainRay && FrontRay && !DeepSlope)
+            {
+                hit_Hip.distance = Height * 2f; //?!??!?
+                return Grounded = true;   //Activate the Grounded Parameter so the Idle and the Locomotion State can be activated
+            }
+            return false;
+        }
+
+
+        public void Always_Forward(bool value) => AlwaysForward = value;
 
         /// <summary>Activate Attack triggers </summary>
         public virtual void ActivateDamager(int ID, float multiplier)

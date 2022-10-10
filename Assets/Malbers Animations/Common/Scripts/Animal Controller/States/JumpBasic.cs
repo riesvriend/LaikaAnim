@@ -207,7 +207,7 @@ namespace MalbersAnimations.Controller
             Debugging($"Jump Profile: [{activeJump.name}] Jumps Performanced:[{JumpsPerformanced}]");
             JumpPressHeight_Value = 1;
 
-            var Speed = animal.HorizontalSpeed;
+            var Speed = animal.HorizontalSpeed/ScaleFactor;
 
            // var passInertia = true;
 
@@ -297,9 +297,9 @@ namespace MalbersAnimations.Controller
 
                 Vector3 ExtraJumpHeight = (UpVector * activeJump.Height.Value);
                 animal.AdditivePosition += ExtraJumpHeight * deltaTime * JumpPressHeight_Value * ScaleFactor;     //Up Movement
-              
 
-                if (activeJump.ForwardPush>0) animal.AdditivePosition += Forward*activeJump.ForwardPush * deltaTime * ScaleFactor;     //Forward Movement
+
+                if (activeJump.ForwardPush > 0) animal.AdditivePosition += Forward * activeJump.ForwardPush * deltaTime * ScaleFactor;     //Forward Movement
 
 
 
@@ -314,11 +314,11 @@ namespace MalbersAnimations.Controller
                 //Apply Fake Gravity (HAD TO TO IT)
 
                 var GTime = deltaTime * animal.GravityTime;
-                var GravityStoredVelocity = Gravity * animal.GravityPower * (GTime * GTime / 2) * animal.TimeMultiplier;
+                var GravityStoredVelocity = Gravity * ScaleFactor * animal.GravityPower * (GTime * GTime / 2) * animal.TimeMultiplier;
                 
                 //Add Gravity if is in use
                 animal.AdditivePosition += 
-                    GravityStoredVelocity * deltaTime * activeJump.GravityPower.Value * ScaleFactor;
+                    GravityStoredVelocity * deltaTime * activeJump.GravityPower.Value;
                 
                 animal.GravityTime++;
             }

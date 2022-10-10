@@ -1,14 +1,15 @@
+using PPP;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PokePetting : MonoBehaviour
 {
-    private LaikaMovement laikaMovementHandler;
+    private IPettableAnimal pettableAnimal;
 
     private void Awake()
     {
-        this.laikaMovementHandler = FindObjectOfType<LaikaMovement>();
+        this.pettableAnimal = FindObjectOfType<LaikaMovement>();
     }
 
     /// <summary>
@@ -19,14 +20,14 @@ public class PokePetting : MonoBehaviour
         Debug.Log("PokePetting HandleHover");
 
         // Start hacking (hijgen)
-        var hackingAudioSource = laikaMovementHandler.gameObject.GetComponentInChildren<AudioSource>();
+        var hackingAudioSource = pettableAnimal.gameObject.GetComponentInChildren<AudioSource>();
         hackingAudioSource?.Play();
     }
 
     public void HandleUnhover()
     {
         Debug.Log("PokePetting HandleUnhover");
-        var hackingAudioSource = laikaMovementHandler.gameObject.GetComponentInChildren<AudioSource>();
+        var hackingAudioSource = pettableAnimal.gameObject.GetComponentInChildren<AudioSource>();
         hackingAudioSource?.Stop();
     }
 
@@ -37,14 +38,12 @@ public class PokePetting : MonoBehaviour
     public void HandleSelect()
     {
         Debug.Log("PokePetting HandleSelect");
-
-        laikaMovementHandler?.HandleVoiceCommand("sit");
-
+        pettableAnimal.OnStartPetting();
     }
 
     public void HandleUnselect()
     {
         Debug.Log("PokePetting HandleUnselect");
-        laikaMovementHandler?.HandleVoiceCommand("up");
+        pettableAnimal.OnStopPetting();
     }
 }

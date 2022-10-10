@@ -352,6 +352,7 @@ namespace MalbersAnimations.Controller
 
                     if (JumpRay.distance < animal.Height) //Meaning is near the ground
                     {
+                        Debugging($"Allow Exit, Near the Ground  Jump Distance: [{JumpRay.distance}]. Height {animal.Height}");
                         AllowExit();
                         return;
                     }

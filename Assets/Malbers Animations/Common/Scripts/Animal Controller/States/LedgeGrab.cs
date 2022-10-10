@@ -113,10 +113,6 @@ namespace MalbersAnimations.Controller
 
                                     var A = Vector3.Cross(FoundLedgeHit.normal, Forward);
                                     WallNormal = Vector3.Cross(FoundLedgeHit.normal, A).normalized;
-                                    Debug.DrawRay(FoundLedgeHit.point, A, Color.white, 5);
-                                    Debug.DrawRay(FoundLedgeHit.point, WallNormal, Color.green, 5);
-
-
 
                                     //Find the Correct Orientation
                                     var Y_Point = MTools.ClosestPointOnPlane(transform.position, WallNormal, FoundLedgeHit.point);
@@ -125,26 +121,13 @@ namespace MalbersAnimations.Controller
 
                                     var H_Point = MTools.ClosestPointOnPlane(FoundWallHit.point, WallNormal, transform.position);
 
-                                    MTools.DrawWireSphere(CloseEdgePoint, Color.blue, 0.1f, 5f);
-
-
                                     animal.SetPlatform(FoundLedgeHit.transform);
                                     LedgeProfile = p; //Store the current Ledge Profile
-
                                    
 
-                                    MTools.DrawWireSphere(Y_Point, Color.red, 0.1f,5f);
-                                    MTools.DrawWireSphere(FoundLedgeHit.point, Color.yellow, 0.1f,5f);
-
-
-                                    MTools.DrawWireSphere(H_Point, Color.red, 0.1f,5f);
-                                    MTools.DrawWireSphere(transform.position , Color.yellow, 0.1f,5f);
-
-                                    Debug.DrawLine(Y_Point, FoundLedgeHit.point, Color.yellow, 5f);
-                                    Debug.DrawLine(H_Point, transform.position, Color.red, 5f);
-
-                                    var YAxis = Vector3.Distance(Y_Point, transform.position) + LedgeProfile.AlingOffset.y;
-                                    var ZAxis = (wallDistance - Vector3.Distance(H_Point, transform.position)) + LedgeProfile.AlingOffset.x;
+                                    var YAxis = Vector3.Distance(Y_Point, transform.position) + (LedgeProfile.AlingOffset.y * ScaleFactor);
+                                    var ZAxis = (wallDistance * ScaleFactor) - Vector3.Distance(H_Point, transform.position)
+                                        + (LedgeProfile.AlingOffset.x*ScaleFactor);
 
 
                                     var UPDifference = YAxis * FoundLedgeHit.normal;
@@ -153,21 +136,33 @@ namespace MalbersAnimations.Controller
                                     AlignmentOffset = UPDifference + (HorizontalDifference);
                                     AngleDifference = Vector3.SignedAngle(Forward, -WallNormal, Up); //?????
 
-                                  
-
                                     animal.InertiaPositionSpeed = Vector3.zero; //Remove internia
                                     animal.AdditivePosition = Vector3.zero; //Remove additive
                                     CheckKinematic();
-                                    // animal.transform.position += AlignmentOffset;
 
                                     StartPosition = animal.transform.position;
                                     StartRotation = animal.transform.rotation;
 
-                                 
-                                    TargetPosition = animal.transform.position + AlignmentOffset;
+                                    TargetPosition = animal.transform.position + (AlignmentOffset);
 
+                                    #region Debug
+                                    Debug.DrawRay(FoundLedgeHit.point, A, Color.white, 5);
+                                    Debug.DrawRay(FoundLedgeHit.point, WallNormal, Color.green, 5);
+
+                                    MTools.DrawWireSphere(CloseEdgePoint, Color.blue, 0.1f, 5f);
+
+                                    MTools.DrawWireSphere(Y_Point, Color.red, 0.1f, 5f);
+                                    MTools.DrawWireSphere(FoundLedgeHit.point, Color.yellow, 0.1f, 5f);
+
+
+                                    MTools.DrawWireSphere(H_Point, Color.red, 0.1f, 5f);
+                                    MTools.DrawWireSphere(transform.position, Color.yellow, 0.1f, 5f);
+
+                                    Debug.DrawLine(Y_Point, FoundLedgeHit.point, Color.yellow, 5f);
+                                    Debug.DrawLine(H_Point, transform.position, Color.red, 5f);
                                     MTools.DrawWireSphere(StartPosition, Color.white, 0.02f, 3f);
                                     MTools.DrawWireSphere(TargetPosition, Color.green, 0.02f, 3f);
+                                    #endregion
 
                                     Debugging($"Try [Ledge-Grab] Wall and Ledge found. <B>[{p.name}]</B>. Wall-Hit Difference: [{HorizontalDifference}]");
                                     return true;
@@ -187,6 +182,8 @@ namespace MalbersAnimations.Controller
             base.Activate();
             CheckKinematic();
             SetEnterStatus(LedgeProfile.EnterStatus);
+
+            animal.Force_Remove(); //Remove all forces when grabbing a ledge
         }
 
         private void CheckKinematic()
@@ -263,10 +260,13 @@ namespace MalbersAnimations.Controller
 
         public override void TryExitState(float DeltaTime)
         {
+            //Debug.Log("animal.AnimState.normalizedTime = " + animal.AnimState.normalizedTime);
+
             if (animal.AnimState.normalizedTime > LedgeProfile.ExitTime) //Exit after the Current Ledge Profile time
             {
                 AllowExit();
-                animal.CheckIfGrounded();
+                animal.Grounded = true;
+                //animal.CheckIfGrounded();
                 Debugging($"Allow Exit - {LedgeProfile.name} After Exit Time {animal.AnimState.normalizedTime:F3} > {LedgeProfile.ExitTime}");
             }
         }

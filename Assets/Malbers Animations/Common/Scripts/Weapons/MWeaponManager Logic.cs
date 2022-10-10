@@ -69,6 +69,12 @@ namespace MalbersAnimations
         }
         private void OnDisable()
         {
+            if (CombatMode)
+            {
+                UnEquip_Fast();
+                animal.Mode_Interrupt();
+            }
+
             if (HasAnimal)
             {
                 animal.OnModeStart.RemoveListener(AnimalModeStart);
@@ -77,9 +83,9 @@ namespace MalbersAnimations
                 animal.OnStrafe.RemoveListener(CheckStrafing);
             }
 
-            if (Rider != null) Rider.RiderStatus -= GetRiderStatus;        //Disconnect the notifications from the Rider
-            if (MInput != null) ConnectInput(MInput, true);                 //Disconnect the inputs from the Input Source
 
+            if (Rider != null) Rider.RiderStatus -= GetRiderStatus;    //Disconnect the notifications from the Rider
+            if (MInput != null) ConnectInput(MInput, false);           //Disconnect the inputs from the Input Source
 
             //Disconnect from the Animator
             SetBoolParameter -= SetAnimParameter;
@@ -88,7 +94,6 @@ namespace MalbersAnimations
             SetTriggerParameter -= SetAnimParameter;
 
 
-            Aim = false;
         }
 
 
@@ -103,7 +108,7 @@ namespace MalbersAnimations
             CombatMode = Aim = false;
             OnCanAim.Invoke(false);
             ExitAim();
-
+           // UnEquip_Fast();
             Debugging($"Reset Combat");
         }
 
@@ -141,7 +146,7 @@ namespace MalbersAnimations
                 if (Weapon)
                 {
                     Holster_SetActive(Weapon.HolsterID); //Set the Active Holster the Weapon One
-                    ActiveHolster.SetWeapon(Weapon);
+                    ActiveHolster?.SetWeapon(Weapon);
                     Equip_Fast();
                     Weapon.IsCollectable?.Pick();
                     AutoStoreWeapon();
@@ -250,10 +255,11 @@ namespace MalbersAnimations
         #region Reins
         private void CheckReinHandsEquip()
         {
-            if (Rider != null)
-
+            if (Rider != null && Weapon != null)
+            {
                 if (Weapon.IsRightHanded) Rider.ReinRightHand(false);
                 else Rider.ReinLeftHand(false);
+            }
         }
 
         public void GrabReinsBothHands()

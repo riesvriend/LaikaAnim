@@ -102,7 +102,7 @@ namespace MalbersAnimations.Controller
             {
                 if (!animal.Grounded) 
                 {
-                    animal.CheckIfGrounded(); 
+                    animal.CheckIfGrounded_Height(); 
                 }
                else if (!animal.FrontRay && !animal.MainRay)
                     animal.Grounded = false; 

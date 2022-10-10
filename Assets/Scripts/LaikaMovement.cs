@@ -1,3 +1,4 @@
+using PPP;
 using Synchrony;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Collider))] // For OnMouseDown
-public class LaikaMovement : MonoBehaviour
+public class LaikaMovement : MonoBehaviour, IPettableAnimal
 {
     private readonly List<string> downWords = new List<string>() { "omlaag", "laag", "af", "zit", "down", "lie", "sit" };
     private readonly List<string> upWords = new List<string>() { "omhoog", "sta", "staan", "kom", "op", "klaar", "up", "stand", "come", "here" };
@@ -249,6 +250,15 @@ public class LaikaMovement : MonoBehaviour
         }
     }
 
+    public void OnStartPetting()
+    {
+        HandleVoiceCommand("sit");
+    }
+
+    public void OnStopPetting()
+    {
+        HandleVoiceCommand("up");
+    }
 
     //private void Acceleration_performed(InputAction.CallbackContext ctx)
     //{
@@ -279,6 +289,4 @@ public class LaikaMovement : MonoBehaviour
     //        $"Device: {d.GetType().FullName}".Log();
     //    return InputSystem.devices.Any(d => d.GetType().IsClassOrSubclass<LinearAccelerationSensor>());
     //}
-
 }
-

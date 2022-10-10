@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -14,21 +13,43 @@ namespace MalbersAnimations.Utilities
         void DisableByPriority(int layer);
         void ResetByPriority(int layer);
     }
+        public enum EnterExit  { OnEnter, OnExit, OnTime}
+        public enum LookAtState { DoNothing, Enable, Disable , Reset}
 
     public class LookAtBehaviour : StateMachineBehaviour
     {
-        public enum LookAtState { DoNothing, Enable, Disable , Reset}
-        public enum EnterExit  { OnEnter, OnExit}
+
+        [Range(0, 1)]
+        public float Time = 0;
+
+        [HideInInspector] public bool showTime;
 
         private ILookAtActivation lookat;
         public EnterExit when = EnterExit.OnEnter;
         public LookAtState OnEnter = LookAtState.Enable;
 
+        private bool sent;
+
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             if (lookat == null) lookat = animator.FindInterface<ILookAtActivation>();
-
+            sent = false;
             if (when == EnterExit.OnEnter) CheckLookAt(animator, layerIndex);
+        }
+
+
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            if (when == EnterExit.OnTime && !sent)
+            {
+                var time = stateInfo.normalizedTime;
+
+                if (time >= Time)
+                {
+                    CheckLookAt(animator, layerIndex);
+                    sent = true;
+                }
+            }
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -52,7 +73,7 @@ namespace MalbersAnimations.Utilities
                 }
             }
         }
-
+         
     }
 
    
@@ -62,11 +83,12 @@ namespace MalbersAnimations.Utilities
     [CustomEditor(typeof(LookAtBehaviour))]
     public class LookAtBehaviourED : Editor
     {
-        SerializedProperty OnEnter, stateInfo;
+        SerializedProperty OnEnter, stateInfo, Time;
         void OnEnable()
         {
             OnEnter = serializedObject.FindProperty("OnEnter");
             stateInfo = serializedObject.FindProperty("when");
+            Time = serializedObject.FindProperty("Time");
         }
 
         public override void OnInspectorGUI()
@@ -75,6 +97,9 @@ namespace MalbersAnimations.Utilities
             MalbersEditor.DrawDescription("Enable/Disable the Look At logic by layer priority");
             EditorGUILayout.PropertyField(stateInfo);
             EditorGUILayout.PropertyField(OnEnter, new GUIContent("Status"));
+
+            if (stateInfo.intValue == (int)EnterExit.OnTime)
+            EditorGUILayout.PropertyField(Time);
             serializedObject.ApplyModifiedProperties();
         }
     }

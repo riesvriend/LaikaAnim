@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+//using System.Numerics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -38,6 +39,7 @@ public class PlaygroundInput : MonoBehaviour
     public MonoBehaviour menuPlankInteractableView;
     public GameObject mainMenu;
     public GameObject table;
+    public GameObject apple;
 
     public AudioSource musicAudioSource;
 
@@ -81,6 +83,7 @@ public class PlaygroundInput : MonoBehaviour
                 gameObject = animal,
                 index = i,
                 ai = ai,
+                mAnimal = animal.GetComponent<MAnimal>()
             };
 
             if (animal.name.Equals("Laika"))
@@ -91,13 +94,14 @@ public class PlaygroundInput : MonoBehaviour
             else if (animal.name.Equals("Paard"))
             {
                 def.animalDistanceFromCameraInMeter = 3.5f;
-                def.minComeCloseDistanceFromPlayerInMeter = 0.4f;
+                def.minComeCloseDistanceFromPlayerInMeter = 0.6f;
             }
             else if (animal.name.Equals("Konijn") || animal.name.Equals("Puppy"))
             {
-                def.animalDistanceFromCameraInMeter = 0.5f;
+                def.animalDistanceFromCameraInMeter = 0.7f;
                 def.minComeCloseDistanceFromPlayerInMeter = 0.0f;
                 def.IsTableActive = true;
+                def.mAnimal.CurrentSpeedIndex = 2; // trot
             }
             else if (animal.name.Equals("Olifant"))
             {
@@ -319,7 +323,7 @@ public class PlaygroundInput : MonoBehaviour
     public void HandleMenuPlankSelect()
     {
         var isActive = !mainMenu.activeSelf;
-        
+
         // TODO: hide the animals and table that obstruct the menu
         mainMenu.SetActive(isActive);
         if (isActive)
@@ -342,11 +346,14 @@ public class PlaygroundInput : MonoBehaviour
                 if (animal.ai != null)
                 {
                     // Prevent it to start running off directly and running through the player
+                    animal.ai.Stop();
                     animal.ai.ClearTarget();
                 }
 
-                // todo: Forward from camera needs to be projected to the horizontal plane
                 var forward = cameraOrEyeTransform.forward;
+                // Forward from camera needs to be projected to the horizontal plane
+                forward.y = 0f;
+                forward = forward.normalized;
                 if (animal.IsTableActive)
                     // When sitting at the table, try to align the virtual table with the real table by disregarding camera/head
                     // and assume the world view is reset to face the table
@@ -372,10 +379,10 @@ public class PlaygroundInput : MonoBehaviour
                     var tablePos = cameraOrEyeTransform.position + forward * tableDistanceFromCameraInMeter;
 
                     // put the table-top below the camera
-                    // TODO: instead of hardcoding the 0.5 meter between eyes and table top, consider
+                    // TODO: instead of hardcoding the 0.6 meter between eyes and table top, consider
                     // measuring the height of the lowest hand/controller and presume this to be the user's table height
                     // or, give the user a control mechanism to move the virtual table up or down
-                    tablePos.y = Math.Min(0f, cameraOrEyeTransform.position.y - tableHeight - 0.5f);
+                    tablePos.y = -0.11f; // 85cm - 11 = 74cm, a common table  // Math.Min(0f, cameraOrEyeTransform.position.y - tableHeight - 0.45f);
 
                     table.transform.position = tablePos;
                     table.transform.rotation = animalRotation;
@@ -384,6 +391,9 @@ public class PlaygroundInput : MonoBehaviour
                     var animalHeightOnTableTop = Math.Max(0f, tablePos.y + tableHeight + 0.2f /* margin */);
                     animalTransform.position = new Vector3(animalPos.x, animalHeightOnTableTop, animalPos.z);
                 }
+
+                // Place the apple 0.3m to the side of the animal
+                apple.transform.position = animalTransform.position - Quaternion.AngleAxis(-90, Vector3.up) * forward * 0.2f;
             }
         }
     }

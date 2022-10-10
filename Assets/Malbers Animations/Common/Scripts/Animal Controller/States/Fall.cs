@@ -160,9 +160,11 @@ namespace MalbersAnimations.Controller
                         IsDebree = GameObjectHit.CompareTag(animal.DebrisTag);
                     }
 
-                   // Debug.Log("IsDebree = " + IsDebree, GameObjectHit);
+                    // Debug.Log("IsDebree = " + IsDebree, GameObjectHit);
 
-                    if (animal.DeepSlope  || (TerrainSlope < -animal.maxAngleSlope && !IsDebree))
+                    if (animal.DeepSlope ||
+                        (TerrainSlope < animal.NegativeMaxSlope //Calculate the Deep Slope here
+                        && !IsDebree))
                     {
                         Debugging($"[Try] Slope is too deep [{FallRayCast.collider.transform.name}] | Hits: {Hits} | Slope: {TerrainSlope:F2}");
                         return true;
@@ -175,12 +177,13 @@ namespace MalbersAnimations.Controller
 
                     var FallSlope = Vector3.Angle(FallRayCast.normal, animal.UpVector);
 
-                    if (FallSlope > animal.maxAngleSlope)
+                    if (FallSlope > animal.PositiveMaxSlope)
                     {
                         Debugging($"[Try] The Animal is on the Air and the angle SLOPE of the ground hitted is too Deep. {FallRayCast.transform.name}");
 
                         return true;
                     }
+
                     if (Height >= DistanceToGround) //If the distance to ground is very small means that we are very close to the ground
                     {
 
@@ -219,7 +222,6 @@ namespace MalbersAnimations.Controller
             IgnoreLowerStates = false;
 
             var Speed = animal.HorizontalSpeed / ScaleFactor; //Remove the scaleFactor since it will be added later 
-          //  var passInertia = true;
 
             if (animal.HasExternalForce)
             {
@@ -245,8 +247,6 @@ namespace MalbersAnimations.Controller
                 lerpStrafe = AirSmooth.Value, 
             };
 
-            //Debug.Log("animal.CurrentSpeedModifier = " + animal.CurrentSpeedModifier.name);
-            //Debug.Log("animal.CV = " + animal.CurrentSpeedModifier.Vertical.Value);
 
             animal.SetCustomSpeed(FallSpeed, false);
 
@@ -259,10 +259,6 @@ namespace MalbersAnimations.Controller
             if (MTools.CompareOR(animal.LastState.ID, 0, 1, StateEnum.Swim, StateEnum.Climb) && Has_UP_Impulse || animal.HasExternalForce)
                 UpImpulse = Vector3.zero;
 
-
-
-            //THIS CAUSE UNWANTED BEHAVIOURS ON SLOPES
-           // CanExit = true;  //This for long animation Transitions. Force the Fall State to exit in case if near the ground
         }
 
         public override Vector3 Speed_Direction()
@@ -315,7 +311,7 @@ namespace MalbersAnimations.Controller
 
             if (GoingDown)
             {
-                DeltaDistance = Vector3.Project(DeltaPos, Gravity).magnitude;
+                DeltaDistance = Vector3.Project(DeltaPos, Gravity).magnitude/ScaleFactor;
                 FallCurrentDistance += DeltaDistance;
             }
 
@@ -373,10 +369,16 @@ namespace MalbersAnimations.Controller
                         break;
                 }
 
-                if (Height > DistanceToGround || ((DistanceToGround - DeltaDistance) < 0)) //Means has touched the ground
+                if (Height >= DistanceToGround || ((DistanceToGround - DeltaDistance) < 0)) //Means has touched the ground
                 {
-                    var FallRayAngle = Vector3.Angle(FallRayCast.normal, animal.UpVector);
-                    var DeepSlope = FallRayAngle > animal.maxAngleSlope;
+                    var FallRayAngle = Vector3.SignedAngle(FallRayCast.normal, animal.UpVector, animal.Right);
+
+                  //  Debug.Log("FallRayAngle = " + FallRayAngle);
+                   // Debug.Log("animal.maxAngleSlope + animal.m_deepSlope = " + (FallRayAngle < 0 && FallRayAngle < animal.NegativeMaxSlope));
+                    
+                    var DeepSlope =
+                        ( FallRayAngle > 0 && FallRayAngle > animal.maxAngleSlope)
+                        || FallRayAngle < 0 && FallRayAngle < animal.NegativeMaxSlope; //Slope Error
 
                     if (!DeepSlope) //Check if we are not on a deep slope
                     {

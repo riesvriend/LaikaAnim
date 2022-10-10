@@ -1,4 +1,5 @@
 using MalbersAnimations;
+using MalbersAnimations.Controller;
 using MalbersAnimations.Controller.AI;
 using MalbersAnimations.Scriptables;
 using System.Collections;
@@ -11,6 +12,7 @@ public class AnimalDef
     public GameObject gameObject;
     public int index;
     public MAnimalAIControl ai;
+    public MAnimal mAnimal;
     public float minComeCloseDistanceFromPlayerInMeter;
     public float animalDistanceFromCameraInMeter;
 

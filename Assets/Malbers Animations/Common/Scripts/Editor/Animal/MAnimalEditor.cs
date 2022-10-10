@@ -12,7 +12,7 @@ namespace MalbersAnimations.Controller
     [CustomEditor(typeof(MAnimal))]
     public class MAnimalEditor : Editor
     {
-        public readonly string version = "Animal Controller [v1.4.0]";
+        public readonly string version = "Animal Controller [v1.4.0a]";
 
         public static GUIStyle StyleGray => MTools.Style(new Color(0.5f, 0.5f, 0.5f, 0.3f));
         public static GUIStyle StyleBlue => MTools.Style(new Color(0, 0.5f, 1f, 0.3f));
@@ -39,7 +39,7 @@ namespace MalbersAnimations.Controller
             m_Vertical, m_Horizontal, m_StateFloat, m_ModeStatus, m_State, m_StateStatus, m_StateExitStatus, m_LastState, m_Mode, m_Grounded, m_Movement, m_Random, m_ModePower,
             m_SpeedMultiplier, m_UpDown, m_DeltaUpDown, m_StateOn,  m_Sprint, m_ModeOn,// m_StanceOn,
             currentStance, defaultStance, Stances_List,
-            m_Stance, m_LastStance, m_Slope, m_Type, m_StateTime, m_TargetAngle, m_StrafeAnim,
+            m_Stance, m_LastStance, m_Slope, deepSlope, m_Type, m_StateTime, m_TargetAngle, m_StrafeAnim,
             lockInput, lockMovement, Rotator, AlignLoop, animalType, RayCastRadius, MainCamera, sleep, m_gravityTime, m_gravityTimeLimit, RootBone,
 
              m_CanStrafe, Aimer, m_strafe, OnStrafe, m_StrafeNormalize,  /*FallForward, */m_StrafeLerp, OrientToGround,
@@ -196,7 +196,10 @@ namespace MalbersAnimations.Controller
             showPivots = serializedObject.FindProperty("showPivots");
             // ShowpivotColor = serializedObject.FindProperty("ShowpivotColor");
             GroundLayer = serializedObject.FindProperty("groundLayer");
+            
             maxAngleSlope = serializedObject.FindProperty("maxAngleSlope");
+            deepSlope = serializedObject.FindProperty("m_deepSlope");
+
             AlignPosLerp = serializedObject.FindProperty("AlignPosLerp");
             OrientToGround = serializedObject.FindProperty("m_OrientToGround");
             AlignPosDelta = serializedObject.FindProperty("AlignPosDelta");
@@ -1652,7 +1655,9 @@ namespace MalbersAnimations.Controller
                         EditorGUILayout.PropertyField(Height, G_Height);
                         if (GUILayout.Button(new GUIContent("C", "Calculate Height and Animal Center"), GUILayout.Width(26))) m.SetPivots();
                     }
-                    EditorGUILayout.PropertyField(maxAngleSlope, G_maxAngleSlope);
+
+                    EditorGUILayout.PropertyField(maxAngleSlope);
+                    EditorGUILayout.PropertyField(deepSlope);
 
                     maxAngleSlope.isExpanded = MalbersEditor.Foldout(maxAngleSlope.isExpanded, "Ground Aligment");
                     if (maxAngleSlope.isExpanded)
@@ -2142,7 +2147,6 @@ namespace MalbersAnimations.Controller
         readonly GUIContent G_CloneStates = new GUIContent("Clone States", "Creates instances of the States so they cannot be overwritten by other animals using the same scriptable objects");
         readonly GUIContent G_Height = new GUIContent("Height", "Distance from Animal Hip to the ground");
         readonly GUIContent G_GroundLayer = new GUIContent("Ground Layer", "Layers the Animal considers ground");
-        readonly GUIContent G_maxAngleSlope = new GUIContent("Max Angle Slope", "If the Terrain slope angle is greater than this value, the animal will fall");
         readonly GUIContent G_AlignPosLerp = new GUIContent("Align Pos Lerp", "Smoothness value to Snap to ground while Grounded");
         readonly GUIContent G_AlignPosDelta = new GUIContent("Align Pos Delta", "Smoothness Position value to Snap to ground when using a non Grounded State");
         readonly GUIContent G_AlignRotDelta = new GUIContent("Align Rot Delta", "Smoothness Rotaion value to Snap to ground when using a non Grounded State");

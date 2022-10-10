@@ -53,13 +53,18 @@ namespace MalbersAnimations.Utilities
 
                 foreach (var e in effects)
                 {
-                    if (!e.sent)
+                    if (e.Time == 1 || (e.ExecuteOnExit && !e.sent))
                     {
                         if (e.action == EffectOption.Play)
+                        {
                             effectManager.PlayEffect(e.ID);
+                        }
                         else
+                        {
                             effectManager.StopEffect(e.ID);
+                        }
                     }
+                    e.sent = true;
                 }
             }
         }
@@ -76,6 +81,8 @@ namespace MalbersAnimations.Utilities
                     item.name += $"  -  [On Exit]";
                 else
                     item.name += $"  -  [OnTime] ({item.Time:F2})";
+
+                item.showExecute = item.Time != 1  && item.Time != 0;
             }
         }
     }
@@ -87,11 +94,16 @@ namespace MalbersAnimations.Utilities
     public class EffectItem
     {
         [HideInInspector] public string name;
+        [HideInInspector] public bool showExecute;
         [Tooltip("ID of the Effect")]
         public int ID = 1;                           //ID of the Attack Trigger to Enable/Disable during the Attack Animation
         public EffectOption action = EffectOption.Play;
         [Range(0, 1)]
         public float Time = 0;
+
+        [Tooltip("If the animation is interrupted Play or Stop the Effect on Exit")]
+        [Hide(nameof(showExecute))]
+        public bool ExecuteOnExit = true;
         public bool sent { get; set; }
     }
 
