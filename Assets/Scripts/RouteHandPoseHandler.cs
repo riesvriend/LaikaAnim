@@ -16,10 +16,10 @@ public class AnimalDef
     public float minComeCloseDistanceFromPlayerInMeter;
     public float animalDistanceFromCameraInMeter;
 
-    public bool IsTableActive { get; set; }
+    public bool IsTableVisible { get; set; }
 }
 
-public class PettingHandPoseHandler : MonoBehaviour
+public class RouteHandPoseHandler : MonoBehaviour
 {
     // Linked to Transform Hook on center eye camera https://www.youtube.com/watch?v=wxhej5QIrDE
     public TransformReference player;
@@ -53,6 +53,9 @@ public class PettingHandPoseHandler : MonoBehaviour
     /// </summary>
     public void HandleCome()
     {
+        if (!IsRoutingEnabled)
+            return;
+       
         Debug.Log("Come");
 
         if (player == null)
@@ -79,9 +82,11 @@ public class PettingHandPoseHandler : MonoBehaviour
     public void HandleGoAway()
     {
         Debug.Log("HandleGoAway");
+        if (!IsRoutingEnabled)
+            return;
 
-        var playerTransform = player.Value;
-        var playerPosition = playerTransform.position;
+        //var playerTransform = player.Value;
+        //var playerPosition = playerTransform.position;
 
         //var radius = 4.0f;
 
@@ -99,11 +104,6 @@ public class PettingHandPoseHandler : MonoBehaviour
 
         //animalAI?.SetDestination(target);
 
-        if (sendAwayWaypoint == null)
-        {
-            Debug.Log("HandleGoAway needs a sendAwayWaypoint");
-            return;
-        }
         animalDef.ai.SetTarget(sendAwayWaypoint.transform);
     }
 
@@ -111,4 +111,7 @@ public class PettingHandPoseHandler : MonoBehaviour
     {
         Debug.Log("HandleGoAwayUnselected");
     }
+
+    // Can the animal be routed to come and go away? Only if it has an AI and its not on the petting table
+    public bool IsRoutingEnabled { get => animalDef?.ai != null && !animalDef.IsTableVisible; }
 }

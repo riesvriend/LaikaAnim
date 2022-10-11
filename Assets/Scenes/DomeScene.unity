@@ -1187,6 +1187,11 @@ PrefabInstance:
     - target: {fileID: 1294217249443063948, guid: 467e524535c3be24dad685e6dd43fb86,
         type: 3}
       propertyPath: Editor_Tabs1
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1294217249443063948, guid: 467e524535c3be24dad685e6dd43fb86,
+        type: 3}
+      propertyPath: Editor_Tabs2
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1661087435591426895, guid: 467e524535c3be24dad685e6dd43fb86,
@@ -1284,6 +1289,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 91af0b9ec6237c54fbed73dc1d35974a, type: 2}
+    - target: {fileID: 4392298865414956486, guid: 467e524535c3be24dad685e6dd43fb86,
+        type: 3}
+      propertyPath: internalComponents.Array.data[0].active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4392298865414956486, guid: 467e524535c3be24dad685e6dd43fb86,
+        type: 3}
+      propertyPath: internalComponents.Array.data[4].active
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4965766461302439337, guid: 467e524535c3be24dad685e6dd43fb86,
         type: 3}
       propertyPath: m_IsActive

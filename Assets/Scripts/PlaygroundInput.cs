@@ -1,4 +1,4 @@
-using MalbersAnimations.Controller;
+﻿using MalbersAnimations.Controller;
 using MalbersAnimations.Controller.AI;
 using Oculus.Interaction;
 using Synchrony;
@@ -19,7 +19,7 @@ using UnityEngine.Video;
 /// </summary>
 public class PlaygroundInput : MonoBehaviour
 {
-    public PettingHandPoseHandler pettingHandPoseHandler;
+    public RouteHandPoseHandler pettingHandPoseHandler;
 
     public List<GameObject> animalsToRotate = new List<GameObject>();
     public int activeAnimalIndex = 0;
@@ -65,6 +65,23 @@ public class PlaygroundInput : MonoBehaviour
         InitWoodenPlankMenuButton();
     }
 
+    private void Update()
+    {
+        //OVRInput.Update();
+
+        //// handle the controler or hands "≡" menu button. DOES NOT WORK. BUG in OVR
+        //if (OVRInput.GetDown(OVRInput.Button.Start))
+        //    HandleMenuPlankSelect();
+
+        //else if (OVRInput.GetDown(OVRInput.Button.Start, OVRInput.Controller.All))
+        //    HandleMenuPlankSelect();
+    }
+
+    //private void FixedUpdate()
+    //{
+    //    OVRInput.FixedUpdate();
+    //}
+
     /// <summary>
     /// Setup meta data for each animal
     /// </summary>
@@ -98,9 +115,9 @@ public class PlaygroundInput : MonoBehaviour
             }
             else if (animal.name.Equals("Konijn") || animal.name.Equals("Puppy"))
             {
-                def.animalDistanceFromCameraInMeter = 0.7f;
+                def.animalDistanceFromCameraInMeter = 0.8f;
                 def.minComeCloseDistanceFromPlayerInMeter = 0.0f;
-                def.IsTableActive = true;
+                def.IsTableVisible = true;
                 def.mAnimal.CurrentSpeedIndex = 2; // trot
             }
             else if (animal.name.Equals("Olifant"))
@@ -339,7 +356,7 @@ public class PlaygroundInput : MonoBehaviour
 
             if (isActive)
             {
-                table.SetActive(animal.IsTableActive);
+                table.SetActive(animal.IsTableVisible);
 
                 pettingHandPoseHandler.animalDef = animal;
 
@@ -354,7 +371,7 @@ public class PlaygroundInput : MonoBehaviour
                 // Forward from camera needs to be projected to the horizontal plane
                 forward.y = 0f;
                 forward = forward.normalized;
-                if (animal.IsTableActive)
+                if (animal.IsTableVisible)
                     // When sitting at the table, try to align the virtual table with the real table by disregarding camera/head
                     // and assume the world view is reset to face the table
                     forward = Vector3.forward;
@@ -365,7 +382,7 @@ public class PlaygroundInput : MonoBehaviour
 
                 // https://stackoverflow.com/questions/22696782/placing-an-object-in-front-of-the-camera
                 var animalYRotation = new Quaternion(0.0f, cameraOrEyeTransform.transform.rotation.y, 0.0f, cameraOrEyeTransform.transform.rotation.w).eulerAngles;
-                if (animal.IsTableActive)
+                if (animal.IsTableVisible)
                     animalYRotation = forward;
 
                 var animalRotation = Quaternion.Euler(animalYRotation.x + 180, animalYRotation.y, animalYRotation.z + 180);
@@ -374,7 +391,7 @@ public class PlaygroundInput : MonoBehaviour
                 animalTransform.position = animalPos;
                 animalTransform.rotation = animalRotation;
 
-                if (animal.IsTableActive)
+                if (animal.IsTableVisible)
                 {
                     var tablePos = cameraOrEyeTransform.position + forward * tableDistanceFromCameraInMeter;
 
@@ -392,8 +409,8 @@ public class PlaygroundInput : MonoBehaviour
                     animalTransform.position = new Vector3(animalPos.x, animalHeightOnTableTop, animalPos.z);
                 }
 
-                // Place the apple 0.3m to the side of the animal
-                apple.transform.position = animalTransform.position - Quaternion.AngleAxis(-90, Vector3.up) * forward * 0.2f;
+                // Place the apple 90 degrees from of the animal (to the side of the animal)
+                apple.transform.position = animalTransform.position - Quaternion.AngleAxis(140, Vector3.up) * forward * -0.4f;
             }
         }
     }
@@ -403,7 +420,7 @@ public class PlaygroundInput : MonoBehaviour
         const float radiusOfMenuCylinder = 4f;
         const float distanceFromCameraInMeter = 1.2f - radiusOfMenuCylinder;
 
-        $"Camera pos: {cameraOrEyeTransform.position}".Log();
+        //$"Camera pos: {cameraOrEyeTransform.position}".Log();
 
         var pos = cameraOrEyeTransform.position + distanceFromCameraInMeter * Vector3.forward; // * cameraOrEyeTransform.forward;
         pos.y = 0.5f; // 1.5f - radiusOfMenuCylinder / 2;
