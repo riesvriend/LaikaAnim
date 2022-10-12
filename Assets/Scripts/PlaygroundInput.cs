@@ -173,7 +173,7 @@ public class PlaygroundInput : MonoBehaviour
     private void InitMainMenu()
     {
         // activated by the wooden plank on the side
-        mainMenu.SetActive(false);
+        ActivatePopupMenu(false);
 
         InitAnimalToggleGroup();
 
@@ -282,7 +282,7 @@ public class PlaygroundInput : MonoBehaviour
                 i += 1;
             }
 
-            mainMenu.SetActive(false);
+            ActivatePopupMenu(false);
         }
     }
 
@@ -304,7 +304,7 @@ public class PlaygroundInput : MonoBehaviour
                 i += 1;
             }
 
-            mainMenu.SetActive(false);
+            ActivatePopupMenu(false);
         }
     }
 
@@ -312,7 +312,7 @@ public class PlaygroundInput : MonoBehaviour
     {
         playBackgroundMusic = isMusicOn;
         HandleMusicHasChanged();
-        mainMenu.SetActive(false);
+        ActivatePopupMenu(false);
     }
 
 
@@ -341,8 +341,7 @@ public class PlaygroundInput : MonoBehaviour
     {
         var isActive = !mainMenu.activeSelf;
 
-        // TODO: hide the animals and table that obstruct the menu
-        mainMenu.SetActive(isActive);
+        ActivatePopupMenu(isActive);
         if (isActive)
             PositionMainMenu();
     }
@@ -425,6 +424,15 @@ public class PlaygroundInput : MonoBehaviour
         var pos = cameraOrEyeTransform.position + distanceFromCameraInMeter * Vector3.forward; // * cameraOrEyeTransform.forward;
         pos.y = 0.5f; // 1.5f - radiusOfMenuCylinder / 2;
         mainMenu.transform.position = pos;
+    }
+
+    private void ActivatePopupMenu(bool activate)
+    {
+        // only the popup OR the plank can be active, or else the ray casting 
+        // gets confused
+        // TODO: hide the animals and table that obstruct the menu
+        mainMenu.SetActive(activate);
+        menuPlankInteractableView.gameObject.SetActive(!activate);
     }
 
 }
