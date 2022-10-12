@@ -5,12 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace PPP
+namespace PPR
 {
+    public abstract class PettableAnimal : MonoBehaviour, IPettableAnimal 
+    {
+        public abstract void OnStartPetting();
+        public abstract void OnStopPetting();
+    }
+
     public interface IPettableAnimal
     {
-        GameObject gameObject { get;  }
-        void OnStartPetting();
-        void OnStopPetting();
+        abstract void OnStartPetting();
+        abstract void OnStopPetting();
     }
 }

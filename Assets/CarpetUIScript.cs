@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using PPR;
 
 public class CarpetUIScript : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class CarpetUIScript : MonoBehaviour
     {
         $"onTextCommandSubmit: {text}".Log();
 
-        var laikaMovementHandler = FindObjectOfType<LaikaMovement>();
+        var laikaMovementHandler = FindObjectOfType<PettableLaika>();
         laikaMovementHandler?.HandleVoiceCommand(text);
     }
 }

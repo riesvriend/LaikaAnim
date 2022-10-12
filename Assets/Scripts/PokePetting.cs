@@ -1,15 +1,15 @@
-using PPP;
+using PPR;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PokePetting : MonoBehaviour
 {
-    private IPettableAnimal pettableAnimal;
+    private PettableAnimal pettableAnimal;
 
     private void Awake()
     {
-        this.pettableAnimal = FindObjectOfType<LaikaMovement>();
+        pettableAnimal = GetComponent<PettableAnimal>();
     }
 
     /// <summary>

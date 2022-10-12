@@ -1,13 +1,13 @@
-using PPP;
 using Synchrony;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using PPR;
 
 [RequireComponent(typeof(Collider))] // For OnMouseDown
-public class LaikaMovement : MonoBehaviour, IPettableAnimal
+public class PettableLaika : PettableAnimal
 {
     private readonly List<string> downWords = new List<string>() { "omlaag", "laag", "af", "zit", "down", "lie", "sit" };
     private readonly List<string> upWords = new List<string>() { "omhoog", "sta", "staan", "kom", "op", "klaar", "up", "stand", "come", "here" };
@@ -250,12 +250,12 @@ public class LaikaMovement : MonoBehaviour, IPettableAnimal
         }
     }
 
-    public void OnStartPetting()
+    public override void OnStartPetting()
     {
         HandleVoiceCommand("sit");
     }
 
-    public void OnStopPetting()
+    public override void OnStopPetting()
     {
         HandleVoiceCommand("up");
     }

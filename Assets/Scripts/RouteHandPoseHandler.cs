@@ -31,20 +31,18 @@ public class RouteHandPoseHandler : MonoBehaviour
 
     public MWayPoint playerWaypoint;
 
-#if UNITY_EDITOR
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (OVRInput.Get(OVRInput.Button.One) || Input.GetKeyDown(KeyCode.Alpha1))
         {
             HandleCome();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (OVRInput.Get(OVRInput.Button.Two) || Input.GetKeyDown(KeyCode.Alpha2))
         {
             HandleGoAway();
         }
     }
-#endif
 
 
     /// <summary>
