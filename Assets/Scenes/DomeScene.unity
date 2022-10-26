@@ -4179,6 +4179,7 @@ MonoBehaviour:
   _interactorFilters: []
   _maxInteractors: -1
   _maxSelectingInteractors: 1
+  _data: {fileID: 0}
   _pointableElement: {fileID: 494904373}
   _rigidbody: {fileID: 272106549}
   _grabSource: {fileID: 0}
@@ -10202,6 +10203,7 @@ GameObject:
   - component: {fileID: 1046059335}
   - component: {fileID: 1046059339}
   - component: {fileID: 1046059338}
+  - component: {fileID: 1046059340}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -10302,10 +10304,12 @@ MonoBehaviour:
   _interactorFilters: []
   _maxInteractors: -1
   _maxSelectingInteractors: -1
+  _data: {fileID: 0}
   _pointableElement: {fileID: 0}
-  _collider: {fileID: 1046059335}
-  _surface: {fileID: 0}
+  _surface: {fileID: 1046059340}
+  _selectSurface: {fileID: 0}
   _movementProvider: {fileID: 0}
+  _tiebreakerScore: 0
 --- !u!114 &1046059339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10343,6 +10347,19 @@ MonoBehaviour:
   _whenSelectingInteractorViewRemoved:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1046059340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046059333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2140d2b457bea84881488302059889b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _collider: {fileID: 1046059335}
 --- !u!1 &1056558753
 GameObject:
   m_ObjectHideFlags: 0
@@ -12334,15 +12351,45 @@ MonoBehaviour:
   _interactorFilters: []
   _maxInteractors: -1
   _maxSelectingInteractors: -1
+  _data: {fileID: 0}
   _pointableElement: {fileID: 0}
-  _proximityField: {fileID: 2075264448}
   _surface: {fileID: 2056897351}
+  _proximityField: {fileID: 2075264448}
   _maxDistance: 0.1
   _enterHoverDistance: 0
   _releaseDistance: 0.25
-  _horizontalDragThreshold: 0
-  _verticalDragThreshold: 0
+  _tiebreakerScore: 0
   _volumeMask: {fileID: 0}
+  _dragThresholding:
+    Enabled: 1
+    SurfaceThreshold: 0.01
+    ZThreshold: 0.01
+    DragEaseCurve:
+      _animationCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      _animationLength: 0.05
   _positionPinning:
     Enabled: 0
     MaxPinDistance: 0
@@ -16288,15 +16335,45 @@ MonoBehaviour:
   _interactorFilters: []
   _maxInteractors: -1
   _maxSelectingInteractors: -1
+  _data: {fileID: 0}
   _pointableElement: {fileID: 0}
-  _proximityField: {fileID: 3563516}
   _surface: {fileID: 1998319978}
+  _proximityField: {fileID: 3563516}
   _maxDistance: 0.12
   _enterHoverDistance: 0
   _releaseDistance: 0.25
-  _horizontalDragThreshold: 0
-  _verticalDragThreshold: 0
+  _tiebreakerScore: 0
   _volumeMask: {fileID: 0}
+  _dragThresholding:
+    Enabled: 1
+    SurfaceThreshold: 0.01
+    ZThreshold: 0.01
+    DragEaseCurve:
+      _animationCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      _animationLength: 0.05
   _positionPinning:
     Enabled: 0
     MaxPinDistance: 0
@@ -19433,15 +19510,45 @@ MonoBehaviour:
   _interactorFilters: []
   _maxInteractors: -1
   _maxSelectingInteractors: -1
+  _data: {fileID: 0}
   _pointableElement: {fileID: 0}
-  _proximityField: {fileID: 1497163712}
   _surface: {fileID: 1465999112}
+  _proximityField: {fileID: 1497163712}
   _maxDistance: 0.12
   _enterHoverDistance: 0
   _releaseDistance: 0.25
-  _horizontalDragThreshold: 0
-  _verticalDragThreshold: 0
+  _tiebreakerScore: 0
   _volumeMask: {fileID: 1995573032}
+  _dragThresholding:
+    Enabled: 1
+    SurfaceThreshold: 0.01
+    ZThreshold: 0.01
+    DragEaseCurve:
+      _animationCurve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      _animationLength: 0.05
   _positionPinning:
     Enabled: 0
     MaxPinDistance: 0
@@ -20205,6 +20312,7 @@ MonoBehaviour:
   _interactorFilters: []
   _maxInteractors: -1
   _maxSelectingInteractors: -1
+  _data: {fileID: 0}
   _pointableElement: {fileID: 494904373}
   _rigidbody: {fileID: 272106549}
   _resetGrabOnGrabsUpdated: 1
@@ -20987,7 +21095,7 @@ MonoBehaviour:
   _transferOnSecondSelection: 0
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 8411662048712236789}
-  _canvasRenderTextureMesh: {fileID: 7919292372521217944}
+  _canvasMesh: {fileID: 7919292372521217944}
 --- !u!114 &701286038324226662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23442,21 +23550,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ecff74e52843a41ab3a441ac81379e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 0}
   _renderScale: 1
   _dimensionsDriveMode: 0
   _resolution: {x: 128, y: 128}
-  _pixelsPerUnit: 500
-  _renderingMode: 1
   _generateMipMaps: 1
-  _useAlphaToMask: 1
-  _alphaCutoutThreshold: 0.5
-  _enableSuperSampling: 1
-  _doUnderlayAntiAliasing: 0
-  _emulateWhileInEditor: 0
+  _pixelsPerUnit: 500
   _renderingLayers:
     serializedVersion: 2
     m_Bits: 32
-  _defaultUIMaterial: {fileID: 2100000, guid: bc9f80a2ae0e0a24d870176e48ab1b93, type: 2}
 --- !u!114 &2743224559615469217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24555,14 +24657,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasRenderTexture: {fileID: 8911456889406192895}
+  _meshFilter: {fileID: 0}
   _meshCollider: {fileID: 1178946312432276624}
-  _runtimeOffset: {x: 0, y: 0, z: 0}
+  _cylinder: {fileID: 5622969231988087978}
+  _orientation: 0
   _meshGeneration:
     VerticesPerDegree: 1.4
     MaxHorizontalResolution: 128
     MaxVerticalResolution: 32
-  _cylinder: {fileID: 5622969231988087978}
-  _orientation: 0
 --- !u!1 &3771016384309388387
 GameObject:
   m_ObjectHideFlags: 0
@@ -24595,10 +24697,12 @@ MonoBehaviour:
   _interactorFilters: []
   _maxInteractors: -1
   _maxSelectingInteractors: -1
+  _data: {fileID: 0}
   _pointableElement: {fileID: 614508444278887741}
-  _collider: {fileID: 5622969233799587305}
   _surface: {fileID: 5622969231988087980}
+  _selectSurface: {fileID: 0}
   _movementProvider: {fileID: 0}
+  _tiebreakerScore: 0
 --- !u!224 &3800810790519899523
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24892,14 +24996,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasRenderTexture: {fileID: 9171454724313102863}
+  _meshFilter: {fileID: 7934354322284738380}
   _meshCollider: {fileID: 1490729706193523296}
-  _runtimeOffset: {x: 0, y: 0, z: 0}
+  _cylinder: {fileID: 5622969231988087978}
+  _orientation: 0
   _meshGeneration:
     VerticesPerDegree: 1.4
     MaxHorizontalResolution: 128
     MaxVerticalResolution: 32
-  _cylinder: {fileID: 5622969231988087978}
-  _orientation: 0
 --- !u!222 &3989689591668084858
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -26991,7 +27095,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cylinder: {fileID: 5622969231988087978}
   _facing: 1
-  _surfaceOrientation: 0
   _height: 0
 --- !u!4 &5622969231988087981
 Transform:
@@ -27291,7 +27394,7 @@ MonoBehaviour:
   _transferOnSecondSelection: 0
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 3316008794336143740}
-  _canvasRenderTextureMesh: {fileID: 3989648346952030225}
+  _canvasMesh: {fileID: 3989648346952030225}
 --- !u!114 &5954244350498038598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27464,7 +27567,7 @@ MonoBehaviour:
   _transferOnSecondSelection: 0
   _addNewPointsToFront: 0
   _forwardElement: {fileID: 3091866022873657228}
-  _canvasRenderTextureMesh: {fileID: 3725114201946791649}
+  _canvasMesh: {fileID: 3725114201946791649}
 --- !u!224 &6309499813203477443
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28240,6 +28343,7 @@ GameObject:
   - component: {fileID: 3316008794336143740}
   - component: {fileID: 5926669285356348084}
   - component: {fileID: 2986567164593409896}
+  - component: {fileID: 7934354322284738380}
   m_Layer: 0
   m_Name: Canvas (Underlay)
   m_TagString: Untagged
@@ -28942,10 +29046,12 @@ MonoBehaviour:
   _interactorFilters: []
   _maxInteractors: -1
   _maxSelectingInteractors: -1
+  _data: {fileID: 0}
   _pointableElement: {fileID: 6256509206961316932}
-  _collider: {fileID: 1178946312432276624}
   _surface: {fileID: 5622969231988087980}
+  _selectSurface: {fileID: 0}
   _movementProvider: {fileID: 0}
+  _tiebreakerScore: 0
 --- !u!114 &7722327127417463941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29108,14 +29214,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasRenderTexture: {fileID: 2738015977061485958}
+  _meshFilter: {fileID: 0}
   _meshCollider: {fileID: 5622969233799587305}
-  _runtimeOffset: {x: 0, y: 0, z: 0}
+  _cylinder: {fileID: 5622969231988087978}
+  _orientation: 0
   _meshGeneration:
     VerticesPerDegree: 1.4
     MaxHorizontalResolution: 128
     MaxVerticalResolution: 32
-  _cylinder: {fileID: 5622969231988087978}
-  _orientation: 0
 --- !u!224 &7928551110035616266
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29155,10 +29261,20 @@ MonoBehaviour:
   _interactorFilters: []
   _maxInteractors: -1
   _maxSelectingInteractors: -1
+  _data: {fileID: 0}
   _pointableElement: {fileID: 5926669285356348084}
-  _collider: {fileID: 1490729706193523296}
   _surface: {fileID: 5622969231988087980}
+  _selectSurface: {fileID: 0}
   _movementProvider: {fileID: 0}
+  _tiebreakerScore: 0
+--- !u!33 &7934354322284738380
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7112460137131056902}
+  m_Mesh: {fileID: 0}
 --- !u!1 &7942992725283390303
 GameObject:
   m_ObjectHideFlags: 0
@@ -30309,21 +30425,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ecff74e52843a41ab3a441ac81379e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 0}
   _renderScale: 1
   _dimensionsDriveMode: 0
   _resolution: {x: 128, y: 128}
-  _pixelsPerUnit: 500
-  _renderingMode: 0
   _generateMipMaps: 1
-  _useAlphaToMask: 1
-  _alphaCutoutThreshold: 0.5
-  _enableSuperSampling: 1
-  _doUnderlayAntiAliasing: 0
-  _emulateWhileInEditor: 0
+  _pixelsPerUnit: 500
   _renderingLayers:
     serializedVersion: 2
     m_Bits: 32
-  _defaultUIMaterial: {fileID: 2100000, guid: bc9f80a2ae0e0a24d870176e48ab1b93, type: 2}
 --- !u!114 &8919218797639179918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30505,21 +30615,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ecff74e52843a41ab3a441ac81379e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canvas: {fileID: 0}
   _renderScale: 1
   _dimensionsDriveMode: 0
   _resolution: {x: 128, y: 128}
-  _pixelsPerUnit: 1000
-  _renderingMode: 2
   _generateMipMaps: 0
-  _useAlphaToMask: 1
-  _alphaCutoutThreshold: 0.5
-  _enableSuperSampling: 1
-  _doUnderlayAntiAliasing: 0
-  _emulateWhileInEditor: 1
+  _pixelsPerUnit: 1000
   _renderingLayers:
     serializedVersion: 2
     m_Bits: 32
-  _defaultUIMaterial: {fileID: 2100000, guid: bc9f80a2ae0e0a24d870176e48ab1b93, type: 2}
 --- !u!114 &9192410956806877148
 MonoBehaviour:
   m_ObjectHideFlags: 0

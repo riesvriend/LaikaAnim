@@ -342,11 +342,7 @@ namespace Oculus.Interaction
             }
             _pointersForDeletion.Clear();
 
-            // InvalidOperationException: Collection was modified; enumeration operation may not execute.
-            //foreach (Pointer pointer in _pointerMap.Values)
-            var pointers = new List<Pointer>();
-            pointers.AddRange(_pointerMap.Values);
-            foreach (Pointer pointer in pointers)
+            foreach (Pointer pointer in _pointerMap.Values)
             {
                 ProcessPointer(pointer);
             }

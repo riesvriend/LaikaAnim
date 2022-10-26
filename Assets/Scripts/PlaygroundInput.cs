@@ -135,7 +135,7 @@ public class PlaygroundInput : MonoBehaviour
     private void InitWoodenPlankMenuButton()
     {
         // Clear highlight color
-        Plank_WhenStateChanged(new InteractableStateChangeArgs { NewState = InteractableState.Normal });
+        ClearPlankMenuHighlight();
 
         var plank = menuPlankInteractableView as IInteractableView;
         plank.WhenStateChanged += Plank_WhenStateChanged;
