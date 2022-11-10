@@ -82,9 +82,9 @@ namespace Oculus.Interaction
             Instance?.RemovePointerCanvas(pointerCanvas);
         }
 
-        private Dictionary<int, Pointer> _pointerMap = new Dictionary<int, Pointer>();
+        protected Dictionary<int, Pointer> _pointerMap = new Dictionary<int, Pointer>();
         private List<RaycastResult> _raycastResultCache = new List<RaycastResult>();
-        private List<Pointer> _pointersForDeletion = new List<Pointer>();
+        protected List<Pointer> _pointersForDeletion = new List<Pointer>();
         private Dictionary<IPointableCanvas, Action<PointerEvent>> _pointerCanvasActionMap =
             new Dictionary<IPointableCanvas, Action<PointerEvent>>();
 
@@ -162,7 +162,7 @@ namespace Oculus.Interaction
         /// Pointer class that is used for state associated with IPointables that are currently
         /// tracked by any IPointableCanvases in the scene.
         /// </summary>
-        private class Pointer
+        protected class Pointer
         {
             public PointerEventData PointerEventData { get; set; }
 
@@ -336,19 +336,22 @@ namespace Oculus.Interaction
 
         public override void Process()
         {
-            foreach (Pointer pointer in _pointersForDeletion)
+            // Clone into an array to prevent InvalidOperationException: Collection was modified; enumeration operation may not execute.
+            foreach (Pointer pointer in _pointersForDeletion.ToArray())
             {
                 ProcessPointer(pointer, true);
             }
             _pointersForDeletion.Clear();
 
-            foreach (Pointer pointer in _pointerMap.Values)
-            {
+            // InvalidOperationException: Collection was modified; enumeration operation may not execute.
+            //foreach (Pointer pointer in _pointerMap.Values)
+            var pointers = new List<Pointer>();
+            pointers.AddRange(_pointerMap.Values);
+            foreach (Pointer pointer in pointers)
                 ProcessPointer(pointer);
-            }
         }
 
-        private void ProcessPointer(Pointer pointer, bool forceRelease = false)
+        protected void ProcessPointer(Pointer pointer, bool forceRelease = false)
         {
             bool pressed = false;
             bool released = false;
