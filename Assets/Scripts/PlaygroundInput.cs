@@ -40,6 +40,7 @@ public class PlaygroundInput : MonoBehaviour
     public GameObject mainMenu;
     public GameObject table;
     public GameObject apple;
+    public GameObject comb;
 
     public AudioSource musicAudioSource;
 
@@ -410,6 +411,7 @@ public class PlaygroundInput : MonoBehaviour
 
                 // Place the apple 90 degrees from of the animal (to the side of the animal)
                 apple.transform.position = animalTransform.position - Quaternion.AngleAxis(140, Vector3.up) * forward * -0.4f;
+                comb.transform.position = apple.transform.position + Vector3.up * 0.3f; // Drop the comb on the apple
             }
         }
     }
