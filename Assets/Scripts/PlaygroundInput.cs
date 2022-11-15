@@ -44,10 +44,12 @@ public class PlaygroundInput : MonoBehaviour
 
     public AudioSource musicAudioSource;
 
-    public List<VideoClip> videoClips = new List<VideoClip>();
-    public int activeVideoClipIndex = 0;
+    public List<SkyboxDescriptor> skyboxDescriptors = new();
+    //public List<VideoClip> videoClips = new();
+    public int activeSkyboxIndex = 0;
 
-    public VideoPlayer videoPlayer;
+    public VideoPlayer skyboxVideoDome;
+    public MeshRenderer skyboxPictureDome;
 
     //enum Sound : int { Silent, VideoOnly, MusicOnly, MusicAndVideo, MaxEnumValue };
     //private Sound currentSoundIndex = Sound.MusicAndVideo;
@@ -58,12 +60,25 @@ public class PlaygroundInput : MonoBehaviour
 
     private void Awake()
     {
-        InitAnimalDefs();
-        ActivateActiveAnimal();
-        HandleMusicHasChanged();
+        try
+        {
+            InitAnimalDefs();
+            ActivateActiveAnimal();
+            ActivateActiveSkybox();
 
-        InitMainMenu();
-        InitWoodenPlankMenuButton();
+            HandleMusicHasChanged();
+
+            InitMainMenu();
+            InitWoodenPlankMenuButton();
+        }
+        catch (Exception ex)
+        {
+            // On Awake regular exception logging in Unity does not yet work 
+            // as its hooked up in an Awake event as well which may not yet have run
+            // https://stackoverflow.com/questions/15061050/whats-a-good-global-exception-handling-strategy-for-unity3d
+            Debug.LogError(ex.Message, this.gameObject);
+            Debug.LogError(ex.StackTrace, this.gameObject);
+        }
     }
 
     private void Update()
@@ -176,30 +191,31 @@ public class PlaygroundInput : MonoBehaviour
         // activated by the wooden plank on the side
         ActivatePopupMenu(false);
 
+
         InitAnimalToggleGroup();
 
-        InitVideoClipMenu();
+        InitSkyboxMenu();
         InitMusicMenu();
     }
 
-    private void InitVideoClipMenu()
+    private void InitSkyboxMenu()
     {
-        var clipToggleGroupTransform = CloneToggleGroup();
+        var skyboxToggleGroupTransform = CloneToggleGroup();
 
-        var clipIndex = 0;
-        foreach (var clip in videoClips)
+        var skyboxIndex = 0;
+        foreach (var skybox in skyboxDescriptors)
         {
-            var clipToggleGameObject = Instantiate(animalTogglePrefab, parent: clipToggleGroupTransform);
-            clipToggleGameObject.SetActive(true); // ...so we have to re-anable it in spawned objects
+            var skyboxToggleGameObject = Instantiate(animalTogglePrefab, parent: skyboxToggleGroupTransform);
+            skyboxToggleGameObject.SetActive(true); // ...so we have to re-anable it in spawned objects
 
-            var label = clipToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
-            label.text = clip.name;
+            var label = skyboxToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
+            label.text = skybox.name;
 
-            var clipToggle = clipToggleGameObject.GetComponent<Toggle>();
-            clipToggle.SetIsOnWithoutNotify(clipIndex == activeVideoClipIndex);
-            clipToggle.onValueChanged.AddListener((isOn) => ClipToggleValueChanged(clipToggle, isOn, clip));
+            var toggle = skyboxToggleGameObject.GetComponent<Toggle>();
+            toggle.SetIsOnWithoutNotify(skyboxIndex == activeSkyboxIndex);
+            toggle.onValueChanged.AddListener((isOn) => SkyboxToggleValueChanged(toggle, isOn, skybox));
 
-            clipIndex += 1;
+            skyboxIndex += 1;
         }
     }
 
@@ -287,19 +303,19 @@ public class PlaygroundInput : MonoBehaviour
         }
     }
 
-    void ClipToggleValueChanged(Toggle toggle, bool isOn, VideoClip toggledClip)
+    void SkyboxToggleValueChanged(Toggle toggle, bool isOn, SkyboxDescriptor toggledSkybox)
     {
-        $"Toggle {toggledClip.name}: {toggle.isOn}".Log();
+        $"Toggle {toggledSkybox.name}: {toggle.isOn}".Log();
 
         if (isOn)
         {
             var i = 0;
-            foreach (var currentClip in videoClips)
+            foreach (var currentSkybox in skyboxDescriptors)
             {
-                if (currentClip == toggledClip)
+                if (currentSkybox == toggledSkybox)
                 {
-                    activeVideoClipIndex = i;
-                    ActivateActiveClip();
+                    activeSkyboxIndex = i;
+                    ActivateActiveSkybox();
                     break;
                 }
                 i += 1;
@@ -317,17 +333,33 @@ public class PlaygroundInput : MonoBehaviour
     }
 
 
-    private void ActivateActiveClip()
+    private void ActivateActiveSkybox()
     {
         var i = 0;
-        foreach (var clip in videoClips)
+        foreach (var skybox in skyboxDescriptors)
         {
-            var isActive = activeVideoClipIndex == i;
+            var isActive = activeSkyboxIndex == i;
             if (isActive)
-            {
-                videoPlayer.clip = clip;
-                break;
-            }
+                if (skybox.videoClip != null)
+                {
+                    skyboxPictureDome.gameObject.SetActive(false);
+
+                    skyboxVideoDome.clip = skybox.videoClip;
+                    var dome = skyboxVideoDome.gameObject;
+                    dome.transform.rotation = Quaternion.Euler(x: 0, y: skybox.rotation, z: 0);
+                    dome.SetActive(true);
+                    break;
+                }
+                else if (skybox.hdriCubeMap != null)
+                {
+                    skyboxVideoDome.gameObject.SetActive(false);
+
+                    skyboxPictureDome.materials[0].SetTexture("_Tex", skybox.hdriCubeMap);
+                    var dome = skyboxPictureDome.gameObject;
+                    dome.transform.rotation = Quaternion.Euler(x: 0, y: skybox.rotation, z: 0);
+                    dome.SetActive(true);
+                    break;
+                }
             i += 1;
         }
     }
