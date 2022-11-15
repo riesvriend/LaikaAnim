@@ -3297,7 +3297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &90686183
 Transform:
   m_ObjectHideFlags: 0
@@ -6667,6 +6667,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 199154545}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!33 &201070269 stripped
+MeshFilter:
+  m_CorrespondingSourceObject: {fileID: 1315117352666392156, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
+    type: 3}
+  m_PrefabInstance: {fileID: 1818608465}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &203401870
 GameObject:
   m_ObjectHideFlags: 0
@@ -8587,7 +8593,7 @@ PrefabInstance:
     - target: {fileID: 1315117353284657672, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1315117353284657674, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
         type: 3}
@@ -58368,6 +58374,7 @@ MonoBehaviour:
     type: 2}
   menuPlankInteractableView: {fileID: 1046059338}
   mainMenu: {fileID: 5622969231988087979}
+  artificalGrass: {fileID: 90686182}
   table: {fileID: 1084758364}
   apple: {fileID: 272106545}
   comb: {fileID: 1299398012}
@@ -61748,7 +61755,7 @@ PrefabInstance:
     - target: {fileID: 1315117352666392154, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1315117352666392156, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
         type: 3}
@@ -61770,6 +61777,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: 1315117352666392159, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1315117353284657672, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
         type: 3}
       propertyPath: m_Name
@@ -61778,7 +61790,7 @@ PrefabInstance:
     - target: {fileID: 1315117353284657672, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1315117353284657674, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
         type: 3}
@@ -61804,7 +61816,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InputSphere
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 201070269}
     - target: {fileID: 1315117353284657676, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
         type: 3}
       propertyPath: CorrectionPower

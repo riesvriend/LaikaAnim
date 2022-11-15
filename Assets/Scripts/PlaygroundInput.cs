@@ -38,6 +38,7 @@ public class PlaygroundInput : MonoBehaviour
     [SerializeField, Interface(typeof(IInteractableView))]
     public MonoBehaviour menuPlankInteractableView;
     public GameObject mainMenu;
+    public GameObject artificalGrass;
     public GameObject table;
     public GameObject apple;
     public GameObject comb;
@@ -342,26 +343,32 @@ public class PlaygroundInput : MonoBehaviour
             if (isActive)
                 if (skybox.videoClip != null)
                 {
-                    skyboxPictureDome.gameObject.SetActive(false);
-
                     skyboxVideoDome.clip = skybox.videoClip;
-                    var dome = skyboxVideoDome.gameObject;
-                    dome.transform.rotation = Quaternion.Euler(x: 0, y: skybox.rotation, z: 0);
-                    dome.SetActive(true);
+                    ActivateSkyBoxDome(skybox, skyboxVideoDome.gameObject);
                     break;
                 }
                 else if (skybox.hdriCubeMap != null)
                 {
-                    skyboxVideoDome.gameObject.SetActive(false);
-
                     skyboxPictureDome.materials[0].SetTexture("_Tex", skybox.hdriCubeMap);
-                    var dome = skyboxPictureDome.gameObject;
-                    dome.transform.rotation = Quaternion.Euler(x: 0, y: skybox.rotation, z: 0);
-                    dome.SetActive(true);
+                    ActivateSkyBoxDome(skybox, skyboxPictureDome.gameObject);
                     break;
                 }
             i += 1;
         }
+    }
+
+    private void ActivateSkyBoxDome(SkyboxDescriptor skybox, GameObject dome)
+    {
+        var isVideoDome = dome == skyboxVideoDome.gameObject;
+
+        skyboxVideoDome.gameObject.SetActive(isVideoDome);
+        skyboxPictureDome.gameObject.SetActive(!isVideoDome);
+        dome.transform.rotation = Quaternion.Euler(x: 0, y: skybox.rotation, z: 0);
+
+        // Video's play with an artifical grass floor because due to the low resolution of the video,
+        // the earth/ground of the video looks poor on the generated flattened bottom of the sphere
+        // For HDRI's, the picture looks very nice as a flat ground plane
+        artificalGrass.SetActive(isVideoDome);
     }
 
     void HandleMusicHasChanged()
