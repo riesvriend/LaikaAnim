@@ -59,6 +59,9 @@ public class PlaygroundInput : MonoBehaviour
 
     private List<AnimalDef> animalDefs;
 
+    private ToggleGroup skyboxToggleGroup;
+    private Toggle musicToggle;
+
     private void Awake()
     {
         try
@@ -67,9 +70,9 @@ public class PlaygroundInput : MonoBehaviour
             ActivateActiveAnimal();
             ActivateActiveSkybox();
 
-            HandleMusicHasChanged();
-
             InitMainMenu();
+            HandleMusicHasChanged(); // Updates player and menu toggle
+
             InitWoodenPlankMenuButton();
         }
         catch (Exception ex)
@@ -191,78 +194,19 @@ public class PlaygroundInput : MonoBehaviour
     {
         // activated by the wooden plank on the side
         ActivatePopupMenu(false);
-
-
-        InitAnimalToggleGroup();
-
+        InitAnimalMenu();
         InitSkyboxMenu();
         InitMusicMenu();
     }
-
-    private void InitSkyboxMenu()
+    private void InitAnimalMenu()
     {
-        var skyboxToggleGroupTransform = CloneToggleGroup();
-
-        var skyboxIndex = 0;
-        foreach (var skybox in skyboxDescriptors)
-        {
-            var skyboxToggleGameObject = Instantiate(animalTogglePrefab, parent: skyboxToggleGroupTransform);
-            skyboxToggleGameObject.SetActive(true); // ...so we have to re-anable it in spawned objects
-
-            var label = skyboxToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
-            label.text = skybox.name;
-
-            var toggle = skyboxToggleGameObject.GetComponent<Toggle>();
-            toggle.SetIsOnWithoutNotify(skyboxIndex == activeSkyboxIndex);
-            toggle.onValueChanged.AddListener((isOn) => SkyboxToggleValueChanged(toggle, isOn, skybox));
-
-            skyboxIndex += 1;
-        }
-    }
-
-    private void InitMusicMenu()
-    {
-        Transform musicToggleGroupTransform = CloneToggleGroup();
-
-        for (var onOffIndex = 0; onOffIndex < 2; onOffIndex += 1)
-        {
-            var clipToggleGameObject = Instantiate(animalTogglePrefab, parent: musicToggleGroupTransform);
-            clipToggleGameObject.SetActive(true);
-
-            var label = clipToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
-            label.text = onOffIndex == 0 ? "Muziek Aan" : "Muziek Uit";
-
-            var clipToggle = clipToggleGameObject.GetComponent<Toggle>();
-            clipToggle.SetIsOnWithoutNotify(onOffIndex == playBackgroundMusicIndex);
-            var isMusicOn = onOffIndex == 0;
-            clipToggle.onValueChanged.AddListener((isOn) => MusicToggleValueChanged(clipToggle, isOn, isMusicOn));
-        }
-    }
-
-    private Transform CloneToggleGroup()
-    {
-        var animalScollView = animalToggleGroup.transform.parent.parent;
-        var musicScrollViewAsObject = GameObject.Instantiate(
-            original: animalScollView,
-            parent: animalScollView.transform.parent,
-            instantiateInWorldSpace: false);
-
-        var musicScrollViewTransform = musicScrollViewAsObject as UnityEngine.RectTransform;
-        var clonedToggleGroupTransform = musicScrollViewTransform.GetChild(0).GetChild(0);
-
-        // clear the cloned toggles in from the cloned group
-        // count will only be adapted in next frame, not during destroy
-        var togglesToDelete = clonedToggleGroupTransform.childCount;
-        for (int i = 0; i < togglesToDelete; i += 1)
-            GameObject.Destroy(clonedToggleGroupTransform.GetChild(i).gameObject);
-        return clonedToggleGroupTransform;
-    }
-
-    private void InitAnimalToggleGroup()
-    {
-        // The first toggle button is the dummy for the prefab; disable it
+        // The first toggle button is the dummy used for creating for the prefab
         var dummy = animalToggleGroup.GetComponentsInChildren<Toggle>().Single();
-        dummy.gameObject.SetActive(false); // somehow this will carry forward to the prefab...
+        Destroy(dummy.gameObject);
+
+        // Make the toggle behave like a regular button by allowing it to be toggled off,
+        // if it clicked off, we reset to the current animal
+        animalToggleGroup.allowSwitchOff = true;
 
         // Generate toggle buttons from a prefab, one for each item in animalsToRotate
         var animalIndex = 0;
@@ -276,59 +220,111 @@ public class PlaygroundInput : MonoBehaviour
 
             var animalToggle = animalToggleGameObject.GetComponent<Toggle>();
             animalToggle.SetIsOnWithoutNotify(animalIndex == activeAnimalIndex);
-            animalToggle.onValueChanged.AddListener((isOn) => AnimalToggleValueChanged(animalToggle, isOn, animal));
+            animalToggle.onValueChanged.AddListener((isOn) => AnimalToggleValueChanged(animal));
 
             animalIndex += 1;
         }
     }
 
-    void AnimalToggleValueChanged(Toggle toggle, bool isOn, GameObject toggledAnimal)
+    private void InitSkyboxMenu()
     {
-        $"Toggle {toggledAnimal.name}: {toggle.isOn}".Log();
+        skyboxToggleGroup = CloneToggleGroup(allowSwitchOff: true);
 
-        if (isOn)
+        var skyboxIndex = 0;
+        foreach (var skybox in skyboxDescriptors)
         {
-            var i = 0;
-            foreach (var currentAnimal in animalsToRotate)
-            {
-                if (currentAnimal == toggledAnimal)
-                {
-                    activeAnimalIndex = i;
-                    ActivateActiveAnimal();
-                    break;
-                }
-                i += 1;
-            }
+            var skyboxToggleGameObject = Instantiate(animalTogglePrefab, parent: skyboxToggleGroup.transform);
+            skyboxToggleGameObject.SetActive(true); // ...so we have to re-anable it in spawned objects
 
-            ActivatePopupMenu(false);
+            var label = skyboxToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
+            label.text = skybox.name;
+
+            var toggle = skyboxToggleGameObject.GetComponent<Toggle>();
+            toggle.SetIsOnWithoutNotify(skyboxIndex == activeSkyboxIndex);
+            toggle.onValueChanged.AddListener((isOn) => SkyboxToggleValueChanged(skybox));
+
+            skyboxIndex += 1;
         }
     }
 
-    void SkyboxToggleValueChanged(Toggle toggle, bool isOn, SkyboxDescriptor toggledSkybox)
+    private void InitMusicMenu()
     {
-        $"Toggle {toggledSkybox.name}: {toggle.isOn}".Log();
+        var musicToggleGroup = CloneToggleGroup(allowSwitchOff: true);
 
-        if (isOn)
-        {
-            var i = 0;
-            foreach (var currentSkybox in skyboxDescriptors)
-            {
-                if (currentSkybox == toggledSkybox)
-                {
-                    activeSkyboxIndex = i;
-                    ActivateActiveSkybox();
-                    break;
-                }
-                i += 1;
-            }
+        var toggleGameObject = Instantiate(animalTogglePrefab, parent: musicToggleGroup.transform);
+        musicToggle = toggleGameObject.GetComponent<Toggle>();
+        toggleGameObject.SetActive(true);
 
-            ActivatePopupMenu(false);
-        }
+        musicToggle.onValueChanged.AddListener((isOn) => MusicToggleValueChanged(isOn));
     }
 
-    void MusicToggleValueChanged(Toggle toggle, bool isOn, bool isMusicOn)
+    private ToggleGroup CloneToggleGroup(bool allowSwitchOff)
     {
-        playBackgroundMusic = isMusicOn;
+        var animalScollView = animalToggleGroup.transform.parent.parent;
+        var musicScrollViewAsObject = GameObject.Instantiate(
+            original: animalScollView,
+            parent: animalScollView.transform.parent,
+            instantiateInWorldSpace: false);
+
+        var clonedScrollViewTransform = musicScrollViewAsObject as UnityEngine.RectTransform;
+        var clonedToggleGroupTransform = clonedScrollViewTransform.GetChild(0).GetChild(0);
+
+        // clear the cloned toggles in from the cloned group
+        // count will only be adapted in next frame, not during destroy
+        var togglesToDelete = clonedToggleGroupTransform.childCount;
+        for (int i = 0; i < togglesToDelete; i += 1)
+            GameObject.Destroy(clonedToggleGroupTransform.GetChild(i).gameObject);
+
+        var toggleGroup = clonedToggleGroupTransform.GetComponent<ToggleGroup>();
+        toggleGroup.allowSwitchOff = allowSwitchOff;
+
+        return toggleGroup;
+    }
+
+    void AnimalToggleValueChanged(GameObject toggledAnimal)
+    {
+        $"Toggle {toggledAnimal.name}".Log();
+
+        var toggles = animalToggleGroup.GetComponentsInChildren<Toggle>();
+
+        var i = 0;
+        foreach (var currentAnimal in animalsToRotate)
+        {
+            var isActiveAnimal = currentAnimal == toggledAnimal;
+            var toggle = toggles[i];
+            toggle.SetIsOnWithoutNotify(isActiveAnimal);
+            if (isActiveAnimal)
+                activeAnimalIndex = i;
+            i += 1;
+        }
+
+        ActivatePopupMenu(false);
+        ActivateActiveAnimal();
+    }
+
+    void SkyboxToggleValueChanged(SkyboxDescriptor toggledSkybox)
+    {
+        $"Toggle {toggledSkybox.name}".Log();
+
+        var toggles = skyboxToggleGroup.GetComponentsInChildren<Toggle>();
+
+        var i = 0;
+        foreach (var currentSkybox in skyboxDescriptors)
+        {
+            var isActiveSkybox = currentSkybox == toggledSkybox;
+            var toggle = toggles[i];
+            toggle.SetIsOnWithoutNotify(isActiveSkybox);
+            if (isActiveSkybox)
+                activeSkyboxIndex = i;
+            i += 1;
+        }
+        ActivatePopupMenu(false);
+        ActivateActiveSkybox();
+    }
+
+    void MusicToggleValueChanged(bool isOn)
+    {
+        playBackgroundMusic = isOn;
         HandleMusicHasChanged();
         ActivatePopupMenu(false);
     }
@@ -374,6 +370,10 @@ public class PlaygroundInput : MonoBehaviour
     void HandleMusicHasChanged()
     {
         musicAudioSource.enabled = playBackgroundMusic;
+
+        musicToggle.SetIsOnWithoutNotify(playBackgroundMusic);
+        var label = musicToggle.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
+        label.text = playBackgroundMusic ? "Zet Muziek Uit" : "Zet Muziek Aan";
     }
 
 

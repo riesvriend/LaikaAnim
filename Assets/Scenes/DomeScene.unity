@@ -8593,7 +8593,7 @@ PrefabInstance:
     - target: {fileID: 1315117353284657672, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1315117353284657672, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
         type: 3}
@@ -44772,12 +44772,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332474555}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1335928345 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 199187614178790406, guid: b100c070241d8bc43b7fdbad48e6c468,
-    type: 3}
-  m_PrefabInstance: {fileID: 1350825844338100954}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1337493210
 GameObject:
   m_ObjectHideFlags: 0
@@ -58516,7 +58510,8 @@ MonoBehaviour:
   tableDistanceFromCameraInMeter: 0.7
   tableHeight: 0.85
   animalToggleGroup: {fileID: 4847059255899239476}
-  animalTogglePrefab: {fileID: 1335928345}
+  animalTogglePrefab: {fileID: 199187614178790406, guid: b100c070241d8bc43b7fdbad48e6c468,
+    type: 3}
   menuPlankHoverMaterial: {fileID: 2100000, guid: 5333b47339e534b4d9479a754baaacc6,
     type: 2}
   menuPlankNormalMaterial: {fileID: 2100000, guid: fa058cbc050cbb84d9037931f686503b,
@@ -61939,7 +61934,7 @@ PrefabInstance:
     - target: {fileID: 1315117353284657672, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1315117353284657672, guid: d34fa3128a06a0d44b9a2ddaad7a8266,
         type: 3}
@@ -67256,9 +67251,9 @@ MonoBehaviour:
   _pointableElement: {fileID: 0}
   _surface: {fileID: 1465999112}
   _proximityField: {fileID: 1497163712}
-  _maxDistance: 0.12
-  _enterHoverDistance: 0
-  _releaseDistance: 0.25
+  _maxDistance: 0.3
+  _enterHoverDistance: 0.1
+  _releaseDistance: 0.4
   _tiebreakerScore: 0
   _volumeMask: {fileID: 1995573032}
   _dragThresholding:
@@ -72637,7 +72632,7 @@ PrefabInstance:
     - target: {fileID: 199187614178790406, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_Name
-      value: Toggle
+      value: DummyToggle
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
@@ -72662,7 +72657,7 @@ PrefabInstance:
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
@@ -72672,17 +72667,17 @@ PrefabInstance:
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 210
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 120
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
@@ -72722,12 +72717,12 @@ PrefabInstance:
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 121
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
@@ -76987,7 +76982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AllowSwitchOff: 0
+  m_AllowSwitchOff: 1
 --- !u!114 &4848064835741192838
 MonoBehaviour:
   m_ObjectHideFlags: 0
