@@ -58555,11 +58555,10 @@ MonoBehaviour:
   - {fileID: 1700415244}
   - {fileID: 1045974341}
   - {fileID: 346920508}
-  activeAnimalIndex: 0
   cameraOrEyeTransform: {fileID: 1216495386}
   tableDistanceFromCameraInMeter: 0.7
   tableHeight: 0.85
-  animalToggleGroup: {fileID: 4847059255899239476}
+  firstToggleGroup: {fileID: 4847059255899239476}
   animalTogglePrefab: {fileID: 199187614178790406, guid: b100c070241d8bc43b7fdbad48e6c468,
     type: 3}
   menuPlankHoverMaterial: {fileID: 2100000, guid: 5333b47339e534b4d9479a754baaacc6,

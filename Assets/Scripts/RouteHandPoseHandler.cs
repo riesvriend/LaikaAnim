@@ -2,21 +2,41 @@ using MalbersAnimations;
 using MalbersAnimations.Controller;
 using MalbersAnimations.Controller.AI;
 using MalbersAnimations.Scriptables;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// metadata of the animals that we play with
+// metadata of the games and animals in the main menu
+public class GameDef
+{
+    public int index;
+
+    // *** If its to do a scripted game, there is no gameobject so we use the
+    // properties below
+    public string gameName;
+    public Action startGame;
+
+    //*** If its to freeplay with an animal set a gameobject
+    public AnimalDef animal;
+    
+    public bool IsTableVisible { get; set; }
+    // TODO: is apple / comb visible
+
+    public string name
+    {
+        get => gameName ?? animal.gameObject.name;
+    }
+}
+
 public class AnimalDef
 {
     public GameObject gameObject;
-    public int index;
     public MAnimalAIControl ai;
     public MAnimal mAnimal;
     public float minComeCloseDistanceFromPlayerInMeter;
     public float animalDistanceFromCameraInMeter;
 
-    public bool IsTableVisible { get; set; }
 }
 
 public class RouteHandPoseHandler : MonoBehaviour
@@ -25,7 +45,7 @@ public class RouteHandPoseHandler : MonoBehaviour
     public TransformReference player;
 
     // Set at runtime by the PlaygroundInput class
-    public AnimalDef animalDef;
+    public GameDef gameDef;
 
     public MWayPoint sendAwayWaypoint;
 
@@ -65,11 +85,11 @@ public class RouteHandPoseHandler : MonoBehaviour
         var playerTransform = player.Value;
 
         // Keep the middle of the horse out of the eyes of the player
-        var target = playerTransform.transform.position + (playerTransform.forward * animalDef.minComeCloseDistanceFromPlayerInMeter);
+        var target = playerTransform.transform.position + (playerTransform.forward * gameDef.animal.minComeCloseDistanceFromPlayerInMeter);
 
         playerWaypoint.transform.position = target;
 
-        animalDef.ai.SetTarget(playerWaypoint.transform);
+        gameDef.animal.ai.SetTarget(playerWaypoint.transform);
     }
 
     public void HandleComeUnselected()
@@ -102,7 +122,7 @@ public class RouteHandPoseHandler : MonoBehaviour
 
         //animalAI?.SetDestination(target);
 
-        animalDef.ai.SetTarget(sendAwayWaypoint.transform);
+        gameDef.animal.ai.SetTarget(sendAwayWaypoint.transform);
     }
 
     public void HandleGoAwayUnselected()
@@ -111,5 +131,5 @@ public class RouteHandPoseHandler : MonoBehaviour
     }
 
     // Can the animal be routed to come and go away? Only if it has an AI and its not on the petting table
-    public bool IsRoutingEnabled { get => animalDef?.ai != null && !animalDef.IsTableVisible; }
+    public bool IsRoutingEnabled { get => gameDef?.animal?.ai != null && !gameDef.IsTableVisible; }
 }

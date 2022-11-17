@@ -1,4 +1,5 @@
-﻿using MalbersAnimations.Controller;
+﻿using System.Linq;
+using MalbersAnimations.Controller;
 using MalbersAnimations.Controller.AI;
 using Oculus.Interaction;
 using Synchrony;
@@ -24,12 +25,12 @@ public class PlaygroundInput : MonoBehaviour
     public RouteHandPoseHandler pettingHandPoseHandler;
 
     public List<GameObject> animalsToRotate = new List<GameObject>();
-    public int activeAnimalIndex = 0;
+    public GameDef activeGame = null;
     public Transform cameraOrEyeTransform;
 
     public float tableDistanceFromCameraInMeter;
     public float tableHeight = 0.85f;
-    public ToggleGroup animalToggleGroup;
+    public ToggleGroup firstToggleGroup;
     public GameObject animalTogglePrefab;
 
     /// <summary>
@@ -55,9 +56,8 @@ public class PlaygroundInput : MonoBehaviour
 
     public bool playBackgroundMusic = true;
 
-    private List<AnimalDef> animalDefs;
+    private List<GameDef> gameDefs;
 
-    private ToggleGroup skyboxToggleGroup;
     private Toggle musicToggle;
 
     // Global keyboard/controller handler
@@ -69,9 +69,9 @@ public class PlaygroundInput : MonoBehaviour
         {
             globalInput = new GlobalInput();
             globalInput.GlobalControls.Menu.performed += Menu_performed;
-            
+
             InitAnimalDefs();
-            ActivateActiveAnimal();
+            ActivateGameOrAnimal();
             ActivateActiveSkybox();
 
             InitMainMenu();
@@ -109,49 +109,78 @@ public class PlaygroundInput : MonoBehaviour
     /// </summary>
     private void InitAnimalDefs()
     {
-        this.animalDefs = new List<AnimalDef>();
+        gameDefs = new List<GameDef>();
         var i = 0;
-        foreach (var animal in animalsToRotate)
+
+        gameDefs.Add(new GameDef
         {
-            var aiList = animal.GetComponentsInChildren<MAnimalAIControl>(includeInactive: true);
+            gameName = "Home",
+            index = i++,
+            startGame = PlayHomeScreen
+        });
+
+        gameDefs.Add(new GameDef
+        {
+            gameName = "Puppy Rescue (stationary)",
+            index = i++,
+            startGame = PlayWithPuppy
+        });
+
+        gameDefs.Add(new GameDef
+        {
+            gameName = "Horse Rescue (room play)",
+            index = i++,
+            startGame = PlayWithHorse
+        });
+
+        foreach (var animalGameObject in animalsToRotate)
+        {
+            var aiList = animalGameObject.GetComponentsInChildren<MAnimalAIControl>(includeInactive: true);
             var ai = aiList.SingleOrDefault();
             if (ai != null)
                 ai.gameObject.SetActive(true); // not all animals have this internal object active out of the box
-            var def = new AnimalDef()
+            var animalDef = new AnimalDef
             {
-                gameObject = animal,
-                index = i,
+                gameObject = animalGameObject,
                 ai = ai,
-                mAnimal = animal.GetComponent<MAnimal>()
+                mAnimal = animalGameObject.GetComponent<MAnimal>()
+            };
+            var gameDef = new GameDef()
+            {
+                index = i++,
+                animal = animalDef,
             };
 
-            if (animal.name.Equals("Laika"))
+            if (animalGameObject.name.Equals("Laika"))
             {
-                def.animalDistanceFromCameraInMeter = 0.8f;
-                def.minComeCloseDistanceFromPlayerInMeter = 1.0f; // no AI so not relevant
+                animalDef.animalDistanceFromCameraInMeter = 0.8f;
+                animalDef.minComeCloseDistanceFromPlayerInMeter = 1.0f; // no AI so not relevant
             }
-            else if (animal.name.Equals("Paard"))
+            else if (animalGameObject.name.Equals("Paard"))
             {
-                def.animalDistanceFromCameraInMeter = 3.5f;
-                def.minComeCloseDistanceFromPlayerInMeter = 0.6f;
+                animalDef.animalDistanceFromCameraInMeter = 3.5f;
+                animalDef.minComeCloseDistanceFromPlayerInMeter = 0.6f;
             }
-            else if (animal.name.Equals("Konijn") || animal.name.Equals("Puppy"))
+            else if (animalGameObject.name.Equals("Konijn") || animalGameObject.name.Equals("Puppy"))
             {
-                def.animalDistanceFromCameraInMeter = 0.8f;
-                def.minComeCloseDistanceFromPlayerInMeter = 0.0f;
-                def.IsTableVisible = true;
-                def.mAnimal.CurrentSpeedIndex = 2; // trot
+                animalDef.animalDistanceFromCameraInMeter = 0.8f;
+                animalDef.minComeCloseDistanceFromPlayerInMeter = 0.0f;
+                animalDef.mAnimal.CurrentSpeedIndex = 2; // trot
+                gameDef.IsTableVisible = true;
             }
-            else if (animal.name.Equals("Olifant"))
+            else if (animalGameObject.name.Equals("Olifant"))
             {
-                def.animalDistanceFromCameraInMeter = 5.5f;
-                def.minComeCloseDistanceFromPlayerInMeter = 2.0f;
+                animalDef.animalDistanceFromCameraInMeter = 5.5f;
+                animalDef.minComeCloseDistanceFromPlayerInMeter = 2.0f;
             }
-            else throw new ApplicationException($"Unknown animal: {animal.name}");
+            else throw new ApplicationException($"Unknown animal: {animalGameObject.name}");
 
-            animalDefs.Add(def);
-            i += 1;
+            gameDefs.Add(gameDef);
         }
+
+        // hack: patchup games with animal refs so games can reference the parameters defined for the animal
+        gameDefs.Single(g => g.startGame == PlayWithHorse).animal = gameDefs.Single(g => g.animal?.gameObject.name == "Paard").animal;
+        gameDefs.Single(g => g.startGame == PlayWithPuppy).animal = gameDefs.Single(g => g.animal?.gameObject.name == "Puppy").animal;
     }
 
     private void InitWoodenPlankMenuButton()
@@ -196,41 +225,56 @@ public class PlaygroundInput : MonoBehaviour
     {
         // activated by the wooden plank on the side
         ActivatePopupMenu(false);
-        InitAnimalMenu();
+
+        // Make the toggles behave like a regular button by allowing it to be toggled off,
+        // if it clicked off, we reset to the current animal
+        firstToggleGroup.allowSwitchOff = true;
+        // The first toggle button is the dummy used for creating for the prefab
+        var dummy = firstToggleGroup.GetComponentsInChildren<Toggle>().Single();
+        Destroy(dummy.gameObject);
+
+        InitGamesMenu();
         InitSkyboxMenu();
         InitMusicMenu();
     }
-    private void InitAnimalMenu()
-    {
-        // The first toggle button is the dummy used for creating for the prefab
-        var dummy = animalToggleGroup.GetComponentsInChildren<Toggle>().Single();
-        Destroy(dummy.gameObject);
 
-        // Make the toggle behave like a regular button by allowing it to be toggled off,
-        // if it clicked off, we reset to the current animal
-        animalToggleGroup.allowSwitchOff = true;
+    private void PlayWithPuppy()
+    {
+
+    }
+
+    private void PlayHomeScreen()
+    {
+    }
+
+    private void PlayWithHorse()
+    {
+
+    }
+
+    private void InitGamesMenu()
+    {
+        var gamesToggleGroup = firstToggleGroup;
 
         // Generate toggle buttons from a prefab, one for each item in animalsToRotate
-        var animalIndex = 0;
-        foreach (var animal in animalsToRotate)
+        // Add games and freeplay animals
+        foreach (var game in gameDefs)
         {
-            var animalToggleGameObject = Instantiate(animalTogglePrefab, parent: animalToggleGroup.transform);
+            var animalToggleGameObject = Instantiate(animalTogglePrefab, parent: firstToggleGroup.transform);
             animalToggleGameObject.SetActive(true); // ...so we have to re-anable it in spawned objects
 
             var label = animalToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
-            label.text = animal.name;
+            label.text = game.name;
 
             var animalToggle = animalToggleGameObject.GetComponent<Toggle>();
-            animalToggle.SetIsOnWithoutNotify(animalIndex == activeAnimalIndex);
-            animalToggle.onValueChanged.AddListener((isOn) => AnimalToggleValueChanged(animal));
-
-            animalIndex += 1;
+            animalToggle.SetIsOnWithoutNotify(game == activeGame);
+            animalToggle.onValueChanged.AddListener((isOn) => GameToggleValueChanged(game, gamesToggleGroup));
         }
     }
 
     private void InitSkyboxMenu()
     {
-        skyboxToggleGroup = CloneToggleGroup(allowSwitchOff: true);
+        var skyboxToggleGroup = CloneToggleGroup(allowSwitchOff: true);
 
         var skyboxIndex = 0;
         foreach (var skybox in skyboxDescriptors)
@@ -243,7 +287,7 @@ public class PlaygroundInput : MonoBehaviour
 
             var toggle = skyboxToggleGameObject.GetComponent<Toggle>();
             toggle.SetIsOnWithoutNotify(skyboxIndex == activeSkyboxIndex);
-            toggle.onValueChanged.AddListener((isOn) => SkyboxToggleValueChanged(skybox));
+            toggle.onValueChanged.AddListener((isOn) => SkyboxToggleValueChanged(skybox, skyboxToggleGroup));
 
             skyboxIndex += 1;
         }
@@ -262,7 +306,7 @@ public class PlaygroundInput : MonoBehaviour
 
     private ToggleGroup CloneToggleGroup(bool allowSwitchOff)
     {
-        var animalScollView = animalToggleGroup.transform.parent.parent;
+        var animalScollView = firstToggleGroup.transform.parent.parent;
         var musicScrollViewAsObject = GameObject.Instantiate(
             original: animalScollView,
             parent: animalScollView.transform.parent,
@@ -283,32 +327,30 @@ public class PlaygroundInput : MonoBehaviour
         return toggleGroup;
     }
 
-    void AnimalToggleValueChanged(GameObject toggledAnimal)
+    void GameToggleValueChanged(GameDef toggledGame, ToggleGroup toggleGroup)
     {
-        $"Toggle {toggledAnimal.name}".Log();
+        $"Toggle {toggledGame.name}".Log();
 
-        var toggles = animalToggleGroup.GetComponentsInChildren<Toggle>();
+        var toggles = toggleGroup.GetComponentsInChildren<Toggle>();
 
-        var i = 0;
-        foreach (var currentAnimal in animalsToRotate)
+        foreach (var currentGame in gameDefs)
         {
-            var isActiveAnimal = currentAnimal == toggledAnimal;
-            var toggle = toggles[i];
-            toggle.SetIsOnWithoutNotify(isActiveAnimal);
-            if (isActiveAnimal)
-                activeAnimalIndex = i;
-            i += 1;
+            var isActiveGame = currentGame == toggledGame;
+            var toggle = toggles[currentGame.index];
+            toggle.SetIsOnWithoutNotify(isActiveGame);
+            if (isActiveGame)
+                activeGame = currentGame;
         }
 
         ActivatePopupMenu(false);
-        ActivateActiveAnimal();
+        ActivateGameOrAnimal();
     }
 
-    void SkyboxToggleValueChanged(SkyboxDescriptor toggledSkybox)
+    void SkyboxToggleValueChanged(SkyboxDescriptor toggledSkybox, ToggleGroup toggleGroup)
     {
         $"Toggle {toggledSkybox.name}".Log();
 
-        var toggles = skyboxToggleGroup.GetComponentsInChildren<Toggle>();
+        var toggles = toggleGroup.GetComponentsInChildren<Toggle>();
 
         var i = 0;
         foreach (var currentSkybox in skyboxDescriptors)
@@ -388,20 +430,23 @@ public class PlaygroundInput : MonoBehaviour
             PositionMainMenu();
     }
 
-    private void ActivateActiveAnimal()
+    private void ActivateGameOrAnimal()
     {
-        foreach (var animal in animalDefs)
+        foreach (var game in gameDefs)
         {
-            var isActive = activeAnimalIndex == animal.index;
-            animal.gameObject.SetActive(isActive);
+            var isActive = activeGame == game;
+            
+            var animal = game.animal;
+
+            animal?.gameObject?.SetActive(isActive);
 
             if (isActive)
             {
-                table.SetActive(animal.IsTableVisible);
+                table.SetActive(game.IsTableVisible);
 
-                pettingHandPoseHandler.animalDef = animal;
+                pettingHandPoseHandler.gameDef = game;
 
-                if (animal.ai != null)
+                if (animal?.ai != null)
                 {
                     // Prevent it to start running off directly and running through the player
                     animal.ai.Stop();
@@ -412,27 +457,33 @@ public class PlaygroundInput : MonoBehaviour
                 // Forward from camera needs to be projected to the horizontal plane
                 forward.y = 0f;
                 forward = forward.normalized;
-                if (animal.IsTableVisible)
+                if (game.IsTableVisible)
                     // When sitting at the table, try to align the virtual table with the real table by disregarding camera/head
                     // and assume the world view is reset to face the table
                     forward = Vector3.forward;
 
-                var animalPos = cameraOrEyeTransform.position + forward * animal.animalDistanceFromCameraInMeter;
-                // Animal is on the floor (0), unless its on the table
-                animalPos.y = 0f;
+                var animalPos = cameraOrEyeTransform.position;
+                if (animal != null) animalPos += forward * animal.animalDistanceFromCameraInMeter;
+                Quaternion animalRotation = Quaternion.identity;
+                Transform animalTransform = null;
+                if (animal != null)
+                {
+                    // Animal is on the floor (0), unless its on the table
+                    animalPos.y = 0f;
 
-                // https://stackoverflow.com/questions/22696782/placing-an-object-in-front-of-the-camera
-                var animalYRotation = new Quaternion(0.0f, cameraOrEyeTransform.transform.rotation.y, 0.0f, cameraOrEyeTransform.transform.rotation.w).eulerAngles;
-                if (animal.IsTableVisible)
-                    animalYRotation = forward;
+                    // https://stackoverflow.com/questions/22696782/placing-an-object-in-front-of-the-camera
+                    var animalYRotation = new Quaternion(0.0f, cameraOrEyeTransform.transform.rotation.y, 0.0f, cameraOrEyeTransform.transform.rotation.w).eulerAngles;
+                    if (game.IsTableVisible)
+                        animalYRotation = forward;
 
-                var animalRotation = Quaternion.Euler(animalYRotation.x + 180, animalYRotation.y, animalYRotation.z + 180);
+                    animalRotation = Quaternion.Euler(animalYRotation.x + 180, animalYRotation.y, animalYRotation.z + 180);
 
-                var animalTransform = animal.gameObject.transform;
-                animalTransform.position = animalPos;
-                animalTransform.rotation = animalRotation;
+                    animalTransform = animal.gameObject.transform;
+                    animalTransform.position = animalPos;
+                    animalTransform.rotation = animalRotation;
+                }
 
-                if (animal.IsTableVisible)
+                if (game.IsTableVisible)
                 {
                     var tablePos = cameraOrEyeTransform.position + forward * tableDistanceFromCameraInMeter;
 
@@ -447,10 +498,11 @@ public class PlaygroundInput : MonoBehaviour
 
                     // Move the animal up, onto the table
                     var animalHeightOnTableTop = Math.Max(0f, tablePos.y + tableHeight + 0.2f /* margin */);
-                    animalTransform.position = new Vector3(animalPos.x, animalHeightOnTableTop, animalPos.z);
+                    if (animalTransform != null)
+                        animalTransform.position = new Vector3(animalPos.x, animalHeightOnTableTop, animalPos.z);
                 }
 
-                // Place the apple 90 degrees from of the animal (to the side of the animal)
+                // Place the apple 90 degrees from the animal (to the side of the animal)
                 apple.transform.position = animalTransform.position - Quaternion.AngleAxis(140, Vector3.up) * forward * -0.4f;
                 comb.transform.position = apple.transform.position + Vector3.up * 0.3f; // Drop the comb on the apple
             }
