@@ -9,9 +9,11 @@ using System.Linq;
 //using System.Numerics;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 //using UnityEngine.UIElements;
 using UnityEngine.Video;
+using UnityEngine.Windows;
 
 /// <summary>
 /// A or X button = Rotate Animal
@@ -46,26 +48,28 @@ public class PlaygroundInput : MonoBehaviour
     public AudioSource musicAudioSource;
 
     public List<SkyboxDescriptor> skyboxDescriptors = new();
-    //public List<VideoClip> videoClips = new();
     public int activeSkyboxIndex = 0;
 
     public VideoPlayer skyboxVideoDome;
     public MeshRenderer skyboxPictureDome;
 
-    //enum Sound : int { Silent, VideoOnly, MusicOnly, MusicAndVideo, MaxEnumValue };
-    //private Sound currentSoundIndex = Sound.MusicAndVideo;
     public bool playBackgroundMusic = true;
-    private int playBackgroundMusicIndex => playBackgroundMusic ? 0 : 1;
 
     private List<AnimalDef> animalDefs;
 
     private ToggleGroup skyboxToggleGroup;
     private Toggle musicToggle;
 
+    // Global keyboard/controller handler
+    private GlobalInput globalInput;
+
     private void Awake()
     {
         try
         {
+            globalInput = new GlobalInput();
+            globalInput.GlobalControls.Menu.performed += Menu_performed;
+            
             InitAnimalDefs();
             ActivateActiveAnimal();
             ActivateActiveSkybox();
@@ -85,22 +89,20 @@ public class PlaygroundInput : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        //OVRInput.Update();
-
-        //// handle the controler or hands "≡" menu button. DOES NOT WORK. BUG in OVR
-        //if (OVRInput.GetDown(OVRInput.Button.Start))
-        //    HandleMenuPlankSelect();
-
-        //else if (OVRInput.GetDown(OVRInput.Button.Start, OVRInput.Controller.All))
-        //    HandleMenuPlankSelect();
+        globalInput.GlobalControls.Enable();
     }
 
-    //private void FixedUpdate()
-    //{
-    //    OVRInput.FixedUpdate();
-    //}
+    private void OnDisable()
+    {
+        globalInput.GlobalControls.Disable();
+    }
+
+    private void Menu_performed(InputAction.CallbackContext obj)
+    {
+        HandleMenuPlankSelect();
+    }
 
     /// <summary>
     /// Setup meta data for each animal
