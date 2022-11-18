@@ -15,6 +15,8 @@ using UnityEngine.UI;
 //using UnityEngine.UIElements;
 using UnityEngine.Video;
 using UnityEngine.Windows;
+using Unity.Tutorials.Core.Editor;
+using UnityEditor;
 
 /// <summary>
 /// A or X button = Rotate Animal
@@ -25,7 +27,7 @@ public class PlaygroundInput : MonoBehaviour
     public RouteHandPoseHandler pettingHandPoseHandler;
 
     public List<GameObject> animalsToRotate = new List<GameObject>();
-    public GameDef activeGame = null;
+    public GameInstance activeGame = null;
     public Transform cameraOrEyeTransform;
 
     public float tableDistanceFromCameraInMeter;
@@ -56,7 +58,11 @@ public class PlaygroundInput : MonoBehaviour
 
     public bool playBackgroundMusic = true;
 
-    private List<GameDef> gameDefs;
+    // Animal defs are used as prefabs, one for each type of animal. The template animals
+    // are kept in-active and are instantiated by each game
+    public List<AnimalDef> animalDefs = new List<AnimalDef>();
+
+    private List<GameDef> gameDefs = new List<GameDef>();
 
     private Toggle musicToggle;
 
@@ -71,13 +77,16 @@ public class PlaygroundInput : MonoBehaviour
             globalInput.GlobalControls.Menu.performed += Menu_performed;
 
             InitAnimalDefs();
-            ActivateGameOrAnimal();
+            InitGameDefs();
             ActivateActiveSkybox();
+
+            // Start the game before init of main menu, which hightlights the current game's toggle
+            StartHomeScreenGame();
 
             InitMainMenu();
             HandleMusicHasChanged(); // Updates player and menu toggle
-
             InitWoodenPlankMenuButton();
+
         }
         catch (Exception ex)
         {
@@ -109,78 +118,143 @@ public class PlaygroundInput : MonoBehaviour
     /// </summary>
     private void InitAnimalDefs()
     {
-        gameDefs = new List<GameDef>();
-        var i = 0;
-
-        gameDefs.Add(new GameDef
+        AddAnimalDef(AnimalDef.Snowdog, "Laika", new AnimalDef
         {
-            gameName = "Home",
-            index = i++,
-            startGame = PlayHomeScreen
+            animalDistanceFromCameraInMeter = 0.8f,
+            minComeCloseDistanceFromPlayerInMeter = 1.0f
         });
-
-        gameDefs.Add(new GameDef
+        AddAnimalDef(AnimalDef.Horse, "Paard", new AnimalDef
         {
-            gameName = "Puppy Rescue (stationary)",
-            index = i++,
-            startGame = PlayWithPuppy
+            animalDistanceFromCameraInMeter = 3.5f,
+            minComeCloseDistanceFromPlayerInMeter = 0.5f
         });
-
-        gameDefs.Add(new GameDef
+        AddAnimalDef(AnimalDef.Rabbit, "Konijn", new AnimalDef
         {
-            gameName = "Horse Rescue (room play)",
-            index = i++,
-            startGame = PlayWithHorse
+            animalDistanceFromCameraInMeter = 0.8f,
+            minComeCloseDistanceFromPlayerInMeter = 0.0f
+        }, speedIndex: 2);
+        AddAnimalDef(AnimalDef.WolfPuppy, "Puppy", new AnimalDef
+        {
+            animalDistanceFromCameraInMeter = 0.8f,
+            minComeCloseDistanceFromPlayerInMeter = 0.0f
+        }, speedIndex: 2);
+        AddAnimalDef(AnimalDef.Elephant, "Olifant", new AnimalDef
+        {
+            animalDistanceFromCameraInMeter = 5.5f,
+            minComeCloseDistanceFromPlayerInMeter = 2.0f
         });
+    }
 
-        foreach (var animalGameObject in animalsToRotate)
+    private void InitGameDefs()
+    {
+        AddGameDef(
+            new GameDef
+            {
+                name = "Home",
+                startGame = PlayHomeScreen,
+                GameType = typeof(HomeScreenGame)
+            },
+            animals: new string[] { }
+        );
+
+        AddGameDef(
+            new GameDef
+            {
+                name = "Puppy Rescue (stationary)",
+                GameType = typeof(StationaryGame),
+                IsTableVisible = true,
+                IsCombVisible = true,
+            },
+            animals: new[] { AnimalDef.WolfPuppy }
+        );
+
+        AddGameDef(
+            new GameDef
+            {
+                name = "Horse Rescue (room play)",
+                GameType = typeof(RoomScaleGame),
+                IsAppleVisible = true,
+                IsCombVisible = true,
+            },
+            animals: new[] { AnimalDef.Horse }
+        );
+
+        AddGameDef(
+            new GameDef
+            {
+                name = "Aai Laika",
+                GameType = typeof(JustShowTheAnimalGame)
+            },
+            animals: new[] { AnimalDef.Snowdog }
+        );
+
+        AddGameDef(
+            new GameDef
+            {
+                name = "Paard",
+                GameType = typeof(JustShowTheAnimalGame),
+                IsAppleVisible = true,
+                IsCombVisible = true,
+            },
+            animals: new[] { AnimalDef.Horse }
+        );
+
+        AddGameDef(
+            new GameDef
+            {
+                name = "Konijn",
+                GameType = typeof(JustShowTheAnimalGame),
+                IsTableVisible = true,
+                IsAppleVisible = true,
+                IsCombVisible = true,
+            },
+            animals: new[] { AnimalDef.Rabbit }
+        );
+
+        AddGameDef(
+            new GameDef
+            {
+                name = "Wolf Puppy",
+                GameType = typeof(JustShowTheAnimalGame),
+                IsTableVisible = true,
+                IsCombVisible = true,
+
+            },
+            animals: new[] { AnimalDef.WolfPuppy }
+        );
+
+        AddGameDef(
+            new GameDef
+            {
+                name = "Olifant",
+                GameType = typeof(JustShowTheAnimalGame),
+                IsAppleVisible = true,
+            },
+            animals: new[] { AnimalDef.Elephant }
+        );
+    }
+
+    private GameDef AddGameDef(GameDef gameDef, string[] animals)
+    {
+        // Assign an animal instance to the game
+        foreach (var animalDefName in animals)
         {
-            var aiList = animalGameObject.GetComponentsInChildren<MAnimalAIControl>(includeInactive: true);
-            var ai = aiList.SingleOrDefault();
-            if (ai != null)
-                ai.gameObject.SetActive(true); // not all animals have this internal object active out of the box
-            var animalDef = new AnimalDef
-            {
-                gameObject = animalGameObject,
-                ai = ai,
-                mAnimal = animalGameObject.GetComponent<MAnimal>()
-            };
-            var gameDef = new GameDef()
-            {
-                index = i++,
-                animal = animalDef,
-            };
-
-            if (animalGameObject.name.Equals("Laika"))
-            {
-                animalDef.animalDistanceFromCameraInMeter = 0.8f;
-                animalDef.minComeCloseDistanceFromPlayerInMeter = 1.0f; // no AI so not relevant
-            }
-            else if (animalGameObject.name.Equals("Paard"))
-            {
-                animalDef.animalDistanceFromCameraInMeter = 3.5f;
-                animalDef.minComeCloseDistanceFromPlayerInMeter = 0.6f;
-            }
-            else if (animalGameObject.name.Equals("Konijn") || animalGameObject.name.Equals("Puppy"))
-            {
-                animalDef.animalDistanceFromCameraInMeter = 0.8f;
-                animalDef.minComeCloseDistanceFromPlayerInMeter = 0.0f;
-                animalDef.mAnimal.CurrentSpeedIndex = 2; // trot
-                gameDef.IsTableVisible = true;
-            }
-            else if (animalGameObject.name.Equals("Olifant"))
-            {
-                animalDef.animalDistanceFromCameraInMeter = 5.5f;
-                animalDef.minComeCloseDistanceFromPlayerInMeter = 2.0f;
-            }
-            else throw new ApplicationException($"Unknown animal: {animalGameObject.name}");
-
-            gameDefs.Add(gameDef);
+            var animalDef = animalDefs.Single(a => a.name == animalDefName);
+            gameDef.animals.Add(animalDef);
         }
+        gameDef.startGame = () => Play(gameDef);
+        gameDefs.Add(gameDef);
+        return gameDef;
+    }
 
-        // hack: patchup games with animal refs so games can reference the parameters defined for the animal
-        gameDefs.Single(g => g.startGame == PlayWithHorse).animal = gameDefs.Single(g => g.animal?.gameObject.name == "Paard").animal;
-        gameDefs.Single(g => g.startGame == PlayWithPuppy).animal = gameDefs.Single(g => g.animal?.gameObject.name == "Puppy").animal;
+    private void AddAnimalDef(string name, string templateGameObjectName, AnimalDef animalDef, int speedIndex = 2)
+    {
+        animalDef.name = name;
+        animalDef.gameObject = animalsToRotate.Single(a => a.gameObject.name == templateGameObjectName);
+        animalDef.gameObject.SetActive(false);
+        if (animalDef.mAnimal != null)
+            animalDef.mAnimal.CurrentSpeedIndex = speedIndex;
+        animalDefs.Add(animalDef);
     }
 
     private void InitWoodenPlankMenuButton()
@@ -238,18 +312,29 @@ public class PlaygroundInput : MonoBehaviour
         InitMusicMenu();
     }
 
-    private void PlayWithPuppy()
+    private void Play(GameDef gameDef)
     {
+        if (activeGame != null)
+        {
+            Destroy(activeGame);
+            activeGame = null;
+        }
 
+        activeGame = gameObject.AddComponent<GameInstance>();
+        activeGame.gameDef = gameDef;
+        activeGame.playground = this;
+
+        activeGame.StartGame();
     }
+
+    private void StartHomeScreenGame()
+    {
+        Play(gameDefs[0]);
+    }
+
 
     private void PlayHomeScreen()
     {
-    }
-
-    private void PlayWithHorse()
-    {
-
     }
 
     private void InitGamesMenu()
@@ -260,15 +345,15 @@ public class PlaygroundInput : MonoBehaviour
         // Add games and freeplay animals
         foreach (var game in gameDefs)
         {
-            var animalToggleGameObject = Instantiate(animalTogglePrefab, parent: firstToggleGroup.transform);
-            animalToggleGameObject.SetActive(true); // ...so we have to re-anable it in spawned objects
+            var gameToggleGameObject = Instantiate(animalTogglePrefab, parent: firstToggleGroup.transform);
+            gameToggleGameObject.SetActive(true); // ...so we have to re-anable it in spawned objects
 
-            var label = animalToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
+            var label = gameToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
             label.text = game.name;
 
-            var animalToggle = animalToggleGameObject.GetComponent<Toggle>();
-            animalToggle.SetIsOnWithoutNotify(game == activeGame);
-            animalToggle.onValueChanged.AddListener((isOn) => GameToggleValueChanged(game, gamesToggleGroup));
+            var gameToggle = gameToggleGameObject.GetComponent<Toggle>();
+            gameToggle.SetIsOnWithoutNotify(game == activeGame.gameDef);
+            gameToggle.onValueChanged.AddListener((isOn) => GameToggleValueChanged(game, gameToggle, gamesToggleGroup));
         }
     }
 
@@ -327,23 +412,17 @@ public class PlaygroundInput : MonoBehaviour
         return toggleGroup;
     }
 
-    void GameToggleValueChanged(GameDef toggledGame, ToggleGroup toggleGroup)
+    void GameToggleValueChanged(GameDef toggledGame, Toggle toggle, ToggleGroup toggleGroup)
     {
-        $"Toggle {toggledGame.name}".Log();
-
+        // A toggle goes from on to off and back, but we want to use it as a button
+        // here so we just force it to on as the clicked game's toggle is active
         var toggles = toggleGroup.GetComponentsInChildren<Toggle>();
-
-        foreach (var currentGame in gameDefs)
-        {
-            var isActiveGame = currentGame == toggledGame;
-            var toggle = toggles[currentGame.index];
-            toggle.SetIsOnWithoutNotify(isActiveGame);
-            if (isActiveGame)
-                activeGame = currentGame;
-        }
+        foreach (var t in toggles)
+            t.SetIsOnWithoutNotify(t == toggle);
 
         ActivatePopupMenu(false);
-        ActivateGameOrAnimal();
+
+        Play(toggledGame);
     }
 
     void SkyboxToggleValueChanged(SkyboxDescriptor toggledSkybox, ToggleGroup toggleGroup)
@@ -430,84 +509,6 @@ public class PlaygroundInput : MonoBehaviour
             PositionMainMenu();
     }
 
-    private void ActivateGameOrAnimal()
-    {
-        foreach (var game in gameDefs)
-        {
-            var isActive = activeGame == game;
-            
-            var animal = game.animal;
-
-            animal?.gameObject?.SetActive(isActive);
-
-            if (isActive)
-            {
-                table.SetActive(game.IsTableVisible);
-
-                pettingHandPoseHandler.gameDef = game;
-
-                if (animal?.ai != null)
-                {
-                    // Prevent it to start running off directly and running through the player
-                    animal.ai.Stop();
-                    animal.ai.ClearTarget();
-                }
-
-                var forward = cameraOrEyeTransform.forward;
-                // Forward from camera needs to be projected to the horizontal plane
-                forward.y = 0f;
-                forward = forward.normalized;
-                if (game.IsTableVisible)
-                    // When sitting at the table, try to align the virtual table with the real table by disregarding camera/head
-                    // and assume the world view is reset to face the table
-                    forward = Vector3.forward;
-
-                var animalPos = cameraOrEyeTransform.position;
-                if (animal != null) animalPos += forward * animal.animalDistanceFromCameraInMeter;
-                Quaternion animalRotation = Quaternion.identity;
-                Transform animalTransform = null;
-                if (animal != null)
-                {
-                    // Animal is on the floor (0), unless its on the table
-                    animalPos.y = 0f;
-
-                    // https://stackoverflow.com/questions/22696782/placing-an-object-in-front-of-the-camera
-                    var animalYRotation = new Quaternion(0.0f, cameraOrEyeTransform.transform.rotation.y, 0.0f, cameraOrEyeTransform.transform.rotation.w).eulerAngles;
-                    if (game.IsTableVisible)
-                        animalYRotation = forward;
-
-                    animalRotation = Quaternion.Euler(animalYRotation.x + 180, animalYRotation.y, animalYRotation.z + 180);
-
-                    animalTransform = animal.gameObject.transform;
-                    animalTransform.position = animalPos;
-                    animalTransform.rotation = animalRotation;
-                }
-
-                if (game.IsTableVisible)
-                {
-                    var tablePos = cameraOrEyeTransform.position + forward * tableDistanceFromCameraInMeter;
-
-                    // put the table-top below the camera
-                    // TODO: instead of hardcoding the 0.6 meter between eyes and table top, consider
-                    // measuring the height of the lowest hand/controller and presume this to be the user's table height
-                    // or, give the user a control mechanism to move the virtual table up or down
-                    tablePos.y = -0.11f; // 85cm - 11 = 74cm, a common table  // Math.Min(0f, cameraOrEyeTransform.position.y - tableHeight - 0.45f);
-
-                    table.transform.position = tablePos;
-                    table.transform.rotation = animalRotation;
-
-                    // Move the animal up, onto the table
-                    var animalHeightOnTableTop = Math.Max(0f, tablePos.y + tableHeight + 0.2f /* margin */);
-                    if (animalTransform != null)
-                        animalTransform.position = new Vector3(animalPos.x, animalHeightOnTableTop, animalPos.z);
-                }
-
-                // Place the apple 90 degrees from the animal (to the side of the animal)
-                apple.transform.position = animalTransform.position - Quaternion.AngleAxis(140, Vector3.up) * forward * -0.4f;
-                comb.transform.position = apple.transform.position + Vector3.up * 0.3f; // Drop the comb on the apple
-            }
-        }
-    }
 
     private void PositionMainMenu()
     {
@@ -529,5 +530,4 @@ public class PlaygroundInput : MonoBehaviour
         mainMenu.SetActive(activate);
         menuPlankInteractableView.gameObject.SetActive(!activate);
     }
-
 }
