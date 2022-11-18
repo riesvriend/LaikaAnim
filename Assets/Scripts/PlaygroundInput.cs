@@ -320,10 +320,9 @@ public class PlaygroundInput : MonoBehaviour
             activeGame = null;
         }
 
-        activeGame = gameObject.AddComponent<GameInstance>();
+        activeGame = (GameInstance)gameObject.AddComponent(gameDef.GameType);
         activeGame.gameDef = gameDef;
         activeGame.playground = this;
-
         activeGame.StartGame();
     }
 
