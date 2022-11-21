@@ -121,27 +121,37 @@ public class PlaygroundInput : MonoBehaviour
         AddAnimalDef(AnimalDef.Snowdog, "Laika", new AnimalDef
         {
             animalDistanceFromCameraInMeter = 0.8f,
-            minComeCloseDistanceFromPlayerInMeter = 1.0f
+            minComeCloseDistanceFromPlayerInMeter = 1.0f,
+            CanBeBrushed = false,
+            EatsApples = false,
         });
         AddAnimalDef(AnimalDef.Horse, "Paard", new AnimalDef
         {
             animalDistanceFromCameraInMeter = 3.5f,
-            minComeCloseDistanceFromPlayerInMeter = 0.5f
+            minComeCloseDistanceFromPlayerInMeter = 0.5f,
+            CanBeBrushed = true,
+            EatsApples = true,
         });
         AddAnimalDef(AnimalDef.Rabbit, "Konijn", new AnimalDef
         {
             animalDistanceFromCameraInMeter = 0.8f,
-            minComeCloseDistanceFromPlayerInMeter = 0.0f
+            minComeCloseDistanceFromPlayerInMeter = 0.0f,
+            CanBeBrushed = true,
+            EatsApples = true,
         }, speedIndex: 2);
         AddAnimalDef(AnimalDef.WolfPuppy, "Puppy", new AnimalDef
         {
             animalDistanceFromCameraInMeter = 0.8f,
-            minComeCloseDistanceFromPlayerInMeter = 0.0f
+            minComeCloseDistanceFromPlayerInMeter = 0.0f,
+            CanBeBrushed = true,
+            EatsApples = false,
         }, speedIndex: 2);
         AddAnimalDef(AnimalDef.Elephant, "Olifant", new AnimalDef
         {
             animalDistanceFromCameraInMeter = 5.5f,
-            minComeCloseDistanceFromPlayerInMeter = 2.0f
+            minComeCloseDistanceFromPlayerInMeter = 2.0f,
+            CanBeBrushed = true,
+            EatsApples = true,
         });
     }
 
@@ -151,7 +161,6 @@ public class PlaygroundInput : MonoBehaviour
             new GameDef
             {
                 name = "Home",
-                startGame = PlayHomeScreen,
                 GameType = typeof(HomeScreenGame)
             },
             animals: new string[] { }
@@ -160,12 +169,13 @@ public class PlaygroundInput : MonoBehaviour
         AddGameDef(
             new GameDef
             {
-                name = "Puppy Rescue (stationary)",
+                name = "Rabbit Rescue (stationary)",
                 GameType = typeof(StationaryGame),
                 IsTableVisible = true,
                 IsCombVisible = true,
+                IsAppleVisible = true,
             },
-            animals: new[] { AnimalDef.WolfPuppy }
+            animals: new[] { AnimalDef.Rabbit, AnimalDef.Rabbit }
         );
 
         AddGameDef(
@@ -242,7 +252,6 @@ public class PlaygroundInput : MonoBehaviour
             var animalDef = animalDefs.Single(a => a.name == animalDefName);
             gameDef.animals.Add(animalDef);
         }
-        gameDef.startGame = () => Play(gameDef);
         gameDefs.Add(gameDef);
         return gameDef;
     }
@@ -250,8 +259,8 @@ public class PlaygroundInput : MonoBehaviour
     private void AddAnimalDef(string name, string templateGameObjectName, AnimalDef animalDef, int speedIndex = 2)
     {
         animalDef.name = name;
-        animalDef.gameObject = animalsToRotate.Single(a => a.gameObject.name == templateGameObjectName);
-        animalDef.gameObject.SetActive(false);
+        animalDef.templateGameObject = animalsToRotate.Single(a => a.gameObject.name == templateGameObjectName);
+        animalDef.templateGameObject.SetActive(false);
         if (animalDef.mAnimal != null)
             animalDef.mAnimal.CurrentSpeedIndex = speedIndex;
         animalDefs.Add(animalDef);
@@ -331,10 +340,6 @@ public class PlaygroundInput : MonoBehaviour
         Play(gameDefs[0]);
     }
 
-
-    private void PlayHomeScreen()
-    {
-    }
 
     private void InitGamesMenu()
     {

@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Linq;
+using Assets.Scripts;
+
 public class GameDef
 {
     public string name;
-    public Action startGame;
     public Type GameType; // A GameInstance or derived type
 
     //*** If its to freeplay with an animal set a gameobject
@@ -25,6 +26,8 @@ public class GameInstance : MonoBehaviour
 
     public List<AnimalInstance> animals = new List<AnimalInstance>();
 
+    protected BrushingTask brushingTask = null;
+
     // Dont call this 'Start' as that collides with a Unity event name
     public virtual void StartGame()
     {
@@ -34,13 +37,16 @@ public class GameInstance : MonoBehaviour
         playground.apple.SetActive(gameDef.IsAppleVisible);
         playground.comb.SetActive(gameDef.IsCombVisible);
 
+        if (gameDef.IsCombVisible)
+            brushingTask = gameObject.AddComponent<BrushingTask>();
+
         foreach (var animalDef in gameDef.animals)
         {
-            var animalGameObject = GameObject.Instantiate(original: animalDef.gameObject);
-            animalGameObject.SetActive(true); // This flows back into the original...
-            animalDef.gameObject.SetActive(false); // So we need to disable it here
-            var animal = new AnimalInstance { gameObject = animalGameObject, animalDef = animalDef };
+            var animal = animalDef.InstantiateAnimal();
             animals.Add(animal);
+
+            if (brushingTask != null && animal.animalDef.CanBeBrushed)
+                brushingTask.animalStrokingStatus.Add(animal, new StrokingStatus { animal = animal, strokeCount = 0 });
         }
 
         foreach (var animal in animals)
@@ -157,6 +163,19 @@ public class StationaryGame : GameInstance
     public override void StartGame()
     {
         base.StartGame();
+        
+        /*
+
+            1.	Optie: De controller trilt als je borstelt
+            2.	Toon een progress bar voor het borstelen op de menuplank
+            3.	Klaar met borstelen, je eerste gouden ster!
+            4.	Konijn
+            a.	Voer de appel
+            b.	Mjom mjom
+            c.	Gouden ster
+            d.	En een nieuwe konijn in random kleur
+          
+         */
 
         // Show "TIP: start brushing your puppy!" on the menu plan
         // Also play a voice that says the same
