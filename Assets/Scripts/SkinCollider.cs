@@ -27,7 +27,7 @@ public class SkinCollider : MonoBehaviour
         var combHaptics = other.GetComponent<CombTouchHaptics>();
         if (combHaptics != null)
         {
-            combHaptics.OnSkinTouchEnter();
+            //combHaptics.OnSkinTouchEnter();
         }
     }
 
@@ -38,7 +38,7 @@ public class SkinCollider : MonoBehaviour
         var combHaptics = other.GetComponent<CombTouchHaptics>();
         if (combHaptics != null)
         {
-            combHaptics.OnSkinTouchExit();
+            //combHaptics.OnSkinTouchExit();
         }
     }
 }

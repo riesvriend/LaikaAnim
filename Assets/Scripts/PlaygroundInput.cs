@@ -30,6 +30,7 @@ public class PlaygroundInput : MonoBehaviour
     /// </summary>
     public Material menuPlankHoverMaterial;
     public Material menuPlankNormalMaterial;
+
     [SerializeField, Interface(typeof(IInteractableView))]
     public MonoBehaviour menuPlankInteractableView;
     public GameObject mainMenu;
@@ -76,11 +77,10 @@ public class PlaygroundInput : MonoBehaviour
             InitMainMenu();
             HandleMusicHasChanged(); // Updates player and menu toggle
             InitWoodenPlankMenuButton();
-
         }
         catch (Exception ex)
         {
-            // On Awake regular exception logging in Unity does not yet work 
+            // On Awake regular exception logging in Unity does not yet work
             // as its hooked up in an Awake event as well which may not yet have run
             // https://stackoverflow.com/questions/15061050/whats-a-good-global-exception-handling-strategy-for-unity3d
             Debug.LogError(ex.Message, this.gameObject);
@@ -108,51 +108,69 @@ public class PlaygroundInput : MonoBehaviour
     /// </summary>
     private void InitAnimalDefs()
     {
-        AddAnimalDef(AnimalDef.Snowdog, "Laika", new AnimalDef
-        {
-            animalDistanceFromCameraInMeter = 0.8f,
-            minComeCloseDistanceFromPlayerInMeter = 1.0f,
-            CanBeBrushed = false,
-            EatsApples = false,
-        });
-        AddAnimalDef(AnimalDef.Horse, "Paard", new AnimalDef
-        {
-            animalDistanceFromCameraInMeter = 3.5f,
-            minComeCloseDistanceFromPlayerInMeter = 0.5f,
-            CanBeBrushed = true,
-            EatsApples = true,
-        });
-        AddAnimalDef(AnimalDef.Rabbit, "Konijn", new AnimalDef
-        {
-            animalDistanceFromCameraInMeter = 0.8f,
-            minComeCloseDistanceFromPlayerInMeter = 0.0f,
-            CanBeBrushed = true,
-            EatsApples = true,
-        }, speedIndex: 2);
-        AddAnimalDef(AnimalDef.WolfPuppy, "Puppy", new AnimalDef
-        {
-            animalDistanceFromCameraInMeter = 0.8f,
-            minComeCloseDistanceFromPlayerInMeter = 0.0f,
-            CanBeBrushed = true,
-            EatsApples = false,
-        }, speedIndex: 2);
-        AddAnimalDef(AnimalDef.Elephant, "Olifant", new AnimalDef
-        {
-            animalDistanceFromCameraInMeter = 5.5f,
-            minComeCloseDistanceFromPlayerInMeter = 2.0f,
-            CanBeBrushed = true,
-            EatsApples = true,
-        });
+        AddAnimalDef(
+            AnimalDef.Snowdog,
+            "Laika",
+            new AnimalDef
+            {
+                animalDistanceFromCameraInMeter = 0.8f,
+                minComeCloseDistanceFromPlayerInMeter = 1.0f,
+                CanBeBrushed = false,
+                EatsApples = false,
+            }
+        );
+        AddAnimalDef(
+            AnimalDef.Horse,
+            "Paard",
+            new AnimalDef
+            {
+                animalDistanceFromCameraInMeter = 3.5f,
+                minComeCloseDistanceFromPlayerInMeter = 0.5f,
+                CanBeBrushed = true,
+                EatsApples = true,
+            }
+        );
+        AddAnimalDef(
+            AnimalDef.Rabbit,
+            "Konijn",
+            new AnimalDef
+            {
+                animalDistanceFromCameraInMeter = 0.8f,
+                minComeCloseDistanceFromPlayerInMeter = 0.0f,
+                CanBeBrushed = true,
+                EatsApples = true,
+            },
+            speedIndex: 2
+        );
+        AddAnimalDef(
+            AnimalDef.WolfPuppy,
+            "Puppy",
+            new AnimalDef
+            {
+                animalDistanceFromCameraInMeter = 0.8f,
+                minComeCloseDistanceFromPlayerInMeter = 0.0f,
+                CanBeBrushed = true,
+                EatsApples = false,
+            },
+            speedIndex: 2
+        );
+        AddAnimalDef(
+            AnimalDef.Elephant,
+            "Olifant",
+            new AnimalDef
+            {
+                animalDistanceFromCameraInMeter = 5.5f,
+                minComeCloseDistanceFromPlayerInMeter = 2.0f,
+                CanBeBrushed = true,
+                EatsApples = true,
+            }
+        );
     }
 
     private void InitGameDefs()
     {
         AddGameDef(
-            new GameDef
-            {
-                name = "Home",
-                GameType = typeof(HomeScreenGame)
-            },
+            new GameDef { name = "Home", GameType = typeof(HomeScreenGame) },
             animals: new string[] { }
         );
 
@@ -180,11 +198,7 @@ public class PlaygroundInput : MonoBehaviour
         );
 
         AddGameDef(
-            new GameDef
-            {
-                name = "Aai Laika",
-                GameType = typeof(JustShowTheAnimalGame)
-            },
+            new GameDef { name = "Aai Laika", GameType = typeof(JustShowTheAnimalGame) },
             animals: new[] { AnimalDef.Snowdog }
         );
 
@@ -218,7 +232,6 @@ public class PlaygroundInput : MonoBehaviour
                 GameType = typeof(JustShowTheAnimalGame),
                 IsTableVisible = true,
                 IsCombVisible = true,
-
             },
             animals: new[] { AnimalDef.WolfPuppy }
         );
@@ -246,10 +259,17 @@ public class PlaygroundInput : MonoBehaviour
         return gameDef;
     }
 
-    private void AddAnimalDef(string name, string templateGameObjectName, AnimalDef animalDef, int speedIndex = 2)
+    private void AddAnimalDef(
+        string name,
+        string templateGameObjectName,
+        AnimalDef animalDef,
+        int speedIndex = 2
+    )
     {
         animalDef.name = name;
-        animalDef.templateGameObject = animalsToRotate.Single(a => a.gameObject.name == templateGameObjectName);
+        animalDef.templateGameObject = animalsToRotate.Single(
+            a => a.gameObject.name == templateGameObjectName
+        );
         animalDef.templateGameObject.SetActive(false);
         if (animalDef.mAnimal != null)
             animalDef.mAnimal.CurrentSpeedIndex = speedIndex;
@@ -292,7 +312,7 @@ public class PlaygroundInput : MonoBehaviour
     }
 
     /// <summary>
-    /// Adds toggles to the menu to pick the animals 
+    /// Adds toggles to the menu to pick the animals
     /// </summary>
     private void InitMainMenu()
     {
@@ -327,9 +347,8 @@ public class PlaygroundInput : MonoBehaviour
 
     private void StartHomeScreenGame()
     {
-        Play(gameDefs[0]);
+        Play(gameDefs[0]); //.First(g => g.name.Contains("Puppy")));
     }
-
 
     private void InitGamesMenu()
     {
@@ -339,15 +358,22 @@ public class PlaygroundInput : MonoBehaviour
         // Add games and freeplay animals
         foreach (var game in gameDefs)
         {
-            var gameToggleGameObject = Instantiate(animalTogglePrefab, parent: firstToggleGroup.transform);
+            var gameToggleGameObject = Instantiate(
+                animalTogglePrefab,
+                parent: firstToggleGroup.transform
+            );
             gameToggleGameObject.SetActive(true); // ...so we have to re-anable it in spawned objects
 
-            var label = gameToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
+            var label = gameToggleGameObject
+                .GetComponentsInChildren<TMPro.TextMeshProUGUI>()
+                .Single();
             label.text = game.name;
 
             var gameToggle = gameToggleGameObject.GetComponent<Toggle>();
             gameToggle.SetIsOnWithoutNotify(game == activeGame.gameDef);
-            gameToggle.onValueChanged.AddListener((isOn) => GameToggleValueChanged(game, gameToggle, gamesToggleGroup));
+            gameToggle.onValueChanged.AddListener(
+                (isOn) => GameToggleValueChanged(game, gameToggle, gamesToggleGroup)
+            );
         }
     }
 
@@ -358,15 +384,22 @@ public class PlaygroundInput : MonoBehaviour
         var skyboxIndex = 0;
         foreach (var skybox in skyboxDescriptors)
         {
-            var skyboxToggleGameObject = Instantiate(animalTogglePrefab, parent: skyboxToggleGroup.transform);
+            var skyboxToggleGameObject = Instantiate(
+                animalTogglePrefab,
+                parent: skyboxToggleGroup.transform
+            );
             skyboxToggleGameObject.SetActive(true); // ...so we have to re-anable it in spawned objects
 
-            var label = skyboxToggleGameObject.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Single();
+            var label = skyboxToggleGameObject
+                .GetComponentsInChildren<TMPro.TextMeshProUGUI>()
+                .Single();
             label.text = skybox.name;
 
             var toggle = skyboxToggleGameObject.GetComponent<Toggle>();
             toggle.SetIsOnWithoutNotify(skyboxIndex == activeSkyboxIndex);
-            toggle.onValueChanged.AddListener((isOn) => SkyboxToggleValueChanged(skybox, skyboxToggleGroup));
+            toggle.onValueChanged.AddListener(
+                (isOn) => SkyboxToggleValueChanged(skybox, skyboxToggleGroup)
+            );
 
             skyboxIndex += 1;
         }
@@ -389,7 +422,8 @@ public class PlaygroundInput : MonoBehaviour
         var musicScrollViewAsObject = GameObject.Instantiate(
             original: animalScollView,
             parent: animalScollView.transform.parent,
-            instantiateInWorldSpace: false);
+            instantiateInWorldSpace: false
+        );
 
         var clonedScrollViewTransform = musicScrollViewAsObject as UnityEngine.RectTransform;
         var clonedToggleGroupTransform = clonedScrollViewTransform.GetChild(0).GetChild(0);
@@ -446,7 +480,6 @@ public class PlaygroundInput : MonoBehaviour
         ActivatePopupMenu(false);
     }
 
-
     private void ActivateActiveSkybox()
     {
         var i = 0;
@@ -493,7 +526,6 @@ public class PlaygroundInput : MonoBehaviour
         label.text = playBackgroundMusic ? "Zet Muziek Uit" : "Zet Muziek Aan";
     }
 
-
     public void HandleMenuPlankSelect()
     {
         var isActive = !mainMenu.activeSelf;
@@ -502,7 +534,6 @@ public class PlaygroundInput : MonoBehaviour
         if (isActive)
             PositionMainMenu();
     }
-
 
     private void PositionMainMenu()
     {
@@ -518,7 +549,7 @@ public class PlaygroundInput : MonoBehaviour
 
     private void ActivatePopupMenu(bool activate)
     {
-        // only the popup OR the plank can be active, or else the ray casting 
+        // only the popup OR the plank can be active, or else the ray casting
         // gets confused
         // TODO: hide the animals and table that obstruct the menu
         mainMenu.SetActive(activate);
