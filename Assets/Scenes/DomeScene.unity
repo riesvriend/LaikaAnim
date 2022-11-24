@@ -47325,6 +47325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993ffc1b3dd8d65439950425a5bca498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combingVibrationAudio: {fileID: 8300000, guid: 46b5a9d591a41c442a8b421d4c6d019b,
+    type: 3}
 --- !u!1 &1417603480
 GameObject:
   m_ObjectHideFlags: 0
@@ -73161,7 +73163,7 @@ PrefabInstance:
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
@@ -73171,17 +73173,17 @@ PrefabInstance:
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 210
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 120
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
@@ -73221,12 +73223,12 @@ PrefabInstance:
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 121
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}

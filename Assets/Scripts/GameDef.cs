@@ -46,7 +46,10 @@ public class GameInstance : MonoBehaviour
             animals.Add(animal);
 
             if (brushingTask != null && animal.animalDef.CanBeBrushed)
-                brushingTask.animalStrokingStatus.Add(animal, new StrokingStatus { animal = animal, strokeCount = 0 });
+                brushingTask.animalStrokingStatus.Add(
+                    animal,
+                    new StrokingStatus { animal = animal, strokeCount = 0 }
+                );
         }
 
         foreach (var animal in animals)
@@ -75,7 +78,8 @@ public class GameInstance : MonoBehaviour
             forward = Vector3.forward;
 
         var animalPos = camera.position;
-        if (animal != null) animalPos += forward * animal.animalDef.animalDistanceFromCameraInMeter;
+        if (animal != null)
+            animalPos += forward * animal.animalDef.animalDistanceFromCameraInMeter;
         Quaternion animalRotation = Quaternion.identity;
         Transform animalTransform = camera;
         if (animal != null)
@@ -84,11 +88,20 @@ public class GameInstance : MonoBehaviour
             animalPos.y = 0f;
 
             // https://stackoverflow.com/questions/22696782/placing-an-object-in-front-of-the-camera
-            var animalYRotation = new Quaternion(0.0f, camera.transform.rotation.y, 0.0f, camera.transform.rotation.w).eulerAngles;
+            var animalYRotation = new Quaternion(
+                0.0f,
+                camera.transform.rotation.y,
+                0.0f,
+                camera.transform.rotation.w
+            ).eulerAngles;
             if (gameDef.IsTableVisible)
                 animalYRotation = forward;
 
-            animalRotation = Quaternion.Euler(animalYRotation.x + 180, animalYRotation.y, animalYRotation.z + 180);
+            animalRotation = Quaternion.Euler(
+                animalYRotation.x + 180,
+                animalYRotation.y,
+                animalYRotation.z + 180
+            );
 
             animalTransform = animal.gameObject.transform;
             animalTransform.position = animalPos;
@@ -109,17 +122,24 @@ public class GameInstance : MonoBehaviour
             playground.table.transform.rotation = animalRotation;
 
             // Move the animal up, onto the table
-            var animalHeightOnTableTop = Math.Max(0f, tablePos.y + playground.tableHeight + 0.2f /* margin */);
+            var animalHeightOnTableTop = Math.Max(
+                0f,
+                tablePos.y + playground.tableHeight + 0.2f /* margin */
+            );
             if (animalTransform != null)
-                animalTransform.position = new Vector3(animalPos.x, animalHeightOnTableTop, animalPos.z);
+                animalTransform.position = new Vector3(
+                    animalPos.x,
+                    animalHeightOnTableTop,
+                    animalPos.z
+                );
         }
 
         // Place the apple 90 degrees from the animal (to the side of the animal)
-        playground.apple.transform.position = animalTransform.position - Quaternion.AngleAxis(140, Vector3.up) * forward * -0.4f;
-        playground.comb.transform.position = playground.apple.transform.position + Vector3.up * 0.3f; // Drop the comb on the apple
-
+        playground.apple.transform.position =
+            animalTransform.position - Quaternion.AngleAxis(140, Vector3.up) * forward * -0.4f;
+        playground.comb.transform.position =
+            playground.apple.transform.position + Vector3.up * 0.3f; // Drop the comb on the apple
     }
-
 
     private void OnDestroy()
     {
@@ -131,14 +151,16 @@ public class GameInstance : MonoBehaviour
         }
     }
 
-
     public void SetTarget(IWayPoint wayPoint)
     {
         firstAnimal.ai.SetTarget(wayPoint.transform);
     }
 
     // Hack
-    public AnimalInstance firstAnimal { get => animals.FirstOrDefault(); }
+    public AnimalInstance firstAnimal
+    {
+        get => animals.FirstOrDefault();
+    }
 }
 
 public class JustShowTheAnimalGame : GameInstance
@@ -157,13 +179,12 @@ public class HomeScreenGame : GameInstance
     }
 }
 
-
 public class StationaryGame : GameInstance
 {
     public override void StartGame()
     {
         base.StartGame();
-        
+
         /*
 
             1.	Optie: De controller trilt als je borstelt

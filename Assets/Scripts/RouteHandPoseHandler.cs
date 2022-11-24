@@ -7,7 +7,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class RouteHandPoseHandler : MonoBehaviour
 {
     // Linked to Transform Hook on center eye camera https://www.youtube.com/watch?v=wxhej5QIrDE
@@ -19,7 +18,6 @@ public class RouteHandPoseHandler : MonoBehaviour
     public MWayPoint sendAwayWaypoint;
 
     public MWayPoint playerWaypoint;
-
 
     private void Update()
     {
@@ -33,7 +31,6 @@ public class RouteHandPoseHandler : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// The animal should come to the user when the palm faces the user and the fingers
     /// are flexed, and the user faces the animal.
@@ -42,7 +39,7 @@ public class RouteHandPoseHandler : MonoBehaviour
     {
         if (!IsRoutingEnabled)
             return;
-       
+
         Debug.Log("Come");
 
         if (player == null)
@@ -54,8 +51,13 @@ public class RouteHandPoseHandler : MonoBehaviour
         var playerTransform = player.Value;
 
         // Keep the middle of the horse out of the eyes of the player
-        var target = playerTransform.transform.position + (playerTransform.forward * game.firstAnimal.animalDef.minComeCloseDistanceFromPlayerInMeter);
-        
+        var target =
+            playerTransform.transform.position
+            + (
+                playerTransform.forward
+                * game.firstAnimal.animalDef.minComeCloseDistanceFromPlayerInMeter
+            );
+
         playerWaypoint.transform.position = target;
 
         game.SetTarget(playerWaypoint);
@@ -100,5 +102,8 @@ public class RouteHandPoseHandler : MonoBehaviour
     }
 
     // Can the animal be routed to come and go away? Only if it has an AI and its not on the petting table
-    public bool IsRoutingEnabled { get => game.firstAnimal?.ai != null && !game.gameDef.IsTableVisible; }
+    public bool IsRoutingEnabled
+    {
+        get => game.firstAnimal?.ai != null && !game.gameDef.IsTableVisible;
+    }
 }

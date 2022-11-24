@@ -1,26 +1,55 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CombTouchHaptics : MonoBehaviour
 {
+    public AudioClip combingVibrationAudio;
+    public float restartLoopAfterSec = 1.5f;
+
+    private OVRHapticsClip combingVibrationHapticsClip;
+    private AudioSource audioSource;
+
+    private DateTime startedUtc;
+
+    private void Start()
+    {
+        if (combingVibrationAudio != null)
+            combingVibrationHapticsClip = new OVRHapticsClip(combingVibrationAudio);
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        if (DateTime.UtcNow - startedUtc > TimeSpan.FromSeconds(restartLoopAfterSec))
+            StartPlaying();
+    }
+
     public void OnSkinTouchEnter()
     {
-        OVRInput.SetControllerVibration(
-            frequency: 0.05f,
-            amplitude: 0.3f,
-            OVRInput.Controller.RTouch
-        );
-        //OVRInput.SetControllerVibration(
-        //    frequency: 0.5f,
-        //    amplitude: 0.5f,
-        //    OVRInput.Controller.LTouch
-        //);
+        if (combingVibrationHapticsClip == null)
+            return;
+
+        StartPlaying();
+    }
+
+    private void StartPlaying()
+    {
+        OVRHaptics.RightChannel.Preempt(combingVibrationHapticsClip);
+        audioSource.clip = combingVibrationAudio;
+        audioSource.Play();
+
+        startedUtc = DateTime.UtcNow;
     }
 
     public void OnSkinTouchExit()
     {
-        OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.RTouch);
-        OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.LTouch);
+        if (combingVibrationHapticsClip == null)
+            return;
+
+        OVRHaptics.RightChannel.Clear();
+        audioSource.Stop();
     }
 }

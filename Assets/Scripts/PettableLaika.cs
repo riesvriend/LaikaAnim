@@ -9,8 +9,29 @@ using PPR;
 [RequireComponent(typeof(Collider))] // For OnMouseDown
 public class PettableLaika : PettableAnimal
 {
-    private readonly List<string> downWords = new List<string>() { "omlaag", "laag", "af", "zit", "down", "lie", "sit" };
-    private readonly List<string> upWords = new List<string>() { "omhoog", "sta", "staan", "kom", "op", "klaar", "up", "stand", "come", "here" };
+    private readonly List<string> downWords = new List<string>()
+    {
+        "omlaag",
+        "laag",
+        "af",
+        "zit",
+        "down",
+        "lie",
+        "sit"
+    };
+    private readonly List<string> upWords = new List<string>()
+    {
+        "omhoog",
+        "sta",
+        "staan",
+        "kom",
+        "op",
+        "klaar",
+        "up",
+        "stand",
+        "come",
+        "here"
+    };
 
     Animator animator;
     PlayerInput input;
@@ -29,7 +50,7 @@ public class PettableLaika : PettableAnimal
     // OnEnable
     // OnStart
     // OnApplicationPause -> OnDisable (called when lost focus)
-    // OnEnable 
+    // OnEnable
     // OnDisable
     // OnDestroy
 
@@ -53,7 +74,10 @@ public class PettableLaika : PettableAnimal
             animator = GetComponent<Animator>();
             isRestingHash = Animator.StringToHash("isResting");
 
-            var voiceControllerGameObject = new GameObject("VoiceController", components: new System.Type[] { typeof(VoiceController) });
+            var voiceControllerGameObject = new GameObject(
+                "VoiceController",
+                components: new System.Type[] { typeof(VoiceController) }
+            );
             voiceControllerGameObject.transform.parent = gameObject.transform;
 
             voiceController = FindObjectOfType<VoiceController>();
@@ -71,7 +95,6 @@ public class PettableLaika : PettableAnimal
         voiceController.StartListening();
     }
 
-
     private void OnDisable()
     {
         $"LaikaMovement OnDisable".Log();
@@ -79,7 +102,6 @@ public class PettableLaika : PettableAnimal
         verticalAccelerationSensor?.OnDisable();
         voiceController?.StopListening();
     }
-
 
     private void OnDestroy()
     {
@@ -101,7 +123,7 @@ public class PettableLaika : PettableAnimal
 
     /// <summary>
     /// When tablet is shut down or tabbed away to other app
-    /// https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationPause.html 
+    /// https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationPause.html
     /// </summary>
     /// <param name="pause"></param>
     private void OnApplicationPause(bool pause)
@@ -122,11 +144,11 @@ public class PettableLaika : PettableAnimal
     {
         isDownKeyPressed = ctx.ReadValue<float>() == 1; // 0 on key release, 1 on key press
     }
+
     private void Up_performed(InputAction.CallbackContext ctx)
     {
         isUpKeyPressed = ctx.ReadValue<float>() == 1;
     }
-
 
     // Update is called once per frame
     void Update()
@@ -215,8 +237,7 @@ public class PettableLaika : PettableAnimal
 
         // On each call iOS passes one ever growing string with words appended to the end
         // so we want to check for the new words only
-        var isTextRepeated =
-            command.StartsWith(previousVoiceCommand);
+        var isTextRepeated = command.StartsWith(previousVoiceCommand);
 
         if (isTextRepeated && previousVoiceCommand.Length == command.Length)
             return;
@@ -265,7 +286,7 @@ public class PettableLaika : PettableAnimal
     //    var acceleration = ctx.ReadValue<float>();
     //    //$"Accelleration: {acceleration}. duration: {ctx.duration}".Log();
 
-    //    // Calculate increase in acceleration over the last second. If > 2/ms2 then the user 
+    //    // Calculate increase in acceleration over the last second. If > 2/ms2 then the user
     //    // pushed the device up or down
     //}
 
