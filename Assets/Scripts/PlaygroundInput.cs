@@ -1,22 +1,12 @@
-﻿using System.Linq;
-using MalbersAnimations.Controller;
-using MalbersAnimations.Controller.AI;
-using Oculus.Interaction;
+﻿using Oculus.Interaction;
 using Synchrony;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-//using System.Numerics;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-//using UnityEngine.UIElements;
 using UnityEngine.Video;
-using UnityEngine.Windows;
-using Unity.Tutorials.Core.Editor;
-using UnityEditor;
 
 /// <summary>
 /// A or X button = Rotate Animal

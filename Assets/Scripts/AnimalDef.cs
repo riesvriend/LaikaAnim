@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine;
 
 // Template/prefab for an animal
-[CreateAssetMenu(menuName = "Vriend/New Animal Definition", order = -100, fileName = "New Skybox Descriptor")]
 public class AnimalDef
 {
     public const string Horse = "Paard";

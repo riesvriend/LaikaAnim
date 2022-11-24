@@ -9,6 +9,14 @@ namespace Synchrony
 {
     public static class SynchronyUtils
     {
+        public static string FullName(this GameObject gameObject)
+        {
+            if (gameObject.transform != gameObject.transform.root)
+                return $"{gameObject.transform.parent.gameObject.FullName()}/{gameObject.name}";
+            else
+                return gameObject.name;
+        }
+
         // https://stackoverflow.com/questions/2742276/how-do-i-check-if-a-type-is-a-subtype-or-the-type-of-an-object
         public static bool IsClassOrSubclass<TPotentialBase>(this Type potentialDescendant)
         {
