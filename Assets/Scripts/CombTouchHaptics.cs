@@ -17,8 +17,8 @@ public class CombTouchHaptics : MonoBehaviour
 
     private void Start()
     {
-        if (combingVibrationAudio != null)
-            combingVibrationHapticsClip = new OVRHapticsClip(combingVibrationAudio);
+        //if (combingVibrationAudio != null)
+        //    combingVibrationHapticsClip = new OVRHapticsClip(combingVibrationAudio);
 
         audioSource = gameObject.AddComponent<AudioSource>();
 

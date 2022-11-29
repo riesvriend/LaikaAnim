@@ -66,17 +66,6 @@ public class PlaygroundInput : MonoBehaviour
         {
             globalInput = new GlobalInput();
             globalInput.GlobalControls.Menu.performed += Menu_performed;
-
-            InitAnimalDefs();
-            InitGameDefs();
-            ActivateActiveSkybox();
-
-            // Start the game before init of main menu, which hightlights the current game's toggle
-            StartHomeScreenGame();
-
-            InitMainMenu();
-            HandleMusicHasChanged(); // Updates player and menu toggle
-            InitWoodenPlankMenuButton();
         }
         catch (Exception ex)
         {
@@ -86,6 +75,20 @@ public class PlaygroundInput : MonoBehaviour
             Debug.LogError(ex.Message, this.gameObject);
             Debug.LogError(ex.StackTrace, this.gameObject);
         }
+    }
+
+    private void Start()
+    {
+        InitAnimalDefs();
+        InitGameDefs();
+        ActivateActiveSkybox();
+
+        // Start the game before init of main menu, which hightlights the current game's toggle
+        StartHomeScreenGame();
+
+        InitMainMenu();
+        HandleMusicHasChanged(); // Updates player and menu toggle
+        InitWoodenPlankMenuButton();
     }
 
     private void OnEnable()

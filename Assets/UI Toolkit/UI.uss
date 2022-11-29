@@ -1,0 +1,11 @@
+.title {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    align-items: auto;
+    justify-content: flex-start;
+    -unity-font-style: bold;
+}
+
+.text {
+    color: rgb(255, 255, 255);
+}
