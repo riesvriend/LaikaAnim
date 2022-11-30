@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 using System.Linq;
 using Assets.Scripts;
+using PowerPetsRescue;
 
 public class GameDef
 {
@@ -46,20 +47,23 @@ public class GameInstance : MonoBehaviour
         }
 
         foreach (var animalDef in gameDef.animals)
-        {
-            var animal = animalDef.InstantiateAnimal();
-            animals.Add(animal);
+            AddAnimal(animalDef);
+    }
 
-            if (activeAnimal == null)
-                SetActiveAnimal(animal);
+    private AnimalInstance AddAnimal(AnimalDef animalDef)
+    {
+        var animal = animalDef.InstantiateAnimal();
+        animals.Add(animal);
 
-            if (brushingTask != null && animal.animalDef.CanBeBrushed)
-                brushingTask.AddAnimal(animal);
-        }
+        if (activeAnimal == null)
+            SetActiveAnimal(animal);
 
-        foreach (var animal in animals)
-            // For now this only works properly for a single animal
-            PositionAnimal(animal);
+        if (brushingTask != null && animal.animalDef.CanBeBrushed)
+            brushingTask.AddAnimal(animal);
+
+        PositionAnimal(animal);
+
+        return animal;
     }
 
     private void SetActiveAnimal(AnimalInstance animal)
@@ -90,7 +94,9 @@ public class GameInstance : MonoBehaviour
 
         var animalPos = camera.position;
         if (animal != null)
+        {
             animalPos += forward * animal.animalDef.animalDistanceFromCameraInMeter;
+        }
         Quaternion animalRotation = Quaternion.identity;
         Transform animalTransform = camera;
         if (animal != null)
@@ -165,6 +171,18 @@ public class GameInstance : MonoBehaviour
     public void SetTarget(IWayPoint wayPoint)
     {
         firstAnimal.ai.SetTarget(wayPoint.transform);
+    }
+
+    ProgressModel ProgressModel
+    {
+        get => playground.plankUI.ProgressModel;
+    }
+
+    internal void TaskCompleted(BrushingTask brushingTask)
+    {
+        playground.PlaySoundTaskCompleted();
+        ProgressModel.AddMedal();
+        AddAnimal(animals.First().animalDef);
     }
 
     // Hack

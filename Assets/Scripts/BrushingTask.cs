@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PowerPetsRescue;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -52,9 +53,14 @@ namespace Assets.Scripts
             }
         }
 
+        ProgressModel ProgressModel
+        {
+            get => game.playground.plankUI.ProgressModel;
+        }
+
         private void Update()
         {
-            var progress = game.playground.plankUI.ProgressModel;
+            var progress = ProgressModel;
             var status = ActiveStatus();
             if (status == null)
                 progress.IsVisible = false;
@@ -63,7 +69,7 @@ namespace Assets.Scripts
                 // Show stroke progress and target on menu
                 progress.IsVisible = true;
                 progress.Percentage = status.Percentage;
-                progress.Title = $"Borstel {status.animal.animalDef.name}";
+                progress.Title = "Borstelen";
             }
         }
 
@@ -85,7 +91,14 @@ namespace Assets.Scripts
         {
             ActiveAnimal = FindAnimalInstance(e.Animal);
 
-            ActiveStatus().strokeCount++;
+            var status = ActiveStatus();
+            status.strokeCount++;
+
+            if (status.strokeCount >= StrokingStatus.StrokesPerGoldMedal)
+            {
+                status.strokeCount = 0;
+                game.TaskCompleted(this);
+            }
         }
 
         private void OnStrokingStopped(CombTouchHaptics.StrokeEvent e) { }

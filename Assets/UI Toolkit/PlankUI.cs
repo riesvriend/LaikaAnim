@@ -15,12 +15,19 @@ namespace PowerPetsRescue
         public string Title { get; set; } = "Brushing";
         public bool IsVisible { get; set; } = false;
         public float Percentage { get; set; } = 0.0f;
+
+        public int Medals { get; set; }
+
+        internal void AddMedal()
+        {
+            Medals++;
+        }
     }
 
     public class PlankUI : MonoBehaviour
     {
         public ProgressModel ProgressModel { get; set; } =
-            new ProgressModel { IsVisible = true, Title = "Progress" };
+            new ProgressModel { IsVisible = false, Title = "Progress" };
 
         private VisualElement root;
         private VisualElement progressContainer;
@@ -50,11 +57,6 @@ namespace PowerPetsRescue
             {
                 progressContainer.style.display = DisplayStyle.Flex;
                 progressLabel.text = ProgressModel.Title;
-                //var pct = 20f;
-                //if (DateTime.UtcNow.Second % 2 == 0)
-                //{
-                //    pct = 80f;
-                //}
                 progressBar.value = ProgressModel.Percentage;
             }
         }

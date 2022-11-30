@@ -47,6 +47,7 @@ public class PlaygroundInput : MonoBehaviour
     public GameObject comb;
 
     public AudioSource musicAudioSource;
+    public AudioSource taskCompletedAudioSource;
 
     public List<SkyboxDescriptor> skyboxDescriptors = new();
     public int activeSkyboxIndex = 0;
@@ -193,7 +194,7 @@ public class PlaygroundInput : MonoBehaviour
                 IsCombVisible = true,
                 IsAppleVisible = true,
             },
-            animals: new[] { AnimalDef.Rabbit, AnimalDef.Rabbit }
+            animals: new[] { AnimalDef.Rabbit }
         );
 
         AddGameDef(
@@ -564,5 +565,10 @@ public class PlaygroundInput : MonoBehaviour
         // TODO: hide the animals and table that obstruct the menu
         mainMenu.SetActive(activate);
         menuPlankInteractableView.gameObject.SetActive(!activate);
+    }
+
+    internal void PlaySoundTaskCompleted()
+    {
+        taskCompletedAudioSource.Play();
     }
 }
