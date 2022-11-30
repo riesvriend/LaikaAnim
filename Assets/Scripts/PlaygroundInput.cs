@@ -1,4 +1,5 @@
 ﻿using Oculus.Interaction;
+using PowerPetsRescue;
 using Synchrony;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,12 @@ public class PlaygroundInput : MonoBehaviour
 
     [SerializeField, Interface(typeof(IInteractableView))]
     public MonoBehaviour menuPlankInteractableView;
+
+    /// <summary>
+    /// Task Progress (brushing complete %) displayed by the menu plank on the side of the scene
+    /// </summary>
+    public PlankUI plankUI;
+
     public GameObject mainMenu;
     public GameObject artificalGrass;
     public GameObject table;

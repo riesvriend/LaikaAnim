@@ -15,8 +15,10 @@ public class CombTouchHaptics : MonoBehaviour
     private TimeSpan restartTimeSpan;
     private DateTime? playingStartedUtc;
 
-    private void Start()
+    private void Awake()
     {
+        // BUG: HANGs on on converting the audio clip, the OVRHaptics.Config.SampleRateHz is 0!
+        // https://forums.oculusvr.com/t5/Unity-VR-Development/the-quot-OVRHapticsClip-quot-can-t-work-help-me-to-write-some/td-p/493037
         //if (combingVibrationAudio != null)
         //    combingVibrationHapticsClip = new OVRHapticsClip(combingVibrationAudio);
 
@@ -25,6 +27,8 @@ public class CombTouchHaptics : MonoBehaviour
         animalLayer = LayerMask.NameToLayer("Animal");
         restartTimeSpan = TimeSpan.FromSeconds(restartLoopAfterSec);
     }
+
+    private void Start() { }
 
     private void Update()
     {
@@ -40,29 +44,40 @@ public class CombTouchHaptics : MonoBehaviour
 
     public void OnSkinTouchEnter()
     {
-        if (combingVibrationHapticsClip == null)
-            return;
-
         StartPlaying();
     }
 
     private void StartPlaying()
     {
-        OVRHaptics.RightChannel.Preempt(combingVibrationHapticsClip);
+        if (combingVibrationHapticsClip != null)
+        {
+            OVRHaptics.RightChannel.Preempt(combingVibrationHapticsClip);
+        }
+        else
+        {
+            OVRInput.SetControllerVibration(
+                frequency: .3f,
+                amplitude: .5f,
+                OVRInput.Controller.RTouch
+            );
+        }
         audioSource.clip = combingVibrationAudio;
         audioSource.Play();
 
         playingStartedUtc = DateTime.UtcNow;
     }
 
-    public void OnSkinTouchExit()
+    private void StopPlaying()
     {
-        if (combingVibrationHapticsClip == null)
-            return;
-
         playingStartedUtc = null;
         OVRHaptics.RightChannel.Clear();
+        OVRInput.SetControllerVibration(frequency: 0, amplitude: 0, OVRInput.Controller.RTouch);
         audioSource.Stop();
+    }
+
+    public void OnSkinTouchExit()
+    {
+        StopPlaying();
     }
 
     private void OnTriggerEnter(Collider other)

@@ -59017,6 +59017,7 @@ MonoBehaviour:
   menuPlankNormalMaterial: {fileID: 2100000, guid: fa058cbc050cbb84d9037931f686503b,
     type: 2}
   menuPlankInteractableView: {fileID: 1046059338}
+  plankUI: {fileID: 1091065843}
   mainMenu: {fileID: 5622969231988087979}
   artificalGrass: {fileID: 90686182}
   table: {fileID: 1084758364}
@@ -59024,9 +59025,9 @@ MonoBehaviour:
   comb: {fileID: 1299398012}
   musicAudioSource: {fileID: 246812170}
   skyboxDescriptors:
+  - {fileID: 11400000, guid: 7900d34ce0967084d9d76815d62194f9, type: 2}
   - {fileID: 11400000, guid: 07a33e5d38a35bc43bd42000172b9059, type: 2}
   - {fileID: 11400000, guid: bae85f2e306559646a780a3e841ae0d4, type: 2}
-  - {fileID: 11400000, guid: 7900d34ce0967084d9d76815d62194f9, type: 2}
   - {fileID: 11400000, guid: 77f54107f54330b49b9dfbac09d5c69f, type: 2}
   activeSkyboxIndex: 0
   skyboxVideoDome: {fileID: 449690046}
@@ -72989,7 +72990,7 @@ PrefabInstance:
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
@@ -72999,17 +73000,17 @@ PrefabInstance:
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 210
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 120
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
@@ -73049,12 +73050,12 @@ PrefabInstance:
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 121
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -75
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2272116763943059088, guid: b100c070241d8bc43b7fdbad48e6c468,
         type: 3}

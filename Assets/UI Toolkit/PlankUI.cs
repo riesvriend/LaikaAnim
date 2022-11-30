@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +35,8 @@ namespace PowerPetsRescue
             progressContainer = root.Q<VisualElement>("ProgressContainer");
             progressLabel = root.Q<Label>("ProgressLabel");
             progressBar = root.Q<ProgressBar>("ProgressBar");
+            progressBar.lowValue = 0f;
+            progressBar.highValue = 100f;
         }
 
         // Update is called once per frame
@@ -47,7 +50,12 @@ namespace PowerPetsRescue
             {
                 progressContainer.style.display = DisplayStyle.Flex;
                 progressLabel.text = ProgressModel.Title;
-                progressBar.value = ProgressModel.Percentage;
+                var pct = 20f;
+                if (DateTime.UtcNow.Second % 2 == 0)
+                {
+                    pct = 80f;
+                }
+                progressBar.value = pct;
             }
         }
     }
