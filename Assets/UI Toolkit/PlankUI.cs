@@ -50,12 +50,12 @@ namespace PowerPetsRescue
             {
                 progressContainer.style.display = DisplayStyle.Flex;
                 progressLabel.text = ProgressModel.Title;
-                var pct = 20f;
-                if (DateTime.UtcNow.Second % 2 == 0)
-                {
-                    pct = 80f;
-                }
-                progressBar.value = pct;
+                //var pct = 20f;
+                //if (DateTime.UtcNow.Second % 2 == 0)
+                //{
+                //    pct = 80f;
+                //}
+                progressBar.value = ProgressModel.Percentage;
             }
         }
     }

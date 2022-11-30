@@ -25,6 +25,7 @@ public class GameInstance : MonoBehaviour
     public PlaygroundInput playground;
 
     public List<AnimalInstance> animals = new List<AnimalInstance>();
+    public AnimalInstance activeAnimal;
 
     protected BrushingTask brushingTask = null;
 
@@ -38,23 +39,33 @@ public class GameInstance : MonoBehaviour
         playground.comb.SetActive(gameDef.IsCombVisible);
 
         if (gameDef.IsCombVisible)
+        {
             brushingTask = gameObject.AddComponent<BrushingTask>();
+            brushingTask.Comb = playground.comb;
+            brushingTask.game = this;
+        }
 
         foreach (var animalDef in gameDef.animals)
         {
             var animal = animalDef.InstantiateAnimal();
             animals.Add(animal);
 
+            if (activeAnimal == null)
+                SetActiveAnimal(animal);
+
             if (brushingTask != null && animal.animalDef.CanBeBrushed)
-                brushingTask.animalStrokingStatus.Add(
-                    animal,
-                    new StrokingStatus { animal = animal, strokeCount = 0 }
-                );
+                brushingTask.AddAnimal(animal);
         }
 
         foreach (var animal in animals)
             // For now this only works properly for a single animal
             PositionAnimal(animal);
+    }
+
+    private void SetActiveAnimal(AnimalInstance animal)
+    {
+        activeAnimal = animal;
+        brushingTask.ActiveAnimal = animal;
     }
 
     void PositionAnimal(AnimalInstance animal)

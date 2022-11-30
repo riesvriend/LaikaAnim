@@ -7,23 +7,95 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class BrushingTask : MonoBehaviour
-    {
-        public const int StrokesPerGoldMedal = 5;
-        
-        // Track bushing progress
-        public Dictionary<AnimalInstance, StrokingStatus> animalStrokingStatus = new();
-
-        // Show stroke progress and target on menu
-
-        // Show strok progress on animal (how?)
-
-        // Play a brushing sound when brushing
-    }
-
     public class StrokingStatus
     {
+        public const int StrokesPerGoldMedal = 20;
+
         public AnimalInstance animal;
         public int strokeCount;
+
+        public float Percentage
+        {
+            get { return ((float)strokeCount / StrokesPerGoldMedal) * 100f; }
+        }
+    }
+
+    public class BrushingTask : MonoBehaviour
+    {
+        // Parent game that uses this task
+        public GameInstance game;
+
+        public AnimalInstance ActiveAnimal;
+
+        public GameObject Comb { get; internal set; }
+        private CombTouchHaptics combTouchHaptics = null;
+
+        // Track bushing progress
+        private Dictionary<AnimalInstance, StrokingStatus> animalStrokingStatus = new();
+
+        private void Start()
+        {
+            if (Comb != null)
+            {
+                combTouchHaptics = Comb.GetComponentInChildren<CombTouchHaptics>();
+                combTouchHaptics.OnStrokingStarted.AddListener(OnStrokingStarted);
+                combTouchHaptics.OnStrokingStopped.AddListener(OnStrokingStopped);
+            }
+        }
+
+        void OnDestroy()
+        {
+            if (combTouchHaptics != null)
+            {
+                combTouchHaptics.OnStrokingStarted.RemoveListener(OnStrokingStarted);
+                combTouchHaptics.OnStrokingStopped.RemoveListener(OnStrokingStopped);
+            }
+        }
+
+        private void Update()
+        {
+            var progress = game.playground.plankUI.ProgressModel;
+            var status = ActiveStatus();
+            if (status == null)
+                progress.IsVisible = false;
+            else
+            {
+                // Show stroke progress and target on menu
+                progress.IsVisible = true;
+                progress.Percentage = status.Percentage;
+                progress.Title = $"Borstel {status.animal.animalDef.name}";
+            }
+        }
+
+        AnimalInstance FindAnimalInstance(GameObject animal)
+        {
+            return animalStrokingStatus.Keys.SingleOrDefault(a => a.gameObject == animal);
+        }
+
+        StrokingStatus ActiveStatus()
+        {
+            if (ActiveAnimal == null)
+                return null;
+
+            animalStrokingStatus.TryGetValue(ActiveAnimal, out var status);
+            return status;
+        }
+
+        private void OnStrokingStarted(CombTouchHaptics.StrokeEvent e)
+        {
+            ActiveAnimal = FindAnimalInstance(e.Animal);
+
+            ActiveStatus().strokeCount++;
+        }
+
+        private void OnStrokingStopped(CombTouchHaptics.StrokeEvent e) { }
+
+        internal void AddAnimal(AnimalInstance animal)
+        {
+            animalStrokingStatus.Add(
+                animal,
+                new StrokingStatus { animal = animal, strokeCount = 0 }
+            );
+        }
     }
 }

@@ -3,13 +3,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CombTouchHaptics : MonoBehaviour
 {
+    public class StrokeEvent
+    {
+        public GameObject Animal;
+    }
+
     public AudioClip combingVibrationAudio;
     public float restartLoopAfterSec = 1.5f;
+    public GameInstance game;
+
+    public UnityEvent<StrokeEvent> OnStrokingStarted = new();
+    public UnityEvent<StrokeEvent> OnStrokingStopped = new();
 
     private OVRHapticsClip combingVibrationHapticsClip;
+
+    // Plays a brushing sound when brushing
     private AudioSource audioSource;
     private int animalLayer;
     private TimeSpan restartTimeSpan;
@@ -42,9 +54,20 @@ public class CombTouchHaptics : MonoBehaviour
         }
     }
 
-    public void OnSkinTouchEnter()
+    private void OnSkinTouchEnter(GameObject animalBodyPart)
     {
         StartPlaying();
+        OnStrokingStarted.Invoke(
+            new StrokeEvent { Animal = animalBodyPart.transform.root.gameObject }
+        );
+    }
+
+    private void OnSkinTouchExit(GameObject animalBodyPart)
+    {
+        StopPlaying();
+        OnStrokingStopped.Invoke(
+            new StrokeEvent { Animal = animalBodyPart.transform.root.gameObject }
+        );
     }
 
     private void StartPlaying()
@@ -75,11 +98,6 @@ public class CombTouchHaptics : MonoBehaviour
         audioSource.Stop();
     }
 
-    public void OnSkinTouchExit()
-    {
-        StopPlaying();
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == animalLayer)
@@ -88,7 +106,7 @@ public class CombTouchHaptics : MonoBehaviour
                 $"OnTriggerEnter in {gameObject.FullName()} with {other.gameObject.FullName()}"
             );
 
-            OnSkinTouchEnter();
+            OnSkinTouchEnter(other.gameObject);
         }
     }
 
@@ -100,7 +118,7 @@ public class CombTouchHaptics : MonoBehaviour
                 $"OnTriggerExit in {gameObject.FullName()} with {other.gameObject.FullName()}"
             );
 
-            OnSkinTouchExit();
+            OnSkinTouchExit(other.gameObject);
         }
     }
 }
