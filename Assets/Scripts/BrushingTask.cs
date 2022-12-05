@@ -26,13 +26,17 @@ namespace Assets.Scripts
         // Parent game that uses this task
         public GameInstance game;
 
-        public AnimalInstance ActiveAnimal;
-
         public GameObject Comb { get; internal set; }
         private CombTouchHaptics combTouchHaptics = null;
 
         // Track bushing progress
         private Dictionary<AnimalInstance, StrokingStatus> animalStrokingStatus = new();
+
+        public AnimalInstance ActiveAnimal
+        {
+            get => game.activeAnimal;
+            private set { game.SetActiveAnimal(value); }
+        }
 
         private void Start()
         {

@@ -55,7 +55,7 @@ public class RouteHandPoseHandler : MonoBehaviour
             playerTransform.transform.position
             + (
                 playerTransform.forward
-                * game.firstAnimal.animalDef.minComeCloseDistanceFromPlayerInMeter
+                * game.activeAnimal.animalDef.minComeCloseDistanceFromPlayerInMeter
             );
 
         playerWaypoint.transform.position = target;
@@ -102,8 +102,10 @@ public class RouteHandPoseHandler : MonoBehaviour
     }
 
     // Can the animal be routed to come and go away? Only if it has an AI and its not on the petting table
+    // Update: even on the petting table we like the active rabbit to be able to come and go away
+    // we can call one over to start petting it when we are stationary
     public bool IsRoutingEnabled
     {
-        get => game.firstAnimal?.ai != null && !game.gameDef.IsTableVisible;
+        get => game.activeAnimal?.ai != null; // && !game.gameDef.IsTableVisible;
     }
 }

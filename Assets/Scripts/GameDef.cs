@@ -7,6 +7,7 @@ using System.Linq;
 using Assets.Scripts;
 using PowerPetsRescue;
 using MalbersAnimations.Utilities;
+using MalbersAnimations.Controller;
 
 public class GameDef
 {
@@ -27,7 +28,7 @@ public class GameInstance : MonoBehaviour
     public PlaygroundInput playground;
 
     public List<AnimalInstance> animals = new List<AnimalInstance>();
-    public AnimalInstance activeAnimal;
+    public AnimalInstance activeAnimal { get; private set; }
 
     protected BrushingTask brushingTask = null;
 
@@ -51,26 +52,39 @@ public class GameInstance : MonoBehaviour
             AddAnimal(animalDef);
     }
 
+    private void Update()
+    {
+        var ai = activeAnimal?.ai;
+        if (ai == null)
+            return;
+
+        // Workaround: clear the animals target once it has arrived there
+        // this way we prevent the animals from running back to the target if one of the animals is re-selected to come back to the player
+        if (!ai.ActiveAgent && ai.Target != null)
+            ai.Target = null;
+    }
+
     private AnimalInstance AddAnimal(AnimalDef animalDef)
     {
         var animal = animalDef.InstantiateAnimal();
         animals.Add(animal);
 
-        if (activeAnimal == null)
-            SetActiveAnimal(animal);
+        SetActiveAnimal(animal);
 
         if (brushingTask != null && animal.animalDef.CanBeBrushed)
             brushingTask.AddAnimal(animal);
 
         PositionAnimal(animal);
 
+        // Send the new animal to the player (in case its dropped to far away)
+        // playground.pettingHandPoseHandler.HandleCome();
+
         return animal;
     }
 
-    private void SetActiveAnimal(AnimalInstance animal)
+    public void SetActiveAnimal(AnimalInstance animal)
     {
         activeAnimal = animal;
-        brushingTask.ActiveAnimal = animal;
     }
 
     void PositionAnimal(AnimalInstance animal)
@@ -188,7 +202,10 @@ public class GameInstance : MonoBehaviour
 
     public void SetTarget(IWayPoint wayPoint)
     {
-        firstAnimal.ai.SetTarget(wayPoint.transform);
+        var ai = activeAnimal?.ai;
+        if (ai == null)
+            return;
+        ai.SetTarget(wayPoint.transform);
     }
 
     ProgressModel ProgressModel

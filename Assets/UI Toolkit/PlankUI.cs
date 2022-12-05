@@ -53,21 +53,25 @@ namespace PowerPetsRescue
         }
 
         // Update is called once per frame
-        void Update()
+        void Update() { }
+
+        private void OnGUI()
         {
             if (!ProgressModel.IsVisible)
             {
-                // bug? progressContainer.style.display = DisplayStyle.None;
+                progressContainer.style.display = DisplayStyle.None;
                 progressContainer.visible = false;
+                progressBar.style.display = DisplayStyle.None;
                 progressBar.visible = false;
-
                 progressLabel.text = "";
                 progressBar.value = 100f;
                 progressBar.title = "";
             }
             else
             {
+                progressContainer.style.display = DisplayStyle.Flex;
                 progressContainer.visible = true;
+                progressBar.style.display = DisplayStyle.Flex;
                 progressBar.visible = true;
                 progressLabel.text = ProgressModel.TaskTitle;
                 progressBar.value = ProgressModel.Percentage;
