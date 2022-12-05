@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Linq;
 using Assets.Scripts;
 using PowerPetsRescue;
+using MalbersAnimations.Utilities;
 
 public class GameDef
 {
@@ -133,7 +134,7 @@ public class GameInstance : MonoBehaviour
             // TODO: instead of hardcoding the 0.6 meter between eyes and table top, consider
             // measuring the height of the lowest hand/controller and presume this to be the user's table height
             // or, give the user a control mechanism to move the virtual table up or down
-            tablePos.y = -0.11f; // 85cm - 11 = 74cm, a common table  // Math.Min(0f, cameraOrEyeTransform.position.y - tableHeight - 0.45f);
+            tablePos.y = -0.11f; // 85cm - 11 = 74cm, a common table.
 
             playground.table.transform.position = tablePos;
             playground.table.transform.rotation = animalRotation;
@@ -141,7 +142,10 @@ public class GameInstance : MonoBehaviour
             // Move the animal up, onto the table
             var animalHeightOnTableTop = Math.Max(
                 0f,
-                tablePos.y + playground.tableHeight + 0.2f /* margin */
+                tablePos.y
+                    + playground.tableHeight
+                    + 0.2f /* margin */
+                    + 0.8f // 80cm above the table to create a drop from the sky effect
             );
             if (animalTransform != null)
                 animalTransform.position = new Vector3(
@@ -152,14 +156,28 @@ public class GameInstance : MonoBehaviour
         }
 
         // Place the apple 90 degrees from the animal (to the side of the animal)
+        // TODO: only do this if this is the first animal; or add a new apple for each animal
         playground.apple.transform.position =
             animalTransform.position - Quaternion.AngleAxis(140, Vector3.up) * forward * -0.4f;
         playground.comb.transform.position =
             playground.apple.transform.position + Vector3.up * 0.3f; // Drop the comb on the apple
     }
 
+    /// <summary>
+    /// We dont rely on Destroy to prevent that we can access all the
+    /// related objects
+    /// </summary>
+    public void Stop()
+    {
+        if (brushingTask != null)
+            brushingTask.Stop();
+    }
+
     private void OnDestroy()
     {
+        if (brushingTask != null)
+            Destroy(brushingTask);
+
         while (animals.Count > 0)
         {
             var animal = animals[0];
@@ -216,18 +234,21 @@ public class StationaryGame : GameInstance
 
         /*
 
-            1.	Optie: De controller trilt als je borstelt
-            2.	Toon een progress bar voor het borstelen op de menuplank
-            3.	Klaar met borstelen, je eerste gouden ster!
-            4.	Konijn
-            a.	Voer de appel
-            b.	Mjom mjom
-            c.	Gouden ster
-            d.	En een nieuwe konijn in random kleur
+            1.	x Optie: De controller trilt als je borstelt
+            2.	~ Toon een progress bar voor het borstelen op de menuplank
+            3.	x Klaar met borstelen, een nieuwe konijn in random kleur
+            4.	x Klaar met borstelen, een nieuwe konijn in dezelfde kleur
+            5.	(later) En een gouden ster
+            6.	Voer de appel
+            7.	Mjom mjom
+            8.	Gouden ster
+            9.	En
           
          */
 
-        // Show "TIP: start brushing your puppy!" on the menu plan
+        // Show "TIP: start brushing your puppy!" on the menu plank
+
+
         // Also play a voice that says the same
 
         // Show brush progress: 0% on the menu

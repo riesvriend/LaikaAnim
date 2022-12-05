@@ -346,6 +346,7 @@ public class PlaygroundInput : MonoBehaviour
     {
         if (activeGame != null)
         {
+            activeGame.Stop();
             Destroy(activeGame);
             activeGame = null;
         }

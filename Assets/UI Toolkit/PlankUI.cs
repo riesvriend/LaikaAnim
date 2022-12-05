@@ -12,9 +12,15 @@ namespace PowerPetsRescue
     // Display a list of tasks, for each animal that needs brushing, so how much brushing is needed
     public class ProgressModel
     {
-        public string Title { get; set; } = "Brushing";
-        public bool IsVisible { get; set; } = false;
-        public float Percentage { get; set; } = 0.0f;
+        public string TaskTitle { get; internal set; } = "Klik hier";
+        public string ProgressBarTitle { get; set; } = "";
+        private bool _isVisible;
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set { _isVisible = value; }
+        }
+        public float Percentage { get; set; } = 100f;
 
         public int Medals { get; set; }
 
@@ -26,8 +32,8 @@ namespace PowerPetsRescue
 
     public class PlankUI : MonoBehaviour
     {
-        public ProgressModel ProgressModel { get; set; } =
-            new ProgressModel { IsVisible = false, Title = "Progress" };
+        public ProgressModel ProgressModel { get; private set; } =
+            new ProgressModel { IsVisible = true };
 
         private VisualElement root;
         private VisualElement progressContainer;
@@ -51,13 +57,21 @@ namespace PowerPetsRescue
         {
             if (!ProgressModel.IsVisible)
             {
-                progressContainer.style.display = DisplayStyle.None;
+                // bug? progressContainer.style.display = DisplayStyle.None;
+                progressContainer.visible = false;
+                progressBar.visible = false;
+
+                progressLabel.text = "";
+                progressBar.value = 100f;
+                progressBar.title = "";
             }
             else
             {
-                progressContainer.style.display = DisplayStyle.Flex;
-                progressLabel.text = ProgressModel.Title;
+                progressContainer.visible = true;
+                progressBar.visible = true;
+                progressLabel.text = ProgressModel.TaskTitle;
                 progressBar.value = ProgressModel.Percentage;
+                progressBar.title = ProgressModel.ProgressBarTitle;
             }
         }
     }

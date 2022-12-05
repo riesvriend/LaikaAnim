@@ -44,13 +44,20 @@ namespace Assets.Scripts
             }
         }
 
-        void OnDestroy()
+        /// <summary>
+        /// We dont rely on Destroy to prevent that we can access all the
+        /// related objects
+        /// </summary>
+        public void Stop()
         {
+            // needed to prevent Update() from re-activating the progress model again
+            ActiveAnimal = null;
             if (combTouchHaptics != null)
             {
                 combTouchHaptics.OnStrokingStarted.RemoveListener(OnStrokingStarted);
                 combTouchHaptics.OnStrokingStopped.RemoveListener(OnStrokingStopped);
             }
+            ProgressModel.IsVisible = false;
         }
 
         ProgressModel ProgressModel
@@ -68,8 +75,9 @@ namespace Assets.Scripts
             {
                 // Show stroke progress and target on menu
                 progress.IsVisible = true;
+                progress.TaskTitle = "Voortgang";
                 progress.Percentage = status.Percentage;
-                progress.Title = "Borstelen";
+                progress.ProgressBarTitle = "Borstelen";
             }
         }
 
