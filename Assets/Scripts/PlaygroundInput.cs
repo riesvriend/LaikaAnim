@@ -561,6 +561,8 @@ public class PlaygroundInput : MonoBehaviour
 
     private void ActivatePopupMenu(bool activate)
     {
+        activeGame.ActivatePopupMenu(activate);
+
         // only the popup OR the plank can be active, or else the ray casting
         // gets confused
         // TODO: hide the animals and table that obstruct the menu

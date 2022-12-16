@@ -220,6 +220,15 @@ public class GameInstance : MonoBehaviour
         AddAnimal(animals.First().animalDef);
     }
 
+    internal void ActivatePopupMenu(bool activate)
+    {
+        // when the popup menu is activated, we get performance problems that prevent
+        // the user to click on the popup menu items.
+        // Therefore, we disable all animals in the game while the menu is active
+        foreach (var animal in animals)
+            animal.gameObject.SetActive(!activate);
+    }
+
     // Hack
     public AnimalInstance firstAnimal
     {
