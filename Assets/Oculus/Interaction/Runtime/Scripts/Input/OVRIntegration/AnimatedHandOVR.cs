@@ -33,6 +33,7 @@ namespace Oculus.Interaction.Input
         public const string ANIM_LAYER_NAME_POINT = "Point Layer";
         public const string ANIM_LAYER_NAME_THUMB = "Thumb Layer";
         public const string ANIM_PARAM_NAME_FLEX = "Flex";
+        public const string ANIM_PARAM_NAME_PINCH = "Pinch";
 
         public const float INPUT_RATE_CHANGE = 20.0f;
 
@@ -46,6 +47,7 @@ namespace Oculus.Interaction.Input
         private int _animLayerIndexThumb = -1;
         private int _animLayerIndexPoint = -1;
         private int _animParamIndexFlex = -1;
+        private int _animParamIndexPinch = -1;
 
         private bool _isPointing = false;
         private bool _isGivingThumbsUp = false;
@@ -59,6 +61,7 @@ namespace Oculus.Interaction.Input
             _animLayerIndexPoint = _animator.GetLayerIndex(ANIM_LAYER_NAME_POINT);
             _animLayerIndexThumb = _animator.GetLayerIndex(ANIM_LAYER_NAME_THUMB);
             _animParamIndexFlex = Animator.StringToHash(ANIM_PARAM_NAME_FLEX);
+            _animParamIndexPinch = Animator.StringToHash(ANIM_PARAM_NAME_PINCH);
         }
 
         protected virtual void Update()
@@ -121,7 +124,7 @@ namespace Oculus.Interaction.Input
             _animator.SetLayerWeight(_animLayerIndexThumb, _thumbsUpBlend);
 
             float pinch = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, _controller);
-            _animator.SetFloat("Pinch", pinch);
+            _animator.SetFloat(_animParamIndexPinch, pinch);
         }
 
 

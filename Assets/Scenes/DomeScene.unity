@@ -652,12 +652,12 @@ PrefabInstance:
         type: 3}
       propertyPath: _interactors.Array.data[1]
       value: 
-      objectReference: {fileID: 2138963523}
+      objectReference: {fileID: 1973768251}
     - target: {fileID: 943702480935310559, guid: c89b2c4e711f8a14ba3df7e4b3c71f12,
         type: 3}
       propertyPath: _interactors.Array.data[2]
       value: 
-      objectReference: {fileID: 1973768251}
+      objectReference: {fileID: 2138963523}
     - target: {fileID: 4123113677289579585, guid: c89b2c4e711f8a14ba3df7e4b3c71f12,
         type: 3}
       propertyPath: _interactors.Array.size
@@ -742,12 +742,12 @@ PrefabInstance:
         type: 3}
       propertyPath: _interactors.Array.data[1]
       value: 
-      objectReference: {fileID: 1563811704}
+      objectReference: {fileID: 1305527916}
     - target: {fileID: 5782500945979325228, guid: c89b2c4e711f8a14ba3df7e4b3c71f12,
         type: 3}
       propertyPath: _interactors.Array.data[2]
       value: 
-      objectReference: {fileID: 1305527916}
+      objectReference: {fileID: 1563811704}
     - target: {fileID: 9171181915505394450, guid: c89b2c4e711f8a14ba3df7e4b3c71f12,
         type: 3}
       propertyPath: usePerEyeCameras
@@ -23248,6 +23248,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c44e7e8d6840aa243b6c33ec85052763,
         type: 2}
+    - target: {fileID: 7466177497177115453, guid: 40faf16d18f8547458765393bd720f38,
+        type: 3}
+      propertyPath: edit
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7466177497177115453, guid: 40faf16d18f8547458765393bd720f38,
         type: 3}
       propertyPath: internalComponents.Array.data[0].active
@@ -59178,8 +59183,8 @@ GameObject:
   - component: {fileID: 1716138282}
   - component: {fileID: 1716138281}
   - component: {fileID: 1716138283}
-  - component: {fileID: 1716138284}
   - component: {fileID: 1716138285}
+  - component: {fileID: 1716138286}
   m_Layer: 0
   m_Name: PlaygroundInput
   m_TagString: Untagged
@@ -59265,7 +59270,19 @@ MonoBehaviour:
   skyboxVideoDome: {fileID: 449690046}
   skyboxPictureDome: {fileID: 2017522312}
   playBackgroundMusic: 0
---- !u!114 &1716138284
+--- !u!114 &1716138285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1716138279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fefef21a67ae230498c3672ce432947d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1716138286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59279,18 +59296,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SendPointerHoverToParent: 1
   _useInitialPressPositionForDrag: 1
---- !u!114 &1716138285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1716138279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fefef21a67ae230498c3672ce432947d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1716694915
 GameObject:
   m_ObjectHideFlags: 0

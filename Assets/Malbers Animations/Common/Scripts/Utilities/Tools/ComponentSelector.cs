@@ -17,7 +17,6 @@ namespace MalbersAnimations
 
         public ComponentSet this[int index] => internalComponents[index];
 
-
         [ContextMenu("Show|Hide Editor")]
         private void ShowHideEditor()
         {
@@ -31,15 +30,16 @@ namespace MalbersAnimations
         {
             internalComponents = new List<ComponentSet>();
         }
-
     }
 
     [System.Serializable]
     public class ComponentSet
     {
         public string name = "Description Here";
-        [TextArea] public string tooltip;
-        public bool active  = true;
+
+        [TextArea]
+        public string tooltip;
+        public bool active = true;
         public GameObject[] gameObjects;
         public MonoBehaviour[] monoBehaviours;
     }
@@ -48,7 +48,8 @@ namespace MalbersAnimations
     [CustomEditor(typeof(ComponentSelector))]
     public class SelectComponentsEditor : Editor
     {
-        SerializedProperty internalComponents, edit;
+        SerializedProperty internalComponents,
+            edit;
         ComponentSelector M;
         ReorderableList ReoInternalComponents;
 
@@ -67,19 +68,29 @@ namespace MalbersAnimations
                     var name = element.FindPropertyRelative("name");
 
                     var activeRect1 = new Rect(rect.x, rect.y - 1, 20, rect.height);
-                    var IDRect = new Rect(rect.x + 20, rect.y, rect.width - 20, EditorGUIUtility.singleLineHeight);
+                    var IDRect = new Rect(
+                        rect.x + 20,
+                        rect.y,
+                        rect.width - 20,
+                        EditorGUIUtility.singleLineHeight
+                    );
 
-
-                    active.boolValue = EditorGUI.Toggle(activeRect1, GUIContent.none, active.boolValue);
+                    active.boolValue = EditorGUI.Toggle(
+                        activeRect1,
+                        GUIContent.none,
+                        active.boolValue
+                    );
                     EditorGUI.PropertyField(IDRect, name, GUIContent.none);
-
                 },
                 drawHeaderCallback = (Rect rect) =>
                 {
                     var r = new Rect(rect) { x = rect.x + 30, width = 60 };
                     var a = new Rect(rect) { width = 65 };
 
-                    EditorGUI.LabelField(a, new GUIContent("Act", "Is the Component Selection ON or OFF"));
+                    EditorGUI.LabelField(
+                        a,
+                        new GUIContent("Act", "Is the Component Selection ON or OFF")
+                    );
                     EditorGUI.LabelField(r, new GUIContent("Name", "Name of the Button"));
                 },
                 onAddCallback = (ReorderableList list) =>
@@ -100,12 +111,14 @@ namespace MalbersAnimations
 
                 if (ReoInternalComponents.index != -1)
                 {
-                    var elem = internalComponents.GetArrayElementAtIndex(ReoInternalComponents.index);
+                    var elem = internalComponents.GetArrayElementAtIndex(
+                        ReoInternalComponents.index
+                    );
 
                     var gos = elem.FindPropertyRelative("gameObjects");
                     var monoBehaviours = elem.FindPropertyRelative("monoBehaviours");
                     var tooltip = elem.FindPropertyRelative("tooltip");
-                    EditorGUILayout.PropertyField(gos,true);
+                    EditorGUILayout.PropertyField(gos, true);
                     EditorGUILayout.PropertyField(monoBehaviours, true);
                     EditorGUILayout.Space();
 
@@ -123,23 +136,41 @@ namespace MalbersAnimations
                         var tooltip = element.FindPropertyRelative("tooltip");
                         var active = element.FindPropertyRelative("active");
 
-                        EditorGUILayout.BeginHorizontal(/*EditorStyles.helpBox*/);
+                        EditorGUILayout.BeginHorizontal( /*EditorStyles.helpBox*/
+                        );
 
-                        if (GUILayout.Button(new GUIContent(name.stringValue, tooltip.stringValue), EditorStyles.miniButton))
+                        if (
+                            GUILayout.Button(
+                                new GUIContent(name.stringValue, tooltip.stringValue),
+                                EditorStyles.miniButton
+                            )
+                        )
                         {
                             if (M[i].gameObjects.Length > 0)
                                 Selection.objects = M[i].gameObjects;
                             else if (M[i].monoBehaviours.Length > 0)
                             {
-                                Selection.objects = new Object[1] { M[i].monoBehaviours[0].gameObject };
+                                Selection.objects = new Object[1]
+                                {
+                                    M[i].monoBehaviours[0].gameObject
+                                };
                             }
                         }
 
                         EditorGUI.BeginChangeCheck();
                         var currentGUIColor = GUI.color;
-                        GUI.color = active.boolValue ? (GUI.color + Color.green)/2 : (GUI.color + Color.black) / 2;
-                        active.boolValue = GUILayout.Toggle(active.boolValue, new GUIContent( active.boolValue ? "ON" : "OFF","Enable/Disable the "+ name.stringValue),
-                            EditorStyles.miniButton, GUILayout.Width(55));
+                        GUI.color = active.boolValue
+                            ? (GUI.color + Color.green) / 2
+                            : (GUI.color + Color.black) / 2;
+                        active.boolValue = GUILayout.Toggle(
+                            active.boolValue,
+                            new GUIContent(
+                                active.boolValue ? "ON" : "OFF",
+                                "Enable/Disable the " + name.stringValue
+                            ),
+                            EditorStyles.miniButton,
+                            GUILayout.Width(55)
+                        );
                         GUI.color = currentGUIColor;
                         if (EditorGUI.EndChangeCheck())
                         {
@@ -154,8 +185,7 @@ namespace MalbersAnimations
                                 item.enabled = (active.boolValue);
                                 EditorUtility.SetDirty(item);
                             }
-
-                        }   
+                        }
                         EditorGUILayout.EndHorizontal();
                     }
             }

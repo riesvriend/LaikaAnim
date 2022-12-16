@@ -18,7 +18,6 @@
  * limitations under the License.
  */
 
-using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -62,6 +61,19 @@ namespace Oculus.Interaction.Input
             for (int i = 0; i < numJoints; ++i)
             {
                 ref var srcPose = ref ovrSkeleton.Bones[i].Pose;
+                int boneIndex = i;
+                if (i == (int)HandJointId.HandThumb0)
+                {
+                    boneIndex = (int)HandJointId.HandThumb1;
+                }
+                else if (i == (int)HandJointId.HandPinky0)
+                {
+                    boneIndex = (int)HandJointId.HandPinky1;
+                }
+
+                int capsuleIndex = System.Array.FindIndex(ovrSkeleton.BoneCapsules, c => c.BoneIndex == boneIndex);
+                float radius = capsuleIndex < 0 ? 0f : ovrSkeleton.BoneCapsules[capsuleIndex].Radius;
+
                 handSkeleton.joints[i] = new HandSkeletonJoint()
                 {
                     pose = new Pose()
@@ -69,7 +81,8 @@ namespace Oculus.Interaction.Input
                         position = srcPose.Position.FromFlippedXVector3f(),
                         rotation = srcPose.Orientation.FromFlippedXQuatf()
                     },
-                    parent = ovrSkeleton.Bones[i].ParentBoneIndex
+                    parent = ovrSkeleton.Bones[i].ParentBoneIndex,
+                    radius = radius
                 };
             }
         }

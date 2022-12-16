@@ -24,6 +24,9 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using UnityEditor.PackageManager;
+
+using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 
 namespace Oculus.Interaction.Editor
 {
@@ -53,7 +56,7 @@ namespace Oculus.Interaction.Editor
             Incomplete,
         }
 
-        public const string PACKAGE_VERSION = "0.46.0";
+        public const string PACKAGE_VERSION = "0.47.0";
         public const string DEPRECATED_TAG = "oculus_interaction_deprecated";
         public const string MOVED_TAG = "oculus_interaction_moved_";
         private const string MENU_NAME = "Oculus/Interaction/Clean Up Package";
@@ -79,13 +82,22 @@ namespace Oculus.Interaction.Editor
 
         private static void HandleDelayCall()
         {
-            bool startAutoDeprecation = !Application.isBatchMode &&
-                                        AutoCleanup &&
-                                        !Application.isPlaying;
+            bool startAutoDeprecation =
+                !Application.isBatchMode && AutoCleanup && !Application.isPlaying;
             if (startAutoDeprecation)
             {
                 StartRemovalUserFlow(false);
             }
+        }
+
+        /// <summary>
+        /// Check if there are any assets in the project that require
+        /// cleanup operations.
+        /// </summary>
+        /// <returns>True if package needs cleanup</returns>
+        public static bool CheckPackageNeedsCleanup()
+        {
+            return GetAssetInfos().Count > 0;
         }
 
         /// <summary>
@@ -101,8 +113,11 @@ namespace Oculus.Interaction.Editor
             {
                 if (userTriggered)
                 {
-                    EditorUtility.DisplayDialog("Interaction SDK",
-                        "No clean up needed in package.", "Close");
+                    EditorUtility.DisplayDialog(
+                        "Interaction SDK",
+                        "No clean up needed in package.",
+                        "Close"
+                    );
                 }
                 else
                 {
@@ -113,13 +128,16 @@ namespace Oculus.Interaction.Editor
             {
                 int deletionPromptResult = EditorUtility.DisplayDialogComplex(
                     "Interaction SDK",
-                    "This utility performs a cleanup operation which relocates " +
-                    "Interaction SDK files and folders, and removes asset stubs provided " +
-                    "for backwards compatibility during package upgrade." +
-                    "\n\n" +
-                    "Click 'Show Assets' to view a list of the assets to be modified. " +
-                    "You will then be given the option to run the cleanup operation on them.",
-                    "Show Assets (Recommended)", "No, Don't Ask Again", "No");
+                    "This utility performs a cleanup operation which relocates "
+                        + "Interaction SDK files and folders, and removes asset stubs provided "
+                        + "for backwards compatibility during package upgrade."
+                        + "\n\n"
+                        + "Click 'Show Assets' to view a list of the assets to be modified. "
+                        + "You will then be given the option to run the cleanup operation on them.",
+                    "Show Assets (Recommended)",
+                    "No, Don't Ask Again",
+                    "No"
+                );
 
                 switch (deletionPromptResult)
                 {
@@ -143,52 +161,75 @@ namespace Oculus.Interaction.Editor
         {
             List<CleanupInfo> result = new List<CleanupInfo>();
 
-            var deprecatedGUIDs = AssetDatabase.FindAssets($"l:{DEPRECATED_TAG}", null)
-                .Select((guidStr) => new GUID(guidStr));
-            var movedGUIDs = AssetDatabase.FindAssets($"l:{MOVED_TAG}", null)
-                .Select((guidStr) => new GUID(guidStr));
+            var deprecatedGUIDs = AssetDatabase
+                .FindAssets($"l:{DEPRECATED_TAG}", null)
+                .Select((guidStr) => new GUID(guidStr))
+                .ToList();
+            var movedGUIDs = AssetDatabase
+                .FindAssets($"l:{MOVED_TAG}", null)
+                .Select((guidStr) => new GUID(guidStr))
+                .ToList();
 
             foreach (var GUID in deprecatedGUIDs)
             {
-                result.Add(new CleanupInfo()
-                {
-                    Operation = CleanupOperation.Delete,
-                    AssetGuid = GUID,
-                });
+                result.Add(
+                    new CleanupInfo() { Operation = CleanupOperation.Delete, AssetGuid = GUID, }
+                );
             }
 
             foreach (var GUID in movedGUIDs)
             {
                 if (GetDestFolderForMovedAsset(GUID, out GUID newPathGUID))
                 {
-                    result.Add(new CleanupInfo()
-                    {
-                        Operation = CleanupOperation.Move,
-                        AssetGuid = GUID,
-                        MoveToPathGuid = newPathGUID,
-                    });
+                    result.Add(
+                        new CleanupInfo()
+                        {
+                            Operation = CleanupOperation.Move,
+                            AssetGuid = GUID,
+                            MoveToPathGuid = newPathGUID,
+                        }
+                    );
                 }
                 else
                 {
-                    result.Add(new CleanupInfo()
-                    {
-                        Operation = CleanupOperation.StripTags,
-                        AssetGuid = GUID,
-                    });
+                    result.Add(
+                        new CleanupInfo()
+                        {
+                            Operation = CleanupOperation.StripTags,
+                            AssetGuid = GUID,
+                        }
+                    );
                 }
             }
+
+            result.RemoveAll(
+                (info) =>
+                {
+                    // Ignore assets in read-only packages
+                    var pSource = PackageInfo
+                        .FindForAssetPath(AssetDatabase.GUIDToAssetPath(info.AssetGuid))
+                        ?.source;
+                    return pSource != null
+                        && // In Assets folder
+                        pSource != PackageSource.Embedded
+                        && pSource != PackageSource.Local;
+                }
+            );
 
             return result;
         }
 
         private static void ShowAssetCleanupWindow(
-            IEnumerable<CleanupInfo> cleanupInfos, bool modal)
+            IEnumerable<CleanupInfo> cleanupInfos,
+            bool modal
+        )
         {
             void DrawHeader(AssetListWindow window)
             {
                 EditorGUILayout.HelpBox(
                     "Assets marked Delete will be permanently deleted",
-                    MessageType.Warning);
+                    MessageType.Warning
+                );
             }
 
             void DrawFooter(AssetListWindow window)
@@ -220,8 +261,7 @@ namespace Oculus.Interaction.Editor
                 EditorGUILayout.EndHorizontal();
             }
 
-            List<AssetListWindow.AssetInfo> windowInfos =
-                new List<AssetListWindow.AssetInfo>();
+            List<AssetListWindow.AssetInfo> windowInfos = new List<AssetListWindow.AssetInfo>();
 
             foreach (var info in cleanupInfos)
             {
@@ -231,40 +271,55 @@ namespace Oculus.Interaction.Editor
                     case CleanupOperation.None:
                         break;
                     case CleanupOperation.Delete:
-                        windowInfos.Add(new AssetListWindow.AssetInfo(
-                            GUIDToAssetPath(info.AssetGuid),
-                            $"<color=orange>Delete:</color> " +
-                            $"{GUIDToAssetPath(info.AssetGuid)}"));
+                        windowInfos.Add(
+                            new AssetListWindow.AssetInfo(
+                                GUIDToAssetPath(info.AssetGuid),
+                                $"<color=orange>Delete:</color> "
+                                    + $"{GUIDToAssetPath(info.AssetGuid)}"
+                            )
+                        );
                         break;
                     case CleanupOperation.Move:
-                        windowInfos.Add(new AssetListWindow.AssetInfo(
-                            GUIDToAssetPath(info.AssetGuid),
-                            $"<color=yellow>Move:</color> " +
-                            $"{GUIDToAssetPath(info.AssetGuid)} -> " +
-                            $"{GUIDToAssetPath(info.MoveToPathGuid)}"));
+                        windowInfos.Add(
+                            new AssetListWindow.AssetInfo(
+                                GUIDToAssetPath(info.AssetGuid),
+                                $"<color=yellow>Move:</color> "
+                                    + $"{GUIDToAssetPath(info.AssetGuid)} -> "
+                                    + $"{GUIDToAssetPath(info.MoveToPathGuid)}"
+                            )
+                        );
                         break;
                     case CleanupOperation.StripTags:
-                        windowInfos.Add(new AssetListWindow.AssetInfo(
-                            GUIDToAssetPath(info.AssetGuid),
-                            $"<color=lime>Unlabel:</color> " +
-                            $"{GUIDToAssetPath(info.AssetGuid)}"));
+                        windowInfos.Add(
+                            new AssetListWindow.AssetInfo(
+                                GUIDToAssetPath(info.AssetGuid),
+                                $"<color=lime>Unlabel:</color> "
+                                    + $"{GUIDToAssetPath(info.AssetGuid)}"
+                            )
+                        );
                         break;
                 }
             }
 
             AssetListWindow assetListWindow = AssetListWindow.Show(
                 "Interaction SDK - All Assets to be Modified",
-                windowInfos, modal, DrawHeader, DrawFooter);
+                windowInfos,
+                modal,
+                DrawHeader,
+                DrawFooter
+            );
         }
 
         private static void ShowCancelDialog()
         {
             AssetListWindow.CloseAll();
-            EditorUtility.DisplayDialog("Interaction SDK",
-                $"Package cleanup was not run. " +
-                $"You can run this utility at any time " +
-                $"using the '{MENU_NAME}' menu.",
-                "Close");
+            EditorUtility.DisplayDialog(
+                "Interaction SDK",
+                $"Package cleanup was not run. "
+                    + $"You can run this utility at any time "
+                    + $"using the '{MENU_NAME}' menu.",
+                "Close"
+            );
         }
 
         private static bool GetDestFolderForMovedAsset(GUID assetGUID, out GUID destFolderGUID)
@@ -281,12 +336,18 @@ namespace Oculus.Interaction.Editor
 
                 // Verify that paths exist, and new path is not the same as old path
                 string curPath = Path.GetFullPath(GUIDToAssetPath(assetGUID));
+
+                if (GUIDToAssetPath(destFolderGUID) == "")
+                    return false;
+
                 string newFolder = Path.GetFullPath(GUIDToAssetPath(destFolderGUID));
                 string targetFilePath = Path.Combine(newFolder, Path.GetFileName(curPath));
 
-                if (!curPath.Equals(targetFilePath) &&
-                    (Directory.Exists(curPath) || File.Exists(curPath)) &&
-                    Directory.Exists(newFolder))
+                if (
+                    !curPath.Equals(targetFilePath)
+                    && (Directory.Exists(curPath) || File.Exists(curPath))
+                    && Directory.Exists(newFolder)
+                )
                 {
                     return true;
                 }
@@ -297,11 +358,16 @@ namespace Oculus.Interaction.Editor
 
         private static CleanupResult CleanUpAssets(IEnumerable<CleanupInfo> cleanupInfos)
         {
-            if (EditorUtility.DisplayDialog("Are you sure?",
-                "Any assets marked for deletion will be permanently deleted." +
-                "\n\n" +
-                "It is strongly recommended that you back up your project before proceeding.",
-                "Clean Up Package", "Cancel"))
+            if (
+                EditorUtility.DisplayDialog(
+                    "Are you sure?",
+                    "Any assets marked for deletion will be permanently deleted."
+                        + "\n\n"
+                        + "It is strongly recommended that you back up your project before proceeding.",
+                    "Clean Up Package",
+                    "Cancel"
+                )
+            )
             {
                 var deletions = new List<GUID>();
                 var moves = new Dictionary<GUID, GUID>();
@@ -353,8 +419,10 @@ namespace Oculus.Interaction.Editor
                 }
 
                 string curPath = GUIDToAssetPath(assetGUID);
-                string newPath = Path.Combine(GUIDToAssetPath(newPathGUID),
-                    Path.GetFileName(curPath));
+                string newPath = Path.Combine(
+                    GUIDToAssetPath(newPathGUID),
+                    Path.GetFileName(curPath)
+                );
 
                 if (Path.GetFullPath(curPath).Equals(Path.GetFullPath(newPath)))
                 {
@@ -377,15 +445,23 @@ namespace Oculus.Interaction.Editor
             }
 
             string logMessage;
-            if (BuildLogMessage("Assets moved:",
-                moves.Keys.Select((key) => $"{key} -> {moves[key]}"),
-                out logMessage))
+            if (
+                BuildLogMessage(
+                    "Assets moved:",
+                    moves.Keys.Select((key) => $"{key} -> {moves[key]}"),
+                    out logMessage
+                )
+            )
             {
                 Debug.Log(logMessage);
             }
-            if (BuildLogMessage("Could not move assets:",
-                failures.Keys.Select((key) => $"{key}:{failures[key]}"),
-                out logMessage))
+            if (
+                BuildLogMessage(
+                    "Could not move assets:",
+                    failures.Keys.Select((key) => $"{key}:{failures[key]}"),
+                    out logMessage
+                )
+            )
             {
                 Debug.LogError(logMessage);
             }
@@ -394,8 +470,7 @@ namespace Oculus.Interaction.Editor
 
         private static bool DeleteAssets(IEnumerable<GUID> assetGUIDs)
         {
-            var assetPaths = assetGUIDs
-                .Select((guid) => GUIDToAssetPath(guid));
+            var assetPaths = assetGUIDs.Select((guid) => GUIDToAssetPath(guid));
 
             HashSet<string> filesToDelete = new HashSet<string>();
             HashSet<string> foldersToDelete = new HashSet<string>();
@@ -426,10 +501,15 @@ namespace Oculus.Interaction.Editor
             failedPaths.UnionWith(failed);
 
             // Remove non-empty folders from delete list
-            skippedFolders.UnionWith(foldersToDelete
-                .Where((path) => AssetDatabase.FindAssets("", new[] { path })
-                .Select((guid) => AssetDatabase.GUIDToAssetPath(guid))
-                .Any((path) => !AssetDatabase.IsValidFolder(path))));
+            skippedFolders.UnionWith(
+                foldersToDelete.Where(
+                    (path) =>
+                        AssetDatabase
+                            .FindAssets("", new[] { path })
+                            .Select((guid) => AssetDatabase.GUIDToAssetPath(guid))
+                            .Any((path) => !AssetDatabase.IsValidFolder(path))
+                )
+            );
             foldersToDelete.ExceptWith(skippedFolders);
 
             // Delete folders, removing longest paths (subfolders) first
@@ -448,8 +528,9 @@ namespace Oculus.Interaction.Editor
             }
 
             // Remove non-empty folders from delete list
-            skippedFolders.UnionWith(foldersToDelete
-                .Where((path) => Directory.EnumerateFiles(path).Any()));
+            skippedFolders.UnionWith(
+                foldersToDelete.Where((path) => Directory.EnumerateFiles(path).Any())
+            );
             foldersToDelete.ExceptWith(skippedFolders);
 
             // Delete folders
@@ -463,18 +544,21 @@ namespace Oculus.Interaction.Editor
 #endif
             string logMessage;
 
-            if (BuildLogMessage("Deprecated assets deleted:",
-                filesToDelete.Union(foldersToDelete), out logMessage))
+            if (
+                BuildLogMessage(
+                    "Deprecated assets deleted:",
+                    filesToDelete.Union(foldersToDelete),
+                    out logMessage
+                )
+            )
             {
                 Debug.Log(logMessage);
             }
-            if (BuildLogMessage("Skipped non-empty folders:",
-                skippedFolders, out logMessage))
+            if (BuildLogMessage("Skipped non-empty folders:", skippedFolders, out logMessage))
             {
                 Debug.LogWarning(logMessage);
             }
-            if (BuildLogMessage("Failed to delete assets:",
-                failedPaths, out logMessage))
+            if (BuildLogMessage("Failed to delete assets:", failedPaths, out logMessage))
             {
                 Debug.LogError(logMessage);
             }
@@ -504,7 +588,8 @@ namespace Oculus.Interaction.Editor
         private static bool BuildLogMessage(
             string title,
             IEnumerable<string> messages,
-            out string message)
+            out string message
+        )
         {
             int count = 0;
             StringBuilder sb = new StringBuilder();

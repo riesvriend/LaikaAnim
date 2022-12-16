@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Oculus.Interaction
 {
-    public class PointableCanvasModulePatched: PointableCanvasModule
+    public class PointableCanvasModulePatched : PointableCanvasModule
     {
         /// <summary>
         /// Patch for bug https://forums.oculusvr.com/t5/Unity-VR-Development/Pointable-Canvas-menu-in-Unity-stops-working-when-user-uses-both/td-p/997121
