@@ -101,7 +101,7 @@ namespace Assets.Scripts
 
         private void OnStrokingStarted(CombTouchHaptics.StrokeEvent e)
         {
-            ActiveAnimal = FindAnimalInstance(e.Animal);
+            ActiveAnimal = FindAnimalInstance(e.Animal.gameObject);
 
             var status = ActiveStatus();
             status.strokeCount++;

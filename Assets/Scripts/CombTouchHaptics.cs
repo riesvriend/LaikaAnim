@@ -1,3 +1,4 @@
+using MalbersAnimations.Controller;
 using Oculus.Interaction;
 using Oculus.Interaction.Input;
 using Synchrony;
@@ -12,7 +13,7 @@ public class CombTouchHaptics : MonoBehaviour
 {
     public class StrokeEvent
     {
-        public GameObject Animal;
+        public MAnimal Animal;
     }
 
     [SerializeField]
@@ -23,10 +24,11 @@ public class CombTouchHaptics : MonoBehaviour
 
     private int animalLayer;
     private TimeSpan restartTimeSpan;
-    private DateTime? playingStartedUtc;
+    private DateTime? hapticsStartedUtc;
 
     protected bool _started = false;
 
+    private MAnimal activeAnimal = null;
     private OVRInput.Controller activeController = OVRInput.Controller.None;
 
     private void Awake()
@@ -50,17 +52,13 @@ public class CombTouchHaptics : MonoBehaviour
     protected virtual void OnEnable()
     {
         if (_started)
-        {
             _grabbable.WhenPointerEventRaised += HandlePointerEventRaised;
-        }
     }
 
     protected virtual void OnDisable()
     {
         if (_started)
-        {
             _grabbable.WhenPointerEventRaised -= HandlePointerEventRaised;
-        }
     }
 
     private void HandlePointerEventRaised(PointerEvent evt)
@@ -69,7 +67,7 @@ public class CombTouchHaptics : MonoBehaviour
         {
             case PointerEventType.Select:
                 // Set the active controller, by looking at the interactor that is grabbing the comb
-                activeController = OVRInput.Controller.RTouch;
+                activeController = OVRInput.Controller.None;
 
                 var interactor = evt.Data as MonoBehaviour; // this is the ControllerGrabInteractor
                 if (interactor != null)
@@ -80,55 +78,90 @@ public class CombTouchHaptics : MonoBehaviour
                             controllerRef.Handedness == Handedness.Right
                                 ? OVRInput.Controller.RTouch
                                 : OVRInput.Controller.LTouch;
+                    else
+                        // Presume its hands free mode, which hand does not matter as
+                        // we can't use the haptics anyway but we want keep track of the brush count
+                        activeController = OVRInput.Controller.RHand;
                 }
 
+                break;
+
+            case PointerEventType.Unselect:
+                OnCombingStopped();
+                activeController = OVRInput.Controller.None;
                 break;
         }
     }
 
     private void Update()
     {
-        if (playingStartedUtc.HasValue)
+        RestartHapticsAfterAutomaticTimeout();
+
+        void RestartHapticsAfterAutomaticTimeout()
         {
-            var playingTime = DateTime.UtcNow - playingStartedUtc.Value;
-            if (playingTime > restartTimeSpan)
-                // The haptics continues to play for about 2 seconds according to docs
-                // so we periodically need to restart it to keep it going
-                StartPlaying();
+            if (hapticsStartedUtc.HasValue)
+            {
+                var playingTime = DateTime.UtcNow - hapticsStartedUtc.Value;
+                if (playingTime > restartTimeSpan)
+                    // The haptics continues to play for about 2 seconds according to docs
+                    // so we periodically need to restart it to keep it going
+                    StartHaptics();
+            }
         }
     }
 
-    private void OnSkinTouchEnter(GameObject animalBodyPart)
+    private void OnSkinTouchEnter(MAnimal animal)
     {
-        StartPlaying();
-        OnStrokingStarted.Invoke(
-            new StrokeEvent { Animal = animalBodyPart.transform.root.gameObject }
-        );
+        OnCombingStarted(animal);
     }
 
-    private void OnSkinTouchExit(GameObject animalBodyPart)
+    private void OnCombingStarted(MAnimal animal)
     {
-        StopPlaying();
-        OnStrokingStopped.Invoke(
-            new StrokeEvent { Animal = animalBodyPart.transform.root.gameObject }
-        );
+        if (activeController == OVRInput.Controller.None)
+            // If the comb is dropped on a animal while not grabbing it
+            // the controller should not vibrate
+            return;
+
+        activeAnimal = animal;
+
+        StartHaptics();
+
+        // Increase stroking counter in the game and arrange awards
+        OnStrokingStarted.Invoke(new StrokeEvent { Animal = activeAnimal });
     }
 
-    private void StartPlaying()
+    private void OnSkinTouchExit()
     {
-        OVRInput.SetControllerVibration(frequency: .3f, amplitude: .7f, activeController);
-
-        playingStartedUtc = DateTime.UtcNow;
+        OnCombingStopped();
     }
 
-    private void StopPlaying()
+    private void OnCombingStopped()
     {
-        playingStartedUtc = null;
-        OVRHaptics.RightChannel.Clear();
-        OVRInput.SetControllerVibration(frequency: 0, amplitude: 0, activeController);
+        var animal = activeAnimal;
+        activeAnimal = null;
+        StopHaptics();
+        OnStrokingStopped.Invoke(new StrokeEvent { Animal = animal });
+
+        void StopHaptics()
+        {
+            hapticsStartedUtc = null;
+            OVRHaptics.RightChannel.Clear();
+            SetVibrationOnActiveController(frequency: 0f, amplitude: 0f);
+        }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void SetVibrationOnActiveController(float frequency, float amplitude)
+    {
+        OVRInput.SetControllerVibration(frequency, amplitude, activeController);
+    }
+
+    private void StartHaptics()
+    {
+        SetVibrationOnActiveController(frequency: .3f, amplitude: .7f);
+        hapticsStartedUtc = DateTime.UtcNow;
+    }
+
+    MAnimal MalbersAnimalOf(Collider other)
     {
         if (other.gameObject.layer == animalLayer)
         {
@@ -136,19 +169,27 @@ public class CombTouchHaptics : MonoBehaviour
                 $"OnTriggerEnter in {gameObject.FullName()} with {other.gameObject.FullName()}"
             );
 
-            OnSkinTouchEnter(other.gameObject);
+            var malbersAnimal = other.gameObject.GetComponentInParent<MAnimal>();
+
+            if (malbersAnimal != null)
+                return malbersAnimal;
         }
+        return null;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var malbersAnimal = MalbersAnimalOf(other);
+
+        if (malbersAnimal != null)
+            OnSkinTouchEnter(malbersAnimal);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == animalLayer)
-        {
-            Debug.Log(
-                $"OnTriggerExit in {gameObject.FullName()} with {other.gameObject.FullName()}"
-            );
+        var malbersAnimal = MalbersAnimalOf(other);
 
-            OnSkinTouchExit(other.gameObject);
-        }
+        if (malbersAnimal != null)
+            OnSkinTouchExit();
     }
 }
