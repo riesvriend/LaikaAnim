@@ -18,12 +18,16 @@ public class CombTouchHaptics : MonoBehaviour
 
     [SerializeField]
     private Grabbable _grabbable;
-    public float restartLoopAfterSec = 1.5f;
+    public AudioClip combingVibrationAudio;
     public UnityEvent<StrokeEvent> OnStrokingStarted = new();
     public UnityEvent<StrokeEvent> OnStrokingStopped = new();
 
+    // Plays a brushing sound when brushing
+    public AudioSource audioSource;
+
     private int animalLayer;
     private TimeSpan restartTimeSpan;
+    private float restartLoopAfterSec = 1.5f;
     private DateTime? hapticsStartedUtc;
 
     protected bool _started = false;
@@ -37,7 +41,6 @@ public class CombTouchHaptics : MonoBehaviour
         // https://forums.oculusvr.com/t5/Unity-VR-Development/the-quot-OVRHapticsClip-quot-can-t-work-help-me-to-write-some/td-p/493037
         //if (combingVibrationAudio != null)
         //    combingVibrationHapticsClip = new OVRHapticsClip(combingVibrationAudio);
-        //audioSource = gameObject.AddComponent<AudioSource>();
         animalLayer = LayerMask.NameToLayer("Animal");
         restartTimeSpan = TimeSpan.FromSeconds(restartLoopAfterSec);
     }
@@ -67,10 +70,10 @@ public class CombTouchHaptics : MonoBehaviour
         {
             case PointerEventType.Select:
                 // Set the active controller, by looking at the interactor that is grabbing the comb
-                activeController = OVRInput.Controller.None;
-
-                var interactor = evt.Data as MonoBehaviour; // this is the ControllerGrabInteractor
-                if (interactor != null)
+                var interactor = evt.Data as MonoBehaviour; // this is the <Controller/Hand>GrabInteractor
+                if (interactor == null)
+                    activeController = OVRInput.Controller.None;
+                else
                 {
                     var controllerRef = interactor.GetComponent<ControllerRef>();
                     if (controllerRef != null)
@@ -145,8 +148,8 @@ public class CombTouchHaptics : MonoBehaviour
         void StopHaptics()
         {
             hapticsStartedUtc = null;
-            OVRHaptics.RightChannel.Clear();
             SetVibrationOnActiveController(frequency: 0f, amplitude: 0f);
+            audioSource.Stop();
         }
     }
 
@@ -157,6 +160,7 @@ public class CombTouchHaptics : MonoBehaviour
 
     private void StartHaptics()
     {
+        audioSource.Play();
         SetVibrationOnActiveController(frequency: .3f, amplitude: .7f);
         hapticsStartedUtc = DateTime.UtcNow;
     }
