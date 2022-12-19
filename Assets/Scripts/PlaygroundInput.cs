@@ -344,7 +344,12 @@ public class PlaygroundInput : MonoBehaviour
 
     private void Play(GameDef gameDef)
     {
-        if (activeGame != null && activeGame.gameDef != gameDef)
+        if (activeGame?.gameDef == gameDef)
+        {
+            return;
+        }
+
+        if (activeGame != null)
         {
             activeGame.Stop();
             Destroy(activeGame);
@@ -561,7 +566,7 @@ public class PlaygroundInput : MonoBehaviour
 
     private void ActivatePopupMenu(bool activate)
     {
-        activeGame.ActivatePopupMenu(activate);
+        activeGame.OnActivatePopupMenu(activate);
 
         // only the popup OR the plank can be active, or else the ray casting
         // gets confused

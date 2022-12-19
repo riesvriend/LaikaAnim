@@ -1,8 +1,11 @@
+using Oculus.Interaction;
+using Oculus.Interaction.Input;
 using Synchrony;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Events;
 
 public class CombTouchHaptics : MonoBehaviour
@@ -12,20 +15,19 @@ public class CombTouchHaptics : MonoBehaviour
         public GameObject Animal;
     }
 
-    public AudioClip combingVibrationAudio;
+    [SerializeField]
+    private Grabbable _grabbable;
     public float restartLoopAfterSec = 1.5f;
-    public GameInstance game;
-
     public UnityEvent<StrokeEvent> OnStrokingStarted = new();
     public UnityEvent<StrokeEvent> OnStrokingStopped = new();
 
-    private OVRHapticsClip combingVibrationHapticsClip;
-
-    // Plays a brushing sound when brushing
-    private AudioSource audioSource;
     private int animalLayer;
     private TimeSpan restartTimeSpan;
     private DateTime? playingStartedUtc;
+
+    protected bool _started = false;
+
+    private OVRInput.Controller activeController = OVRInput.Controller.None;
 
     private void Awake()
     {
@@ -33,14 +35,56 @@ public class CombTouchHaptics : MonoBehaviour
         // https://forums.oculusvr.com/t5/Unity-VR-Development/the-quot-OVRHapticsClip-quot-can-t-work-help-me-to-write-some/td-p/493037
         //if (combingVibrationAudio != null)
         //    combingVibrationHapticsClip = new OVRHapticsClip(combingVibrationAudio);
-
-        audioSource = gameObject.AddComponent<AudioSource>();
-
+        //audioSource = gameObject.AddComponent<AudioSource>();
         animalLayer = LayerMask.NameToLayer("Animal");
         restartTimeSpan = TimeSpan.FromSeconds(restartLoopAfterSec);
     }
 
-    private void Start() { }
+    protected virtual void Start()
+    {
+        this.BeginStart(ref _started);
+        Assert.IsNotNull(_grabbable);
+        this.EndStart(ref _started);
+    }
+
+    protected virtual void OnEnable()
+    {
+        if (_started)
+        {
+            _grabbable.WhenPointerEventRaised += HandlePointerEventRaised;
+        }
+    }
+
+    protected virtual void OnDisable()
+    {
+        if (_started)
+        {
+            _grabbable.WhenPointerEventRaised -= HandlePointerEventRaised;
+        }
+    }
+
+    private void HandlePointerEventRaised(PointerEvent evt)
+    {
+        switch (evt.Type)
+        {
+            case PointerEventType.Select:
+                // Set the active controller, by looking at the interactor that is grabbing the comb
+                activeController = OVRInput.Controller.RTouch;
+
+                var interactor = evt.Data as MonoBehaviour; // this is the ControllerGrabInteractor
+                if (interactor != null)
+                {
+                    var controllerRef = interactor.GetComponent<ControllerRef>();
+                    if (controllerRef != null)
+                        activeController =
+                            controllerRef.Handedness == Handedness.Right
+                                ? OVRInput.Controller.RTouch
+                                : OVRInput.Controller.LTouch;
+                }
+
+                break;
+        }
+    }
 
     private void Update()
     {
@@ -72,20 +116,7 @@ public class CombTouchHaptics : MonoBehaviour
 
     private void StartPlaying()
     {
-        if (combingVibrationHapticsClip != null)
-        {
-            OVRHaptics.RightChannel.Preempt(combingVibrationHapticsClip);
-        }
-        else
-        {
-            OVRInput.SetControllerVibration(
-                frequency: .3f,
-                amplitude: .5f,
-                OVRInput.Controller.RTouch
-            );
-        }
-        audioSource.clip = combingVibrationAudio;
-        audioSource.Play();
+        OVRInput.SetControllerVibration(frequency: .3f, amplitude: .7f, activeController);
 
         playingStartedUtc = DateTime.UtcNow;
     }
@@ -94,8 +125,7 @@ public class CombTouchHaptics : MonoBehaviour
     {
         playingStartedUtc = null;
         OVRHaptics.RightChannel.Clear();
-        OVRInput.SetControllerVibration(frequency: 0, amplitude: 0, OVRInput.Controller.RTouch);
-        audioSource.Stop();
+        OVRInput.SetControllerVibration(frequency: 0, amplitude: 0, activeController);
     }
 
     private void OnTriggerEnter(Collider other)
