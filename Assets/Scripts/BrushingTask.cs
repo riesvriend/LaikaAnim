@@ -27,7 +27,7 @@ namespace Assets.Scripts
         public GameInstance game;
 
         public GameObject Comb { get; internal set; }
-        private CombTouchHaptics combTouchHaptics = null;
+        private GrabbableObjectHaptics combTouchHaptics = null;
 
         // Track bushing progress
         private Dictionary<AnimalInstance, StrokingStatus> animalStrokingStatus = new();
@@ -42,7 +42,7 @@ namespace Assets.Scripts
         {
             if (Comb != null)
             {
-                combTouchHaptics = Comb.GetComponentInChildren<CombTouchHaptics>();
+                combTouchHaptics = Comb.GetComponentInChildren<GrabbableObjectHaptics>();
                 combTouchHaptics.OnStrokingStarted.AddListener(OnStrokingStarted);
                 combTouchHaptics.OnStrokingStopped.AddListener(OnStrokingStopped);
             }
@@ -99,7 +99,7 @@ namespace Assets.Scripts
             return status;
         }
 
-        private void OnStrokingStarted(CombTouchHaptics.StrokeEvent e)
+        private void OnStrokingStarted(GrabbableObjectHaptics.StrokeEvent e)
         {
             ActiveAnimal = FindAnimalInstance(e.Animal.gameObject);
 
@@ -113,7 +113,7 @@ namespace Assets.Scripts
             }
         }
 
-        private void OnStrokingStopped(CombTouchHaptics.StrokeEvent e) { }
+        private void OnStrokingStopped(GrabbableObjectHaptics.StrokeEvent e) { }
 
         internal void AddAnimal(AnimalInstance animal)
         {

@@ -24,7 +24,7 @@ public class SkinCollider : MonoBehaviour
     {
         Debug.Log($"OnTriggerEnter in {gameObject.FullName()} with {other.gameObject.FullName()}");
 
-        var combHaptics = other.GetComponent<CombTouchHaptics>();
+        var combHaptics = other.GetComponent<GrabbableObjectHaptics>();
         if (combHaptics != null)
         {
             //combHaptics.OnSkinTouchEnter();
@@ -35,7 +35,7 @@ public class SkinCollider : MonoBehaviour
     {
         Debug.Log($"OnTriggerExit in {gameObject.FullName()} with {other.gameObject.FullName()}");
 
-        var combHaptics = other.GetComponent<CombTouchHaptics>();
+        var combHaptics = other.GetComponent<GrabbableObjectHaptics>();
         if (combHaptics != null)
         {
             //combHaptics.OnSkinTouchExit();

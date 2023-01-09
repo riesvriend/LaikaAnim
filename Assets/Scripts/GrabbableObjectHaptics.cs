@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
 
-public class CombTouchHaptics : MonoBehaviour
+public class GrabbableObjectHaptics : MonoBehaviour
 {
     public class StrokeEvent
     {
@@ -18,32 +18,28 @@ public class CombTouchHaptics : MonoBehaviour
 
     [SerializeField]
     private Grabbable _grabbable;
-    public AudioClip combingVibrationAudio;
-    public UnityEvent<StrokeEvent> OnStrokingStarted = new();
-    public UnityEvent<StrokeEvent> OnStrokingStopped = new();
+
+    //public AudioClip combingVibrationAudio;
 
     // Plays a brushing sound when brushing
     public AudioSource audioSource;
+    public float audioFadeoutTimeSec = 1.0f;
+    public string AnimalLayerToCollideWith = "Animal";
+
+    public UnityEvent<StrokeEvent> OnStrokingStarted = new();
+    public UnityEvent<StrokeEvent> OnStrokingStopped = new();
 
     private int animalLayer;
     private TimeSpan restartTimeSpan;
     private float restartLoopAfterSec = 1.5f;
     private DateTime? hapticsStartedUtc;
 
+    private DateTime? audioFadeOutEndUtc = null;
+
     protected bool _started = false;
 
     private MAnimal activeAnimal = null;
     private OVRInput.Controller activeController = OVRInput.Controller.None;
-
-    private void Awake()
-    {
-        // BUG: HANGs on on converting the audio clip, the OVRHaptics.Config.SampleRateHz is 0!
-        // https://forums.oculusvr.com/t5/Unity-VR-Development/the-quot-OVRHapticsClip-quot-can-t-work-help-me-to-write-some/td-p/493037
-        //if (combingVibrationAudio != null)
-        //    combingVibrationHapticsClip = new OVRHapticsClip(combingVibrationAudio);
-        animalLayer = LayerMask.NameToLayer("Animal");
-        restartTimeSpan = TimeSpan.FromSeconds(restartLoopAfterSec);
-    }
 
     protected virtual void Start()
     {
@@ -55,7 +51,15 @@ public class CombTouchHaptics : MonoBehaviour
     protected virtual void OnEnable()
     {
         if (_started)
+        {
+            // BUG: HANGs on on converting the audio clip, the OVRHaptics.Config.SampleRateHz is 0!
+            // https://forums.oculusvr.com/t5/Unity-VR-Development/the-quot-OVRHapticsClip-quot-can-t-work-help-me-to-write-some/td-p/493037
+            //if (combingVibrationAudio != null)
+            //    combingVibrationHapticsClip = new OVRHapticsClip(combingVibrationAudio);
+            animalLayer = LayerMask.NameToLayer(AnimalLayerToCollideWith);
+            restartTimeSpan = TimeSpan.FromSeconds(restartLoopAfterSec);
             _grabbable.WhenPointerEventRaised += HandlePointerEventRaised;
+        }
     }
 
     protected virtual void OnDisable()
@@ -100,15 +104,28 @@ public class CombTouchHaptics : MonoBehaviour
     {
         RestartHapticsAfterAutomaticTimeout();
 
+        StopAudioAfterFadeOutTimeElapsed();
+
+        // The haptics continues to play for about 2 seconds according to docs
+        // so we periodically need to restart it to keep it going
         void RestartHapticsAfterAutomaticTimeout()
         {
             if (hapticsStartedUtc.HasValue)
             {
                 var playingTime = DateTime.UtcNow - hapticsStartedUtc.Value;
                 if (playingTime > restartTimeSpan)
-                    // The haptics continues to play for about 2 seconds according to docs
-                    // so we periodically need to restart it to keep it going
                     StartHaptics();
+            }
+        }
+
+        // The fade-out delay allows the the eating/combing sound to be completed and not be stop/restarting all the time
+        // if the user grab touches the target frequently
+        void StopAudioAfterFadeOutTimeElapsed()
+        {
+            if (audioFadeOutEndUtc != null && DateTime.UtcNow > audioFadeOutEndUtc)
+            {
+                audioFadeOutEndUtc = null;
+                audioSource.Stop();
             }
         }
     }
@@ -149,7 +166,8 @@ public class CombTouchHaptics : MonoBehaviour
         {
             hapticsStartedUtc = null;
             SetVibrationOnActiveController(frequency: 0f, amplitude: 0f);
-            audioSource.Stop();
+            audioFadeOutEndUtc = DateTime.UtcNow + TimeSpan.FromSeconds(audioFadeoutTimeSec);
+            //audioSource.Stop();
         }
     }
 
@@ -160,7 +178,11 @@ public class CombTouchHaptics : MonoBehaviour
 
     private void StartHaptics()
     {
-        audioSource.Play();
+        if (audioFadeOutEndUtc.HasValue)
+            // Cancel the fade out
+            audioFadeOutEndUtc = null;
+        else
+            audioSource.Play();
         SetVibrationOnActiveController(frequency: .3f, amplitude: .7f);
         hapticsStartedUtc = DateTime.UtcNow;
     }

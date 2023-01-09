@@ -220,6 +220,14 @@ public class GameInstance : MonoBehaviour
         AddAnimal(animals.First().animalDef);
     }
 
+    internal void TaskCompleted(FeedingTask feedingTask)
+    {
+        playground.PlaySoundTaskCompleted();
+        ProgressModel.AddMedal();
+        // Todo: add a baby animal
+        AddAnimal(animals.First().animalDef);
+    }
+
     internal void OnActivatePopupMenu(bool isMenuActive)
     {
         // when the popup menu is activated, we get performance problems that prevent

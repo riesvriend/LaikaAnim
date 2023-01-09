@@ -10,8 +10,7 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 
 /// <summary>
-/// A or X button = Rotate Animal
-/// B or Y button = Rotate video
+/// This is the GameManager class for Power Pets Rescue
 /// </summary>
 public class PlaygroundInput : MonoBehaviour
 {
