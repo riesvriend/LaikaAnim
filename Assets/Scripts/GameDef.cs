@@ -20,6 +20,11 @@ public class GameDef
     public bool IsTableVisible { get; set; }
     public bool IsAppleVisible { get; set; }
     public bool IsCombVisible { get; set; }
+
+    public bool UsesProgressBar
+    {
+        get => IsAppleVisible || IsCombVisible;
+    }
 }
 
 public class GameInstance : MonoBehaviour
@@ -31,6 +36,10 @@ public class GameInstance : MonoBehaviour
     public AnimalInstance activeAnimal { get; private set; }
 
     protected BrushingTask brushingTask = null;
+    ProgressModel ProgressModel
+    {
+        get => playground.plankUI.ProgressModel;
+    }
 
     // Dont call this 'Start' as that collides with a Unity event name
     public virtual void StartGame()
@@ -50,6 +59,8 @@ public class GameInstance : MonoBehaviour
 
         foreach (var animalDef in gameDef.animals)
             AddAnimal(animalDef);
+
+        ProgressModel.IsVisible = gameDef.UsesProgressBar;
     }
 
     private void Update()
@@ -206,11 +217,6 @@ public class GameInstance : MonoBehaviour
         if (ai == null)
             return;
         ai.SetTarget(wayPoint.transform);
-    }
-
-    ProgressModel ProgressModel
-    {
-        get => playground.plankUI.ProgressModel;
     }
 
     internal void TaskCompleted(BrushingTask brushingTask)

@@ -136,6 +136,7 @@ public abstract class BaseStatus
         progress.IsVisible = true;
         progress.TaskTitle = "Voortgang";
         progress.Percentage = Percentage;
+        progress.ProgressBarTitle = "Voeren";
     }
 }
 

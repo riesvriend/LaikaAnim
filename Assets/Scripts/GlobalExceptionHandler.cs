@@ -13,7 +13,9 @@ public class GlobalExceptionHandler : MonoBehaviour
 
     void HandleException(string logString, string stackTrace, LogType type)
     {
-        if (type == LogType.Exception)
+        if (
+            type == LogType.Exception /*|| type == LogType.Error || type == LogType.Warning*/
+        )
         {
             logString.Log();
             stackTrace.Log();

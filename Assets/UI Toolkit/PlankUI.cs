@@ -1,3 +1,4 @@
+using Synchrony;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -53,22 +54,32 @@ namespace PowerPetsRescue
         }
 
         // Update is called once per frame
-        void Update() { }
-
-        private void OnGUI()
+        void Update()
         {
             if (!ProgressModel.IsVisible)
             {
+                "progressContainer hidden".Log();
+
+                // Hide the progressbar and label
                 progressContainer.style.display = DisplayStyle.None;
-                progressContainer.visible = false;
-                progressBar.style.display = DisplayStyle.None;
-                progressBar.visible = false;
-                progressLabel.text = "";
-                progressBar.value = 100f;
-                progressBar.title = "";
+                progressLabel.text = " ";
+                progressBar.value = 0;
+                progressBar.title = " ";
+
+                //root.visible = false;
+
+                //progressContainer.style.display = DisplayStyle.None;
+                //progressContainer.visible = false;
+                //progressBar.style.display = DisplayStyle.None;
+                //progressBar.visible = false;
+                //progressLabel.text = "";
+                //progressBar.value = 0f;
+                //progressBar.title = "";
             }
             else
             {
+                "progressContainer visible".Log();
+
                 progressContainer.style.display = DisplayStyle.Flex;
                 progressContainer.visible = true;
                 progressBar.style.display = DisplayStyle.Flex;
@@ -78,5 +89,7 @@ namespace PowerPetsRescue
                 progressBar.title = ProgressModel.ProgressBarTitle;
             }
         }
+
+        private void OnGUI() { }
     }
 }
