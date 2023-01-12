@@ -27,6 +27,8 @@ public abstract class BaseTask<TStatus> : MonoBehaviour where TStatus : BaseStat
     public GameObject GrabbableObject { get; internal set; }
     private GrabbableObjectHaptics haptics = null;
 
+    private bool isUserHoldingGrabbableObject = false;
+
     // Track progress
     protected Dictionary<AnimalInstance, TStatus> taskStatus = new();
 
@@ -43,6 +45,9 @@ public abstract class BaseTask<TStatus> : MonoBehaviour where TStatus : BaseStat
             haptics = GrabbableObject.GetComponentInChildren<GrabbableObjectHaptics>();
             haptics.OnStrokingStarted.AddListener(OnStrokingStarted);
             haptics.OnStrokingStopped.AddListener(OnStrokingStopped);
+
+            haptics.OnItemGrabbed.AddListener(OnItemGrabbed);
+            haptics.OnItemGrabReleased.AddListener(OnItemGrabReleased);
         }
     }
 
@@ -58,8 +63,9 @@ public abstract class BaseTask<TStatus> : MonoBehaviour where TStatus : BaseStat
         {
             haptics.OnStrokingStarted.RemoveListener(OnStrokingStarted);
             haptics.OnStrokingStopped.RemoveListener(OnStrokingStopped);
+            haptics.OnItemGrabbed.RemoveListener(OnItemGrabbed);
+            haptics.OnItemGrabReleased.RemoveListener(OnItemGrabReleased);
         }
-        ProgressModel.IsVisible = false;
     }
 
     ProgressModel ProgressModel
@@ -71,12 +77,7 @@ public abstract class BaseTask<TStatus> : MonoBehaviour where TStatus : BaseStat
     {
         var progress = ProgressModel;
         var status = ActiveStatus();
-        if (status == null)
-            progress.IsVisible = false;
-        else
-        {
-            status.UpdateProgress(progress);
-        }
+        status?.UpdateProgress(progress);
     }
 
     AnimalInstance FindAnimalInstance(GameObject animal)
@@ -86,12 +87,14 @@ public abstract class BaseTask<TStatus> : MonoBehaviour where TStatus : BaseStat
 
     TStatus ActiveStatus()
     {
-        if (ActiveAnimal == null)
+        if (ActiveAnimal == null || !isUserHoldingGrabbableObject)
             return null;
 
         taskStatus.TryGetValue(ActiveAnimal, out var status);
         return status;
     }
+
+    protected abstract void OnTaskCompleted();
 
     private void OnStrokingStarted(GrabbableObjectHaptics.StrokeEvent e)
     {
@@ -107,9 +110,17 @@ public abstract class BaseTask<TStatus> : MonoBehaviour where TStatus : BaseStat
         }
     }
 
-    protected abstract void OnTaskCompleted();
-
     private void OnStrokingStopped(GrabbableObjectHaptics.StrokeEvent e) { }
+
+    private void OnItemGrabReleased()
+    {
+        isUserHoldingGrabbableObject = false;
+    }
+
+    private void OnItemGrabbed(GrabbableObjectHaptics.GrabItemEvent arg0)
+    {
+        isUserHoldingGrabbableObject = true;
+    }
 
     internal void AddAnimal(AnimalInstance animal)
     {
@@ -133,10 +144,8 @@ public abstract class BaseStatus
     public virtual void UpdateProgress(ProgressModel progress)
     {
         // Show stroke progress and target on menu
-        progress.IsVisible = true;
         progress.TaskTitle = "Voortgang";
         progress.Percentage = Percentage;
-        progress.ProgressBarTitle = "Voeren";
     }
 }
 
@@ -169,6 +178,6 @@ public class FeedingStatus : BaseStatus
     {
         base.UpdateProgress(progress);
 
-        progress.ProgressBarTitle = "Voederen";
+        progress.ProgressBarTitle = "Voeren";
     }
 }

@@ -8,119 +8,49 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class StrokingStatus
+    public class BrushingStatus : BaseStatus
     {
         public const int StrokesPerGoldMedal = 20;
-
-        public AnimalInstance animal;
         public int strokeCount;
 
-        public float Percentage
+        public override float Percentage
         {
             get { return ((float)strokeCount / StrokesPerGoldMedal) * 100f; }
         }
+
+        public override void UpdateProgress(ProgressModel progress)
+        {
+            base.UpdateProgress(progress);
+
+            progress.ProgressBarTitle = "Borstelen";
+        }
+
+        public override void IncrementProgress()
+        {
+            strokeCount++;
+        }
+
+        public override void ResetProgress()
+        {
+            strokeCount = 0;
+        }
+
+        public override bool IsCompleted()
+        {
+            return strokeCount >= StrokesPerGoldMedal;
+        }
     }
 
-    public class BrushingTask : MonoBehaviour
+    public class BrushingTask : BaseTask<BrushingStatus>
     {
-        // Parent game that uses this task
-        public GameInstance game;
-
-        public GameObject Comb { get; internal set; }
-        private GrabbableObjectHaptics combTouchHaptics = null;
-
-        // Track bushing progress
-        private Dictionary<AnimalInstance, StrokingStatus> animalStrokingStatus = new();
-
-        public AnimalInstance ActiveAnimal
+        protected override void OnTaskCompleted()
         {
-            get => game.activeAnimal;
-            private set { game.SetActiveAnimal(value); }
+            game.TaskCompleted(this);
         }
 
-        private void Start()
+        protected override void OnAddAnimal(AnimalInstance animal)
         {
-            if (Comb != null)
-            {
-                combTouchHaptics = Comb.GetComponentInChildren<GrabbableObjectHaptics>();
-                combTouchHaptics.OnStrokingStarted.AddListener(OnStrokingStarted);
-                combTouchHaptics.OnStrokingStopped.AddListener(OnStrokingStopped);
-            }
-        }
-
-        /// <summary>
-        /// We dont rely on Destroy to prevent that we can access all the
-        /// related objects
-        /// </summary>
-        public void Stop()
-        {
-            // needed to prevent Update() from re-activating the progress model again
-            ActiveAnimal = null;
-            if (combTouchHaptics != null)
-            {
-                combTouchHaptics.OnStrokingStarted.RemoveListener(OnStrokingStarted);
-                combTouchHaptics.OnStrokingStopped.RemoveListener(OnStrokingStopped);
-            }
-            ProgressModel.IsVisible = false;
-        }
-
-        ProgressModel ProgressModel
-        {
-            get => game.playground.plankUI.ProgressModel;
-        }
-
-        private void Update()
-        {
-            var progress = ProgressModel;
-            var status = ActiveStatus();
-            if (status == null)
-                progress.IsVisible = false;
-            else
-            {
-                // Show stroke progress and target on menu
-                progress.IsVisible = true;
-                progress.TaskTitle = "Voortgang";
-                progress.Percentage = status.Percentage;
-                progress.ProgressBarTitle = "Borstelen";
-            }
-        }
-
-        AnimalInstance FindAnimalInstance(GameObject animal)
-        {
-            return animalStrokingStatus.Keys.SingleOrDefault(a => a.gameObject == animal);
-        }
-
-        StrokingStatus ActiveStatus()
-        {
-            if (ActiveAnimal == null)
-                return null;
-
-            animalStrokingStatus.TryGetValue(ActiveAnimal, out var status);
-            return status;
-        }
-
-        private void OnStrokingStarted(GrabbableObjectHaptics.StrokeEvent e)
-        {
-            ActiveAnimal = FindAnimalInstance(e.Animal.gameObject);
-
-            var status = ActiveStatus();
-            status.strokeCount++;
-
-            if (status.strokeCount >= StrokingStatus.StrokesPerGoldMedal)
-            {
-                status.strokeCount = 0;
-                game.TaskCompleted(this);
-            }
-        }
-
-        private void OnStrokingStopped(GrabbableObjectHaptics.StrokeEvent e) { }
-
-        internal void AddAnimal(AnimalInstance animal)
-        {
-            animalStrokingStatus.Add(
-                animal,
-                new StrokingStatus { animal = animal, strokeCount = 0 }
-            );
+            taskStatus.Add(animal, new BrushingStatus { animal = animal, strokeCount = 0 });
         }
     }
 }

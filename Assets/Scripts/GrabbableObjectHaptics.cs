@@ -16,6 +16,11 @@ public class GrabbableObjectHaptics : MonoBehaviour
         public MAnimal Animal;
     }
 
+    public class GrabItemEvent
+    {
+        public GameObject GrabbableObject;
+    }
+
     [SerializeField]
     private Grabbable _grabbable;
 
@@ -28,6 +33,8 @@ public class GrabbableObjectHaptics : MonoBehaviour
 
     public UnityEvent<StrokeEvent> OnStrokingStarted = new();
     public UnityEvent<StrokeEvent> OnStrokingStopped = new();
+    public UnityEvent<GrabItemEvent> OnItemGrabbed = new();
+    public UnityEvent OnItemGrabReleased = new();
 
     private int animalLayer;
     private TimeSpan restartTimeSpan;
@@ -76,28 +83,41 @@ public class GrabbableObjectHaptics : MonoBehaviour
                 // Set the active controller, by looking at the interactor that is grabbing the comb
                 var interactor = evt.Data as MonoBehaviour; // this is the <Controller/Hand>GrabInteractor
                 if (interactor == null)
-                    activeController = OVRInput.Controller.None;
+                    SetActiveController(OVRInput.Controller.None);
                 else
                 {
                     var controllerRef = interactor.GetComponent<ControllerRef>();
                     if (controllerRef != null)
-                        activeController =
+                        SetActiveController(
                             controllerRef.Handedness == Handedness.Right
                                 ? OVRInput.Controller.RTouch
-                                : OVRInput.Controller.LTouch;
+                                : OVRInput.Controller.LTouch
+                        );
                     else
                         // Presume its hands free mode, which hand does not matter as
                         // we can't use the haptics anyway but we want keep track of the brush count
-                        activeController = OVRInput.Controller.RHand;
+                        SetActiveController(OVRInput.Controller.RHand);
                 }
 
                 break;
 
             case PointerEventType.Unselect:
                 OnCombingStopped();
-                activeController = OVRInput.Controller.None;
+                SetActiveController(OVRInput.Controller.None);
                 break;
         }
+    }
+
+    void SetActiveController(OVRInput.Controller controller)
+    {
+        if (activeController == controller)
+            return;
+
+        activeController = controller;
+        if (activeController == OVRInput.Controller.None)
+            OnItemGrabReleased.Invoke();
+        else
+            OnItemGrabbed.Invoke(new GrabItemEvent { GrabbableObject = _grabbable.gameObject });
     }
 
     private void Update()

@@ -17160,6 +17160,12 @@ MonoBehaviour:
   OnStrokingStopped:
     m_PersistentCalls:
       m_Calls: []
+  OnItemGrabbed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnItemGrabReleased:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &517935963
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -47840,6 +47846,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnStrokingStopped:
+    m_PersistentCalls:
+      m_Calls: []
+  OnItemGrabbed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnItemGrabReleased:
     m_PersistentCalls:
       m_Calls: []
 --- !u!82 &1412797338

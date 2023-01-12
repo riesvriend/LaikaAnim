@@ -36,6 +36,8 @@ public class GameInstance : MonoBehaviour
     public AnimalInstance activeAnimal { get; private set; }
 
     protected BrushingTask brushingTask = null;
+    protected FeedingTask feedingTask = null;
+
     ProgressModel ProgressModel
     {
         get => playground.plankUI.ProgressModel;
@@ -53,8 +55,15 @@ public class GameInstance : MonoBehaviour
         if (gameDef.IsCombVisible)
         {
             brushingTask = gameObject.AddComponent<BrushingTask>();
-            brushingTask.Comb = playground.comb;
+            brushingTask.GrabbableObject = playground.comb;
             brushingTask.game = this;
+        }
+
+        if (gameDef.IsAppleVisible)
+        {
+            feedingTask = gameObject.AddComponent<FeedingTask>();
+            feedingTask.GrabbableObject = playground.apple;
+            feedingTask.game = this;
         }
 
         foreach (var animalDef in gameDef.animals)
@@ -84,6 +93,9 @@ public class GameInstance : MonoBehaviour
 
         if (brushingTask != null && animal.animalDef.CanBeBrushed)
             brushingTask.AddAnimal(animal);
+
+        if (feedingTask != null && animal.animalDef.EatsApples)
+            feedingTask.AddAnimal(animal);
 
         PositionAnimal(animal);
 

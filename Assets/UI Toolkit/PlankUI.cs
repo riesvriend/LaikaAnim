@@ -13,7 +13,7 @@ namespace PowerPetsRescue
     // Display a list of tasks, for each animal that needs brushing, so how much brushing is needed
     public class ProgressModel
     {
-        public string TaskTitle { get; internal set; } = "Klik hier";
+        public string TaskTitle { get; internal set; } = "Pak kam of appel";
         public string ProgressBarTitle { get; set; } = "";
         private bool _isVisible;
         public bool IsVisible
@@ -54,42 +54,22 @@ namespace PowerPetsRescue
         }
 
         // Update is called once per frame
+        // TODO: apply updates to the UI elements in an event handler that fires when the ProgressModel is updated,
+        // or in the next frame after that update, so that we batch the updates
         void Update()
         {
             if (!ProgressModel.IsVisible)
             {
-                "progressContainer hidden".Log();
-
-                // Hide the progressbar and label
                 progressContainer.style.display = DisplayStyle.None;
-                progressLabel.text = " ";
-                progressBar.value = 0;
-                progressBar.title = " ";
-
-                //root.visible = false;
-
-                //progressContainer.style.display = DisplayStyle.None;
-                //progressContainer.visible = false;
-                //progressBar.style.display = DisplayStyle.None;
-                //progressBar.visible = false;
-                //progressLabel.text = "";
-                //progressBar.value = 0f;
-                //progressBar.title = "";
             }
             else
             {
-                "progressContainer visible".Log();
-
                 progressContainer.style.display = DisplayStyle.Flex;
-                progressContainer.visible = true;
-                progressBar.style.display = DisplayStyle.Flex;
-                progressBar.visible = true;
+
                 progressLabel.text = ProgressModel.TaskTitle;
-                progressBar.value = ProgressModel.Percentage;
                 progressBar.title = ProgressModel.ProgressBarTitle;
+                progressBar.value = ProgressModel.Percentage;
             }
         }
-
-        private void OnGUI() { }
     }
 }
