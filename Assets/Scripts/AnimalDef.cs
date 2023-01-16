@@ -6,15 +6,9 @@ using System.Linq;
 using UnityEngine;
 
 // Template/prefab for an animal
-public class AnimalDef
+public class AnimalDef : MonoBehaviour
 {
-    public const string Horse = "Paard";
-    public const string Snowdog = "Laika";
-    public const string Rabbit = "Konijn";
-    public const string WolfPuppy = "Puppy";
-    public const string Elephant = "Olifant";
-
-    public string name;
+    public string DisplayName;
     public GameObject templateGameObject;
     public float minComeCloseDistanceFromPlayerInMeter;
     public float animalDistanceFromCameraInMeter;
@@ -22,37 +16,10 @@ public class AnimalDef
     public bool CanBeBrushed;
     public bool EatsApples;
 
-    public AnimalInstance InstantiateAnimal()
+    public MAnimal mAnimal
     {
-        var animalGameObject = GameObject.Instantiate(original: templateGameObject);
-
-        animalGameObject.SetActive(true); // This flows back into the original...
-        templateGameObject.SetActive(false); // So we need to disable it here
-
-        AnimalInstance animal;
-        switch (name)
-        {
-            case Horse:
-            case Snowdog:
-            case WolfPuppy:
-            case Elephant:
-                animal = new AnimalInstance();
-                break;
-            case Rabbit:
-                animal = new RabbitInstance();
-                break;
-            default:
-                throw new NotImplementedException();
-        }
-        animal.gameObject = animalGameObject;
-        animal.animalDef = this;
-
-        animal.RandomizeAppearance();
-
-        return animal;
+        get => templateGameObject.GetComponent<MAnimal>();
     }
-
-    public MAnimal mAnimal { get => templateGameObject.GetComponent<MAnimal>(); }
 }
 
 public class AnimalInstance : IDisposable
@@ -69,7 +36,10 @@ public class AnimalInstance : IDisposable
             return ai;
         }
     }
-    public MAnimal mAnimal { get => gameObject.GetComponent<MAnimal>(); }
+    public MAnimal mAnimal
+    {
+        get => gameObject.GetComponent<MAnimal>();
+    }
 
     protected MaterialChanger MaterialChanger
     {
@@ -99,16 +69,12 @@ public class AnimalInstance : IDisposable
         }
     }
 
-
     protected MaterialItem Material(string name)
     {
         return MaterialChanger.materialList.Find(item => item.Name == name);
     }
 
-    public virtual void RandomizeAppearance()
-    {
-
-    }
+    public virtual void RandomizeAppearance() { }
 
     public void Dispose()
     {
@@ -128,10 +94,14 @@ public class RabbitInstance : AnimalInstance
 
         var skin = Material("Skin");
         // Pick a random skin
-        var skinIndex = UnityEngine.Mathf.FloorToInt(UnityEngine.Random.value * skin.materials.Length);
+        var skinIndex = UnityEngine.Mathf.FloorToInt(
+            UnityEngine.Random.value * skin.materials.Length
+        );
+        if (skinIndex >= skin.materials.Length)
+            // Random.value is inclusive of 1.0 this is a safety net
+            skinIndex = skin.materials.Length - 1;
         skin.ChangeMaterial(skinIndex);
-
-        // Set to random for now
-        //BlendShape.blendShapes.
     }
 }
+
+public class RabbitPuppyInstance : RabbitInstance { }

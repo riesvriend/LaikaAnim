@@ -17,6 +17,9 @@ public class GameDef
     //*** If its to freeplay with an animal set a gameobject
     public List<AnimalDef> animals = new List<AnimalDef>();
 
+    // Baby Animal that you get when feeding is complete
+    public AnimalDef FeedingRewardAnimal;
+
     public bool IsTableVisible { get; set; }
     public bool IsAppleVisible { get; set; }
     public bool IsCombVisible { get; set; }
@@ -86,7 +89,7 @@ public class GameInstance : MonoBehaviour
 
     private AnimalInstance AddAnimal(AnimalDef animalDef)
     {
-        var animal = animalDef.InstantiateAnimal();
+        var animal = playground.InstantiateAnimal(animalDef);
         animals.Add(animal);
 
         SetActiveAnimal(animal);
@@ -242,8 +245,11 @@ public class GameInstance : MonoBehaviour
     {
         playground.PlaySoundTaskCompleted();
         ProgressModel.AddMedal();
-        // Todo: add a baby animal
-        AddAnimal(animals.First().animalDef);
+        // add a baby animal
+        var reward = gameDef.FeedingRewardAnimal;
+        if (reward == null)
+            reward = firstAnimal.animalDef;
+        AddAnimal(reward);
     }
 
     internal void OnActivatePopupMenu(bool isMenuActive)
@@ -252,7 +258,10 @@ public class GameInstance : MonoBehaviour
         // the user to click on the popup menu items.
         // Therefore, we disable all animals in the game while the menu is active
         foreach (var animal in animals)
-            animal.gameObject.SetActive(!isMenuActive);
+        {
+            if (animal.gameObject.TryGetComponent<Animator>(out var animator))
+                animator.enabled = !isMenuActive;
+        }
     }
 
     // Hack

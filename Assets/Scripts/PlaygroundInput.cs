@@ -16,7 +16,16 @@ public class PlaygroundInput : MonoBehaviour
 {
     public RouteHandPoseHandler pettingHandPoseHandler;
 
-    public List<GameObject> animalsToRotate = new List<GameObject>();
+    /// <summary>
+    /// Template Animals
+    /// </summary>
+    public AnimalDef Horse;
+    public AnimalDef Rabbit;
+    public AnimalDef RabbitBaby;
+    public AnimalDef SheepDog;
+    public AnimalDef Elephant;
+    public AnimalDef WolfPuppy;
+
     public GameInstance activeGame = null;
     public Transform cameraOrEyeTransform;
 
@@ -66,6 +75,7 @@ public class PlaygroundInput : MonoBehaviour
 
     // Global keyboard/controller handler
     private GlobalInput globalInput;
+    private List<GameObject> animalsToRotate;
 
     private void Awake()
     {
@@ -113,126 +123,118 @@ public class PlaygroundInput : MonoBehaviour
         HandleMenuPlankSelect();
     }
 
+    public AnimalInstance InstantiateAnimal(AnimalDef def)
+    {
+        var animalGameObject = GameObject.Instantiate(original: def.templateGameObject);
+
+        animalGameObject.SetActive(true); // This flows back into the original...??
+        def.templateGameObject.SetActive(false); // So we need to disable it here
+
+        AnimalInstance animal;
+        if (def == Horse || def == WolfPuppy || def == SheepDog || def == Elephant)
+            animal = new AnimalInstance();
+        else if (def == Rabbit)
+            animal = new RabbitInstance();
+        else if (def == RabbitBaby)
+            animal = new RabbitPuppyInstance();
+        else
+            throw new Exception("Unknown animal def");
+        animal.gameObject = animalGameObject;
+        animal.animalDef = def;
+
+        animal.RandomizeAppearance();
+
+        return animal;
+    }
+
     /// <summary>
     /// Setup meta data for each animal
     /// </summary>
     private void InitAnimalDefs()
     {
-        AddAnimalDef(
-            AnimalDef.Snowdog,
-            "Laika",
-            new AnimalDef
-            {
-                animalDistanceFromCameraInMeter = 0.8f,
-                minComeCloseDistanceFromPlayerInMeter = 1.0f,
-                CanBeBrushed = false,
-                EatsApples = false,
-            }
-        );
-        AddAnimalDef(
-            AnimalDef.Horse,
-            "Paard",
-            new AnimalDef
-            {
-                animalDistanceFromCameraInMeter = 3.5f,
-                minComeCloseDistanceFromPlayerInMeter = 0.5f,
-                CanBeBrushed = true,
-                EatsApples = true,
-            }
-        );
-        AddAnimalDef(
-            AnimalDef.Rabbit,
-            "Konijn",
-            new AnimalDef
-            {
-                animalDistanceFromCameraInMeter = 0.8f,
-                minComeCloseDistanceFromPlayerInMeter = 0.0f,
-                CanBeBrushed = true,
-                EatsApples = true,
-            },
-            speedIndex: 2
-        );
-        AddAnimalDef(
-            AnimalDef.WolfPuppy,
-            "Puppy",
-            new AnimalDef
-            {
-                animalDistanceFromCameraInMeter = 0.8f,
-                minComeCloseDistanceFromPlayerInMeter = 0.0f,
-                CanBeBrushed = true,
-                EatsApples = false,
-            },
-            speedIndex: 2
-        );
-        AddAnimalDef(
-            AnimalDef.Elephant,
-            "Olifant",
-            new AnimalDef
-            {
-                animalDistanceFromCameraInMeter = 5.5f,
-                minComeCloseDistanceFromPlayerInMeter = 2.0f,
-                CanBeBrushed = true,
-                EatsApples = true,
-            }
-        );
+        var animalDefs = new List<AnimalDef>
+        {
+            Horse,
+            Rabbit,
+            RabbitBaby,
+            WolfPuppy,
+            Elephant,
+            SheepDog
+        };
+
+        // The items for the scroll menu
+        animalsToRotate = new();
+        foreach (var animalDef in animalDefs)
+        {
+            animalsToRotate.Add(animalDef.templateGameObject);
+            // Clearing animals to hide on start
+            animalDef.templateGameObject.SetActive(false);
+            if (animalDef.mAnimal != null)
+                // Trot instead of Walk
+                animalDef.mAnimal.CurrentSpeedIndex = 2;
+        }
     }
 
     private void InitGameDefs()
     {
         AddGameDef(
             new GameDef { name = "Home", GameType = typeof(HomeScreenGame) },
-            animals: new string[] { }
+            animalDef: null
         );
 
         AddGameDef(
             new GameDef
             {
-                name = "Rabbit Rescue (stationary)",
+                // Stationary play at table
+                name = "Rabbit Rescue",
                 GameType = typeof(StationaryGame),
                 IsTableVisible = true,
                 IsCombVisible = true,
                 IsAppleVisible = true,
+                // Combing reward is a clone, feeding reward is a baby
+                FeedingRewardAnimal = RabbitBaby
             },
-            animals: new[] { AnimalDef.Rabbit }
+            animalDef: Rabbit
         );
 
         AddGameDef(
             new GameDef
             {
-                name = "Horse Rescue (room play)",
+                // Room play
+                name = "Horse Rescue",
                 GameType = typeof(RoomScaleGame),
                 IsAppleVisible = true,
                 IsCombVisible = true,
             },
-            animals: new[] { AnimalDef.Horse }
+            animalDef: Horse
         );
 
         AddGameDef(
-            new GameDef { name = "Aai Laika", GameType = typeof(JustShowTheAnimalGame) },
-            animals: new[] { AnimalDef.Snowdog }
+            new GameDef { name = "Pet Laika", GameType = typeof(JustShowTheAnimalGame) },
+            animalDef: SheepDog
         );
 
         AddGameDef(
             new GameDef
             {
-                name = "Paard",
+                name = "Horse",
                 GameType = typeof(JustShowTheAnimalGame),
                 IsAppleVisible = true,
                 IsCombVisible = true,
             },
-            animals: new[] { AnimalDef.Horse }
+            animalDef: Horse
         );
 
         AddGameDef(
             new GameDef
             {
-                name = "Konijn",
+                name = "Rabbit",
                 GameType = typeof(JustShowTheAnimalGame),
                 IsTableVisible = true,
                 IsAppleVisible = true,
                 IsCombVisible = true,
             },
-            animals: new[] { AnimalDef.Rabbit }
+            animalDef: Rabbit
         );
 
         AddGameDef(
@@ -243,47 +245,26 @@ public class PlaygroundInput : MonoBehaviour
                 IsTableVisible = true,
                 IsCombVisible = true,
             },
-            animals: new[] { AnimalDef.WolfPuppy }
+            animalDef: WolfPuppy
         );
 
         AddGameDef(
             new GameDef
             {
-                name = "Olifant",
+                name = "Elephant",
                 GameType = typeof(JustShowTheAnimalGame),
                 IsAppleVisible = true,
             },
-            animals: new[] { AnimalDef.Elephant }
+            animalDef: Elephant
         );
     }
 
-    private GameDef AddGameDef(GameDef gameDef, string[] animals)
+    private GameDef AddGameDef(GameDef gameDef, AnimalDef animalDef)
     {
-        // Assign an animal instance to the game
-        foreach (var animalDefName in animals)
-        {
-            var animalDef = animalDefs.Single(a => a.name == animalDefName);
+        if (animalDef != null)
             gameDef.animals.Add(animalDef);
-        }
         gameDefs.Add(gameDef);
         return gameDef;
-    }
-
-    private void AddAnimalDef(
-        string name,
-        string templateGameObjectName,
-        AnimalDef animalDef,
-        int speedIndex = 2
-    )
-    {
-        animalDef.name = name;
-        animalDef.templateGameObject = animalsToRotate.Single(
-            a => a.gameObject.name == templateGameObjectName
-        );
-        animalDef.templateGameObject.SetActive(false);
-        if (animalDef.mAnimal != null)
-            animalDef.mAnimal.CurrentSpeedIndex = speedIndex;
-        animalDefs.Add(animalDef);
     }
 
     private void InitWoodenPlankMenuButton()
