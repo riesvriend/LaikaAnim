@@ -295,26 +295,17 @@ public class StationaryGame : GameInstance
 
         /*
 
-            1.	x Optie: De controller trilt als je borstelt
-            2.	~ Toon een progress bar voor het borstelen op de menuplank
+            1.	x De controller trilt als je borstelt
+            2.	x Toon een progress bar voor het borstelen op de menuplank
             3.	x Klaar met borstelen, een nieuwe konijn in random kleur
             4.	x Klaar met borstelen, een nieuwe konijn in dezelfde kleur
-            5.	(later) En een gouden ster
-            6.	Voer de appel
-            7.	Mjom mjom
-            8.	Gouden ster
-            9.	En
-          
+            6.	x Voer de appel
+            7.	x Mjom mjom
+            8.	x baby konijn
+            9.
+            10.	x De konijnen lopen naar de appel
+        11.
          */
-
-        // Show "TIP: start brushing your puppy!" on the menu plank
-
-
-        // Also play a voice that says the same
-
-        // Show brush progress: 0% on the menu
-
-        // On brushing, increase the brusing progress bar
     }
 }
 
