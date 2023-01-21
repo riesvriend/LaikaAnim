@@ -12,4 +12,9 @@ using UnityEngine;
 public class PPRFlow : MonoBehaviour
 {
     public List<PPRStartTransition> StartTransitions;
+
+    public PPRTransition[] Transitions
+    {
+        get => GetComponentsInChildren<PPRTransition>();
+    }
 }

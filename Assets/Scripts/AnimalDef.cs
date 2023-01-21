@@ -13,7 +13,7 @@ public class AnimalDef : MonoBehaviour
     public float minComeCloseDistanceFromPlayerInMeter;
     public float animalDistanceFromCameraInMeter;
 
-    public bool CanBeBrushed;
+    public bool CanBeCombed;
     public bool EatsApples;
 
     public MAnimal mAnimal

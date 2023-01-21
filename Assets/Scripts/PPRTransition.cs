@@ -14,4 +14,9 @@ public class PPRTransition : MonoBehaviour
 
     [UnityEngine.Header("Conditions")]
     public bool IsTimeout;
+
+    public PPRFlow Flow
+    {
+        get => GetComponentInParent<PPRFlow>();
+    }
 }

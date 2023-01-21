@@ -26,6 +26,8 @@ public class PlaygroundInput : MonoBehaviour
     public AnimalDef Elephant;
     public AnimalDef WolfPuppy;
 
+    public PPRStartTransition RabbitGameStartTransition;
+
     public GameInstance activeGame = null;
     public Transform cameraOrEyeTransform;
 
@@ -51,8 +53,8 @@ public class PlaygroundInput : MonoBehaviour
     public GameObject mainMenu;
     public GameObject artificalGrass;
     public GameObject table;
-    public GameObject apple;
-    public GameObject comb;
+    public GameObject AppleTemplate;
+    public GameObject CombTemplate;
 
     public AudioSource musicAudioSource;
     public AudioSource taskCompletedAudioSource;
@@ -83,6 +85,12 @@ public class PlaygroundInput : MonoBehaviour
         {
             globalInput = new GlobalInput();
             globalInput.GlobalControls.Menu.performed += Menu_performed;
+
+            // Hide the templates, are only active for editing purposes
+            // we clone the templates so any changes to instances such as
+            // eating / shrinking the apple, wont affect the next apple
+            CombTemplate.SetActive(false);
+            AppleTemplate.SetActive(false);
         }
         catch (Exception ex)
         {
@@ -178,88 +186,96 @@ public class PlaygroundInput : MonoBehaviour
     private void InitGameDefs()
     {
         AddGameDef(
-            new GameDef { name = "Home", GameType = typeof(HomeScreenGame) },
-            animalDef: null
+            new GameDef
+            {
+                name = "Home",
+                GameType = typeof(HomeScreenGame),
+                // Workaround until we have a Flow defined for each game
+                SingletonState = gameObject.AddComponent<PPRState>()
+            }
         );
 
         AddGameDef(
             new GameDef
             {
-                // Stationary play at table
-                name = "Rabbit Rescue",
-                GameType = typeof(StationaryGame),
-                IsTableVisible = true,
-                IsCombVisible = true,
-                IsAppleVisible = true,
-                // Combing reward is a clone, feeding reward is a baby
-                FeedingRewardAnimal = RabbitBaby
-            },
-            animalDef: Rabbit
+                // New structure with flow with states and transitions
+                GameType = typeof(FlowGame),
+                StartTransition = RabbitGameStartTransition,
+            }
         );
+
+        var rabbitGame = new GameDef
+        {
+            // Stationary play at table
+            name = "Rabbit Rescue Freeplay",
+            GameType = typeof(FreeplayGame),
+            SingletonState = gameObject.AddComponent<PPRState>(),
+            // Combing reward is a clone, feeding reward is a baby
+            FeedingRewardAnimal = RabbitBaby
+        };
+        rabbitGame.SingletonState.IsTableVisible = true;
+        rabbitGame.SingletonState.IsAppleVisible = true;
+        rabbitGame.SingletonState.IsCombVisible = true;
+        AddGameDef(rabbitGame, animalDef: Rabbit);
+
+        var horseGame = new GameDef
+        {
+            // Room play
+            name = "Horse Rescue Freeplay",
+            GameType = typeof(FreeplayGame),
+            SingletonState = new PPRState { IsAppleVisible = true, IsCombVisible = true, },
+        };
+        rabbitGame.SingletonState.IsTableVisible = false;
+        rabbitGame.SingletonState.IsAppleVisible = true;
+        rabbitGame.SingletonState.IsCombVisible = true;
+        AddGameDef(horseGame, animalDef: Horse);
 
         AddGameDef(
             new GameDef
             {
-                // Room play
-                name = "Horse Rescue",
-                GameType = typeof(RoomScaleGame),
-                IsAppleVisible = true,
-                IsCombVisible = true,
+                name = "Pet Laika",
+                GameType = typeof(JustShowTheAnimalGame),
+                SingletonState = gameObject.AddComponent<PPRState>()
             },
-            animalDef: Horse
-        );
-
-        AddGameDef(
-            new GameDef { name = "Pet Laika", GameType = typeof(JustShowTheAnimalGame) },
             animalDef: SheepDog
         );
 
-        AddGameDef(
-            new GameDef
-            {
-                name = "Horse",
-                GameType = typeof(JustShowTheAnimalGame),
-                IsAppleVisible = true,
-                IsCombVisible = true,
-            },
-            animalDef: Horse
-        );
+        //AddGameDef(
+        //    new GameDef
+        //    {
+        //        name = "Rabbit",
+        //        GameType = typeof(JustShowTheAnimalGame),
+        //        SingletonState = new PPRState
+        //        {
+        //            IsTableVisible = true,
+        //            IsAppleVisible = true,
+        //            IsCombVisible = true,
+        //        },
+        //    },
+        //    animalDef: Rabbit
+        //);
 
-        AddGameDef(
-            new GameDef
-            {
-                name = "Rabbit",
-                GameType = typeof(JustShowTheAnimalGame),
-                IsTableVisible = true,
-                IsAppleVisible = true,
-                IsCombVisible = true,
-            },
-            animalDef: Rabbit
-        );
+        var puppyGame = new GameDef
+        {
+            name = "Wolf Puppy",
+            GameType = typeof(JustShowTheAnimalGame),
+            SingletonState = gameObject.AddComponent<PPRState>(),
+        };
+        AddGameDef(puppyGame, animalDef: WolfPuppy);
+        puppyGame.SingletonState.IsTableVisible = true;
+        puppyGame.SingletonState.IsCombVisible = true;
 
-        AddGameDef(
-            new GameDef
-            {
-                name = "Wolf Puppy",
-                GameType = typeof(JustShowTheAnimalGame),
-                IsTableVisible = true,
-                IsCombVisible = true,
-            },
-            animalDef: WolfPuppy
-        );
-
-        AddGameDef(
-            new GameDef
-            {
-                name = "Elephant",
-                GameType = typeof(JustShowTheAnimalGame),
-                IsAppleVisible = true,
-            },
-            animalDef: Elephant
-        );
+        var elephantGame = new GameDef
+        {
+            name = "Elephant",
+            GameType = typeof(JustShowTheAnimalGame),
+            SingletonState = gameObject.AddComponent<PPRState>(),
+        };
+        elephantGame.SingletonState.IsAppleVisible = true;
+        AddGameDef(elephantGame, animalDef: Elephant);
     }
 
-    private GameDef AddGameDef(GameDef gameDef, AnimalDef animalDef)
+    private GameDef AddGameDef(GameDef gameDef, AnimalDef animalDef = null)
     {
         if (animalDef != null)
             gameDef.animals.Add(animalDef);
@@ -355,16 +371,17 @@ public class PlaygroundInput : MonoBehaviour
         // Add games and freeplay animals
         foreach (var game in gameDefs)
         {
+            // TODO: foreach over all Start Transitions of the game
             var gameToggleGameObject = Instantiate(
                 animalTogglePrefab,
                 parent: firstToggleGroup.transform
             );
-            gameToggleGameObject.SetActive(true); // ...so we have to re-anable it in spawned objects
+            gameToggleGameObject.SetActive(true); // ...so we have to re-enable it in spawned objects
 
             var label = gameToggleGameObject
                 .GetComponentsInChildren<TMPro.TextMeshProUGUI>()
                 .Single();
-            label.text = game.name;
+            label.text = game.DisplayName;
 
             var gameToggle = gameToggleGameObject.GetComponent<Toggle>();
             gameToggle.SetIsOnWithoutNotify(game == activeGame.gameDef);

@@ -14,13 +14,21 @@ public class FeedingTask : BaseTask<FeedingStatus>
         game.TaskCompleted(this);
     }
 
-    protected override void OnAddAnimal(AnimalInstance animal)
+    protected override void AddAnyNewAnimals(List<AnimalInstance> animals)
     {
-        taskStatus.Add(animal, new FeedingStatus { animal = animal, bitesCount = 0 });
+        foreach (var animal in animals)
+            if (animal.animalDef.EatsApples && !taskStatus.ContainsKey(animal))
+                taskStatus.Add(animal, new FeedingStatus { animal = animal, bitesCount = 0 });
     }
 }
 
-public abstract class BaseTask<TStatus> : MonoBehaviour where TStatus : BaseStatus
+// Nongeneric base task allowing us to list/find the current task in the game
+public abstract class PPRBaseTask : MonoBehaviour
+{
+    protected abstract void AddAnyNewAnimals(List<AnimalInstance> animal);
+}
+
+public abstract class BaseTask<TStatus> : PPRBaseTask where TStatus : BaseStatus
 {
     // Parent game that uses this task
     public GameInstance game;
@@ -31,6 +39,16 @@ public abstract class BaseTask<TStatus> : MonoBehaviour where TStatus : BaseStat
 
     // Track progress
     protected Dictionary<AnimalInstance, TStatus> taskStatus = new();
+
+    internal void SyncAnimals(List<AnimalInstance> animals)
+    {
+        // Delete the status for animals no longer in the game
+        foreach (var animal in taskStatus.Keys.ToList())
+            if (!animals.Contains(animal))
+                taskStatus.Remove(animal);
+
+        AddAnyNewAnimals(animals);
+    }
 
     public AnimalInstance ActiveAnimal
     {
@@ -121,13 +139,6 @@ public abstract class BaseTask<TStatus> : MonoBehaviour where TStatus : BaseStat
     {
         isUserHoldingGrabbableObject = true;
     }
-
-    internal void AddAnimal(AnimalInstance animal)
-    {
-        OnAddAnimal(animal);
-    }
-
-    protected abstract void OnAddAnimal(AnimalInstance animal);
 }
 
 public abstract class BaseStatus

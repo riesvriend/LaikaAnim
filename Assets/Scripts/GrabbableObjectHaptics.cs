@@ -72,7 +72,10 @@ public class GrabbableObjectHaptics : MonoBehaviour
     protected virtual void OnDisable()
     {
         if (_started)
+        {
             _grabbable.WhenPointerEventRaised -= HandlePointerEventRaised;
+            OnCombingStopped();
+        }
     }
 
     private void HandlePointerEventRaised(PointerEvent evt)
