@@ -37,6 +37,7 @@ namespace PowerPetsRescue
             new ProgressModel { IsVisible = true };
 
         private VisualElement root;
+
         private VisualElement progressContainer;
         private Label progressLabel;
         private ProgressBar progressBar;
@@ -47,8 +48,8 @@ namespace PowerPetsRescue
             root = doc.rootVisualElement;
 
             progressContainer = root.Q<VisualElement>("ProgressContainer");
-            progressLabel = root.Q<Label>("ProgressLabel");
-            progressBar = root.Q<ProgressBar>("ProgressBar");
+            progressLabel = progressContainer.Q<Label>("ProgressLabel");
+            progressBar = progressContainer.Q<ProgressBar>("ProgressBar");
             progressBar.lowValue = 0f;
             progressBar.highValue = 100f;
         }

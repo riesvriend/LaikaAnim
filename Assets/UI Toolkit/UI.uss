@@ -14,6 +14,19 @@
     background-color: rgba(4, 39, 96, 255);
 }
 
+.unity-progress-bar__title {
+    color: rgb(255, 255, 255);
+}
+
+
 .unity-progress-bar__progress {
     background-color: rgb(32, 100, 255);
+}
+
+#ScoreContainer #ProgressBar .unity-progress-bar__background {
+    background-color: rgba(4, 96, 39, 255);
+}
+
+#ScoreContainer #ProgressBar .unity-progress-bar__progress {
+    background-color: rgb(32, 255, 0);
 }
