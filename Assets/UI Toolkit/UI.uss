@@ -28,5 +28,13 @@
 }
 
 #ScoreContainer #ProgressBar .unity-progress-bar__progress {
-    background-color: rgb(32, 255, 0);
+    background-color: rgb(8, 198, 80);
+}
+
+#TimeContainer #ProgressBar .unity-progress-bar__background {
+    background-color: rgba(60, 4, 60, 255);
+}
+
+#TimeContainer #ProgressBar .unity-progress-bar__progress {
+    background-color: rgb(120, 8, 120);
 }

@@ -12,18 +12,42 @@ public class PPRState : MonoBehaviour
     public bool IsAppleVisible;
     public bool IsCombVisible;
 
+    private bool? isScored;
+    private bool? hasFlow;
+    private PPRFlow flow;
+
+    private void Start()
+    {
+        flow = GetComponentInParent<PPRFlow>();
+    }
+
     public bool UsesProgressBar
     {
         get => IsAppleVisible || IsCombVisible;
     }
 
+    public bool IsScored
+    {
+        get
+        {
+            if (!isScored.HasValue)
+            {
+                if (Flow == null)
+                    isScored = false;
+                else
+                    isScored = Flow.IsScored;
+            }
+            return isScored.Value;
+        }
+    }
+
     public PPRFlow Flow
     {
-        get => GetComponentInParent<PPRFlow>();
+        get => flow;
     }
 
     public List<PPRTransition> NextTransitions
     {
-        get => Flow.Transitions.Where(t => t.PreviousState == this).ToList();
+        get => flow.Transitions.Where(t => t.PreviousState == this).ToList();
     }
 }

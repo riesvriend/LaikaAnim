@@ -155,8 +155,8 @@ public abstract class BaseStatus
     public virtual void UpdateProgress(ProgressModel progress)
     {
         // Show stroke progress and target on menu
-        progress.TaskTitle = "Voortgang";
-        progress.Percentage = Percentage;
+        progress.TaskProgress.Title = "Task progress";
+        progress.TaskProgress.Percentage = Percentage;
     }
 }
 
@@ -189,6 +189,6 @@ public class FeedingStatus : BaseStatus
     {
         base.UpdateProgress(progress);
 
-        progress.ProgressBarTitle = "Voeren";
+        progress.TaskProgress.ProgressBarText = "Voeren";
     }
 }

@@ -223,11 +223,11 @@ public class PlaygroundInput : MonoBehaviour
             // Room play
             name = "Horse Rescue Freeplay",
             GameType = typeof(FreeplayGame),
-            SingletonState = new PPRState { IsAppleVisible = true, IsCombVisible = true, },
+            SingletonState = gameObject.AddComponent<PPRState>(),
         };
-        rabbitGame.SingletonState.IsTableVisible = false;
-        rabbitGame.SingletonState.IsAppleVisible = true;
-        rabbitGame.SingletonState.IsCombVisible = true;
+        horseGame.SingletonState.IsTableVisible = false;
+        horseGame.SingletonState.IsAppleVisible = true;
+        horseGame.SingletonState.IsCombVisible = true;
         AddGameDef(horseGame, animalDef: Horse);
 
         AddGameDef(
@@ -239,21 +239,6 @@ public class PlaygroundInput : MonoBehaviour
             },
             animalDef: SheepDog
         );
-
-        //AddGameDef(
-        //    new GameDef
-        //    {
-        //        name = "Rabbit",
-        //        GameType = typeof(JustShowTheAnimalGame),
-        //        SingletonState = new PPRState
-        //        {
-        //            IsTableVisible = true,
-        //            IsAppleVisible = true,
-        //            IsCombVisible = true,
-        //        },
-        //    },
-        //    animalDef: Rabbit
-        //);
 
         var puppyGame = new GameDef
         {

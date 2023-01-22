@@ -56980,6 +56980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartTransitions:
   - {fileID: 515841723}
+  GameDurationSeconds: 60
 --- !u!1 &1615123646
 GameObject:
   m_ObjectHideFlags: 0

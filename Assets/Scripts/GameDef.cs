@@ -23,7 +23,7 @@ public class GameDef
     //*** If its to freeplay with an animal set a gameobject
     public List<AnimalDef> animals = new List<AnimalDef>();
 
-    // Baby Animal that you get when feeding is complete
+    // Baby Animal that you get when feeding is complete (backward compatible for non-flow games)
     public AnimalDef FeedingRewardAnimal;
 
     public string DisplayName

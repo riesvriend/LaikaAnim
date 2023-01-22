@@ -13,45 +13,70 @@ namespace PowerPetsRescue
     // Display a list of tasks, for each animal that needs brushing, so how much brushing is needed
     public class ProgressModel
     {
-        public string TaskTitle { get; internal set; } = "Pak kam of appel";
-        public string ProgressBarTitle { get; set; } = "";
-        private bool _isVisible;
-        public bool IsVisible
+        public class ProgressBarModel
         {
-            get => _isVisible;
-            set { _isVisible = value; }
+            public bool IsVisible;
+            public string Title;
+            public string ProgressBarText;
+            public float Percentage;
         }
-        public float Percentage { get; set; } = 100f;
 
-        public int Medals { get; set; }
+        public ProgressBarModel ScoreProgress = new ProgressBarModel { };
+        public ProgressBarModel TimeProgress = new ProgressBarModel { };
+        public ProgressBarModel TaskProgress = new ProgressBarModel { };
+        //public string TaskTitle { get; internal set; } = "Pak kam of appel";
+        //public string TaskProgressBarTitle { get; set; } = "";
+        //private bool _isVisible;
+        //public bool IsVisible
+        //{
+        //    get => _isVisible;
+        //    set { _isVisible = value; }
+        //}
+        //public float Percentage { get; set; } = 100f;
 
-        internal void AddMedal()
-        {
-            Medals++;
-        }
+        //public int Medals { get; set; }
+
+        //internal void AddMedal()
+        //{
+        //    Medals++;
+        //}
     }
 
     public class PlankUI : MonoBehaviour
     {
-        public ProgressModel ProgressModel { get; private set; } =
-            new ProgressModel { IsVisible = true };
+        public class ProgressUI
+        {
+            public VisualElement Container;
+            public Label Label;
+            public ProgressBar ProgressBar;
+        }
+
+        public ProgressModel ProgressModel { get; private set; } = new ProgressModel { };
 
         private VisualElement root;
 
-        private VisualElement progressContainer;
-        private Label progressLabel;
-        private ProgressBar progressBar;
+        private ProgressUI scoreProgressUI;
+        private ProgressUI timeProgressUI;
+        private ProgressUI taskProgressUI;
 
         void OnEnable()
         {
             var doc = GetComponent<UIDocument>();
             root = doc.rootVisualElement;
 
-            progressContainer = root.Q<VisualElement>("ProgressContainer");
-            progressLabel = progressContainer.Q<Label>("ProgressLabel");
-            progressBar = progressContainer.Q<ProgressBar>("ProgressBar");
-            progressBar.lowValue = 0f;
-            progressBar.highValue = 100f;
+            scoreProgressUI = GetProgressUI("ScoreContainer");
+            timeProgressUI = GetProgressUI("TimeContainer");
+            taskProgressUI = GetProgressUI("TaskContainer");
+        }
+
+        private ProgressUI GetProgressUI(string containerName)
+        {
+            var ui = new ProgressUI { Container = root.Q<VisualElement>(containerName) };
+            ui.Label = ui.Container.Q<Label>("ProgressLabel");
+            ui.ProgressBar = ui.Container.Q<ProgressBar>("ProgressBar");
+            ui.ProgressBar.lowValue = 0f;
+            ui.ProgressBar.highValue = 100f;
+            return ui;
         }
 
         // Update is called once per frame
@@ -59,17 +84,24 @@ namespace PowerPetsRescue
         // or in the next frame after that update, so that we batch the updates
         void Update()
         {
-            if (!ProgressModel.IsVisible)
+            UpdateUI(scoreProgressUI, ProgressModel.ScoreProgress);
+            UpdateUI(timeProgressUI, ProgressModel.TimeProgress);
+            UpdateUI(taskProgressUI, ProgressModel.TaskProgress);
+        }
+
+        private void UpdateUI(ProgressUI ui, ProgressModel.ProgressBarModel progress)
+        {
+            if (!progress.IsVisible)
             {
-                progressContainer.style.display = DisplayStyle.None;
+                ui.Container.style.display = DisplayStyle.None;
             }
             else
             {
-                progressContainer.style.display = DisplayStyle.Flex;
+                ui.Container.style.display = DisplayStyle.Flex;
 
-                progressLabel.text = ProgressModel.TaskTitle;
-                progressBar.title = ProgressModel.ProgressBarTitle;
-                progressBar.value = ProgressModel.Percentage;
+                ui.Label.text = progress.Title;
+                ui.ProgressBar.title = progress.ProgressBarText;
+                ui.ProgressBar.value = progress.Percentage;
             }
         }
     }

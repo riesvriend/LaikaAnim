@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts;
 using MalbersAnimations;
+using Oculus.Interaction;
 using PowerPetsRescue;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ public class GameInstance : MonoBehaviour
     protected GameObject comb;
     protected GameObject apple;
 
+    protected DateTime startedUtc;
+
     ProgressModel ProgressModel
     {
         get => playground.plankUI.ProgressModel;
@@ -36,6 +39,13 @@ public class GameInstance : MonoBehaviour
 
         if (gameDef.SingletonState != null)
             state = gameDef.SingletonState;
+
+        var startTransition = gameDef.StartTransition;
+        if (startTransition != null)
+        {
+            state = startTransition.NextState;
+        }
+        startedUtc = DateTime.UtcNow;
 
         SynchronizeGameWithState(gameDef.StartTransition);
     }
@@ -82,11 +92,24 @@ public class GameInstance : MonoBehaviour
         foreach (var animalDef in animalsToAdd)
             AddAnimal(animalDef);
 
-        ProgressModel.IsVisible = state.UsesProgressBar;
+        ProgressModel.ScoreProgress.IsVisible = state.IsScored;
+        ProgressModel.ScoreProgress.Title = "Score:";
+
+        ProgressModel.TimeProgress.IsVisible = state.IsScored; // Consider adding IsTimed
+        ProgressModel.TimeProgress.Title = "Time left:";
+
+        ProgressModel.TaskProgress.IsVisible = state.UsesProgressBar;
     }
 
     private void Update()
     {
+        if (state.IsScored)
+        {
+            var timeLeft = TimeLeftSeconds();
+            ProgressModel.TimeProgress.ProgressBarText = $"{timeLeft} seconds";
+            ProgressModel.TimeProgress.Percentage =
+                (float)timeLeft / state.Flow.GameDurationSeconds * 100;
+        }
         var ai = activeAnimal?.ai;
         if (ai == null)
             return;
@@ -98,10 +121,22 @@ public class GameInstance : MonoBehaviour
             ai.Target = null;
     }
 
+    private int TimeLeftSeconds()
+    {
+        var timeSpent = (int)(DateTime.UtcNow - startedUtc).TotalSeconds;
+        var timeLeft = Math.Max(state.Flow.GameDurationSeconds - timeSpent, 0);
+        return timeLeft;
+    }
+
     private AnimalInstance AddAnimal(AnimalDef animalDef)
     {
         var animal = playground.InstantiateAnimal(animalDef);
         animals.Add(animal);
+
+        ProgressModel.ScoreProgress.Percentage = ((float)animals.Count / 20) * 100;
+        if (ProgressModel.ScoreProgress.Percentage > 100)
+            ProgressModel.ScoreProgress.Percentage = 100;
+        ProgressModel.ScoreProgress.ProgressBarText = $"{animals.Count} animals";
 
         SetActiveAnimal(animal);
         SyncTasksWithAnimals();
@@ -247,7 +282,10 @@ public class GameInstance : MonoBehaviour
         if (interactableObject != null)
         {
             // TODO: first release grab, and create co-route do delete the object after a short while
-            // var grabInteractable = interactableObject.GetComponent<GrabInteractable>();
+            var grabInteractable = interactableObject.GetComponent<GrabInteractable>();
+            grabInteractable.SelectingInteractors
+                .ToList()
+                .ForEach(interactor => grabInteractable.RemoveInteractor(interactor));
             Destroy(interactableObject);
             interactableObject = null;
         }
@@ -433,8 +471,6 @@ public class FlowGame : GameInstance
 
     public override void StartGame()
     {
-        state = StartTransition.NextState;
-
         base.StartGame();
 
         /*
