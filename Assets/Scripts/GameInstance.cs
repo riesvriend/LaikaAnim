@@ -3,6 +3,7 @@ using MalbersAnimations;
 using Oculus.Interaction;
 using PowerPetsRescue;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,8 +28,10 @@ public class GameInstance : MonoBehaviour
 
     protected int? gameDurationSeconds;
     protected DateTime startedUtc;
+    protected const int checkTimeoutFrameInterval = 30;
+    protected int checkTimeoutFrameCounter = 0;
 
-    ProgressModel ProgressModel
+    public ProgressModel ProgressModel
     {
         get => playground.plankUI.ProgressModel;
     }
@@ -52,6 +55,7 @@ public class GameInstance : MonoBehaviour
             gameDurationSeconds = null;
         }
         startedUtc = DateTime.UtcNow;
+        ProgressModel.IsGameOver = false;
 
         SynchronizeGameWithState(gameDef.StartTransition);
     }
@@ -109,13 +113,34 @@ public class GameInstance : MonoBehaviour
 
     private void Update()
     {
-        if (gameDurationSeconds.HasValue && gameDurationSeconds.Value > 0)
+        if (checkTimeoutFrameCounter > 0)
+            checkTimeoutFrameCounter -= 1;
+        else
         {
-            var timeLeft = TimeLeftSeconds();
-            ProgressModel.TimeProgress.ProgressBarText = $"{timeLeft} seconds";
-            ProgressModel.TimeProgress.Percentage =
-                (float)timeLeft / gameDurationSeconds.Value * 100;
+            checkTimeoutFrameCounter = checkTimeoutFrameInterval;
+
+            if (
+                gameDurationSeconds.HasValue
+                && gameDurationSeconds.Value > 0
+                && !ProgressModel.IsGameOver
+            )
+            {
+                var secondsLeft = SecondsLeft();
+                ProgressModel.TimeProgress.ProgressBarText = $"{secondsLeft} seconds";
+                ProgressModel.TimeProgress.Percentage =
+                    100f - (float)secondsLeft / gameDurationSeconds.Value * 100;
+
+                if (secondsLeft == 0)
+                {
+                    ProgressModel.IsGameOver = true;
+                    ProgressModel.TaskProgress.IsVisible = false;
+                    ProgressModel.TimeProgress.Title = "";
+                    ProgressModel.TimeProgress.ProgressBarText = "GAME OVER";
+                    StartCoroutine(RemoveObjectsOnGameOverCoRoutine());
+                }
+            }
         }
+
         var ai = activeAnimal?.ai;
         if (ai == null)
             return;
@@ -127,7 +152,7 @@ public class GameInstance : MonoBehaviour
             ai.Target = null;
     }
 
-    private int TimeLeftSeconds()
+    private int SecondsLeft()
     {
         var timeSpent = (int)(DateTime.UtcNow - startedUtc).TotalSeconds;
         var timeLeft = Math.Max(gameDurationSeconds.Value - timeSpent, 0);
@@ -399,7 +424,7 @@ public class GameInstance : MonoBehaviour
             // add a baby animal after feeding
             var reward = gameDef.FeedingRewardAnimal;
             if (reward == null)
-                reward = firstAnimal.animalDef;
+                reward = FirstAnimal.animalDef;
             AddAnimal(reward);
         }
         else
@@ -408,20 +433,47 @@ public class GameInstance : MonoBehaviour
 
     internal void OnActivatePopupMenu(bool isMenuActive)
     {
+        EnableAnimalAnimations(enable: !isMenuActive);
+    }
+
+    private void EnableAnimalAnimations(bool enable)
+    {
         // when the popup menu is activated, we get performance problems that prevent
         // the user to click on the popup menu items.
         // Therefore, we disable all animals in the game while the menu is active
         foreach (var animal in animals)
         {
             if (animal.gameObject.TryGetComponent<Animator>(out var animator))
-                animator.enabled = !isMenuActive;
+                animator.enabled = enable;
         }
     }
 
     // Hack
-    public AnimalInstance firstAnimal
+    public AnimalInstance FirstAnimal
     {
         get => animals.FirstOrDefault();
+    }
+
+    IEnumerator RemoveObjectsOnGameOverCoRoutine()
+    {
+        var wait = new WaitForSeconds(1.5f);
+        IEnumerator Remove(GameObject item)
+        {
+            if (item == null)
+                yield return null;
+            else
+            {
+                item.SetActive(false);
+                yield return wait;
+            }
+        }
+
+        EnableAnimalAnimations(enable: false);
+
+        yield return Remove(comb);
+        yield return Remove(apple);
+        foreach (var animal in animals)
+            yield return Remove(animal.gameObject);
     }
 }
 

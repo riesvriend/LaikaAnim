@@ -325,8 +325,10 @@ public class PlaygroundInput : MonoBehaviour
 
     private void Play(GameDef gameDef)
     {
-        if (activeGame?.gameDef == gameDef)
+        if (activeGame?.gameDef == gameDef && !activeGame.ProgressModel.IsGameOver)
         {
+            // Continue a running game if its re-selected so you don't loose your progress by
+            // going into the menu
             return;
         }
 

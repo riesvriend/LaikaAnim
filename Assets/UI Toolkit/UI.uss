@@ -11,20 +11,27 @@
 }
 
 .unity-progress-bar__background {
-    background-color: rgba(4, 39, 96, 255);
+    background-color: rgb(4, 39, 96);
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
 }
 
 .unity-progress-bar__title {
     color: rgb(255, 255, 255);
 }
 
-
 .unity-progress-bar__progress {
     background-color: rgb(32, 100, 255);
 }
 
 #ScoreContainer #ProgressBar .unity-progress-bar__background {
-    background-color: rgba(4, 96, 39, 255);
+    background-color: rgb(4, 96, 39);
 }
 
 #ScoreContainer #ProgressBar .unity-progress-bar__progress {
@@ -32,7 +39,7 @@
 }
 
 #TimeContainer #ProgressBar .unity-progress-bar__background {
-    background-color: rgba(60, 4, 60, 255);
+    background-color: rgb(60, 4, 60);
 }
 
 #TimeContainer #ProgressBar .unity-progress-bar__progress {

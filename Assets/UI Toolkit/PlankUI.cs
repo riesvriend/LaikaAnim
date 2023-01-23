@@ -24,15 +24,8 @@ namespace PowerPetsRescue
         public ProgressBarModel ScoreProgress = new ProgressBarModel { };
         public ProgressBarModel TimeProgress = new ProgressBarModel { };
         public ProgressBarModel TaskProgress = new ProgressBarModel { };
-        //public string TaskTitle { get; internal set; } = "Pak kam of appel";
-        //public string TaskProgressBarTitle { get; set; } = "";
-        //private bool _isVisible;
-        //public bool IsVisible
-        //{
-        //    get => _isVisible;
-        //    set { _isVisible = value; }
-        //}
-        //public float Percentage { get; set; } = 100f;
+
+        public bool IsGameOver;
 
         //public int Medals { get; set; }
 
