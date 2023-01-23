@@ -1,16 +1,6 @@
 ﻿// metadata of the games and animals in the main menu
-using MalbersAnimations;
 using System.Collections.Generic;
 using System;
-using UnityEngine;
-using System.Linq;
-using Assets.Scripts;
-using PowerPetsRescue;
-using MalbersAnimations.Utilities;
-using MalbersAnimations.Controller;
-using UnityEditorInternal;
-using System.Runtime.InteropServices;
-using UnityEngine.UIElements;
 
 public class GameDef
 {

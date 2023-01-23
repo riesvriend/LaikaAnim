@@ -26,8 +26,6 @@ public class PlaygroundInput : MonoBehaviour
     public AnimalDef Elephant;
     public AnimalDef WolfPuppy;
 
-    public PPRStartTransition RabbitGameStartTransition;
-
     public GameInstance activeGame = null;
     public Transform cameraOrEyeTransform;
 
@@ -195,15 +193,6 @@ public class PlaygroundInput : MonoBehaviour
             }
         );
 
-        AddGameDef(
-            new GameDef
-            {
-                // New structure with flow with states and transitions
-                GameType = typeof(FlowGame),
-                StartTransition = RabbitGameStartTransition,
-            }
-        );
-
         var rabbitGame = new GameDef
         {
             // Stationary play at table
@@ -217,6 +206,17 @@ public class PlaygroundInput : MonoBehaviour
         rabbitGame.SingletonState.IsAppleVisible = true;
         rabbitGame.SingletonState.IsCombVisible = true;
         AddGameDef(rabbitGame, animalDef: Rabbit);
+
+        var startTransitions = GetComponentsInChildren<PPRStartTransition>();
+        foreach (var t in startTransitions)
+            AddGameDef(
+                new GameDef
+                {
+                    // New structure with flow with states and transitions
+                    GameType = typeof(FlowGame),
+                    StartTransition = t,
+                }
+            );
 
         var horseGame = new GameDef
         {

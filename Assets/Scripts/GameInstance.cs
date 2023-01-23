@@ -25,6 +25,7 @@ public class GameInstance : MonoBehaviour
     protected GameObject comb;
     protected GameObject apple;
 
+    protected int? gameDurationSeconds;
     protected DateTime startedUtc;
 
     ProgressModel ProgressModel
@@ -44,6 +45,11 @@ public class GameInstance : MonoBehaviour
         if (startTransition != null)
         {
             state = startTransition.NextState;
+            gameDurationSeconds = gameDef.StartTransition.GameDurationSeconds;
+        }
+        else
+        {
+            gameDurationSeconds = null;
         }
         startedUtc = DateTime.UtcNow;
 
@@ -103,12 +109,12 @@ public class GameInstance : MonoBehaviour
 
     private void Update()
     {
-        if (state.IsScored)
+        if (gameDurationSeconds.HasValue && gameDurationSeconds.Value > 0)
         {
             var timeLeft = TimeLeftSeconds();
             ProgressModel.TimeProgress.ProgressBarText = $"{timeLeft} seconds";
             ProgressModel.TimeProgress.Percentage =
-                (float)timeLeft / state.Flow.GameDurationSeconds * 100;
+                (float)timeLeft / gameDurationSeconds.Value * 100;
         }
         var ai = activeAnimal?.ai;
         if (ai == null)
@@ -124,7 +130,7 @@ public class GameInstance : MonoBehaviour
     private int TimeLeftSeconds()
     {
         var timeSpent = (int)(DateTime.UtcNow - startedUtc).TotalSeconds;
-        var timeLeft = Math.Max(state.Flow.GameDurationSeconds - timeSpent, 0);
+        var timeLeft = Math.Max(gameDurationSeconds.Value - timeSpent, 0);
         return timeLeft;
     }
 
@@ -366,7 +372,7 @@ public class GameInstance : MonoBehaviour
             var nextTransitions = state.NextTransitions;
             // For now, the task completed / gameover transitions must be in that order
             // TODO: add logic filtering based on condition expression / arguments in the transition such as IsTimeout
-            return nextTransitions.FirstOrDefault();
+            return nextTransitions?.FirstOrDefault();
         }
     }
 

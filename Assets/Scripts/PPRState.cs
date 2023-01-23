@@ -48,6 +48,6 @@ public class PPRState : MonoBehaviour
 
     public List<PPRTransition> NextTransitions
     {
-        get => flow.Transitions.Where(t => t.PreviousState == this).ToList();
+        get => flow?.Transitions.Where(t => t.PreviousState == this).ToList();
     }
 }

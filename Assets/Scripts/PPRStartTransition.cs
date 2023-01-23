@@ -7,4 +7,5 @@ using System.Threading.Tasks;
 public class PPRStartTransition : PPRTransition
 {
     public string DisplayName;
+    public int GameDurationSeconds;
 }

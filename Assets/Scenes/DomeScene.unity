@@ -17114,7 +17114,7 @@ GameObject:
   - component: {fileID: 515841722}
   - component: {fileID: 515841723}
   m_Layer: 0
-  m_Name: RabbitRescueStartTransition
+  m_Name: RabbitRescueStartTransition60sec
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17132,7 +17132,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1612129814}
+  m_Father: {fileID: 1409399714}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &515841723
@@ -17152,7 +17152,8 @@ MonoBehaviour:
   PreviousState: {fileID: 0}
   NextState: {fileID: 1076196223}
   IsTimeout: 0
-  DisplayName: Rabbit Rescue Game
+  DisplayName: Rabbit Rescue 1-minute
+  GameDurationSeconds: 60
 --- !u!1 &517935959
 GameObject:
   m_ObjectHideFlags: 0
@@ -28816,6 +28817,57 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 13191813}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &859773118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 859773119}
+  - component: {fileID: 859773120}
+  m_Layer: 0
+  m_Name: RabbitRescueStartTransition5min
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &859773119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859773118}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1409399714}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &859773120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859773118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d827f7d4f3b7f2243a7c57a73236a0c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AnimalsToAdd:
+  - {fileID: 1565738438}
+  PreviousState: {fileID: 0}
+  NextState: {fileID: 1076196223}
+  IsTimeout: 0
+  DisplayName: Rabbit Rescue 5-minutes
+  GameDurationSeconds: 300
 --- !u!1 &865909164
 GameObject:
   m_ObjectHideFlags: 0
@@ -48968,6 +49020,39 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408302594}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1409399713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1409399714}
+  m_Layer: 0
+  m_Name: Start
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1409399714
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409399713}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 515841722}
+  - {fileID: 859773119}
+  m_Father: {fileID: 1612129814}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1410397937
 GameObject:
   m_ObjectHideFlags: 0
@@ -56960,7 +57045,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 515841722}
+  - {fileID: 1409399714}
   - {fileID: 734516266}
   - {fileID: 1002047079}
   m_Father: {fileID: 1776110147}
@@ -56980,7 +57065,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartTransitions:
   - {fileID: 515841723}
-  GameDurationSeconds: 60
 --- !u!1 &1615123646
 GameObject:
   m_ObjectHideFlags: 0
@@ -61101,7 +61185,6 @@ MonoBehaviour:
   SheepDog: {fileID: 1970051242}
   Elephant: {fileID: 208630917}
   WolfPuppy: {fileID: 1712554848}
-  RabbitGameStartTransition: {fileID: 515841723}
   activeGame: {fileID: 0}
   cameraOrEyeTransform: {fileID: 1216495386}
   tableDistanceFromCameraInMeter: 0.7

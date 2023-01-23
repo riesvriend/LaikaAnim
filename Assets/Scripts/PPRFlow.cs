@@ -13,7 +13,6 @@ using UnityEngine.SocialPlatforms;
 public class PPRFlow : MonoBehaviour
 {
     public List<PPRStartTransition> StartTransitions;
-    public int GameDurationSeconds;
 
     public PPRTransition[] Transitions
     {
