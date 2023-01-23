@@ -10,7 +10,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="TimeContainer" style="display: flex; background-color: rgba(0, 0, 0, 0); -unity-background-scale-mode: stretch-to-fill; align-items: flex-start; justify-content: flex-start; opacity: 1; visibility: visible; overflow: visible; width: 100%;">
             <ui:Label text="Time remaining:" display-tooltip-when-elided="true" name="ProgressLabel" class="text" style="background-color: rgba(0, 0, 0, 0); color: rgb(255, 255, 255); height: 13px; width: 100%;" />
-            <ui:ProgressBar value="40" title="200 sec" name="ProgressBar" class="text" style="visibility: visible; display: flex; right: 0; position: relative; width: 90%;" />
+            <ui:ProgressBar value="40" title="200 sec" name="ProgressBar" class="text" style="visibility: visible; display: flex; right: 0; position: relative; width: 100%;" />
         </ui:VisualElement>
         <ui:VisualElement name="TaskContainer" style="display: flex; background-color: rgba(0, 0, 0, 0); -unity-background-scale-mode: stretch-to-fill; align-items: flex-start; justify-content: flex-start; opacity: 1; visibility: visible; overflow: visible; width: 100%;">
             <ui:Label text="Progress:" display-tooltip-when-elided="true" name="ProgressLabel" class="text" style="background-color: rgba(0, 0, 0, 0); color: rgb(255, 255, 255); width: 100%;" />

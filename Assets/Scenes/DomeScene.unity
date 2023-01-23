@@ -7128,6 +7128,7 @@ MonoBehaviour:
   templateGameObject: {fileID: 346920508}
   minComeCloseDistanceFromPlayerInMeter: 0.5
   animalDistanceFromCameraInMeter: 3.5
+  MaxFeedingScale: 0
   CanBeCombed: 0
   EatsApples: 1
 --- !u!1 &208670850
@@ -17540,6 +17541,7 @@ MonoBehaviour:
   templateGameObject: {fileID: 1121219677}
   minComeCloseDistanceFromPlayerInMeter: 0
   animalDistanceFromCameraInMeter: 0.4
+  MaxFeedingScale: 1.15
   CanBeCombed: 1
   EatsApples: 1
 --- !u!1 &524923621
@@ -17590,6 +17592,7 @@ MonoBehaviour:
   templateGameObject: {fileID: 553791831}
   minComeCloseDistanceFromPlayerInMeter: 0.5
   animalDistanceFromCameraInMeter: 3.5
+  MaxFeedingScale: 0
   CanBeCombed: 1
   EatsApples: 1
 --- !u!1 &527926194
@@ -55065,6 +55068,7 @@ MonoBehaviour:
   templateGameObject: {fileID: 1700415244}
   minComeCloseDistanceFromPlayerInMeter: 0
   animalDistanceFromCameraInMeter: 0.8
+  MaxFeedingScale: 0
   CanBeCombed: 1
   EatsApples: 1
 --- !u!1 &1566363598
@@ -61029,6 +61033,7 @@ MonoBehaviour:
   templateGameObject: {fileID: 1045974341}
   minComeCloseDistanceFromPlayerInMeter: 0
   animalDistanceFromCameraInMeter: 0.8
+  MaxFeedingScale: 0
   CanBeCombed: 1
   EatsApples: 0
 --- !u!1 &1713271867
@@ -69530,6 +69535,7 @@ MonoBehaviour:
   templateGameObject: {fileID: 1115516300}
   minComeCloseDistanceFromPlayerInMeter: 1
   animalDistanceFromCameraInMeter: 0.8
+  MaxFeedingScale: 0
   CanBeCombed: 0
   EatsApples: 0
 --- !u!1 &1971031116

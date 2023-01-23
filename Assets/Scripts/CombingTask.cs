@@ -20,7 +20,7 @@ public class CombingStatus : BaseStatus
     {
         base.UpdateProgress(progress);
 
-        progress.TaskProgress.ProgressBarText = "Borstelen";
+        progress.TaskProgress.ProgressBarText = "Combing";
     }
 
     public override void IncrementProgress()

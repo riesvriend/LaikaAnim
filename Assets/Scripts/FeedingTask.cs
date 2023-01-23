@@ -121,6 +121,26 @@ public abstract class BaseTask<TStatus> : PPRBaseTask where TStatus : BaseStatus
         var status = ActiveStatus();
         status.IncrementProgress();
 
+        var animalDef = ActiveAnimal.animalDef;
+        if (animalDef.MaxFeedingScale > 0)
+        {
+            var animalScale = ActiveAnimal.gameObject.transform.localScale;
+            var growBy = animalDef.MaxFeedingScale - animalScale.x;
+            if (growBy > 0)
+            {
+                var newScale =
+                    animalDef.templateGameObject.transform.localScale.x
+                    + growBy * (status.Percentage / 100);
+                ActiveAnimal.gameObject.transform.localScale = new Vector3(
+                    x: newScale,
+                    y: newScale,
+                    z: newScale
+                );
+
+                // TODO: Shrink the apple by Percentage as well
+            }
+        }
+
         if (status.IsCompleted())
         {
             status.ResetProgress();
@@ -155,7 +175,7 @@ public abstract class BaseStatus
     public virtual void UpdateProgress(ProgressModel progress)
     {
         // Show stroke progress and target on menu
-        progress.TaskProgress.Title = "Task progress";
+        progress.TaskProgress.Title = "Task:";
         progress.TaskProgress.Percentage = Percentage;
     }
 }
@@ -189,6 +209,6 @@ public class FeedingStatus : BaseStatus
     {
         base.UpdateProgress(progress);
 
-        progress.TaskProgress.ProgressBarText = "Voeren";
+        progress.TaskProgress.ProgressBarText = "Feeding";
     }
 }
