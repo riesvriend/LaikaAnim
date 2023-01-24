@@ -29,6 +29,10 @@ public class PlaygroundInput : MonoBehaviour
     public GameInstance activeGame = null;
     public Transform cameraOrEyeTransform;
 
+    // Used to enable either poke or grab interaction, as having both enabled at the same
+    // time tends to make grab less reliable
+    public GameObject OVRInteraction;
+
     public float tableDistanceFromCameraInMeter;
     public float tableHeight = 0.85f;
     public ToggleGroup firstToggleGroup;
@@ -234,6 +238,7 @@ public class PlaygroundInput : MonoBehaviour
             new GameDef
             {
                 name = "Pet Laika",
+                usesPokeInteractors = true,
                 GameType = typeof(JustShowTheAnimalGame),
                 SingletonState = gameObject.AddComponent<PPRState>()
             },
@@ -563,4 +568,15 @@ public class PlaygroundInput : MonoBehaviour
     {
         taskCompletedAudioSource.Play();
     }
+
+    //internal void EnableInteractors(bool usesPokeInteractors)
+    //{
+    //    var groups = this.OVRInteraction.GetComponentsInChildren<InteractorGroup>();
+    //    foreach (var group in groups)
+    //    {
+    //        var isController = group.Interators
+    //        //if (group.interactor)
+    //    }
+
+    //}
 }

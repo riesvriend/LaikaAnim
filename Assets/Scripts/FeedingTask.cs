@@ -14,6 +14,31 @@ public class FeedingTask : BaseTask<FeedingStatus>
         game.TaskCompleted(this);
     }
 
+    /// <summary>
+    /// When a new bite is added to the feeding status, we grow the animal
+    /// </summary>
+    /// <param name="status"></param>
+    protected override void OnStatusIncremented(FeedingStatus status)
+    {
+        var animalDef = ActiveAnimal.animalDef;
+        var animalTransform = ActiveAnimal.gameObject.transform;
+        if (animalDef.MaxFeedingScale > 0)
+        {
+            var animalScale = animalTransform.localScale;
+            var growBy = animalDef.MaxFeedingScale - animalScale.x;
+            if (growBy > 0)
+            {
+                var newScale =
+                    animalDef.templateGameObject.transform.localScale.x
+                    + growBy * (status.Percentage / 100);
+
+                // If this baby was already fully fed, don't shrink it when we re-start feeding it
+                newScale = Math.Max(newScale, animalTransform.localScale.x);
+                animalTransform.localScale = new Vector3(x: newScale, y: newScale, z: newScale);
+            }
+        }
+    }
+
     protected override void AddAnyNewAnimals(List<AnimalInstance> animals)
     {
         foreach (var animal in animals)
@@ -103,7 +128,7 @@ public abstract class BaseTask<TStatus> : PPRBaseTask where TStatus : BaseStatus
         return taskStatus.Keys.SingleOrDefault(a => a.gameObject == animal);
     }
 
-    TStatus ActiveStatus()
+    protected TStatus ActiveStatus()
     {
         if (ActiveAnimal == null || !isUserHoldingGrabbableObject)
             return null;
@@ -121,25 +146,7 @@ public abstract class BaseTask<TStatus> : PPRBaseTask where TStatus : BaseStatus
         var status = ActiveStatus();
         status.IncrementProgress();
 
-        var animalDef = ActiveAnimal.animalDef;
-        if (animalDef.MaxFeedingScale > 0)
-        {
-            var animalScale = ActiveAnimal.gameObject.transform.localScale;
-            var growBy = animalDef.MaxFeedingScale - animalScale.x;
-            if (growBy > 0)
-            {
-                var newScale =
-                    animalDef.templateGameObject.transform.localScale.x
-                    + growBy * (status.Percentage / 100);
-                ActiveAnimal.gameObject.transform.localScale = new Vector3(
-                    x: newScale,
-                    y: newScale,
-                    z: newScale
-                );
-
-                // TODO: Shrink the apple by Percentage as well
-            }
-        }
+        OnStatusIncremented(status);
 
         if (status.IsCompleted())
         {
@@ -147,6 +154,8 @@ public abstract class BaseTask<TStatus> : PPRBaseTask where TStatus : BaseStatus
             OnTaskCompleted();
         }
     }
+
+    protected virtual void OnStatusIncremented(TStatus status) { }
 
     private void OnStrokingStopped(GrabbableObjectHaptics.StrokeEvent e) { }
 

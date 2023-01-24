@@ -5,6 +5,7 @@ using System;
 public class GameDef
 {
     public string name;
+    public bool usesPokeInteractors;
     public Type GameType; // A GameInstance or derived type
 
     public PPRStartTransition StartTransition; // In case its a workflow based game

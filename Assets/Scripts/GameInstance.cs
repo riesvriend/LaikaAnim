@@ -39,6 +39,8 @@ public class GameInstance : MonoBehaviour
     // Dont call this 'Start' as that collides with a Unity event name
     public virtual void StartGame()
     {
+        //playground.EnableInteractors(gameDef.usesPokeInteractors);
+
         playground.pettingHandPoseHandler.game = this;
 
         if (gameDef.SingletonState != null)
@@ -178,16 +180,26 @@ public class GameInstance : MonoBehaviour
         var applePosition =
             animalPosition.Position
             - Quaternion.AngleAxis(140, Vector3.up) * animalPosition.Forward * -0.4f;
-        if (apple != null)
-            apple.transform.position = applePosition;
 
-        if (comb != null)
-            comb.transform.position = applePosition + Vector3.up * 0.3f; // Drop the comb on the apple
+        PositionGrabInteractable(apple, applePosition);
+        // Drop the comb on the apple
+        PositionGrabInteractable(comb, applePosition + Vector3.up * 0.3f);
 
         // Send the new animal to the player (in case its dropped to far away)
         // playground.pettingHandPoseHandler.HandleCome();
 
         return animal;
+    }
+
+    private void PositionGrabInteractable(GameObject interactable, Vector3 position)
+    {
+        if (interactable != null)
+        {
+            var grabInteractable = interactable.GetComponent<GrabInteractable>();
+            // Only reposition the item if its not being held at the moment
+            if (!grabInteractable.SelectingInteractors.Any())
+                interactable.transform.position = position;
+        }
     }
 
     private void SyncTasksWithAnimals()
@@ -312,14 +324,23 @@ public class GameInstance : MonoBehaviour
     {
         if (interactableObject != null)
         {
-            // TODO: first release grab, and create co-route do delete the object after a short while
-            var grabInteractable = interactableObject.GetComponent<GrabInteractable>();
-            grabInteractable.SelectingInteractors
-                .ToList()
-                .ForEach(interactor => grabInteractable.RemoveInteractor(interactor));
-            Destroy(interactableObject);
+            interactableObject.SetActive(false);
+            var destoryThis = interactableObject;
             interactableObject = null;
+            StartCoroutine(DestroyAfterDelay(destoryThis));
+            //// TODO: first release grab, and create co-route do delete the object after a short while
+            //var grabInteractable = interactableObject.GetComponent<GrabInteractable>();
+            //grabInteractable.SelectingInteractors
+            //    .ToList()
+            //    .ForEach(interactor => grabInteractable.RemoveInteractor(interactor));
+            //Destroy(interactableObject);
         }
+    }
+
+    IEnumerator DestroyAfterDelay(GameObject destoryThis)
+    {
+        yield return new WaitForSeconds(2f);
+        Destroy(destoryThis);
     }
 
     private void InstantiateComb()
@@ -433,7 +454,9 @@ public class GameInstance : MonoBehaviour
 
     internal void OnActivatePopupMenu(bool isMenuActive)
     {
-        EnableAnimalAnimations(enable: !isMenuActive);
+        // Don't do this as sometimes the animals start to fly away...
+        // (animator sometimes disables gravity or something)
+        //EnableAnimalAnimations(enable: !isMenuActive);
     }
 
     private void EnableAnimalAnimations(bool enable)
@@ -456,7 +479,7 @@ public class GameInstance : MonoBehaviour
 
     IEnumerator RemoveObjectsOnGameOverCoRoutine()
     {
-        var wait = new WaitForSeconds(1.5f);
+        var wait = new WaitForSeconds(0.8f);
         IEnumerator Remove(GameObject item)
         {
             if (item == null)

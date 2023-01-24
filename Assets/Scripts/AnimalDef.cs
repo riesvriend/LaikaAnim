@@ -89,6 +89,40 @@ public class AnimalInstance : IDisposable
 
 public class RabbitInstance : AnimalInstance
 {
+    // Generate 30 cute
+    public static string[] names = new[]
+    {
+        "Bunny",
+        "Cotton Tail",
+        "Floppy",
+        "Fuzzy",
+        "Jack",
+        "Jumper",
+        "Killer",
+        "Lucky",
+        "Mopsy",
+        "Patches",
+        "Peanut",
+        "Puffy",
+        "Pumpkin",
+        "Rabbit",
+        "Sandy",
+        "Sassy",
+        "Scooter",
+        "Snickers",
+        "Snowball",
+        "Sparky",
+        "Speedy",
+        "Spike",
+        "Stinky",
+        "Thumper",
+        "Tweety",
+        "Wiggles",
+        "Winky",
+        "Zippy",
+        "Zoe"
+    };
+
     public override void RandomizeAppearance()
     {
         base.RandomizeAppearance();
