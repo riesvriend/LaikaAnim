@@ -26,6 +26,7 @@ namespace PowerPetsRescue
         public ProgressBarModel TaskProgress = new ProgressBarModel { };
 
         public bool IsGameOver;
+        public int PreviousTopScore;
 
         //public int Medals { get; set; }
 

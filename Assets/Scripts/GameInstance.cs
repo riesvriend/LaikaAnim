@@ -105,7 +105,11 @@ public class GameInstance : MonoBehaviour
             AddAnimal(animalDef);
 
         ProgressModel.ScoreProgress.IsVisible = state.IsScored;
-        ProgressModel.ScoreProgress.Title = "Score:";
+        if (state.IsScored)
+        {
+            ProgressModel.ScoreProgress.Title =
+                $"Top: {gameDef.StartTransition.TopScoreAnimalCount}. Score:";
+        }
 
         ProgressModel.TimeProgress.IsVisible = state.IsScored; // Consider adding IsTimed
         ProgressModel.TimeProgress.Title = "Time left:";
@@ -136,6 +140,15 @@ public class GameInstance : MonoBehaviour
                 {
                     ProgressModel.IsGameOver = true;
                     ProgressModel.TaskProgress.IsVisible = false;
+
+                    var score = animals.Count;
+                    var isNewTopScore = score > gameDef.StartTransition.TopScoreAnimalCount;
+                    if (isNewTopScore)
+                    {
+                        ProgressModel.ScoreProgress.Title = "TOP SCORE!";
+                        gameDef.StartTransition.TopScoreAnimalCount = score;
+                    }
+
                     ProgressModel.TimeProgress.Title = "";
                     ProgressModel.TimeProgress.ProgressBarText = "GAME OVER";
                     playground.PlaySoundGameOver();
@@ -170,7 +183,8 @@ public class GameInstance : MonoBehaviour
         ProgressModel.ScoreProgress.Percentage = ((float)animals.Count / 20) * 100;
         if (ProgressModel.ScoreProgress.Percentage > 100)
             ProgressModel.ScoreProgress.Percentage = 100;
-        ProgressModel.ScoreProgress.ProgressBarText = $"{animals.Count} animals";
+        var plural = animals.Count != 1 ? "s" : "";
+        ProgressModel.ScoreProgress.ProgressBarText = $"{animals.Count} animal{plural}";
 
         SetActiveAnimal(animal);
         SyncTasksWithAnimals();

@@ -16787,6 +16787,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5841275377495994903, guid: bc242319e5f2bd842999ab7665ad2d78,
         type: 3}
+      propertyPath: _hoverColor.b
+      value: 0.04705883
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841275377495994903, guid: bc242319e5f2bd842999ab7665ad2d78,
+        type: 3}
+      propertyPath: _hoverColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841275377495994903, guid: bc242319e5f2bd842999ab7665ad2d78,
+        type: 3}
+      propertyPath: _selectColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841275377495994903, guid: bc242319e5f2bd842999ab7665ad2d78,
+        type: 3}
+      propertyPath: _selectColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841275377495994903, guid: bc242319e5f2bd842999ab7665ad2d78,
+        type: 3}
       propertyPath: _disabledColor.b
       value: 0.18516374
       objectReference: {fileID: 0}
@@ -17224,6 +17244,7 @@ MonoBehaviour:
   IsTimeout: 0
   DisplayName: Rabbit Rescue 1-minute
   GameDurationSeconds: 60
+  TopScoreAnimalCount: 0
 --- !u!1 &517935959
 GameObject:
   m_ObjectHideFlags: 0
@@ -19169,7 +19190,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 695b6786ac18a3d4797be1e2bb95633d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 0beb4a4e57fcf2d42af6980bd32b7bf2, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.359
   m_Pitch: 1
@@ -29080,6 +29101,7 @@ MonoBehaviour:
   IsTimeout: 0
   DisplayName: Rabbit Rescue 5-minutes
   GameDurationSeconds: 300
+  TopScoreAnimalCount: 0
 --- !u!1 &865909164
 GameObject:
   m_ObjectHideFlags: 0
@@ -43221,6 +43243,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841275377495994903, guid: bc242319e5f2bd842999ab7665ad2d78,
+        type: 3}
+      propertyPath: _hoverColor.b
+      value: 0.04705883
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841275377495994903, guid: bc242319e5f2bd842999ab7665ad2d78,
+        type: 3}
+      propertyPath: _hoverColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841275377495994903, guid: bc242319e5f2bd842999ab7665ad2d78,
+        type: 3}
+      propertyPath: _selectColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841275377495994903, guid: bc242319e5f2bd842999ab7665ad2d78,
+        type: 3}
+      propertyPath: _selectColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841275377495994903, guid: bc242319e5f2bd842999ab7665ad2d78,
+        type: 3}
+      propertyPath: _disabledColor.b
+      value: 0.18431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841275377495994903, guid: bc242319e5f2bd842999ab7665ad2d78,
+        type: 3}
+      propertyPath: _disabledColor.g
+      value: 0.18431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841275377495994903, guid: bc242319e5f2bd842999ab7665ad2d78,
+        type: 3}
+      propertyPath: _disabledColor.r
+      value: 0.6901961
       objectReference: {fileID: 0}
     - target: {fileID: 5841275377868706828, guid: bc242319e5f2bd842999ab7665ad2d78,
         type: 3}

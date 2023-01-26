@@ -8,4 +8,5 @@ public class PPRStartTransition : PPRTransition
 {
     public string DisplayName;
     public int GameDurationSeconds;
+    public int TopScoreAnimalCount;
 }
