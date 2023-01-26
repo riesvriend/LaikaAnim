@@ -60,6 +60,7 @@ public class PlaygroundInput : MonoBehaviour
 
     public AudioSource musicAudioSource;
     public AudioSource taskCompletedAudioSource;
+    public AudioSource gameOverAudioSource;
 
     public List<SkyboxDescriptor> skyboxDescriptors = new();
     public int activeSkyboxIndex = 0;
@@ -567,6 +568,11 @@ public class PlaygroundInput : MonoBehaviour
     internal void PlaySoundTaskCompleted()
     {
         taskCompletedAudioSource.Play();
+    }
+
+    internal void PlaySoundGameOver()
+    {
+        gameOverAudioSource.Play();
     }
 
     //internal void EnableInteractors(bool usesPokeInteractors)

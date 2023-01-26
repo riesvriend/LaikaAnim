@@ -138,6 +138,7 @@ public class GameInstance : MonoBehaviour
                     ProgressModel.TaskProgress.IsVisible = false;
                     ProgressModel.TimeProgress.Title = "";
                     ProgressModel.TimeProgress.ProgressBarText = "GAME OVER";
+                    playground.PlaySoundGameOver();
                     StartCoroutine(RemoveObjectsOnGameOverCoRoutine());
                 }
             }
@@ -327,6 +328,8 @@ public class GameInstance : MonoBehaviour
             interactableObject.SetActive(false);
             var destoryThis = interactableObject;
             interactableObject = null;
+            // The delay is most likely not needed, it was a workaround for a bug with the grab interactable
+            // when the poke interactable took precedence over it.
             StartCoroutine(DestroyAfterDelay(destoryThis));
             //// TODO: first release grab, and create co-route do delete the object after a short while
             //var grabInteractable = interactableObject.GetComponent<GrabInteractable>();
@@ -339,7 +342,7 @@ public class GameInstance : MonoBehaviour
 
     IEnumerator DestroyAfterDelay(GameObject destoryThis)
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.1f);
         Destroy(destoryThis);
     }
 
