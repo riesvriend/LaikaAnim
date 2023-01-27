@@ -142,7 +142,7 @@ public class GameInstance : MonoBehaviour
                     ProgressModel.TaskProgress.IsVisible = false;
 
                     var score = animals.Count;
-                    var isNewTopScore = score > gameDef.StartTransition.TopScoreAnimalCount;
+                    var isNewTopScore = score >= gameDef.StartTransition.TopScoreAnimalCount;
                     if (isNewTopScore)
                     {
                         ProgressModel.ScoreProgress.Title = "TOP SCORE!";
@@ -339,25 +339,9 @@ public class GameInstance : MonoBehaviour
     {
         if (interactableObject != null)
         {
-            interactableObject.SetActive(false);
-            var destoryThis = interactableObject;
+            Destroy(interactableObject);
             interactableObject = null;
-            // The delay is most likely not needed, it was a workaround for a bug with the grab interactable
-            // when the poke interactable took precedence over it.
-            StartCoroutine(DestroyAfterDelay(destoryThis));
-            //// TODO: first release grab, and create co-route do delete the object after a short while
-            //var grabInteractable = interactableObject.GetComponent<GrabInteractable>();
-            //grabInteractable.SelectingInteractors
-            //    .ToList()
-            //    .ForEach(interactor => grabInteractable.RemoveInteractor(interactor));
-            //Destroy(interactableObject);
         }
-    }
-
-    IEnumerator DestroyAfterDelay(GameObject destoryThis)
-    {
-        yield return new WaitForSeconds(0.1f);
-        Destroy(destoryThis);
     }
 
     private void InstantiateComb()
@@ -439,8 +423,12 @@ public class GameInstance : MonoBehaviour
         }
     }
 
+    // todo: move this logic in to class PPPBrushingState.OnExit
     internal void TaskCompleted(CombingTask brushingTask)
     {
+        if (ProgressModel.IsGameOver)
+            return;
+
         playground.PlaySoundTaskCompleted();
 
         var transition = NextTransition;
@@ -451,8 +439,12 @@ public class GameInstance : MonoBehaviour
             Execute(transition);
     }
 
+    // todo: move this logic in to class PPPFeedingState.OnExit
     internal void TaskCompleted(FeedingTask feedingTask)
     {
+        if (ProgressModel.IsGameOver)
+            return;
+
         playground.PlaySoundTaskCompleted();
 
         var transition = NextTransition;
