@@ -81,7 +81,7 @@ public abstract class BaseTask<TStatus> : PPRBaseTask where TStatus : BaseStatus
         protected set { game.SetActiveAnimal(value); }
     }
 
-    private void Start()
+    public virtual void Start()
     {
         if (GrabbableObject != null)
         {
@@ -98,7 +98,7 @@ public abstract class BaseTask<TStatus> : PPRBaseTask where TStatus : BaseStatus
     /// We dont rely on Destroy to prevent that we can access all the
     /// related objects
     /// </summary>
-    public void Stop()
+    public virtual void Stop()
     {
         // needed to prevent Update() from re-activating the progress model again
         ActiveAnimal = null;

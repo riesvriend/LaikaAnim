@@ -11,6 +11,7 @@ public class PPRState : MonoBehaviour
     public bool IsTableVisible;
     public bool IsAppleVisible;
     public bool IsCombVisible;
+    public bool IsLungeVisible;
 
     private bool? isScored;
     private bool? hasFlow;

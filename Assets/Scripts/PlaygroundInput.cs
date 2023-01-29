@@ -47,6 +47,10 @@ public class PlaygroundInput : MonoBehaviour
     [SerializeField, Interface(typeof(IInteractableView))]
     public MonoBehaviour menuPlankInteractableView;
 
+    // Used to raycast a position on the floor for the animal to walk to
+    [SerializeField, Interface(typeof(IInteractableView))]
+    public MonoBehaviour floorInteractableView;
+
     /// <summary>
     /// Task Progress (brushing complete %) displayed by the menu plank on the side of the scene
     /// </summary>
@@ -107,6 +111,13 @@ public class PlaygroundInput : MonoBehaviour
 
     private void Start()
     {
+        // https://developer.oculus.com/documentation/unity/unity-set-disp-freq/
+        float[] freqs = OVRManager.display.displayFrequenciesAvailable;
+        OVRPlugin.systemDisplayFrequency = freqs.Max();
+
+        // Only allow raycasting to floor if the game enables it (horse lunging)
+        floorInteractableView.enabled = false;
+
         InitAnimalDefs();
         InitGameDefs();
         ActivateActiveSkybox();
@@ -188,6 +199,17 @@ public class PlaygroundInput : MonoBehaviour
 
     private void InitGameDefs()
     {
+        var startTransitions = GetComponentsInChildren<PPRStartTransition>();
+        foreach (var t in startTransitions)
+            AddGameDef(
+                new GameDef
+                {
+                    // New structure with flow with states and transitions
+                    GameType = typeof(FlowGame),
+                    StartTransition = t,
+                }
+            );
+
         AddGameDef(
             new GameDef
             {
@@ -211,17 +233,6 @@ public class PlaygroundInput : MonoBehaviour
         rabbitGame.SingletonState.IsAppleVisible = true;
         rabbitGame.SingletonState.IsCombVisible = true;
         AddGameDef(rabbitGame, animalDef: Rabbit);
-
-        var startTransitions = GetComponentsInChildren<PPRStartTransition>();
-        foreach (var t in startTransitions)
-            AddGameDef(
-                new GameDef
-                {
-                    // New structure with flow with states and transitions
-                    GameType = typeof(FlowGame),
-                    StartTransition = t,
-                }
-            );
 
         var horseGame = new GameDef
         {

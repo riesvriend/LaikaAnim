@@ -22,6 +22,7 @@ public class GameInstance : MonoBehaviour
 
     protected CombingTask combingTask = null;
     protected FeedingTask feedingTask = null;
+    protected LungingTask lungingTask = null;
 
     protected GameObject comb;
     protected GameObject apple;
@@ -96,6 +97,18 @@ public class GameInstance : MonoBehaviour
         }
         else // apple not visible
             DestroyFeedingTask();
+
+        if (state.IsLungeVisible)
+        {
+            if (lungingTask == null)
+            {
+                lungingTask = gameObject.AddComponent<LungingTask>();
+                // todo: grabbable object = lunging rope
+                lungingTask.game = this;
+            }
+        }
+        else // lunge not visible
+            DestroyLungingTask();
 
         var animalsToAdd = gameDef.animals; // For single state games that are not Flow/transition based
         if (transition != null)
@@ -364,6 +377,10 @@ public class GameInstance : MonoBehaviour
     {
         if (combingTask != null)
             combingTask.Stop();
+        if (feedingTask != null)
+            feedingTask.Stop();
+        if (lungingTask != null)
+            lungingTask.Stop();
     }
 
     private void OnDestroy()
@@ -382,6 +399,7 @@ public class GameInstance : MonoBehaviour
     {
         DestroyCombingTask();
         DestroyFeedingTask();
+        DestroyLungingTask();
     }
 
     private void DestroyFeedingTask()
@@ -391,6 +409,15 @@ public class GameInstance : MonoBehaviour
             DestroyApple();
             Destroy(feedingTask);
             feedingTask = null;
+        }
+    }
+
+    private void DestroyLungingTask()
+    {
+        if (lungingTask != null)
+        {
+            Destroy(lungingTask);
+            lungingTask = null;
         }
     }
 
@@ -435,6 +462,22 @@ public class GameInstance : MonoBehaviour
         if (transition == null)
             // Non-flow based game
             AddAnimal(animals.First().animalDef);
+        else
+            Execute(transition);
+    }
+
+    internal void TaskCompleted(LungingTask lungingTask)
+    {
+        if (ProgressModel.IsGameOver)
+            return;
+
+        playground.PlaySoundTaskCompleted();
+
+        var transition = NextTransition;
+        if (transition == null)
+        {
+            Debug.LogWarning("No next transition");
+        }
         else
             Execute(transition);
     }
