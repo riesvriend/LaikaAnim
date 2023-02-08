@@ -199,6 +199,16 @@ public class PlaygroundInput : MonoBehaviour
 
     private void InitGameDefs()
     {
+        AddGameDef(
+            new GameDef
+            {
+                name = "Home",
+                GameType = typeof(HomeScreenGame),
+                // Workaround until we have a Flow defined for each game
+                SingletonState = gameObject.AddComponent<PPRState>()
+            }
+        );
+
         var startTransitions = GetComponentsInChildren<PPRStartTransition>();
         foreach (var t in startTransitions)
             AddGameDef(
@@ -209,16 +219,6 @@ public class PlaygroundInput : MonoBehaviour
                     StartTransition = t,
                 }
             );
-
-        AddGameDef(
-            new GameDef
-            {
-                name = "Home",
-                GameType = typeof(HomeScreenGame),
-                // Workaround until we have a Flow defined for each game
-                SingletonState = gameObject.AddComponent<PPRState>()
-            }
-        );
 
         var rabbitGame = new GameDef
         {

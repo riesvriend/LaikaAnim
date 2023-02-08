@@ -106,6 +106,6 @@ public class RouteHandPoseHandler : MonoBehaviour
     // we can call one over to start petting it when we are stationary
     public bool IsRoutingEnabled
     {
-        get => game.activeAnimal?.ai != null; // && !game.gameDef.IsTableVisible;
+        get => game.activeAnimal?.ai != null && !game.state.IsLungeVisible;
     }
 }
