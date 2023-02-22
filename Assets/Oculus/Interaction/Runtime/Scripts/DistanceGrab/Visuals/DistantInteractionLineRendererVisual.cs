@@ -32,11 +32,11 @@ namespace Oculus.Interaction.DistanceReticles
         protected override void Start()
         {
             base.Start();
-            Assert.IsNotNull(_lineRenderer);
+            this.AssertField(_lineRenderer, nameof(_lineRenderer));
             _lineRenderer.positionCount = NumLinePoints;
         }
 
-        protected override void InteractableSet(IDistanceInteractable interactable)
+        protected override void InteractableSet(IRelativeToRef interactable)
         {
             base.InteractableSet(interactable);
             _lineRenderer.enabled = true;

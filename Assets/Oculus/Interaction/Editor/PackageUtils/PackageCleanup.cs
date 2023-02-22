@@ -56,7 +56,7 @@ namespace Oculus.Interaction.Editor
             Incomplete,
         }
 
-        public const string PACKAGE_VERSION = "0.47.0";
+        public const string PACKAGE_VERSION = "0.49.0";
         public const string DEPRECATED_TAG = "oculus_interaction_deprecated";
         public const string MOVED_TAG = "oculus_interaction_moved_";
         private const string MENU_NAME = "Oculus/Interaction/Clean Up Package";
@@ -163,12 +163,10 @@ namespace Oculus.Interaction.Editor
 
             var deprecatedGUIDs = AssetDatabase
                 .FindAssets($"l:{DEPRECATED_TAG}", null)
-                .Select((guidStr) => new GUID(guidStr))
-                .ToList();
+                .Select((guidStr) => new GUID(guidStr));
             var movedGUIDs = AssetDatabase
                 .FindAssets($"l:{MOVED_TAG}", null)
-                .Select((guidStr) => new GUID(guidStr))
-                .ToList();
+                .Select((guidStr) => new GUID(guidStr));
 
             foreach (var GUID in deprecatedGUIDs)
             {
@@ -336,11 +334,11 @@ namespace Oculus.Interaction.Editor
 
                 // Verify that paths exist, and new path is not the same as old path
                 string curPath = Path.GetFullPath(GUIDToAssetPath(assetGUID));
+                var newPartialPath = GUIDToAssetPath(destFolderGUID);
+                if (string.IsNullOrEmpty(newPartialPath))
+                    newPartialPath = curPath;
 
-                if (GUIDToAssetPath(destFolderGUID) == "")
-                    return false;
-
-                string newFolder = Path.GetFullPath(GUIDToAssetPath(destFolderGUID));
+                string newFolder = Path.GetFullPath(newPartialPath);
                 string targetFilePath = Path.Combine(newFolder, Path.GetFileName(curPath));
 
                 if (

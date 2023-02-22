@@ -112,7 +112,8 @@ public class PlaygroundInput : MonoBehaviour
     private void Start()
     {
         // https://developer.oculus.com/documentation/unity/unity-set-disp-freq/
-        float[] freqs = OVRManager.display.displayFrequenciesAvailable;
+        // Null on startup without headset
+        float[] freqs = OVRManager.display?.displayFrequenciesAvailable ?? new float[] { 90f };
         OVRPlugin.systemDisplayFrequency = freqs.Max();
 
         // Only allow raycasting to floor if the game enables it (horse lunging)
