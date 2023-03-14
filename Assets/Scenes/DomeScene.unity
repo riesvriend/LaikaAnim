@@ -17714,7 +17714,7 @@ MonoBehaviour:
   templateGameObject: {fileID: 1121219677}
   minComeCloseDistanceFromPlayerInMeter: 0
   animalDistanceFromCameraInMeter: 0.4
-  MaxFeedingScale: 3
+  MaxFeedingScale: 1.15
   CanBeCombed: 1
   EatsApples: 1
 --- !u!1 &524923621
@@ -55519,7 +55519,7 @@ MonoBehaviour:
   templateGameObject: {fileID: 1700415244}
   minComeCloseDistanceFromPlayerInMeter: 0
   animalDistanceFromCameraInMeter: 0.8
-  MaxFeedingScale: 2
+  MaxFeedingScale: 0
   CanBeCombed: 1
   EatsApples: 1
 --- !u!1 &1566363598
