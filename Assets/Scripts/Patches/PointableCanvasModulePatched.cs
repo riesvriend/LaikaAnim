@@ -14,19 +14,19 @@ namespace Oculus.Interaction
         /// </summary>
         public override void Process()
         {
-            // Clone deleted pointers into in a local array to prevent
-            // InvalidOperationException: Collection was modified; enumeration operation may not execute.
-            var pointersToLoopOver = _pointersForDeletion.ToArray();
-            // Clear the deleted pointers list so it can start collecting newly delete pointers if those occur as a side effect to this method
-            _pointersForDeletion.Clear();
-            foreach (Pointer pointer in pointersToLoopOver)
-                ProcessPointer(pointer, forceRelease: true);
+            //// Clone deleted pointers into in a local array to prevent
+            //// InvalidOperationException: Collection was modified; enumeration operation may not execute.
+            //var pointersToLoopOver = _pointersForDeletion.ToArray();
+            //// Clear the deleted pointers list so it can start collecting newly delete pointers if those occur as a side effect to this method
+            //_pointersForDeletion.Clear();
+            //foreach (Pointer pointer in pointersToLoopOver)
+            //    ProcessPointer(pointer, forceRelease: true);
 
-            // Clone current pointers into a local array to prevent
-            // InvalidOperationException: Collection was modified; enumeration operation may not execute.
-            pointersToLoopOver = _pointerMap.Values.ToArray();
-            foreach (Pointer pointer in pointersToLoopOver)
-                ProcessPointer(pointer);
+            //// Clone current pointers into a local array to prevent
+            //// InvalidOperationException: Collection was modified; enumeration operation may not execute.
+            //pointersToLoopOver = _pointerMap.Values.ToArray();
+            //foreach (Pointer pointer in pointersToLoopOver)
+            //    ProcessPointer(pointer);
         }
     }
 }

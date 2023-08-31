@@ -26,59 +26,59 @@ namespace Oculus.Interaction.Editor
     [InitializeOnLoad]
     public static class OVRAutoWiring
     {
-        //static OVRAutoWiring()
-        //{
-        //    AutoWiring.Register(
-        //        typeof(OVRCameraRigRef),
-        //        new[] {
-        //            new ComponentWiringStrategyConfig("_ovrCameraRig", new FieldWiringStrategy[]
-        //                {
-        //                    FieldWiringStrategies.WireFieldToAncestors
-        //                })
-        //        }
-        //    );
+        static OVRAutoWiring()
+        {
+            AutoWiring.Register(
+                typeof(OVRCameraRigRef),
+                new[] {
+                    new ComponentWiringStrategyConfig("_ovrCameraRig", new FieldWiringStrategy[]
+                        {
+                            FieldWiringStrategies.WireFieldToAncestors
+                        })
+                }
+            );
 
-        //    AutoWiring.Register(
-        //        typeof(FromOVRHandDataSource),
-        //        new[] {
-        //            new ComponentWiringStrategyConfig("_cameraRigRef", new FieldWiringStrategy[]
-        //                {
-        //                    FieldWiringStrategies.WireFieldToAncestors
-        //                }),
-        //            new ComponentWiringStrategyConfig("_trackingToWorldTransformer", new FieldWiringStrategy[]
-        //                {
-        //                    FieldWiringStrategies.WireFieldToAncestors
-        //                })
-        //        }
-        //    );
+            AutoWiring.Register(
+                typeof(FromOVRHandDataSource),
+                new[] {
+                    new ComponentWiringStrategyConfig("_cameraRigRef", new FieldWiringStrategy[]
+                        {
+                            FieldWiringStrategies.WireFieldToAncestors
+                        }),
+                    new ComponentWiringStrategyConfig("_trackingToWorldTransformer", new FieldWiringStrategy[]
+                        {
+                            FieldWiringStrategies.WireFieldToAncestors
+                        })
+                }
+            );
 
-        //    AutoWiring.Register(
-        //        typeof(FromOVRControllerHandDataSource),
-        //        new[] {
-        //            new ComponentWiringStrategyConfig("_cameraRigRef", new FieldWiringStrategy[]
-        //                {
-        //                    FieldWiringStrategies.WireFieldToAncestors
-        //                }),
-        //            new ComponentWiringStrategyConfig("_trackingToWorldTransformer", new FieldWiringStrategy[]
-        //                {
-        //                    FieldWiringStrategies.WireFieldToAncestors
-        //                })
-        //        }
-        //    );
+            AutoWiring.Register(
+                typeof(FromOVRControllerHandDataSource),
+                new[] {
+                    new ComponentWiringStrategyConfig("_cameraRigRef", new FieldWiringStrategy[]
+                        {
+                            FieldWiringStrategies.WireFieldToAncestors
+                        }),
+                    new ComponentWiringStrategyConfig("_trackingToWorldTransformer", new FieldWiringStrategy[]
+                        {
+                            FieldWiringStrategies.WireFieldToAncestors
+                        })
+                }
+            );
 
-        //    AutoWiring.Register(
-        //        typeof(FromOVRControllerDataSource),
-        //        new[] {
-        //            new ComponentWiringStrategyConfig("_cameraRigRef", new FieldWiringStrategy[]
-        //                {
-        //                    FieldWiringStrategies.WireFieldToAncestors
-        //                }),
-        //            new ComponentWiringStrategyConfig("_trackingToWorldTransformer", new FieldWiringStrategy[]
-        //                {
-        //                    FieldWiringStrategies.WireFieldToAncestors
-        //                })
-        //        }
-        //    );
-        //}
+            AutoWiring.Register(
+                typeof(FromOVRControllerDataSource),
+                new[] {
+                    new ComponentWiringStrategyConfig("_cameraRigRef", new FieldWiringStrategy[]
+                        {
+                            FieldWiringStrategies.WireFieldToAncestors
+                        }),
+                    new ComponentWiringStrategyConfig("_trackingToWorldTransformer", new FieldWiringStrategy[]
+                        {
+                            FieldWiringStrategies.WireFieldToAncestors
+                        })
+                }
+            );
+        }
     }
 }

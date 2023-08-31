@@ -54,11 +54,9 @@ namespace Oculus.Interaction
 
         public static event Action<PointableCanvasEventArgs> WhenSelectableUnhovered;
 
-        [Tooltip(
-            "If true, the initial press position will be used as the drag start "
-                + "position, rather than the position when drag threshold is exceeded. This is used "
-                + "to prevent the pointer position shifting relative to the surface while dragging."
-        )]
+        [Tooltip("If true, the initial press position will be used as the drag start " +
+            "position, rather than the position when drag threshold is exceeded. This is used " +
+            "to prevent the pointer position shifting relative to the surface while dragging.")]
         [SerializeField]
         private bool _useInitialPressPositionForDrag = true;
 
@@ -68,20 +66,13 @@ namespace Oculus.Interaction
         {
             get
             {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<PointableCanvasModule>();
-                }
                 return _instance;
             }
         }
 
         public static void RegisterPointableCanvas(IPointableCanvas pointerCanvas)
         {
-            Assert.IsNotNull(
-                Instance,
-                $"A <b>{nameof(PointableCanvasModule)}</b> is required in the scene."
-            );
+            Assert.IsNotNull(Instance, $"A <b>{nameof(PointableCanvasModule)}</b> is required in the scene.");
             Instance.AddPointerCanvas(pointerCanvas);
         }
 
@@ -90,16 +81,17 @@ namespace Oculus.Interaction
             Instance?.RemovePointerCanvas(pointerCanvas);
         }
 
-        protected Dictionary<int, Pointer> _pointerMap = new Dictionary<int, Pointer>();
+        private Dictionary<int, Pointer> _pointerMap = new Dictionary<int, Pointer>();
         private List<RaycastResult> _raycastResultCache = new List<RaycastResult>();
-        protected List<Pointer> _pointersForDeletion = new List<Pointer>();
+        private List<Pointer> _pointersForDeletion = new List<Pointer>();
         private Dictionary<IPointableCanvas, Action<PointerEvent>> _pointerCanvasActionMap =
             new Dictionary<IPointableCanvas, Action<PointerEvent>>();
 
+        private Pointer[] _pointersToProcessScratch = Array.Empty<Pointer>();
+
         private void AddPointerCanvas(IPointableCanvas pointerCanvas)
         {
-            Action<PointerEvent> pointerCanvasAction = (args) =>
-                HandlePointerEvent(pointerCanvas.Canvas, args);
+            Action<PointerEvent> pointerCanvasAction = (args) => HandlePointerEvent(pointerCanvas.Canvas, args);
             _pointerCanvasActionMap.Add(pointerCanvas, pointerCanvasAction);
             pointerCanvas.WhenPointerEventRaised += pointerCanvasAction;
         }
@@ -171,7 +163,7 @@ namespace Oculus.Interaction
         /// Pointer class that is used for state associated with IPointables that are currently
         /// tracked by any IPointableCanvases in the scene.
         /// </summary>
-        protected class Pointer
+        private class Pointer
         {
             public PointerEventData PointerEventData { get; set; }
 
@@ -186,6 +178,7 @@ namespace Oculus.Interaction
             private GameObject _hoveredSelectable;
             public GameObject HoveredSelectable => _hoveredSelectable;
 
+
             private bool _pressing = false;
             private bool _pressed;
             private bool _released;
@@ -198,16 +191,13 @@ namespace Oculus.Interaction
 
             public void Press()
             {
-                if (_pressing)
-                    return;
+                if (_pressing) return;
                 _pressing = true;
                 _pressed = true;
             }
-
             public void Release()
             {
-                if (!_pressing)
-                    return;
+                if (!_pressing) return;
                 _pressing = false;
                 _released = true;
             }
@@ -234,6 +224,23 @@ namespace Oculus.Interaction
             {
                 _hoveredSelectable = hoveredSelectable;
             }
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            Assert.IsNull(_instance, "There must be at most one PointableCanvasModule in the scene");
+            _instance = this;
+        }
+
+        protected override void OnDestroy()
+        {
+            // Must unset _instance prior to calling the base.OnDestroy, otherwise error is thrown:
+            //   Can't add component to object that is being destroyed.
+            //   UnityEngine.EventSystems.BaseInputModule:get_input ()
+            _instance = null;
+            base.OnDestroy();
         }
 
         protected bool _started = false;
@@ -265,28 +272,23 @@ namespace Oculus.Interaction
                 Destroy(_pointerEventCamera);
                 _pointerEventCamera = null;
             }
+
             base.OnDisable();
         }
 
         // Based On FindFirstRaycast
-        protected static RaycastResult FindFirstRaycastWithinCanvas(
-            List<RaycastResult> candidates,
-            Canvas canvas
-        )
+        protected static RaycastResult FindFirstRaycastWithinCanvas(List<RaycastResult> candidates, Canvas canvas)
         {
             GameObject candidateGameObject;
             Canvas candidateCanvas;
             for (var i = 0; i < candidates.Count; ++i)
             {
                 candidateGameObject = candidates[i].gameObject;
-                if (candidateGameObject == null)
-                    continue;
+                if (candidateGameObject == null) continue;
 
                 candidateCanvas = candidateGameObject.GetComponentInParent<Canvas>();
-                if (candidateCanvas == null)
-                    continue;
-                if (candidateCanvas.rootCanvas != canvas)
-                    continue;
+                if (candidateCanvas == null) continue;
+                if (candidateCanvas.rootCanvas != canvas) continue;
 
                 return candidates[i];
             }
@@ -296,21 +298,23 @@ namespace Oculus.Interaction
         private void UpdateRaycasts(Pointer pointer, out bool pressed, out bool released)
         {
             PointerEventData pointerEventData = pointer.PointerEventData;
-
             Vector2 prevPosition = pointerEventData.position;
-            Canvas canvas = pointer.Canvas;
-            canvas.worldCamera = _pointerEventCamera;
-
             pointerEventData.Reset();
 
             pointer.ReadAndResetPressedReleased(out pressed, out released);
 
+            if (pointer.MarkedForDeletion)
+            {
+                pointerEventData.pointerCurrentRaycast = new RaycastResult();
+                return;
+            }
+
+            Canvas canvas = pointer.Canvas;
+            canvas.worldCamera = _pointerEventCamera;
+
             Vector3 position = Vector3.zero;
             var plane = new Plane(-1f * canvas.transform.forward, canvas.transform.position);
-            var ray = new Ray(
-                pointer.Position - canvas.transform.forward,
-                canvas.transform.forward
-            );
+            var ray = new Ray(pointer.Position - canvas.transform.forward, canvas.transform.forward);
 
             float enter;
             if (plane.Raycast(ray, out enter))
@@ -336,8 +340,7 @@ namespace Oculus.Interaction
             _raycastResultCache.Clear();
 
             // We use a static translation offset from the canvas for 2D position delta tracking
-            _pointerEventCamera.transform.position =
-                canvas.transform.position - canvas.transform.forward;
+            _pointerEventCamera.transform.position = canvas.transform.position - canvas.transform.forward;
             _pointerEventCamera.transform.LookAt(canvas.transform.position, canvas.transform.up);
 
             pointerPosition = _pointerEventCamera.WorldToScreenPoint(position);
@@ -357,22 +360,40 @@ namespace Oculus.Interaction
 
         public override void Process()
         {
-            // Clone into an array to prevent InvalidOperationException: Collection was modified; enumeration operation may not execute.
-            foreach (Pointer pointer in _pointersForDeletion.ToArray())
-            {
-                ProcessPointer(pointer, true);
-            }
-            _pointersForDeletion.Clear();
-
-            // InvalidOperationException: Collection was modified; enumeration operation may not execute.
-            //foreach (Pointer pointer in _pointerMap.Values)
-            var pointers = new List<Pointer>();
-            pointers.AddRange(_pointerMap.Values);
-            foreach (Pointer pointer in pointers)
-                ProcessPointer(pointer);
+            ProcessPointers(_pointersForDeletion, true);
+            ProcessPointers(_pointerMap.Values, false);
         }
 
-        protected void ProcessPointer(Pointer pointer, bool forceRelease = false)
+        private void ProcessPointers(ICollection<Pointer> pointers, bool clearAndReleasePointers)
+        {
+            // Before processing pointers, take a copy of the array since _pointersForDeletion or
+            // _pointerMap may be modified if a pointer event handler adds or removes a
+            // PointableCanvas.
+
+            int pointersToProcessCount = pointers.Count;
+            if (pointersToProcessCount == 0)
+            {
+                return;
+            }
+
+            if (pointersToProcessCount > _pointersToProcessScratch.Length)
+            {
+                _pointersToProcessScratch = new Pointer[pointersToProcessCount];
+            }
+
+            pointers.CopyTo(_pointersToProcessScratch, 0);
+            if (clearAndReleasePointers)
+            {
+                pointers.Clear();
+            }
+
+            foreach (Pointer pointer in _pointersToProcessScratch)
+            {
+                ProcessPointer(pointer, clearAndReleasePointers);
+            }
+        }
+
+        private void ProcessPointer(Pointer pointer, bool forceRelease = false)
         {
             bool pressed = false;
             bool released = false;
@@ -406,64 +427,34 @@ namespace Oculus.Interaction
 
             GameObject currentOverGo = pointer.PointerEventData.pointerCurrentRaycast.gameObject;
             GameObject prevHoveredSelectable = pointer.HoveredSelectable;
-            GameObject newHoveredSelectable = ExecuteEvents.GetEventHandler<ISelectHandler>(
-                currentOverGo
-            );
+            GameObject newHoveredSelectable = ExecuteEvents.GetEventHandler<ISelectHandler>(currentOverGo);
             pointer.SetHoveredSelectable(newHoveredSelectable);
 
             if (newHoveredSelectable != null && newHoveredSelectable != prevHoveredSelectable)
             {
-                WhenSelectableHovered?.Invoke(
-                    new PointableCanvasEventArgs(
-                        pointer.Canvas,
-                        pointer.HoveredSelectable,
-                        dragging
-                    )
-                );
+                WhenSelectableHovered?.Invoke(new PointableCanvasEventArgs(pointer.Canvas, pointer.HoveredSelectable, dragging));
             }
             else if (prevHoveredSelectable != null && newHoveredSelectable == null)
             {
-                WhenSelectableUnhovered?.Invoke(
-                    new PointableCanvasEventArgs(
-                        pointer.Canvas,
-                        pointer.HoveredSelectable,
-                        dragging
-                    )
-                );
+                WhenSelectableUnhovered?.Invoke(new PointableCanvasEventArgs(pointer.Canvas, pointer.HoveredSelectable, dragging));
             }
         }
 
-        private void HandleSelectablePress(
-            Pointer pointer,
-            bool pressed,
-            bool released,
-            bool wasDragging
-        )
+        private void HandleSelectablePress(Pointer pointer, bool pressed, bool released, bool wasDragging)
         {
             bool dragging = pointer.PointerEventData.dragging || wasDragging;
 
             if (pressed)
             {
-                WhenSelected?.Invoke(
-                    new PointableCanvasEventArgs(
-                        pointer.Canvas,
-                        pointer.HoveredSelectable,
-                        dragging
-                    )
-                );
+                WhenSelected?.Invoke(new PointableCanvasEventArgs(pointer.Canvas, pointer.HoveredSelectable, dragging));
             }
             else if (released && !pointer.MarkedForDeletion)
             {
                 // Unity handles UI selection on release, so we verify the hovered element has been selected
-                bool hasSelectedHoveredObject =
-                    pointer.HoveredSelectable != null
-                    && pointer.HoveredSelectable == pointer.PointerEventData.selectedObject;
-                GameObject selectedObject = hasSelectedHoveredObject
-                    ? pointer.HoveredSelectable
-                    : null;
-                WhenUnselected?.Invoke(
-                    new PointableCanvasEventArgs(pointer.Canvas, selectedObject, dragging)
-                );
+                bool hasSelectedHoveredObject = pointer.HoveredSelectable != null &&
+                                                pointer.HoveredSelectable == pointer.PointerEventData.selectedObject;
+                GameObject selectedObject = hasSelectedHoveredObject ? pointer.HoveredSelectable : null;
+                WhenUnselected?.Invoke(new PointableCanvasEventArgs(pointer.Canvas, selectedObject, dragging));
             }
         }
 
@@ -471,11 +462,7 @@ namespace Oculus.Interaction
         /// This method is based on ProcessTouchPoint in StandaloneInputModule,
         /// but is instead used for Pointer events
         /// </summary>
-        protected void UpdatePointerEventData(
-            PointerEventData pointerEvent,
-            bool pressed,
-            bool released
-        )
+        protected void UpdatePointerEventData(PointerEventData pointerEvent, bool pressed, bool released)
         {
             var currentOverGo = pointerEvent.pointerCurrentRaycast.gameObject;
 
@@ -501,11 +488,7 @@ namespace Oculus.Interaction
                 // search for the control that will receive the press
                 // if we can't find a press handler set the press
                 // handler to be what would receive a click.
-                var newPressed = ExecuteEvents.ExecuteHierarchy(
-                    currentOverGo,
-                    pointerEvent,
-                    ExecuteEvents.pointerDownHandler
-                );
+                var newPressed = ExecuteEvents.ExecuteHierarchy(currentOverGo, pointerEvent, ExecuteEvents.pointerDownHandler);
 
                 // didnt find a press handler... search for a click handler
                 if (newPressed == null)
@@ -534,49 +517,30 @@ namespace Oculus.Interaction
                 pointerEvent.clickTime = time;
 
                 // Save the drag handler as well
-                pointerEvent.pointerDrag = ExecuteEvents.GetEventHandler<IDragHandler>(
-                    currentOverGo
-                );
+                pointerEvent.pointerDrag = ExecuteEvents.GetEventHandler<IDragHandler>(currentOverGo);
 
                 if (pointerEvent.pointerDrag != null)
-                    ExecuteEvents.Execute(
-                        pointerEvent.pointerDrag,
-                        pointerEvent,
-                        ExecuteEvents.initializePotentialDrag
-                    );
+                    ExecuteEvents.Execute(pointerEvent.pointerDrag, pointerEvent, ExecuteEvents.initializePotentialDrag);
+
             }
 
             // PointerUp notification
             if (released)
             {
-                ExecuteEvents.Execute(
-                    pointerEvent.pointerPress,
-                    pointerEvent,
-                    ExecuteEvents.pointerUpHandler
-                );
+                ExecuteEvents.Execute(pointerEvent.pointerPress, pointerEvent, ExecuteEvents.pointerUpHandler);
 
                 // see if we mouse up on the same element that we clicked on...
-                var pointerUpHandler = ExecuteEvents.GetEventHandler<IPointerClickHandler>(
-                    currentOverGo
-                );
+                var pointerUpHandler = ExecuteEvents.GetEventHandler<IPointerClickHandler>(currentOverGo);
 
                 // PointerClick and Drop events
                 if (pointerEvent.pointerPress == pointerUpHandler && pointerEvent.eligibleForClick)
                 {
-                    ExecuteEvents.Execute(
-                        pointerEvent.pointerPress,
-                        pointerEvent,
-                        ExecuteEvents.pointerClickHandler
-                    );
+                    ExecuteEvents.Execute(pointerEvent.pointerPress, pointerEvent, ExecuteEvents.pointerClickHandler);
                 }
 
                 if (pointerEvent.pointerDrag != null && pointerEvent.dragging)
                 {
-                    ExecuteEvents.ExecuteHierarchy(
-                        currentOverGo,
-                        pointerEvent,
-                        ExecuteEvents.dropHandler
-                    );
+                    ExecuteEvents.ExecuteHierarchy(currentOverGo, pointerEvent, ExecuteEvents.dropHandler);
                 }
 
                 pointerEvent.eligibleForClick = false;
@@ -584,21 +548,13 @@ namespace Oculus.Interaction
                 pointerEvent.rawPointerPress = null;
 
                 if (pointerEvent.pointerDrag != null && pointerEvent.dragging)
-                    ExecuteEvents.Execute(
-                        pointerEvent.pointerDrag,
-                        pointerEvent,
-                        ExecuteEvents.endDragHandler
-                    );
+                    ExecuteEvents.Execute(pointerEvent.pointerDrag, pointerEvent, ExecuteEvents.endDragHandler);
 
                 pointerEvent.dragging = false;
                 pointerEvent.pointerDrag = null;
 
                 // send exit events as we need to simulate this on touch up on touch device
-                ExecuteEvents.ExecuteHierarchy(
-                    pointerEvent.pointerEnter,
-                    pointerEvent,
-                    ExecuteEvents.pointerExitHandler
-                );
+                ExecuteEvents.ExecuteHierarchy(pointerEvent.pointerEnter, pointerEvent, ExecuteEvents.pointerExitHandler);
                 pointerEvent.pointerEnter = null;
             }
         }
@@ -609,32 +565,20 @@ namespace Oculus.Interaction
         /// </summary>
         protected override void ProcessDrag(PointerEventData pointerEvent)
         {
-            if (
-                !pointerEvent.IsPointerMoving()
-                || Cursor.lockState == CursorLockMode.Locked
-                || pointerEvent.pointerDrag == null
-            )
+            if (!pointerEvent.IsPointerMoving() ||
+                pointerEvent.pointerDrag == null)
                 return;
 
-            if (
-                !pointerEvent.dragging
-                && ShouldStartDrag(
-                    pointerEvent.pressPosition,
-                    pointerEvent.position,
-                    eventSystem.pixelDragThreshold,
-                    pointerEvent.useDragThreshold
-                )
-            )
+            if (!pointerEvent.dragging
+                && ShouldStartDrag(pointerEvent.pressPosition, pointerEvent.position,
+                    eventSystem.pixelDragThreshold, pointerEvent.useDragThreshold))
             {
                 if (_useInitialPressPositionForDrag)
                 {
                     pointerEvent.position = pointerEvent.pressPosition;
                 }
-                ExecuteEvents.Execute(
-                    pointerEvent.pointerDrag,
-                    pointerEvent,
-                    ExecuteEvents.beginDragHandler
-                );
+                ExecuteEvents.Execute(pointerEvent.pointerDrag, pointerEvent,
+                    ExecuteEvents.beginDragHandler);
                 pointerEvent.dragging = true;
             }
 
@@ -648,21 +592,15 @@ namespace Oculus.Interaction
                     ClearPointerSelection(pointerEvent);
                 }
 
-                ExecuteEvents.Execute(
-                    pointerEvent.pointerDrag,
-                    pointerEvent,
-                    ExecuteEvents.dragHandler
-                );
+                ExecuteEvents.Execute(pointerEvent.pointerDrag, pointerEvent,
+                    ExecuteEvents.dragHandler);
             }
         }
 
         private void ClearPointerSelection(PointerEventData pointerEvent)
         {
-            ExecuteEvents.Execute(
-                pointerEvent.pointerPress,
-                pointerEvent,
-                ExecuteEvents.pointerUpHandler
-            );
+            ExecuteEvents.Execute(pointerEvent.pointerPress, pointerEvent,
+                ExecuteEvents.pointerUpHandler);
 
             pointerEvent.eligibleForClick = false;
             pointerEvent.pointerPress = null;
@@ -673,12 +611,7 @@ namespace Oculus.Interaction
         /// Used in PointerInputModule's ProcessDrag implementation. Brought into this subclass with a protected
         /// signature (as opposed to the parent's private signature) to be used in this subclass's overridden ProcessDrag.
         /// </summary>
-        protected static bool ShouldStartDrag(
-            Vector2 pressPos,
-            Vector2 currentPos,
-            float threshold,
-            bool useDragThreshold
-        )
+        protected static bool ShouldStartDrag(Vector2 pressPos, Vector2 currentPos, float threshold, bool useDragThreshold)
         {
             if (!useDragThreshold)
                 return true;

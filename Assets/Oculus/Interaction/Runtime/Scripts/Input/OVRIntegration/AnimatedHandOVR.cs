@@ -24,133 +24,149 @@ namespace Oculus.Interaction.Input
 {
     public class AnimatedHandOVR : MonoBehaviour
     {
-        //public enum AllowThumbUp
-        //{
-        //    Always,
-        //    GripRequired,
-        //    TriggerAndGripRequired,
-        //}
-        //public const string ANIM_LAYER_NAME_POINT = "Point Layer";
-        //public const string ANIM_LAYER_NAME_THUMB = "Thumb Layer";
-        //public const string ANIM_PARAM_NAME_FLEX = "Flex";
-        //public const string ANIM_PARAM_NAME_PINCH = "Pinch";
-        //public const string ANIM_PARAM_NAME_INDEX_SLIDE = "IndexSlide";
+        public enum AllowThumbUp
+        {
+            Always,
+            GripRequired,
+            TriggerAndGripRequired,
+        }
 
-        //[SerializeField]
-        //private OVRInput.Controller _controller = OVRInput.Controller.None;
-        //[SerializeField]
-        //private Animator _animator = null;
-        //[SerializeField]
-        //private AllowThumbUp _allowThumbUp = AllowThumbUp.TriggerAndGripRequired;
+        public const string ANIM_LAYER_NAME_POINT = "Point Layer";
+        public const string ANIM_LAYER_NAME_THUMB = "Thumb Layer";
+        public const string ANIM_PARAM_NAME_FLEX = "Flex";
+        public const string ANIM_PARAM_NAME_PINCH = "Pinch";
+        public const string ANIM_PARAM_NAME_INDEX_SLIDE = "IndexSlide";
 
-        //[Header("Animation Speed")]
-        //[SerializeField]
-        //private float _animFlexhGain = 35;
-        //[SerializeField]
-        //private float _animPinchGain = 35;
-        //[SerializeField]
-        //private float _animPointAndThumbsUpGain = 20;
+        [SerializeField]
+        private OVRInput.Controller _controller = OVRInput.Controller.None;
 
-        //private int _animLayerIndexThumb = -1;
-        //private int _animLayerIndexPoint = -1;
-        //private int _animParamIndexFlex = Animator.StringToHash(ANIM_PARAM_NAME_FLEX);
-        //private int _animParamPinch = Animator.StringToHash(ANIM_PARAM_NAME_PINCH);
-        //private int _animParamIndexSlide = Animator.StringToHash(ANIM_PARAM_NAME_INDEX_SLIDE);
+        [SerializeField]
+        private Animator _animator = null;
 
-        //private bool _isGivingThumbsUp = false;
-        //private float _pointBlend = 0.0f;
-        //private float _slideBlend = 0.0f;
+        [SerializeField]
+        private AllowThumbUp _allowThumbUp = AllowThumbUp.TriggerAndGripRequired;
 
-        //private float _thumbsUpBlend = 0.0f;
-        //private float _pointTarget = 0.0f;
-        //private float _slideTarget = 0.0f;
+        [Header("Animation Speed")]
+        [SerializeField]
+        private float _animFlexhGain = 35;
 
-        //private float _animFlex = 0;
-        //private float _animPinch = 0;
+        [SerializeField]
+        private float _animPinchGain = 35;
 
-        //private const float TRIGGER_MAX = 0.95f;
+        [SerializeField]
+        private float _animPointAndThumbsUpGain = 20;
 
-        //protected virtual void Start()
-        //{
-        //    _animLayerIndexPoint = _animator.GetLayerIndex(ANIM_LAYER_NAME_POINT);
-        //    _animLayerIndexThumb = _animator.GetLayerIndex(ANIM_LAYER_NAME_THUMB);
-        //}
+        private int _animLayerIndexThumb = -1;
+        private int _animLayerIndexPoint = -1;
+        private int _animParamIndexFlex = Animator.StringToHash(ANIM_PARAM_NAME_FLEX);
+        private int _animParamPinch = Animator.StringToHash(ANIM_PARAM_NAME_PINCH);
+        private int _animParamIndexSlide = Animator.StringToHash(ANIM_PARAM_NAME_INDEX_SLIDE);
 
-        //protected virtual void Update()
-        //{
-        //    UpdateCapTouchStates();
+        private bool _isGivingThumbsUp = false;
+        private float _pointBlend = 0.0f;
+        private float _slideBlend = 0.0f;
 
-        //    _pointBlend = Mathf.Lerp(_pointBlend, _pointTarget, _animPointAndThumbsUpGain * Time.deltaTime);
-        //    _slideBlend = Mathf.Lerp(_slideBlend, _slideTarget, _animPointAndThumbsUpGain * Time.deltaTime);
-        //    _thumbsUpBlend = Mathf.Lerp(_thumbsUpBlend, _isGivingThumbsUp ? 1 : 0, _animPointAndThumbsUpGain * Time.deltaTime);
+        private float _thumbsUpBlend = 0.0f;
+        private float _pointTarget = 0.0f;
+        private float _slideTarget = 0.0f;
 
-        //    UpdateAnimStates();
-        //}
+        private float _animFlex = 0;
+        private float _animPinch = 0;
 
-        //private void UpdateCapTouchStates()
-        //{
-        //    float indexCurl = OVRControllerUtility.GetIndexCurl(_controller);
-        //    float indexSlide = OVRControllerUtility.GetIndexSlide(_controller);
-        //    _pointTarget = 1 - indexCurl;
-        //    _slideTarget = indexSlide;
+        private const float TRIGGER_MAX = 0.95f;
 
-        //    bool triggerThumbsUp = _allowThumbUp == AllowThumbUp.Always ||
-        //        (_allowThumbUp == AllowThumbUp.GripRequired
-        //            && OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, _controller) >= TRIGGER_MAX) ||
-        //        (_allowThumbUp == AllowThumbUp.TriggerAndGripRequired
-        //            && OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, _controller) >= TRIGGER_MAX
-        //            && OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, _controller) >= TRIGGER_MAX);
+        protected virtual void Start()
+        {
+            _animLayerIndexPoint = _animator.GetLayerIndex(ANIM_LAYER_NAME_POINT);
+            _animLayerIndexThumb = _animator.GetLayerIndex(ANIM_LAYER_NAME_THUMB);
+        }
 
-        //    _isGivingThumbsUp = !OVRInput.Get(OVRInput.NearTouch.PrimaryThumbButtons, _controller)
-        //        && !OVRInput.Get(OVRInput.Button.One, _controller)
-        //        && !OVRInput.Get(OVRInput.Button.Two, _controller)
-        //        && !OVRInput.Get(OVRInput.Button.Three, _controller)
-        //        && !OVRInput.Get(OVRInput.Button.Four, _controller)
-        //        && !OVRInput.Get(OVRInput.Button.PrimaryThumbstick, _controller)
-        //        && OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, _controller).magnitude == 0
-        //        && triggerThumbsUp;
-        //}
+        protected virtual void Update()
+        {
+            UpdateCapTouchStates();
 
-        //private void UpdateAnimStates()
-        //{
-        //    // Flex
-        //    // blend between open hand and fully closed fist
-        //    float flex = OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, _controller);
-        //    _animFlex = Mathf.Lerp(_animFlex, flex, _animFlexhGain * Time.deltaTime);
-        //    _animator.SetFloat(_animParamIndexFlex, _animFlex);
+            _pointBlend = Mathf.Lerp(
+                _pointBlend,
+                _pointTarget,
+                _animPointAndThumbsUpGain * Time.deltaTime
+            );
+            _slideBlend = Mathf.Lerp(
+                _slideBlend,
+                _slideTarget,
+                _animPointAndThumbsUpGain * Time.deltaTime
+            );
+            _thumbsUpBlend = Mathf.Lerp(
+                _thumbsUpBlend,
+                _isGivingThumbsUp ? 1 : 0,
+                _animPointAndThumbsUpGain * Time.deltaTime
+            );
 
-        //    // Pinch
-        //    float pinchAmount = OVRControllerUtility.GetPinchAmount(_controller);
-        //    _animPinch = Mathf.Lerp(_animPinch, pinchAmount, _animPinchGain * Time.deltaTime);
-        //    _animator.SetFloat(_animParamPinch, _animPinch);
+            UpdateAnimStates();
+        }
 
-        //    // Point
-        //    _animator.SetLayerWeight(_animLayerIndexPoint, _pointBlend);
-        //    _animator.SetFloat(_animParamIndexSlide, _slideBlend);
+        private void UpdateCapTouchStates()
+        {
+            //    float indexCurl = OVRControllerUtility.GetIndexCurl(_controller);
+            //    float indexSlide = OVRControllerUtility.GetIndexSlide(_controller);
+            //    _pointTarget = 1 - indexCurl;
+            //    _slideTarget = indexSlide;
 
-        //    // Thumbs up
-        //    _animator.SetLayerWeight(_animLayerIndexThumb, _thumbsUpBlend);
-        //}
+            //    bool triggerThumbsUp = _allowThumbUp == AllowThumbUp.Always ||
+            //        (_allowThumbUp == AllowThumbUp.GripRequired
+            //            && OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, _controller) >= TRIGGER_MAX) ||
+            //        (_allowThumbUp == AllowThumbUp.TriggerAndGripRequired
+            //            && OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, _controller) >= TRIGGER_MAX
+            //            && OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, _controller) >= TRIGGER_MAX);
 
+            //    _isGivingThumbsUp = !OVRInput.Get(OVRInput.NearTouch.PrimaryThumbButtons, _controller)
+            //        && !OVRInput.Get(OVRInput.Button.One, _controller)
+            //        && !OVRInput.Get(OVRInput.Button.Two, _controller)
+            //        && !OVRInput.Get(OVRInput.Button.Three, _controller)
+            //        && !OVRInput.Get(OVRInput.Button.Four, _controller)
+            //        && !OVRInput.Get(OVRInput.Button.PrimaryThumbstick, _controller)
+            //        && OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, _controller).magnitude == 0
+            //        && triggerThumbsUp;
+        }
 
-        //#region Inject
+        private void UpdateAnimStates()
+        {
+            // Flex
+            // blend between open hand and fully closed fist
+            float flex = OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, _controller);
+            _animFlex = Mathf.Lerp(_animFlex, flex, _animFlexhGain * Time.deltaTime);
+            _animator.SetFloat(_animParamIndexFlex, _animFlex);
 
-        //public void InjectAllAnimatedHandOVR(OVRInput.Controller controller, Animator animator)
-        //{
-        //    InjectController(controller);
-        //    InjectAnimator(animator);
-        //}
+            // Pinch
+            float pinchAmount = 0f; //OVRControllerUtility.GetPinchAmount(_controller);
+            _animPinch = Mathf.Lerp(_animPinch, pinchAmount, _animPinchGain * Time.deltaTime);
+            _animator.SetFloat(_animParamPinch, _animPinch);
 
-        //public void InjectController(OVRInput.Controller controller)
-        //{
-        //    _controller = controller;
-        //}
+            // Point
+            _animator.SetLayerWeight(_animLayerIndexPoint, _pointBlend);
+            _animator.SetFloat(_animParamIndexSlide, _slideBlend);
 
-        //public void InjectAnimator(Animator animator)
-        //{
-        //    _animator = animator;
-        //}
+            // Thumbs up
+            _animator.SetLayerWeight(_animLayerIndexThumb, _thumbsUpBlend);
+        }
 
-        //#endregion
+        #region Inject
+
+        public void InjectAllAnimatedHandOVR(OVRInput.Controller controller, Animator animator)
+        {
+            InjectController(controller);
+            InjectAnimator(animator);
+        }
+
+        public void InjectController(OVRInput.Controller controller)
+        {
+            _controller = controller;
+        }
+
+        public void InjectAnimator(Animator animator)
+        {
+            _animator = animator;
+        }
+
+        #endregion
     }
 }

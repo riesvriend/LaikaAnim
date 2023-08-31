@@ -34,9 +34,9 @@ namespace Oculus.Interaction.Editor
             UnityObjectAddedBroadcaster.WhenComponentAdded += (component) =>
             {
                 MonoBehaviour monoBehaviour = component as MonoBehaviour;
-                if(monoBehaviour == null) return;
+                if (monoBehaviour == null) return;
 
-                if(!_configs.TryGetValue(component.GetType(), out ComponentWiringStrategyConfig[] configs))
+                if (!_configs.TryGetValue(component.GetType(), out ComponentWiringStrategyConfig[] configs))
                 {
                     return;
                 }
@@ -57,14 +57,22 @@ namespace Oculus.Interaction.Editor
             _configs.Add(type, fieldConfigs);
         }
 
+        public static void Unregister(Type type)
+        {
+            _configs.Remove(type);
+        }
+
         public static bool AutoWireField(MonoBehaviour monoBehaviour,
             string fieldName,
             FieldWiringStrategy[] wiringMethods)
         {
-            var field = monoBehaviour.GetType().GetField(fieldName,
-                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-
-            if (field == null || field.GetValue(monoBehaviour) != null)
+            FieldInfo field = FindField(fieldName, monoBehaviour.GetType());
+            if (field == null)
+            {
+                return false;
+            }
+            UnityEngine.Object value = field.GetValue(monoBehaviour) as UnityEngine.Object;
+            if (value != null)
             {
                 return false;
             }
@@ -74,7 +82,7 @@ namespace Oculus.Interaction.Editor
             var interfaceAttribute = field.GetCustomAttribute<InterfaceAttribute>();
             var wirableTypes = interfaceAttribute != null ?
                 interfaceAttribute.Types :
-                new[] {field.FieldType};
+                new[] { field.FieldType };
 
             if (wirableTypes != null)
             {
@@ -88,17 +96,39 @@ namespace Oculus.Interaction.Editor
                             Debug.Log("Auto-wiring succeeded: " + monoBehaviour.gameObject.name + "::" +
                                       monoBehaviour.GetType().Name + "." + field.Name +
                                       " was linked to " +
-                                      component.gameObject.name + "::" + component.GetType().Name);
+                                      component.gameObject.name + "::" + component.GetType().Name,
+                                      monoBehaviour);
                             return true;
                         }
                     }
                 }
             }
 
-            Debug.LogWarning("Auto-wiring failed: no suitable targets for " +
-                             monoBehaviour.gameObject.name + "::" + monoBehaviour.GetType().Name +
-                             "." + field.Name + " could be found.");
+            if (field.GetCustomAttribute<OptionalAttribute>() == null)
+            {
+                Debug.LogWarning("Auto-wiring failed: no suitable targets for " +
+                                 monoBehaviour.gameObject.name + "::" + monoBehaviour.GetType().Name +
+                                 "." + field.Name + " could be found.",
+                                 monoBehaviour);
+            }
+
             return false;
+        }
+
+        private static FieldInfo FindField(string fieldName, Type type)
+        {
+            if (type == null)
+            {
+                return null;
+            }
+
+            FieldInfo field = type.GetField(fieldName,
+                   BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            if (field == null)
+            {
+                return FindField(fieldName, type.BaseType);
+            }
+            return field;
         }
     }
 }

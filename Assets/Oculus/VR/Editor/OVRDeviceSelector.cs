@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,19 +31,24 @@ public class OVRDeviceSelector
 {
     public static bool isTargetDeviceQuestFamily
     {
-        get { return isTargetDeviceQuest || isTargetDeviceQuest2 || isTargetDeviceQuestPro; }
+        get
+        {
+            return isTargetDeviceQuest || isTargetDeviceQuest2 || isTargetDeviceQuestPro || isTargetDeviceQuest3;
+        }
     }
+
     public static bool isTargetDeviceQuest
     {
         get
         {
 #if PRIORITIZE_OCULUS_XR_SETTINGS
+#if OCULUS_XR_PLUGIN_QUEST_ONE_REMOVED
+            return false;
+#else
             OculusSettings settings;
-            UnityEditor.EditorBuildSettings.TryGetConfigObject<OculusSettings>(
-                "Unity.XR.Oculus.Settings",
-                out settings
-            );
-            return false; //settings.TargetQuest;
+            UnityEditor.EditorBuildSettings.TryGetConfigObject<OculusSettings>("Unity.XR.Oculus.Settings", out settings);
+            return settings.TargetQuest;
+#endif
 #else
             OVRProjectConfig projectConfig = OVRProjectConfig.GetProjectConfig();
             return projectConfig.targetDeviceTypes.Contains(OVRProjectConfig.DeviceType.Quest);
@@ -56,10 +62,7 @@ public class OVRDeviceSelector
         {
 #if PRIORITIZE_OCULUS_XR_SETTINGS
             OculusSettings settings;
-            UnityEditor.EditorBuildSettings.TryGetConfigObject<OculusSettings>(
-                "Unity.XR.Oculus.Settings",
-                out settings
-            );
+            UnityEditor.EditorBuildSettings.TryGetConfigObject<OculusSettings>("Unity.XR.Oculus.Settings", out settings);
             return settings.TargetQuest2;
 #else
             OVRProjectConfig projectConfig = OVRProjectConfig.GetProjectConfig();
@@ -74,15 +77,28 @@ public class OVRDeviceSelector
         {
 #if PRIORITIZE_OCULUS_XR_SETTINGS
 #if USING_QUEST_PRO_COMPATIBLE_OCULUS_XR_PLUGIN_VERSION
-			OculusSettings settings;
-			UnityEditor.EditorBuildSettings.TryGetConfigObject<OculusSettings>("Unity.XR.Oculus.Settings", out settings);
-			return settings.TargetQuestPro;
+            OculusSettings settings;
+            UnityEditor.EditorBuildSettings.TryGetConfigObject<OculusSettings>("Unity.XR.Oculus.Settings", out settings);
+            return settings.TargetQuestPro;
 #else
             return false;
 #endif
 #else
             OVRProjectConfig projectConfig = OVRProjectConfig.GetProjectConfig();
             return projectConfig.targetDeviceTypes.Contains(OVRProjectConfig.DeviceType.QuestPro);
+#endif
+        }
+    }
+
+    public static bool isTargetDeviceQuest3
+    {
+        get
+        {
+#if PRIORITIZE_OCULUS_XR_SETTINGS
+            return false;
+#else
+            OVRProjectConfig projectConfig = OVRProjectConfig.GetProjectConfig();
+            return projectConfig.targetDeviceTypes.Contains(OVRProjectConfig.DeviceType.Quest3);
 #endif
         }
     }
